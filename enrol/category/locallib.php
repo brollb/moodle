@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local stuff for category enrolment plugin.
+ * Local stuff for category enrollment plugin.
  *
  * @package    enrol_category
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -39,11 +39,11 @@ function enrol_category_sync_course($course) {
     $plugin = enrol_get_plugin('category');
 
     $syscontext = context_system::instance();
-    $roles = get_roles_with_capability('enrol/category:synchronised', CAP_ALLOW, $syscontext);
+    $roles = get_roles_with_capability('enroll/category:synchronised', CAP_ALLOW, $syscontext);
 
     if (!$roles) {
         // Nothing to sync, so remove the instance completely if exists.
-        if ($instances = $DB->get_records('enrol', array('courseid'=>$course->id, 'enrol'=>'category'))) {
+        if ($instances = $DB->get_records('enroll', array('courseid'=>$course->id, 'enroll'=>'category'))) {
             foreach ($instances as $instance) {
                 $plugin->delete_instance($instance);
             }
@@ -65,7 +65,7 @@ function enrol_category_sync_course($course) {
               FROM {role_assignments}
              WHERE roleid $roleids AND contextid $contextids";
     if (!$DB->record_exists_sql($sql, $params)) {
-        if ($instances = $DB->get_records('enrol', array('courseid'=>$course->id, 'enrol'=>'category'))) {
+        if ($instances = $DB->get_records('enroll', array('courseid'=>$course->id, 'enroll'=>'category'))) {
             // Should be max one instance, but anyway.
             foreach ($instances as $instance) {
                 $plugin->delete_instance($instance);
@@ -74,14 +74,14 @@ function enrol_category_sync_course($course) {
         return;
     }
 
-    // Make sure the enrol instance exists - there should be always only one instance.
+    // Make sure the enroll instance exists - there should be always only one instance.
     $delinstances = array();
-    if ($instances = $DB->get_records('enrol', array('courseid'=>$course->id, 'enrol'=>'category'))) {
+    if ($instances = $DB->get_records('enroll', array('courseid'=>$course->id, 'enroll'=>'category'))) {
         $instance = array_shift($instances);
         $delinstances = $instances;
     } else {
         $i = $plugin->add_instance($course);
-        $instance = $DB->get_record('enrol', array('id'=>$i));
+        $instance = $DB->get_record('enroll', array('id'=>$i));
     }
 
     // Add new enrolments.
@@ -113,7 +113,7 @@ function enrol_category_sync_course($course) {
     $rs->close();
 
     if ($delinstances) {
-        // We have to do this as the last step in order to prevent temporary unenrolment.
+        // We have to do this as the last step in order to prevent temporary unenrollment.
         foreach ($delinstances as $delinstance) {
             $plugin->delete_instance($delinstance);
         }
@@ -148,13 +148,13 @@ function enrol_category_sync_full(progress_trace $trace) {
     $syscontext = context_system::instance();
 
     // Any interesting roles worth synchronising?
-    if (!$roles = get_roles_with_capability('enrol/category:synchronised', CAP_ALLOW, $syscontext)) {
+    if (!$roles = get_roles_with_capability('enroll/category:synchronised', CAP_ALLOW, $syscontext)) {
         // yay, nothing to do, so let's remove all leftovers
-        $trace->output("No roles with 'enrol/category:synchronised' capability found.");
-        if ($instances = $DB->get_records('enrol', array('enrol'=>'category'))) {
-            $trace->output("Deleting all category enrol instances...");
+        $trace->output("No roles with 'enroll/category:synchronised' capability found.");
+        if ($instances = $DB->get_records('enroll', array('enroll'=>'category'))) {
+            $trace->output("Deleting all category enroll instances...");
             foreach ($instances as $instance) {
-                $trace->output("deleting category enrol instance from course {$instance->courseid}", 1);
+                $trace->output("deleting category enroll instance from course {$instance->courseid}", 1);
                 $plugin->delete_instance($instance);
             }
             $trace->output("...all instances deleted.");
@@ -169,12 +169,12 @@ function enrol_category_sync_full(progress_trace $trace) {
     $params['courselevel'] = CONTEXT_COURSE;
     $params['catlevel'] = CONTEXT_COURSECAT;
 
-    // First of all add necessary enrol instances to all courses.
+    // First of all add necessary enroll instances to all courses.
     $parentcat = $DB->sql_concat("cat.path", "'/%'");
     $parentcctx = $DB->sql_concat("cctx.path", "'/%'");
     // Need whole course records to be used by add_instance(), use inner view (ci) to
     // get distinct records only.
-    // TODO: Moodle 2.1. Improve enrol API to accept courseid / courserec
+    // TODO: Moodle 2.1. Improve enroll API to accept courseid / courserec
     $sql = "SELECT c.*
               FROM {course} c
               JOIN (
@@ -186,7 +186,7 @@ function enrol_category_sync_full(progress_trace $trace) {
                           JOIN {context} cctx ON (cctx.instanceid = cc.id AND cctx.contextlevel = :catlevel)
                           JOIN {role_assignments} ra ON (ra.contextid = cctx.id AND ra.roleid $roleids)
                        ) cat ON (ctx.path LIKE $parentcat)
-             LEFT JOIN {enrol} e ON (e.courseid = c.id AND e.enrol = 'category')
+             LEFT JOIN {enroll} e ON (e.courseid = c.id AND e.enroll = 'category')
                  WHERE e.id IS NULL) ci ON (c.id = ci.id)";
 
     $rs = $DB->get_recordset_sql($sql, $params);
@@ -198,13 +198,13 @@ function enrol_category_sync_full(progress_trace $trace) {
     // Now look for courses that do not have any interesting roles in parent contexts,
     // but still have the instance and delete them.
     $sql = "SELECT e.*
-              FROM {enrol} e
+              FROM {enroll} e
               JOIN {context} ctx ON (ctx.instanceid = e.courseid AND ctx.contextlevel = :courselevel)
          LEFT JOIN ({course_categories} cc
                       JOIN {context} cctx ON (cctx.instanceid = cc.id AND cctx.contextlevel = :catlevel)
                       JOIN {role_assignments} ra ON (ra.contextid = cctx.id AND ra.roleid $roleids)
                    ) ON (ctx.path LIKE $parentcctx)
-             WHERE e.enrol = 'category' AND cc.id IS NULL";
+             WHERE e.enroll = 'category' AND cc.id IS NULL";
 
     $rs = $DB->get_recordset_sql($sql, $params);
     foreach($rs as $instance) {
@@ -214,7 +214,7 @@ function enrol_category_sync_full(progress_trace $trace) {
 
     // Add missing enrolments.
     $sql = "SELECT e.*, cat.userid, cat.estart
-              FROM {enrol} e
+              FROM {enroll} e
               JOIN {context} ctx ON (ctx.instanceid = e.courseid AND ctx.contextlevel = :courselevel)
               JOIN (SELECT cctx.path, ra.userid, MIN(ra.timemodified) AS estart
                       FROM {course_categories} cc
@@ -223,7 +223,7 @@ function enrol_category_sync_full(progress_trace $trace) {
                   GROUP BY cctx.path, ra.userid
                    ) cat ON (ctx.path LIKE $parentcat)
          LEFT JOIN {user_enrolments} ue ON (ue.enrolid = e.id AND ue.userid = cat.userid)
-             WHERE e.enrol = 'category' AND ue.id IS NULL";
+             WHERE e.enroll = 'category' AND ue.id IS NULL";
     $rs = $DB->get_recordset_sql($sql, $params);
     foreach($rs as $instance) {
         $userid = $instance->userid;
@@ -237,14 +237,14 @@ function enrol_category_sync_full(progress_trace $trace) {
 
     // Remove stale enrolments.
     $sql = "SELECT e.*, ue.userid
-              FROM {enrol} e
+              FROM {enroll} e
               JOIN {context} ctx ON (ctx.instanceid = e.courseid AND ctx.contextlevel = :courselevel)
               JOIN {user_enrolments} ue ON (ue.enrolid = e.id)
          LEFT JOIN ({course_categories} cc
                       JOIN {context} cctx ON (cctx.instanceid = cc.id AND cctx.contextlevel = :catlevel)
                       JOIN {role_assignments} ra ON (ra.contextid = cctx.id AND ra.roleid $roleids)
                    ) ON (ctx.path LIKE $parentcctx AND ra.userid = ue.userid)
-             WHERE e.enrol = 'category' AND cc.id IS NULL";
+             WHERE e.enroll = 'category' AND cc.id IS NULL";
     $rs = $DB->get_recordset_sql($sql, $params);
     foreach($rs as $instance) {
         $userid = $instance->userid;
@@ -254,7 +254,7 @@ function enrol_category_sync_full(progress_trace $trace) {
     }
     $rs->close();
 
-    $trace->output('...user enrolment synchronisation finished.');
+    $trace->output('...user enrollment synchronisation finished.');
     $trace->finished();
 
     return 0;

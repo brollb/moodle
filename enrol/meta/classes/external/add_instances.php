@@ -26,7 +26,7 @@ use context_course;
 use moodle_exception;
 
 /**
- * Web service function relating to add enrol meta instances
+ * Web service function relating to add enroll meta instances
  *
  * @package    enrol_meta
  * @copyright  2021 WKS KV Bildung
@@ -35,7 +35,7 @@ use moodle_exception;
 class add_instances extends external_api {
 
     /**
-     * Parameters for adding meta enrolment instances
+     * Parameters for adding meta enrollment instances
      *
      * @return external_function_parameters
      */
@@ -44,19 +44,19 @@ class add_instances extends external_api {
             'instances' => new external_multiple_structure(
                 new external_single_structure(
                     [
-                        'metacourseid' => new external_value(PARAM_INT, 'ID of the course where meta enrolment is added.'),
-                        'courseid' => new external_value(PARAM_RAW, 'ID of the course where meta enrolment is linked to.'),
+                        'metacourseid' => new external_value(PARAM_INT, 'ID of the course where meta enrollment is added.'),
+                        'courseid' => new external_value(PARAM_RAW, 'ID of the course where meta enrollment is linked to.'),
                         'creategroup' => new external_value(PARAM_BOOL,
                             'Creates group in meta course named after linked course and '
                             . 'puts all enrolled users in this group', VALUE_DEFAULT, false),
                     ]
-                ), 'List of course meta enrolment instances to create.', VALUE_DEFAULT, []
+                ), 'List of course meta enrollment instances to create.', VALUE_DEFAULT, []
             ),
         ]);
     }
 
     /**
-     * Adding meta enrolment instances
+     * Adding meta enrollment instances
      *
      * @param  array $instances
      * @return array
@@ -83,7 +83,7 @@ class add_instances extends external_api {
             $contextmeta = context_course::instance($instance['metacourseid'], IGNORE_MISSING);
             try {
                 self::validate_context($contextmeta);
-                require_all_capabilities(['moodle/course:enrolconfig', 'enrol/meta:config'], $contextmeta);
+                require_all_capabilities(['moodle/course:enrolconfig', 'enroll/meta:config'], $contextmeta);
             } catch (moodle_exception $e) {
                 throw new invalid_parameter_exception(get_string('wsinvalidmetacourse', 'enrol_meta', $instance['metacourseid']));
             }
@@ -101,14 +101,14 @@ class add_instances extends external_api {
                 if (!$courserecord->visible) {
                     require_capability('moodle/course:viewhiddencourses', $context);
                 }
-                require_capability('enrol/meta:selectaslinked', $context);
+                require_capability('enroll/meta:selectaslinked', $context);
             } catch (moodle_exception $e) {
                 throw new invalid_parameter_exception(get_string('wsinvalidcourse', 'enrol_meta', $instance['courseid']));
             }
 
             // Check for existing meta course link.
-            $enrolrecord = $DB->get_record('enrol',
-                    ['enrol' => 'meta', 'courseid' => $instance['metacourseid'], 'customint1' => $instance['courseid']]);
+            $enrolrecord = $DB->get_record('enroll',
+                    ['enroll' => 'meta', 'courseid' => $instance['metacourseid'], 'customint1' => $instance['courseid']]);
             if ($enrolrecord) {
                 // Link exists.
                 $result[] = [
@@ -146,7 +146,7 @@ class add_instances extends external_api {
     }
 
     /**
-     * Return for adding enrolment instances.
+     * Return for adding enrollment instances.
      *
      * @return external_multiple_structure
      */
@@ -154,11 +154,11 @@ class add_instances extends external_api {
         return new external_multiple_structure(
             new external_single_structure(
                 [
-                    'metacourseid' => new external_value(PARAM_INT, 'ID of the course where meta enrolment is added.'),
-                    'courseid' => new external_value(PARAM_RAW, 'ID of the course where meta enrolment is linked to.'),
+                    'metacourseid' => new external_value(PARAM_INT, 'ID of the course where meta enrollment is added.'),
+                    'courseid' => new external_value(PARAM_RAW, 'ID of the course where meta enrollment is linked to.'),
                     'status' => new external_value(PARAM_BOOL, 'True on success, false if link already exists.'),
                 ]
-            ), 'List of course meta enrolment instances that were created.', VALUE_DEFAULT, []
+            ), 'List of course meta enrollment instances that were created.', VALUE_DEFAULT, []
         );
     }
 }

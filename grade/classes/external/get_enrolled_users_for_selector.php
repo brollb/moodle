@@ -85,12 +85,12 @@ class get_enrolled_users_for_selector extends external_api {
 
         $course = $DB->get_record('course', ['id' => $params['courseid']]);
         // Create a graded_users_iterator because it will properly check the groups etc.
-        $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-        $showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-        $showonlyactiveenrol = $showonlyactiveenrol || !has_capability('moodle/course:viewsuspendedusers', $coursecontext);
+        $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+        $showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
+        $showonlyactiveenroll = $showonlyactiveenroll || !has_capability('moodle/course:viewsuspendedusers', $coursecontext);
 
         $gui = new \graded_users_iterator($course, null, $params['groupid']);
-        $gui->require_active_enrolment($showonlyactiveenrol);
+        $gui->require_active_enrollment($showonlyactiveenroll);
         $gui->init();
 
         $users = [];

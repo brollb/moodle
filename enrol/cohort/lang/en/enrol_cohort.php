@@ -25,13 +25,13 @@
 $string['addgroup'] = 'Add to group';
 $string['assignrole'] = 'Assign role';
 $string['cohort:config'] = 'Configure cohort instances';
-$string['cohort:unenrol'] = 'Unenrol suspended users';
+$string['cohort:unenroll'] = 'Unenroll suspended users';
 $string['defaultgroupnametext'] = '{$a->name} cohort {$a->increment}';
-$string['enrolcohortsynctask'] = 'Cohort enrolment sync task';
+$string['enrolcohortsynctask'] = 'Cohort enrollment sync task';
 $string['instanceexists'] = 'Cohort is already synchronised with selected role';
 $string['plugindisabled'] = 'Cohort sync plugin is disabled';
 $string['pluginname'] = 'Cohort sync';
-$string['pluginname_desc'] = 'Cohort enrolment plugin synchronises cohort members with course participants.';
+$string['pluginname_desc'] = 'Cohort enrollment plugin synchronises cohort members with course participants.';
 $string['status'] = 'Active';
 $string['creategroup'] = 'Create new group';
 $string['privacy:metadata:core_group'] = 'Enrol cohort plugin can create a new group or use an existing group to add all the members of the cohort.';

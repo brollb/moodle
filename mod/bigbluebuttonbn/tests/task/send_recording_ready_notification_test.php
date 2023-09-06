@@ -43,14 +43,14 @@ class send_recording_ready_notification_test extends advanced_testcase {
         ]);
 
         // Create some users in the course, and some not.
-        $editingteacher = $generator->create_and_enrol($course, 'editingteacher');
-        $teacher = $generator->create_and_enrol($course, 'teacher');
+        $editingteacher = $generator->create_and_enroll($course, 'editingteacher');
+        $teacher = $generator->create_and_enroll($course, 'teacher');
         $students = [
-            $generator->create_and_enrol($course, 'student'),
-            $generator->create_and_enrol($course, 'student'),
-            $generator->create_and_enrol($course, 'student'),
-            $generator->create_and_enrol($course, 'student'),
-            $generator->create_and_enrol($course, 'student'),
+            $generator->create_and_enroll($course, 'student'),
+            $generator->create_and_enroll($course, 'student'),
+            $generator->create_and_enroll($course, 'student'),
+            $generator->create_and_enroll($course, 'student'),
+            $generator->create_and_enroll($course, 'student'),
         ];
 
         $recipients = array_map(function($user) {
@@ -103,11 +103,11 @@ class send_recording_ready_notification_test extends advanced_testcase {
 
         // Create some users in the course, and some not.
         $students = [
-            $generator->create_and_enrol($course, 'student'),
-            $generator->create_and_enrol($course, 'student'),
-            $generator->create_and_enrol($course, 'student'),
-            $generator->create_and_enrol($course, 'student'),
-            $generator->create_and_enrol($course, 'student'),
+            $generator->create_and_enroll($course, 'student'),
+            $generator->create_and_enroll($course, 'student'),
+            $generator->create_and_enroll($course, 'student'),
+            $generator->create_and_enroll($course, 'student'),
+            $generator->create_and_enroll($course, 'student'),
         ];
 
         $recipients = array_map(function($user) {
@@ -160,8 +160,8 @@ class send_recording_ready_notification_test extends advanced_testcase {
         ]);
 
         // Create some users in the course, and some not.
-        $student = $generator->create_and_enrol($course, 'student');
-        $suspendedstudent = $generator->create_and_enrol($course, 'student');
+        $student = $generator->create_and_enroll($course, 'student');
+        $suspendedstudent = $generator->create_and_enroll($course, 'student');
         $DB->set_field('user', 'suspended', 1, ['id' => $suspendedstudent->id]);
 
         $instancedata = $generator->create_module('bigbluebuttonbn', [

@@ -40,7 +40,7 @@ require_once($CFG->libdir.'/csvlib.class.php');
 require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/uploaduser/locallib.php');
 
 /**
- * Process CSV file with users data, this will create/update users, enrol them into courses, etc
+ * Process CSV file with users data, this will create/update users, enroll them into courses, etc
  *
  * @package     tool_uploaduser
  * @copyright   2020 Moodle
@@ -59,7 +59,7 @@ class process {
     /** @var int  */
     protected $today;
     /** @var \enrol_plugin|null */
-    protected $manualenrol = null;
+    protected $manualenroll = null;
     /** @var array */
     protected $standardfields = [];
     /** @var array */
@@ -98,7 +98,7 @@ class process {
     protected $rolecache      = [];
     /** @var array System roles lookup cache. */
     protected $sysrolecache   = [];
-    /** @var array cache of used manual enrol plugins in each course */
+    /** @var array cache of used manual enroll plugins in each course */
     protected $manualcache    = [];
     /** @var array officially supported plugins that are enabled */
     protected $supportedauths = [];
@@ -130,8 +130,8 @@ class process {
         $this->supportedauths = uu_supported_auths(); // Officially supported plugins that are enabled.
 
         if (enrol_is_enabled('manual')) {
-            // We use only manual enrol plugin here, if it is disabled no enrol is done.
-            $this->manualenrol = enrol_get_plugin('manual');
+            // We use only manual enroll plugin here, if it is disabled no enroll is done.
+            $this->manualenroll = enrol_get_plugin('manual');
         }
 
         $this->find_profile_fields();
@@ -1095,7 +1095,7 @@ class process {
             }
         }
 
-        // Find course enrolments, groups, roles/types and enrol periods
+        // Find course enrolments, groups, roles/types and enroll periods
         // this is again a special case, we always do this for any updated or created users.
         foreach ($this->get_file_columns() as $column) {
             if (preg_match('/^sysrole\d+$/', $column)) {
@@ -1196,10 +1196,10 @@ class process {
             $coursecontext = \context_course::instance($courseid);
             if (!isset($this->manualcache[$courseid])) {
                 $this->manualcache[$courseid] = false;
-                if ($this->manualenrol) {
+                if ($this->manualenroll) {
                     if ($instances = enrol_get_instances($courseid, false)) {
                         foreach ($instances as $instance) {
-                            if ($instance->enrol === 'manual') {
+                            if ($instance->enroll === 'manual') {
                                 $this->manualcache[$courseid] = $instance;
                                 break;
                             }
@@ -1233,7 +1233,7 @@ class process {
                     $this->upt->track('enrolments', get_string('enrolledincourserole', 'enrol_manual', $a), 'info');
                 }
 
-            } else if ($this->manualenrol and $this->manualcache[$courseid]) {
+            } else if ($this->manualenroll and $this->manualcache[$courseid]) {
 
                 // Find role.
                 $roleid = false;
@@ -1247,7 +1247,7 @@ class process {
                     }
 
                 } else if (!empty($user->{'type'.$i})) {
-                    // If no role, then find "old" enrolment type.
+                    // If no role, then find "old" enrollment type.
                     $addtype = $user->{'type'.$i};
                     if ($addtype < 1 or $addtype > 3) {
                         $this->upt->track('enrolments', get_string('error').': typeN = 1|2|3', 'error');
@@ -1258,7 +1258,7 @@ class process {
                         $roleid = $this->formdata->{'uulegacy'.$addtype};
                     }
                 } else {
-                    // No role specified, use the default from manual enrol plugin.
+                    // No role specified, use the default from manual enroll plugin.
                     $defaultenrolroleid = (int)$this->manualcache[$courseid]->roleid;
                     // Validate the current user can assign this role.
                     if (array_key_exists($defaultenrolroleid, $this->rolecache[$courseid]) ) {
@@ -1271,7 +1271,7 @@ class process {
                 }
 
                 if ($roleid) {
-                    // Find duration and/or enrol status.
+                    // Find duration and/or enroll status.
                     $timeend = 0;
                     $timestart = $this->today;
                     $status = null;
@@ -1285,7 +1285,7 @@ class process {
                         } else if ($enrolstatus === (string)ENROL_USER_SUSPENDED) {
                             $status = ENROL_USER_SUSPENDED;
                         } else {
-                            debugging('Unknown enrolment status.');
+                            debugging('Unknown enrollment status.');
                         }
                     }
 
@@ -1305,7 +1305,7 @@ class process {
                         $timeend = $timestart + $this->manualcache[$courseid]->enrolperiod;
                     }
 
-                    $this->manualenrol->enrol_user($this->manualcache[$courseid], $user->id, $roleid,
+                    $this->manualenroll->enrol_user($this->manualcache[$courseid], $user->id, $roleid,
                         $timestart, $timeend, $status);
 
                     $a = new \stdClass();

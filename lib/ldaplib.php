@@ -5,7 +5,7 @@
  *
  * Library file of miscellaneous general-purpose LDAP functions and
  * data structures, useful for both ldap authentication (or ldap based
- * authentication like CAS) and enrolment plugins.
+ * authentication like CAS) and enrollment plugins.
  *
  * @author     Iñaki Arenaza
  * @package    core

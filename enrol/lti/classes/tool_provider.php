@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Extends the IMS Tool provider library for the LTI enrolment.
+ * Extends the IMS Tool provider library for the LTI enrollment.
  *
  * @package    enrol_lti
  * @copyright  2016 John Okely <john@moodle.com>
@@ -43,7 +43,7 @@ use stdClass;
 require_once($CFG->dirroot . '/user/lib.php');
 
 /**
- * Extends the IMS Tool provider library for the LTI enrolment.
+ * Extends the IMS Tool provider library for the LTI enrollment.
  *
  * @package    enrol_lti
  * @copyright  2016 John Okely <john@moodle.com>
@@ -52,7 +52,7 @@ require_once($CFG->dirroot . '/user/lib.php');
 class tool_provider extends ToolProvider {
 
     /**
-     * @var stdClass $tool The object representing the enrol instance providing this LTI tool
+     * @var stdClass $tool The object representing the enroll instance providing this LTI tool
      */
     protected $tool;
 

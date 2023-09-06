@@ -45,7 +45,7 @@ class exporters_content_items_test extends \advanced_testcase {
         global $PAGE;
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $cir = new content_item_readonly_repository();
         $contentitems = $cir->find_all_for_course($course, $user);
 

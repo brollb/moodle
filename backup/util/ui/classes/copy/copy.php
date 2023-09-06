@@ -94,7 +94,7 @@ class copy {
     }
 
     /**
-     * Extract the enrolment roles to keep in the copied course
+     * Extract the enrollment roles to keep in the copied course
      * from the raw submitted form data.
      *
      * @param \stdClass $formdata Data from the validated course copy form.

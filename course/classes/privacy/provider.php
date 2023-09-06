@@ -143,7 +143,7 @@ class provider implements
      *
      * E.g.
      * If, during the core export process, a course module is included in the contextlist_collection but the course containing the
-     * module is not (perhaps there's no longer a user enrolment), then the course should include general contextual information in
+     * module is not (perhaps there's no longer a user enrollment), then the course should include general contextual information in
      * the export so we know basic details about which course the module belongs to. This method allows the course to make that
      * decision, based on the existence of any decendant module contexts in the collection.
      *

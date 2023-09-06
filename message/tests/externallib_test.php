@@ -1378,7 +1378,7 @@ class externallib_test extends externallib_advanced_testcase {
         $eventdata->notification      = 1;
         $eventdata->modulename        = 'moodle';
         $eventdata->component         = 'enrol_paypal';
-        $eventdata->name              = 'paypal_enrolment';
+        $eventdata->name              = 'paypal_enrollment';
         $eventdata->userfrom          = get_admin();
         $eventdata->userto            = $user1;
         $eventdata->subject           = "Moodle: PayPal payment";
@@ -1387,7 +1387,7 @@ class externallib_test extends externallib_advanced_testcase {
         $eventdata->fullmessagehtml   = '';
         $eventdata->smallmessage      = '';
         message_send($eventdata);
-        $this->assertDebuggingCalled('Attempt to send msg from a provider enrol_paypal/paypal_enrolment '.
+        $this->assertDebuggingCalled('Attempt to send msg from a provider enrol_paypal/paypal_enrollment '.
             'that is inactive or not allowed for the user id='.$user1->id);
 
         // This one omits notification = 1.
@@ -5853,7 +5853,7 @@ class externallib_test extends externallib_advanced_testcase {
         $user2 = self::getDataGenerator()->create_user();
         $user3 = self::getDataGenerator()->create_user();
 
-        // Create a course and enrol the users.
+        // Create a course and enroll the users.
         $course = $this->getDataGenerator()->create_course();
         $coursecontext = \context_course::instance($course->id);
         $this->getDataGenerator()->enrol_user($user1->id, $course->id, 'editingteacher');

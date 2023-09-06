@@ -72,7 +72,7 @@ class courselib_test extends advanced_testcase {
         global $CFG;
 
         require_once($CFG->dirroot . '/course/tests/fixtures/course_capability_assignment.php');
-        require_once($CFG->dirroot . '/enrol/imsenterprise/tests/imsenterprise_test.php');
+        require_once($CFG->dirroot . '/enroll/imsenterprise/tests/imsenterprise_test.php');
     }
 
     /**
@@ -3579,7 +3579,7 @@ class courselib_test extends advanced_testcase {
 
         $generator = $this->getDataGenerator();
 
-        // Create test course and user, enrol one in the other.
+        // Create test course and user, enroll one in the other.
         $course = $generator->create_course();
         $user = $generator->create_user();
         $roleid = $DB->get_field('role', 'id', array('shortname' => 'student'), MUST_EXIST);
@@ -3607,7 +3607,7 @@ class courselib_test extends advanced_testcase {
         $roles['student'] = $DB->get_field('role', 'id', array('shortname' => 'student'), MUST_EXIST);
         $roles['teacher'] = $DB->get_field('role', 'id', array('shortname' => 'teacher'), MUST_EXIST);
 
-        // We enrol a user with student and teacher roles.
+        // We enroll a user with student and teacher roles.
         $generator->enrol_user($user->id, $course->id, $roles['student']);
         $generator->enrol_user($user->id, $course->id, $roles['teacher']);
 
@@ -3623,7 +3623,7 @@ class courselib_test extends advanced_testcase {
         $this->assertArrayNotHasKey($roles['student'], $usersroles[$user->id]);
         $this->assertCount(1, $usersroles[$user->id]);
 
-        // We reenrol user as student.
+        // We reenroll user as student.
         $generator->enrol_user($user->id, $course->id, $roles['student']);
 
         // When we reset student and teacher roles, we expect no roles left.
@@ -5592,7 +5592,7 @@ class courselib_test extends advanced_testcase {
         // Suspended student.
         $this->getDataGenerator()->enrol_user($student->id, $courses[0]->id, 'student', 'manual', 0, 0, ENROL_USER_SUSPENDED);
 
-        // The course with suspended enrolment is not returned by the function.
+        // The course with suspended enrollment is not returned by the function.
         $result = course_get_recent_courses($student->id);
         $this->assertCount(3, $result);
         $this->assertArrayNotHasKey($courses[0]->id, $result);
@@ -5658,16 +5658,16 @@ class courselib_test extends advanced_testcase {
 
         $student = $this->getDataGenerator()->create_user();
 
-        // Course 1 with guest access and no direct enrolment.
+        // Course 1 with guest access and no direct enrollment.
         $course1 = $this->getDataGenerator()->create_course();
         $context1 = context_course::instance($course1->id);
-        $record = $DB->get_record('enrol', ['courseid' => $course1->id, 'enrol' => 'guest']);
+        $record = $DB->get_record('enroll', ['courseid' => $course1->id, 'enroll' => 'guest']);
         enrol_get_plugin('guest')->update_status($record, ENROL_INSTANCE_ENABLED);
 
-        // Course 2 where student is enrolled with two enrolment methods.
+        // Course 2 where student is enrolled with two enrollment methods.
         $course2 = $this->getDataGenerator()->create_course();
         $context2 = context_course::instance($course2->id);
-        $record = $DB->get_record('enrol', ['courseid' => $course2->id, 'enrol' => 'self']);
+        $record = $DB->get_record('enroll', ['courseid' => $course2->id, 'enroll' => 'self']);
         enrol_get_plugin('guest')->update_status($record, ENROL_INSTANCE_ENABLED);
         $this->getDataGenerator()->enrol_user($student->id, $course2->id, 'student', 'manual', 0, 0, ENROL_USER_ACTIVE);
         $this->getDataGenerator()->enrol_user($student->id, $course2->id, 'student', 'self', 0, 0, ENROL_USER_ACTIVE);
@@ -6939,7 +6939,7 @@ class courselib_test extends advanced_testcase {
         }
 
         foreach ($enrolmentmethods as [$type, $status]) {
-            $record = $DB->get_record('enrol', ['courseid' => $course->id, 'enrol' => $type]);
+            $record = $DB->get_record('enroll', ['courseid' => $course->id, 'enroll' => $type]);
             $plugin = enrol_get_plugin($type);
             if ($record->status != $status) {
                 $plugin->update_status($record, $status);
@@ -7158,8 +7158,8 @@ class courselib_test extends advanced_testcase {
         global $DB;
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $manager = $this->getDataGenerator()->create_and_enrol($course, 'manager');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $manager = $this->getDataGenerator()->create_and_enroll($course, 'manager');
 
         $teacherrole = $DB->get_record('role', array('shortname' => 'editingteacher'));
         assign_capability('mod/assign:addinstance', CAP_PROHIBIT, $teacherrole->id, \context_course::instance($course->id));
@@ -7216,18 +7216,18 @@ class courselib_test extends advanced_testcase {
         $generator->enrol_user($s1->id, $c1->id, 'student');
         $this->assertEquals(1.5, average_number_of_participants());
 
-        // Student 2 enrolled in both courses, but the enrolment in the Course 2 not active yet (enrolment starts in the future).
+        // Student 2 enrolled in both courses, but the enrollment in the Course 2 not active yet (enrollment starts in the future).
         $generator->enrol_user($s2->id, $c1->id, 'student');
         $generator->enrol_user($s2->id, $c2->id, 'student', 'manual', $now + WEEKSECS);
         $this->assertEquals(2.5, average_number_of_participants());
         $this->assertEquals(2, average_number_of_participants(true));
 
-        // Student 3 enrolled in the Course 1, but the enrolment already expired.
+        // Student 3 enrolled in the Course 1, but the enrollment already expired.
         $generator->enrol_user($s3->id, $c1->id, 'student', 'manual', 0, $now - YEARSECS);
         $this->assertEquals(3, average_number_of_participants());
         $this->assertEquals(2, average_number_of_participants(true));
 
-        // Student 4 enrolled in both courses, but the enrolment has been suspended.
+        // Student 4 enrolled in both courses, but the enrollment has been suspended.
         $generator->enrol_user($s4->id, $c1->id, 'student', 'manual', 0, 0, ENROL_USER_SUSPENDED);
         $generator->enrol_user($s4->id, $c2->id, 'student', 'manual', $now - DAYSECS, $now + YEARSECS, ENROL_USER_SUSPENDED);
         $this->assertEquals(4, average_number_of_participants());
@@ -7313,7 +7313,7 @@ class courselib_test extends advanced_testcase {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
 
-        // Set admin user as a valid enrolment will be checked in the callback function.
+        // Set admin user as a valid enrollment will be checked in the callback function.
         $this->setAdminUser();
 
         // Use the callback function and return the data.

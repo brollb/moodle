@@ -89,7 +89,7 @@ $isparent = false;
 if (!$currentuser and !$user->deleted
   and $DB->record_exists('role_assignments', array('userid' => $USER->id, 'contextid' => $usercontext->id))
   and has_capability('moodle/user:viewdetails', $usercontext)) {
-    // TODO: very ugly hack - do not force "parents" to enrol into course their child is enrolled in,
+    // TODO: very ugly hack - do not force "parents" to enroll into course their child is enrolled in,
     //       this way they may access the profile where they get overview of grades and child activity in course,
     //       please note this is just a guess!
     require_login();
@@ -107,7 +107,7 @@ $struser = get_string("user");
 
 $fullname = fullname($user, has_capability('moodle/site:viewfullnames', $coursecontext));
 
-// Now test the actual capabilities and enrolment in course.
+// Now test the actual capabilities and enrollment in course.
 if ($currentuser) {
     if (!is_viewing($coursecontext) && !is_enrolled($coursecontext)) {
         // Need to have full access to a course to see the rest of own info.

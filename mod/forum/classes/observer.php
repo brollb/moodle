@@ -38,9 +38,9 @@ class mod_forum_observer {
         global $DB;
 
         // NOTE: this has to be as fast as possible.
-        // Get user enrolment info from event.
-        $cp = (object)$event->other['userenrolment'];
-        if ($cp->lastenrol) {
+        // Get user enrollment info from event.
+        $cp = (object)$event->other['userenrollment'];
+        if ($cp->lastenroll) {
             if (!$forums = $DB->get_records('forum', array('course' => $cp->courseid), '', 'id')) {
                 return;
             }

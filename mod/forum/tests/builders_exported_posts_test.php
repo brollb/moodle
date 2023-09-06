@@ -147,8 +147,8 @@ class builders_exported_posts_test extends \advanced_testcase {
 
         $datagenerator = $this->getDataGenerator();
         $course = $datagenerator->create_course();
-        $user1 = $datagenerator->create_and_enrol($course);
-        $user2 = $datagenerator->create_and_enrol($course);
+        $user1 = $datagenerator->create_and_enroll($course);
+        $user2 = $datagenerator->create_and_enroll($course);
 
         $forum1 = $datagenerator->create_module('forum', ['course' => $course->id]);
         $forum2 = $datagenerator->create_module('forum', ['course' => $course->id]);

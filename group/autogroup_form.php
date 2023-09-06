@@ -149,9 +149,9 @@ class autogroup_form extends moodleform {
         $mform->disabledIf('notingroup', 'groupid', 'neq', 0);
 
         if (has_capability('moodle/course:viewsuspendedusers', $coursecontext)) {
-            $mform->addElement('checkbox', 'includeonlyactiveenrol', get_string('includeonlyactiveenrol', 'group'), '');
-            $mform->addHelpButton('includeonlyactiveenrol', 'includeonlyactiveenrol', 'group');
-            $mform->setDefault('includeonlyactiveenrol', true);
+            $mform->addElement('checkbox', 'includeonlyactiveenroll', get_string('includeonlyactiveenroll', 'group'), '');
+            $mform->addHelpButton('includeonlyactiveenroll', 'includeonlyactiveenroll', 'group');
+            $mform->setDefault('includeonlyactiveenroll', true);
         }
 
         $mform->addElement('header', 'groupinghdr', get_string('grouping', 'group'));

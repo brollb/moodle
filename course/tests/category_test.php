@@ -621,8 +621,8 @@ class category_test extends \advanced_testcase {
         //     -- course32                                | [Expected]
         //   -- course11 (user1 is enrolled as teacher)   | [Expected] Teacher: F1 L1
         //   -- course12 (user1 has teacher role)         | [Expected]
-        //                also user4 is enrolled as teacher but enrolment is not active
-        $category = $course = $enrol = $user = array();
+        //                also user4 is enrolled as teacher but enrollment is not active
+        $category = $course = $enroll = $user = array();
         $category[1] = core_course_category::create(array('name' => 'Cat1'))->id;
         $category[2] = core_course_category::create(array('name' => 'Cat2', 'parent' => $category[1]))->id;
         $category[3] = core_course_category::create(array('name' => 'Cat3', 'parent' => $category[1]))->id;
@@ -631,7 +631,7 @@ class category_test extends \advanced_testcase {
             foreach (array(1, 2) as $courseid) {
                 $course[$catid][$courseid] = $this->getDataGenerator()->create_course(array('idnumber' => 'id'.$catid.$courseid,
                     'category' => $category[$catid]))->id;
-                $enrol[$catid][$courseid] = $DB->get_record('enrol', array('courseid'=>$course[$catid][$courseid], 'enrol'=>'manual'), '*', MUST_EXIST);
+                $enroll[$catid][$courseid] = $DB->get_record('enroll', array('courseid'=>$course[$catid][$courseid], 'enroll'=>'manual'), '*', MUST_EXIST);
             }
         }
         foreach (array(1, 2, 3, 4, 5) as $userid) {
@@ -650,26 +650,26 @@ class category_test extends \advanced_testcase {
         // Cat1 (user2 has teacher role)
         role_assign($teacherrole->id, $user[2], \context_coursecat::instance($category[1]));
         // course21 (user2 is enrolled as manager)
-        $manual->enrol_user($enrol[2][1], $user[2], $managerrole->id);
+        $manual->enrol_user($enroll[2][1], $user[2], $managerrole->id);
         // course22 (user2 is enrolled as student)
-        $manual->enrol_user($enrol[2][2], $user[2], $studentrole->id);
+        $manual->enrol_user($enroll[2][2], $user[2], $studentrole->id);
         // Cat4 (user2 has manager role)
         role_assign($managerrole->id, $user[2], \context_coursecat::instance($category[4]));
         // course41 (user4 is enrolled as teacher, user5 is enrolled as manager)
-        $manual->enrol_user($enrol[4][1], $user[4], $teacherrole->id);
-        $manual->enrol_user($enrol[4][1], $user[5], $managerrole->id);
+        $manual->enrol_user($enroll[4][1], $user[4], $teacherrole->id);
+        $manual->enrol_user($enroll[4][1], $user[5], $managerrole->id);
         // course42 (user2 is enrolled as teacher)
-        $manual->enrol_user($enrol[4][2], $user[2], $teacherrole->id);
+        $manual->enrol_user($enroll[4][2], $user[2], $teacherrole->id);
         // Cat3 (user3 has manager role)
         role_assign($managerrole->id, $user[3], \context_coursecat::instance($category[3]));
         // course31 (user3 is enrolled as student)
-        $manual->enrol_user($enrol[3][1], $user[3], $studentrole->id);
+        $manual->enrol_user($enroll[3][1], $user[3], $studentrole->id);
         // course11 (user1 is enrolled as teacher)
-        $manual->enrol_user($enrol[1][1], $user[1], $teacherrole->id);
+        $manual->enrol_user($enroll[1][1], $user[1], $teacherrole->id);
         // -- course12 (user1 has teacher role)
-        //                also user4 is enrolled as teacher but enrolment is not active
+        //                also user4 is enrolled as teacher but enrollment is not active
         role_assign($teacherrole->id, $user[1], \context_course::instance($course[1][2]));
-        $manual->enrol_user($enrol[1][2], $user[4], $teacherrole->id, 0, 0, ENROL_USER_SUSPENDED);
+        $manual->enrol_user($enroll[1][2], $user[4], $teacherrole->id, 0, 0, ENROL_USER_SUSPENDED);
 
         $allcourses = core_course_category::get(0)->get_courses(
             array('recursive' => true, 'coursecontacts' => true, 'sort' => array('idnumber' => 1)));
@@ -704,7 +704,7 @@ class category_test extends \advanced_testcase {
         $this->assertSame('', $contacts[1][2]);
 
         // Suspend user 4 and make sure he is no longer in contacts of course 1 in category 4.
-        $manual->enrol_user($enrol[4][1], $user[4], $teacherrole->id, 0, 0, ENROL_USER_SUSPENDED);
+        $manual->enrol_user($enroll[4][1], $user[4], $teacherrole->id, 0, 0, ENROL_USER_SUSPENDED);
         $allcourses = core_course_category::get(0)->get_courses(array(
                 'recursive' => true,
                 'coursecontacts' => true,
@@ -755,9 +755,9 @@ class category_test extends \advanced_testcase {
         *      -- course32                                | [Expected]
         *    -- course11 (user1 is enrolled as teacher)   | [Expected] Teacher: F1 L1
         *    -- course12 (user1 has teacher role)         | [Expected]
-        *                 also user4 is enrolled as teacher but enrolment is not active
+        *                 also user4 is enrolled as teacher but enrollment is not active
         */
-        $category = $course = $enrol = $user = array();
+        $category = $course = $enroll = $user = array();
         $category[1] = core_course_category::create(array('name' => 'Cat1'))->id;
         $category[2] = core_course_category::create(array('name' => 'Cat2', 'parent' => $category[1]))->id;
         $category[3] = core_course_category::create(array('name' => 'Cat3', 'parent' => $category[1]))->id;
@@ -768,9 +768,9 @@ class category_test extends \advanced_testcase {
                         'idnumber' => 'id'.$catid.$courseid,
                         'category' => $category[$catid])
                 )->id;
-                $enrol[$catid][$courseid] = $DB->get_record(
-                        'enrol',
-                        array('courseid' => $course[$catid][$courseid], 'enrol' => 'manual'),
+                $enroll[$catid][$courseid] = $DB->get_record(
+                        'enroll',
+                        array('courseid' => $course[$catid][$courseid], 'enroll' => 'manual'),
                         '*',
                         MUST_EXIST
                 );
@@ -798,28 +798,28 @@ class category_test extends \advanced_testcase {
         // Cat1: user2 has teacher role.
         role_assign($teacherrole->id, $user[2], \context_coursecat::instance($category[1]));
         // Course21: user2 is enrolled as manager.
-        $manual->enrol_user($enrol[2][1], $user[2], $managerrole->id);
+        $manual->enrol_user($enroll[2][1], $user[2], $managerrole->id);
         // Course22: user2 is enrolled as student.
-        $manual->enrol_user($enrol[2][2], $user[2], $studentrole->id);
+        $manual->enrol_user($enroll[2][2], $user[2], $studentrole->id);
         // Cat4: user2 has manager role.
         role_assign($managerrole->id, $user[2], \context_coursecat::instance($category[4]));
         // Course41: user4 is enrolled as teacher, user5 is enrolled as manager.
-        $manual->enrol_user($enrol[4][1], $user[4], $teacherrole->id);
-        $manual->enrol_user($enrol[4][1], $user[5], $managerrole->id);
+        $manual->enrol_user($enroll[4][1], $user[4], $teacherrole->id);
+        $manual->enrol_user($enroll[4][1], $user[5], $managerrole->id);
         // Course42: user2 is enrolled as teacher.
-        $manual->enrol_user($enrol[4][2], $user[2], $teacherrole->id);
+        $manual->enrol_user($enroll[4][2], $user[2], $teacherrole->id);
         // Cat3: user3 has manager role.
         role_assign($managerrole->id, $user[3], \context_coursecat::instance($category[3]));
         // Course31: user3 is enrolled as student.
-        $manual->enrol_user($enrol[3][1], $user[3], $studentrole->id);
+        $manual->enrol_user($enroll[3][1], $user[3], $studentrole->id);
         // Course11: user1 is enrolled as teacher and user4 is enrolled as teacher and has manager role.
-        $manual->enrol_user($enrol[1][1], $user[1], $teacherrole->id);
-        $manual->enrol_user($enrol[1][1], $user[4], $teacherrole->id);
+        $manual->enrol_user($enroll[1][1], $user[1], $teacherrole->id);
+        $manual->enrol_user($enroll[1][1], $user[4], $teacherrole->id);
         role_assign($managerrole->id, $user[4], \context_course::instance($course[1][1]));
-        // Course12: user1 has teacher role, but is not enrolled, as well as user4 is enrolled as teacher, but user4's enrolment is
+        // Course12: user1 has teacher role, but is not enrolled, as well as user4 is enrolled as teacher, but user4's enrollment is
         // not active.
         role_assign($teacherrole->id, $user[1], \context_course::instance($course[1][2]));
-        $manual->enrol_user($enrol[1][2], $user[4], $teacherrole->id, 0, 0, ENROL_USER_SUSPENDED);
+        $manual->enrol_user($enroll[1][2], $user[4], $teacherrole->id, 0, 0, ENROL_USER_SUSPENDED);
 
         $allcourses = core_course_category::get(0)->get_courses(
                 array('recursive' => true, 'coursecontacts' => true, 'sort' => array('idnumber' => 1)));
@@ -855,12 +855,12 @@ class category_test extends \advanced_testcase {
         // Course11: user1 is enrolled as teacher and user4 is enrolled as teacher and has manager role. [Expected] Manager: F4 L4,
         // Teacher: F1 L1, Teacher: F4 L4.
         $this->assertSame('Manager, Teacher: F4 L4, Teacher: F1 L1', $contacts[1][1]);
-        // Course12: user1 has teacher role, but is not enrolled, as well as user4 is enrolled as teacher, but user4's enrolment is
+        // Course12: user1 has teacher role, but is not enrolled, as well as user4 is enrolled as teacher, but user4's enrollment is
         // not active. [Expected] (nothing).
         $this->assertSame('', $contacts[1][2]);
 
         // Suspend user 4 and make sure he is no longer in contacts of course 1 in category 4.
-        $manual->enrol_user($enrol[4][1], $user[4], $teacherrole->id, 0, 0, ENROL_USER_SUSPENDED);
+        $manual->enrol_user($enroll[4][1], $user[4], $teacherrole->id, 0, 0, ENROL_USER_SUSPENDED);
         $allcourses = core_course_category::get(0)->get_courses(array(
                 'recursive' => true,
                 'coursecontacts' => true,

@@ -22,8 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['database:config'] = 'Configure database enrol instances';
-$string['database:unenrol'] = 'Unenrol suspended users';
+$string['database:config'] = 'Configure database enroll instances';
+$string['database:unenroll'] = 'Unenroll suspended users';
 $string['dbencoding'] = 'Database encoding';
 $string['dbhost'] = 'Database host';
 $string['dbhost_desc'] = 'Type database server IP address or host name. Use a system DSN name if using ODBC. Use a PDO DSN if using PDO.';
@@ -59,8 +59,8 @@ $string['pluginname'] = 'External database';
 $string['pluginname_desc'] = 'You can use an external database (of nearly any kind) to control your enrolments. It is assumed your external database contains at least a field containing a course ID, and a field containing a user ID. These are compared against fields that you choose in the local course and user tables.';
 $string['remotecoursefield'] = 'Remote course field';
 $string['remotecoursefield_desc'] = 'The name of the field in the remote table that we are using to match entries in the course table.';
-$string['remoteenroltable'] = 'Remote user enrolment table';
-$string['remoteenroltable_desc'] = 'Specify the name of the table that contains list of user enrolments. Empty means no user enrolment sync.';
+$string['remoteenroltable'] = 'Remote user enrollment table';
+$string['remoteenroltable_desc'] = 'Specify the name of the table that contains list of user enrolments. Empty means no user enrollment sync.';
 $string['remoteotheruserfield'] = 'Remote Other User field';
 $string['remoteotheruserfield_desc'] = 'The name of the field in the remote table that we are using to flag "Other User" role assignments.';
 $string['remoterolefield'] = 'Remote role field';
@@ -68,10 +68,10 @@ $string['remoterolefield_desc'] = 'The name of the field in the remote table tha
 $string['remoteuserfield'] = 'Remote user field';
 $string['settingsheaderdb'] = 'External database connection';
 $string['settingsheaderlocal'] = 'Local field mapping';
-$string['settingsheaderremote'] = 'Remote enrolment sync';
+$string['settingsheaderremote'] = 'Remote enrollment sync';
 $string['settingsheadernewcourses'] = 'Creation of new courses';
 $string['syncenrolmentstask'] = 'Synchronise external database enrolments task';
 $string['remoteuserfield_desc'] = 'The name of the field in the remote table that we are using to match entries in the user table.';
 $string['templatecourse'] = 'New course template';
 $string['templatecourse_desc'] = 'Optional: auto-created courses can copy their settings from a template course. Type here the shortname of the template course.';
-$string['privacy:metadata'] = 'The External database enrolment plugin does not store any personal data.';
+$string['privacy:metadata'] = 'The External database enrollment plugin does not store any personal data.';

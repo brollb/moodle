@@ -77,12 +77,12 @@ class helper_test extends \advanced_testcase {
     }
 
     /**
-     * Test that we can not enrol past the maximum number of users allowed.
+     * Test that we can not enroll past the maximum number of users allowed.
      */
     public function test_enrol_user_max_enrolled() {
         global $DB;
 
-        // Set up the LTI enrolment tool.
+        // Set up the LTI enrollment tool.
         $data = new \stdClass();
         $data->maxenrolled = 1;
         $tool = $this->getDataGenerator()->create_lti_tool($data);
@@ -97,7 +97,7 @@ class helper_test extends \advanced_testcase {
         $this->assertEquals(true, $result);
         $this->assertEquals(1, $DB->count_records('user_enrolments', array('enrolid' => $tool->enrolid)));
 
-        // Try and enrol another user - should not happen.
+        // Try and enroll another user - should not happen.
         $result = \enrol_lti\helper::enrol_user($tool, $this->user2->id);
 
         // Check that this user was not enrolled and we are told why.
@@ -106,12 +106,12 @@ class helper_test extends \advanced_testcase {
     }
 
     /**
-     * Test that we can not enrol when the enrolment has not started.
+     * Test that we can not enroll when the enrollment has not started.
      */
     public function test_enrol_user_enrolment_not_started() {
         global $DB;
 
-        // Set up the LTI enrolment tool.
+        // Set up the LTI enrollment tool.
         $data = new \stdClass();
         $data->enrolstartdate = time() + DAYSECS; // Make sure it is in the future.
         $tool = $this->getDataGenerator()->create_lti_tool($data);
@@ -119,7 +119,7 @@ class helper_test extends \advanced_testcase {
         // Now get all the information we need.
         $tool = \enrol_lti\helper::get_lti_tool($tool->id);
 
-        // Try and enrol a user - should not happen.
+        // Try and enroll a user - should not happen.
         $result = \enrol_lti\helper::enrol_user($tool, $this->user1->id);
 
         // Check that this user was not enrolled and we are told why.
@@ -128,12 +128,12 @@ class helper_test extends \advanced_testcase {
     }
 
     /**
-     * Test that we can not enrol when the enrolment has finished.
+     * Test that we can not enroll when the enrollment has finished.
      */
     public function test_enrol_user_enrolment_finished() {
         global $DB;
 
-        // Set up the LTI enrolment tool.
+        // Set up the LTI enrollment tool.
         $data = new \stdClass();
         $data->enrolenddate = time() - DAYSECS; // Make sure it is in the past.
         $tool = $this->getDataGenerator()->create_lti_tool($data);
@@ -141,7 +141,7 @@ class helper_test extends \advanced_testcase {
         // Now get all the information we need.
         $tool = \enrol_lti\helper::get_lti_tool($tool->id);
 
-        // Try and enrol a user - should not happen.
+        // Try and enroll a user - should not happen.
         $result = \enrol_lti\helper::enrol_user($tool, $this->user1->id);
 
         // Check that this user was not enrolled and we are told why.
@@ -252,7 +252,7 @@ class helper_test extends \advanced_testcase {
 
         $id = $tool1->id;
         $launchurl = \enrol_lti\helper::get_launch_url($id);
-        $this->assertEquals('https://www.example.com/moodle/enrol/lti/tool.php?id=' . $id, $launchurl->out());
+        $this->assertEquals('https://www.example.com/moodle/enroll/lti/tool.php?id=' . $id, $launchurl->out());
     }
 
     /**
@@ -273,13 +273,13 @@ class helper_test extends \advanced_testcase {
         $id = $tool1->id;
         $token = \enrol_lti\helper::generate_cartridge_token($id);
         $launchurl = \enrol_lti\helper::get_cartridge_url($tool1);
-        $this->assertEquals('https://www.example.com/moodle/enrol/lti/cartridge.php?id=' . $id . '&amp;token=' . $token,
+        $this->assertEquals('https://www.example.com/moodle/enroll/lti/cartridge.php?id=' . $id . '&amp;token=' . $token,
                             $launchurl->out());
 
         $CFG->slasharguments = true;
 
         $launchurl = \enrol_lti\helper::get_cartridge_url($tool1);
-        $this->assertEquals('https://www.example.com/moodle/enrol/lti/cartridge.php/' . $id . '/' . $token . '/cartridge.xml',
+        $this->assertEquals('https://www.example.com/moodle/enroll/lti/cartridge.php/' . $id . '/' . $token . '/cartridge.xml',
                             $launchurl->out());
 
         $CFG->slasharguments = $slasharguments;
@@ -303,13 +303,13 @@ class helper_test extends \advanced_testcase {
         $id = $tool1->id;
         $token = \enrol_lti\helper::generate_proxy_token($id);
         $launchurl = \enrol_lti\helper::get_proxy_url($tool1);
-        $this->assertEquals('https://www.example.com/moodle/enrol/lti/proxy.php?id=' . $id . '&amp;token=' . $token,
+        $this->assertEquals('https://www.example.com/moodle/enroll/lti/proxy.php?id=' . $id . '&amp;token=' . $token,
                             $launchurl->out());
 
         $CFG->slasharguments = true;
 
         $launchurl = \enrol_lti\helper::get_proxy_url($tool1);
-        $this->assertEquals('https://www.example.com/moodle/enrol/lti/proxy.php/' . $id . '/' . $token . '/',
+        $this->assertEquals('https://www.example.com/moodle/enroll/lti/proxy.php/' . $id . '/' . $token . '/',
                             $launchurl->out());
 
         $CFG->slasharguments = $slasharguments;
@@ -526,6 +526,6 @@ class helper_test extends \advanced_testcase {
         $cartridge = \enrol_lti\helper::create_cartridge($tool1->id);
         $this->assertStringContainsString('<blti:title>Test LTI</blti:title>', $cartridge);
         $this->assertStringContainsString("<blti:icon>$CFG->wwwroot/theme/image.php/_s/boost/theme/1/favicon</blti:icon>", $cartridge);
-        $this->assertStringContainsString("<blti:launch_url>$CFG->wwwroot/enrol/lti/tool.php?id=$tool1->id</blti:launch_url>", $cartridge);
+        $this->assertStringContainsString("<blti:launch_url>$CFG->wwwroot/enroll/lti/tool.php?id=$tool1->id</blti:launch_url>", $cartridge);
     }
 }

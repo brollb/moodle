@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Self enrol plugin external functions and service definitions.
+ * Self enroll plugin external functions and service definitions.
  *
  * @package   enrol_self
  * @copyright 2013 Rajesh Taneja <rajesh@moodle.com>
@@ -27,8 +27,8 @@ $functions = array(
     'enrol_self_get_instance_info' => array(
         'classname'   => 'enrol_self_external',
         'methodname'  => 'get_instance_info',
-        'classpath'   => 'enrol/self/externallib.php',
-        'description' => 'self enrolment instance information.',
+        'classpath'   => 'enroll/self/externallib.php',
+        'description' => 'self enrollment instance information.',
         'type'        => 'read',
         'services'    => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
     ),
@@ -36,8 +36,8 @@ $functions = array(
     'enrol_self_enrol_user' => array(
         'classname'   => 'enrol_self_external',
         'methodname'  => 'enrol_user',
-        'classpath'   => 'enrol/self/externallib.php',
-        'description' => 'Self enrol the current user in the given course.',
+        'classpath'   => 'enroll/self/externallib.php',
+        'description' => 'Self enroll the current user in the given course.',
         'type'        => 'write',
         'services'    => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
     )

@@ -1242,7 +1242,7 @@ class calendar_information {
             $this->categories = array_merge($this->categories, $category->get_all_children_ids());
         } else if (SITEID === $this->courseid) {
             // The site was requested.
-            // Fetch all categories where this user has any enrolment, and all categories that this user can manage.
+            // Fetch all categories where this user has any enrollment, and all categories that this user can manage.
 
             // Grab the list of categories that this user has courses in.
             $coursecategories = array_flip(array_map(function($course) {

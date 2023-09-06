@@ -176,8 +176,8 @@ class forum_gradeitem_test extends \advanced_testcase {
      *
      * @covers ::should_grade_only_active_users
      * @dataProvider should_grade_only_active_users_provider
-     * @param bool $showonlyactiveenrolconfig Whether the 'grade_report_showonlyactiveenrol' is enabled or not.
-     * @param bool $showonlyactiveenrolpreference Whether the 'grade_report_showonlyactiveenrol' preference is enabled or not.
+     * @param bool $showonlyactiveenrolconfig Whether the 'grade_report_showonlyactiveenroll' is enabled or not.
+     * @param bool $showonlyactiveenrolpreference Whether the 'grade_report_showonlyactiveenroll' preference is enabled or not.
      * @param bool $viewsuspendeduserscapability Whether the 'moodle/course:viewsuspendedusers' capability is allowed or not.
      * @param bool $expected The expected result.
      */
@@ -197,12 +197,12 @@ class forum_gradeitem_test extends \advanced_testcase {
         $this->getDataGenerator()->enrol_user($user->id, $course->id, 'editingteacher');
         $editingteacherroleid = $DB->get_field('role', 'id', ['shortname' => 'editingteacher']);
 
-        // Set the 'grade_report_showonlyactiveenrol' config setting.
-        set_config('grade_report_showonlyactiveenrol', $showonlyactiveenrolconfig);
+        // Set the 'grade_report_showonlyactiveenroll' config setting.
+        set_config('grade_report_showonlyactiveenroll', $showonlyactiveenrolconfig);
 
         $this->setUser($user);
-        // Set the 'grade_report_showonlyactiveenrol' user preference.
-        set_user_preference('grade_report_showonlyactiveenrol', $showonlyactiveenrolpreference);
+        // Set the 'grade_report_showonlyactiveenroll' user preference.
+        set_user_preference('grade_report_showonlyactiveenroll', $showonlyactiveenrolpreference);
 
         // Set the 'moodle/course:viewsuspendedusers' user capability.
         assign_capability('moodle/course:viewsuspendedusers', $viewsuspendeduserscapability ?
@@ -218,35 +218,35 @@ class forum_gradeitem_test extends \advanced_testcase {
      */
     public function should_grade_only_active_users_provider(): array {
         return [
-            'Enabled showonlyactiveenrol setting; enabled showonlyactiveenrol preference; view suspended users capability' =>
+            'Enabled showonlyactiveenroll setting; enabled showonlyactiveenroll preference; view suspended users capability' =>
                 [
                     'showonlyactiveenrolconfig' => true,
                     'showonlyactiveenrolpreference' => true,
                     'viewsuspendeduserscapability' => true,
                     'expected' => true,
                 ],
-            'Disabled showonlyactiveenrol setting; enabled showonlyactiveenrol preference; view suspended users capability' =>
+            'Disabled showonlyactiveenroll setting; enabled showonlyactiveenroll preference; view suspended users capability' =>
                 [
                     'showonlyactiveenrolconfig' => false,
                     'showonlyactiveenrolpreference' => true,
                     'viewsuspendeduserscapability' => true,
                     'expected' => true,
                 ],
-            'Disabled showonlyactiveenrol setting; disabled showonlyactiveenrol preference; view suspended users capability' =>
+            'Disabled showonlyactiveenroll setting; disabled showonlyactiveenroll preference; view suspended users capability' =>
                 [
                     'showonlyactiveenrolconfig' => false,
                     'showonlyactiveenrolpreference' => false,
                     'viewsuspendeduserscapability' => true,
                     'expected' => false,
                 ],
-            'Disabled showonlyactiveenrol setting; disabled showonlyactiveenrol preference; no view suspended users capability' =>
+            'Disabled showonlyactiveenroll setting; disabled showonlyactiveenroll preference; no view suspended users capability' =>
                 [
                     'showonlyactiveenrolconfig' => false,
                     'showonlyactiveenrolpreference' => false,
                     'viewsuspendeduserscapability' => false,
                     'expected' => true,
                 ],
-            'Enabled showonlyactiveenrol setting; enabled showonlyactiveenrol preference; no view suspended users capability' =>
+            'Enabled showonlyactiveenroll setting; enabled showonlyactiveenroll preference; no view suspended users capability' =>
                 [
                     'showonlyactiveenrolconfig' => true,
                     'showonlyactiveenrolpreference' => true,

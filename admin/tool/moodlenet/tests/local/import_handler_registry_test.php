@@ -40,7 +40,7 @@ class import_handler_registry_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $ihr = new import_handler_registry($course, $teacher);
         $resource = new remote_resource(
             new \curl(),
@@ -65,8 +65,8 @@ class import_handler_registry_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         $studentihr = new import_handler_registry($course, $student);
         $teacherihr = new import_handler_registry($course, $teacher);
@@ -90,7 +90,7 @@ class import_handler_registry_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $ihr = new import_handler_registry($course, $teacher);
         $resource = new remote_resource(
             new \curl(),

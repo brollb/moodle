@@ -49,7 +49,7 @@ Options:
 -h, --help            Print out this help
 
 Example:
-\$ sudo -u www-data /usr/bin/php enrol/self/manual/sync.php
+\$ sudo -u www-data /usr/bin/php enroll/self/manual/sync.php
 ";
 
     echo $help;

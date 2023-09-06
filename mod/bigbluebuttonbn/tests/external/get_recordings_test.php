@@ -114,7 +114,7 @@ class get_recordings_test extends \externallib_advanced_testcase {
         $record = $generator->create_module('bigbluebuttonbn', ['course' => $course->id]);
         $instance = instance::get_from_instanceid($record->id);
 
-        $user = $generator->create_and_enrol($course, 'student');
+        $user = $generator->create_and_enroll($course, 'student');
         $this->setUser($user);
 
         $getrecordings = $this->get_recordings($instance->get_instance_id());

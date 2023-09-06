@@ -91,7 +91,7 @@ class add_instances_test extends \externallib_advanced_testcase {
 
         // Add rights for metacourse.
         $metacontext = \context_course::instance($metacourse->id);
-        $roleid = $this->assignUserCapability('enrol/meta:config', $metacontext->id);
+        $roleid = $this->assignUserCapability('enroll/meta:config', $metacontext->id);
         $this->assignUserCapability('moodle/course:view', $metacontext->id, $roleid);
         $this->assignUserCapability('moodle/course:enrolconfig', $metacontext->id, $roleid);
 
@@ -106,7 +106,7 @@ class add_instances_test extends \externallib_advanced_testcase {
         // Add rights for linked course.
         $context = \context_course::instance($course->id);
         $this->assignUserCapability('moodle/course:view', $context->id, $roleid);
-        $this->assignUserCapability('enrol/meta:selectaslinked', $context->id, $roleid);
+        $this->assignUserCapability('enroll/meta:selectaslinked', $context->id, $roleid);
 
         $result = add_instances::execute([['metacourseid' => $metacourse->id, 'courseid' => $course->id]]);
         $this->assertNotEmpty($result);
@@ -121,8 +121,8 @@ class add_instances_test extends \externallib_advanced_testcase {
         $course = self::getDataGenerator()->create_course();
 
         // Sanity check.
-        $enrolrecords = $DB->count_records('enrol',
-            ['enrol' => 'meta', 'courseid' => $metacourse->id, 'customint1' => $course->id]);
+        $enrolrecords = $DB->count_records('enroll',
+            ['enroll' => 'meta', 'courseid' => $metacourse->id, 'customint1' => $course->id]);
         $this->assertEquals(0, $enrolrecords);
 
         // Add instance.
@@ -133,8 +133,8 @@ class add_instances_test extends \externallib_advanced_testcase {
         $this->assertEquals($result[0]['status'], 1);
 
         // Check instance was created.
-        $enrolrecords = $DB->count_records('enrol',
-            ['enrol' => 'meta', 'courseid' => $result[0]['metacourseid'], 'customint1' => $result[0]['courseid']]);
+        $enrolrecords = $DB->count_records('enroll',
+            ['enroll' => 'meta', 'courseid' => $result[0]['metacourseid'], 'customint1' => $result[0]['courseid']]);
         $this->assertEquals(1, $enrolrecords);
 
         // Add same instance.
@@ -145,8 +145,8 @@ class add_instances_test extends \externallib_advanced_testcase {
         $this->assertEquals($result[0]['status'], 0);
 
         // Check no new instance was created.
-        $enrolrecords = $DB->count_records('enrol',
-            ['enrol' => 'meta', 'courseid' => $result[0]['metacourseid'], 'customint1' => $result[0]['courseid']]);
+        $enrolrecords = $DB->count_records('enroll',
+            ['enroll' => 'meta', 'courseid' => $result[0]['metacourseid'], 'customint1' => $result[0]['courseid']]);
         $this->assertEquals(1, $enrolrecords);
     }
 }

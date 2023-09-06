@@ -17,7 +17,7 @@
 /**
  * This file contains form for bulk changing user enrolments.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2011 Sam Hemelryk
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -55,9 +55,9 @@ abstract class enrol_bulk_enrolment_change_form extends moodleform {
      * @return array
      */
     protected function get_status_options() {
-        return array(-1                   => get_string('nochange', 'enrol'),
-                     ENROL_USER_ACTIVE    => get_string('participationactive', 'enrol'),
-                     ENROL_USER_SUSPENDED => get_string('participationsuspended', 'enrol'));
+        return array(-1                   => get_string('nochange', 'enroll'),
+                     ENROL_USER_ACTIVE    => get_string('participationactive', 'enroll'),
+                     ENROL_USER_SUSPENDED => get_string('participationsuspended', 'enroll'));
     }
 
     /**
@@ -71,19 +71,19 @@ abstract class enrol_bulk_enrolment_change_form extends moodleform {
         $table = new html_table();
         $table->head = array(
             get_string('name'),
-            get_string('participationstatus', 'enrol'),
-            get_string('enroltimestart', 'enrol'),
-            get_string('enroltimeend', 'enrol'),
+            get_string('participationstatus', 'enroll'),
+            get_string('enroltimestart', 'enroll'),
+            get_string('enroltimeend', 'enroll'),
         );
         $table->data = array();
         foreach ($users as $user) {
-            foreach ($user->enrolments as $enrolment) {
+            foreach ($user->enrolments as $enrollment) {
                 $input = html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'bulkuser[]', 'value' => $user->id));
                 $table->data[] = array(
                     fullname($user).$input,
-                    $statusoptions[$enrolment->status],
-                    (!empty($enrolment->timestart))?userdate($enrolment->timestart):'',
-                    (!empty($enrolment->timeend))?userdate($enrolment->timeend):'',
+                    $statusoptions[$enrollment->status],
+                    (!empty($enrollment->timestart))?userdate($enrollment->timestart):'',
+                    (!empty($enrollment->timeend))?userdate($enrollment->timeend):'',
                 );
             }
         }

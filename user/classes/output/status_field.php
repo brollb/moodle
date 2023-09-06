@@ -41,16 +41,16 @@ use user_enrolment_action;
  */
 class status_field implements renderable, templatable {
 
-    /** Active user enrolment status constant. */
+    /** Active user enrollment status constant. */
     const STATUS_ACTIVE = 0;
 
-    /** Suspended user enrolment status constant. */
+    /** Suspended user enrollment status constant. */
     const STATUS_SUSPENDED = 1;
 
-    /** Not current user enrolment status constant. */
+    /** Not current user enrollment status constant. */
     const STATUS_NOT_CURRENT = 2;
 
-    /** @var string $enrolinstancename The enrolment instance name. */
+    /** @var string $enrolinstancename The enrollment instance name. */
     protected $enrolinstancename;
 
     /** @var string $coursename The course's full name. */
@@ -59,40 +59,40 @@ class status_field implements renderable, templatable {
     /** @var string $fullname The user's full name. */
     protected $fullname;
 
-    /** @var string $status The user enrolment status. */
+    /** @var string $status The user enrollment status. */
     protected $status;
 
-    /** @var int $timestart The timestamp when the user's enrolment starts. */
+    /** @var int $timestart The timestamp when the user's enrollment starts. */
     protected $timestart;
 
-    /** @var int $timeend The timestamp when the user's enrolment ends. */
+    /** @var int $timeend The timestamp when the user's enrollment ends. */
     protected $timeend;
 
     /** @var int $timeenrolled The timestamp when the user was enrolled. */
     protected $timeenrolled;
 
-    /** @var user_enrolment_action[] $enrolactions Array of enrol action objects for the given enrolment method. */
+    /** @var user_enrolment_action[] $enrolactions Array of enroll action objects for the given enrollment method. */
     protected $enrolactions;
 
-    /** @var bool $statusactive Indicates whether a user enrolment status should be rendered as active. */
+    /** @var bool $statusactive Indicates whether a user enrollment status should be rendered as active. */
     protected $statusactive = false;
 
-    /** @var bool $statusactive Indicates whether a user enrolment status should be rendered as suspended. */
+    /** @var bool $statusactive Indicates whether a user enrollment status should be rendered as suspended. */
     protected $statussuspended = false;
 
-    /** @var bool $statusactive Indicates whether a user enrolment status should be rendered as not current. */
+    /** @var bool $statusactive Indicates whether a user enrollment status should be rendered as not current. */
     protected $statusnotcurrent = false;
 
     /**
      * status_field constructor.
      *
-     * @param string $enrolinstancename The enrolment instance name.
+     * @param string $enrolinstancename The enrollment instance name.
      * @param string $coursename The course's full name.
      * @param string $fullname The user's full name.
-     * @param string $status The user enrolment status.
-     * @param int|null $timestart The timestamp when the user's enrolment starts.
-     * @param int|null $timeend The timestamp when the user's enrolment ends.
-     * @param user_enrolment_action[] $enrolactions Array of enrol action objects for the given enrolment method.
+     * @param string $status The user enrollment status.
+     * @param int|null $timestart The timestamp when the user's enrollment starts.
+     * @param int|null $timeend The timestamp when the user's enrollment ends.
+     * @param user_enrolment_action[] $enrolactions Array of enroll action objects for the given enrollment method.
      * @param int|null $timeenrolled The timestamp when the user was enrolled.
      */
     public function __construct($enrolinstancename, $coursename, $fullname, $status, $timestart = null, $timeend = null,
@@ -158,7 +158,7 @@ class status_field implements renderable, templatable {
     /**
      * Status setter.
      *
-     * @param int $status The user enrolment status representing one of this class' STATUS_* constants.
+     * @param int $status The user enrollment status representing one of this class' STATUS_* constants.
      * @return status_field This class' instance. Useful for chaining.
      */
     public function set_status($status = self::STATUS_ACTIVE) {

@@ -62,14 +62,14 @@ class completion_daily_task extends scheduled_task {
             // It's purpose is to locate all the active participants of a course with course completion enabled.
             // We also only want the users with no course_completions record as this functions job is to create
             // the missing ones :)
-            // We want to record the user's enrolment start time for the course. This gets tricky because there can be
-            // multiple enrolment plugins active in a course, hence the possibility of multiple records for each
+            // We want to record the user's enrollment start time for the course. This gets tricky because there can be
+            // multiple enrollment plugins active in a course, hence the possibility of multiple records for each
             // couse/user in the results.
             $sql = "SELECT c.id AS course, u.id AS userid, crc.id AS completionid, ue.timestart AS timeenrolled,
                            ue.timecreated
                       FROM {user} u
                 INNER JOIN {user_enrolments} ue ON ue.userid = u.id
-                INNER JOIN {enrol} e ON e.id = ue.enrolid
+                INNER JOIN {enroll} e ON e.id = ue.enrolid
                 INNER JOIN {course} c ON c.id = e.courseid
                 INNER JOIN {context} con ON con.contextlevel = ? AND con.instanceid = c.id
                 INNER JOIN {role_assignments} ra ON ra.userid = u.id AND ra.contextid = con.id
@@ -94,17 +94,17 @@ class completion_daily_task extends scheduled_task {
             }
 
             // We are essentially doing a group by in the code here (as I can't find a decent way of doing it
-            // in the sql). Since there can be multiple enrolment plugins for each course, we can have multiple rows
+            // in the sql). Since there can be multiple enrollment plugins for each course, we can have multiple rows
             // for each participant in the query result. This isn't really a problem until you combine it with the fact
-            // that the enrolment plugins can save the enrol start time in either timestart or timeenrolled.
-            // The purpose of the loop is to find the earliest enrolment start time for each participant in each course.
+            // that the enrollment plugins can save the enroll start time in either timestart or timeenrolled.
+            // The purpose of the loop is to find the earliest enrollment start time for each participant in each course.
             $prev = null;
             while ($rs->valid() || $prev) {
                 $current = $rs->current();
                 if (!isset($current->course)) {
                     $current = false;
                 } else {
-                    // Not all enrol plugins fill out timestart correctly, so use whichever is non-zero.
+                    // Not all enroll plugins fill out timestart correctly, so use whichever is non-zero.
                     $current->timeenrolled = max($current->timecreated, $current->timeenrolled);
                 }
 

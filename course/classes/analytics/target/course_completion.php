@@ -101,10 +101,10 @@ class course_completion extends course_enrolments {
             return null;
         }
 
-        $userenrol = $this->retrieve('user_enrolments', $sampleid);
+        $userenroll = $this->retrieve('user_enrolments', $sampleid);
 
         // We use completion as a success metric.
-        $ccompletion = new \completion_completion(array('userid' => $userenrol->userid, 'course' => $course->get_id()));
+        $ccompletion = new \completion_completion(array('userid' => $userenroll->userid, 'course' => $course->get_id()));
         if ($ccompletion->is_complete()) {
             return 0;
         } else {

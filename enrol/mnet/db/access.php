@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for mnet enrolment plugin.
+ * Capabilities for mnet enrollment plugin.
  *
  * @package    enrol_mnet
  * @copyright  2014 Daniel Neis Araujo
@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    'enrol/mnet:config' => array(
+    'enroll/mnet:config' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(

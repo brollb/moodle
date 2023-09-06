@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Flat file enrolment plugin version specification.
+ * Flat file enrollment plugin version specification.
  *
  * @package    enrol_flatfile
  * @copyright  2010 Eugene Venter

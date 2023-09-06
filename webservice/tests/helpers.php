@@ -100,16 +100,16 @@ abstract class externallib_advanced_testcase extends advanced_testcase {
      * @param int $contextid set the context id if you used assignUserCapability.
      * @param int $roleid set the role id if you used assignUserCapability.
      * @param int $courseid set the course id if you used getDataGenerator->enrol_users.
-     * @param string $enrol set the enrol plugin name if you used getDataGenerator->enrol_users with a different plugin than 'manual'.
+     * @param string $enroll set the enroll plugin name if you used getDataGenerator->enrol_users with a different plugin than 'manual'.
      */
-    public static function unassignUserCapability($capability, $contextid = null, $roleid = null, $courseid = null, $enrol = 'manual') {
+    public static function unassignUserCapability($capability, $contextid = null, $roleid = null, $courseid = null, $enroll = 'manual') {
         global $DB;
 
         if (!empty($courseid)) {
             // Retrieve the role id.
-            $instances = $DB->get_records('enrol', array('courseid'=>$courseid, 'enrol'=>$enrol));
+            $instances = $DB->get_records('enroll', array('courseid'=>$courseid, 'enroll'=>$enroll));
             if (count($instances) != 1) {
-                 throw new coding_exception('No found enrol instance for courseid: ' . $courseid . ' and enrol: ' . $enrol);
+                 throw new coding_exception('No found enroll instance for courseid: ' . $courseid . ' and enroll: ' . $enroll);
             }
             $instance = reset($instances);
 

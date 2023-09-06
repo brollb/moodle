@@ -75,7 +75,7 @@ class core_group_external extends external_api {
                             'name' => new external_value(PARAM_TEXT, 'multilang compatible name, course unique'),
                             'description' => new external_value(PARAM_RAW, 'group description text'),
                             'descriptionformat' => new external_format_value('description', VALUE_DEFAULT),
-                            'enrolmentkey' => new external_value(PARAM_RAW, 'group enrol secret phrase', VALUE_OPTIONAL),
+                            'enrolmentkey' => new external_value(PARAM_RAW, 'group enroll secret phrase', VALUE_OPTIONAL),
                             'idnumber' => new external_value(PARAM_RAW, 'id number', VALUE_OPTIONAL),
                             'visibility' => new external_value(PARAM_INT,
                                     'group visibility mode. 0 = Visible to all. 1 = Visible to members. '
@@ -86,7 +86,7 @@ class core_group_external extends external_api {
                                     VALUE_DEFAULT, true),
                             'customfields' => self::build_custom_fields_parameters_structure(),
                         )
-                    ), 'List of group object. A group has a courseid, a name, a description and an enrolment key.'
+                    ), 'List of group object. A group has a courseid, a name, a description and an enrollment key.'
                 )
             )
         );
@@ -177,7 +177,7 @@ class core_group_external extends external_api {
                     'name' => new external_value(PARAM_TEXT, 'multilang compatible name, course unique'),
                     'description' => new external_value(PARAM_RAW, 'group description text'),
                     'descriptionformat' => new external_format_value('description'),
-                    'enrolmentkey' => new external_value(PARAM_RAW, 'group enrol secret phrase'),
+                    'enrolmentkey' => new external_value(PARAM_RAW, 'group enroll secret phrase'),
                     'idnumber' => new external_value(PARAM_RAW, 'id number'),
                     'visibility' => new external_value(PARAM_INT,
                             'group visibility mode. 0 = Visible to all. 1 = Visible to members. 2 = See own membership. '
@@ -185,7 +185,7 @@ class core_group_external extends external_api {
                     'participation' => new external_value(PARAM_BOOL, 'participation mode'),
                     'customfields' => self::build_custom_fields_parameters_structure(),
                 )
-            ), 'List of group object. A group has an id, a courseid, a name, a description and an enrolment key.'
+            ), 'List of group object. A group has an id, a courseid, a name, a description and an enrollment key.'
         );
     }
 
@@ -260,7 +260,7 @@ class core_group_external extends external_api {
                     'name' => new external_value(PARAM_TEXT, 'group name'),
                     'description' => new external_value(PARAM_RAW, 'group description text'),
                     'descriptionformat' => new external_format_value('description'),
-                    'enrolmentkey' => new external_value(PARAM_RAW, 'group enrol secret phrase'),
+                    'enrolmentkey' => new external_value(PARAM_RAW, 'group enroll secret phrase'),
                     'idnumber' => new external_value(PARAM_RAW, 'id number'),
                     'visibility' => new external_value(PARAM_INT,
                             'group visibility mode. 0 = Visible to all. 1 = Visible to members. 2 = See own membership. '
@@ -339,7 +339,7 @@ class core_group_external extends external_api {
                     'name' => new external_value(PARAM_TEXT, 'group name'),
                     'description' => new external_value(PARAM_RAW, 'group description text'),
                     'descriptionformat' => new external_format_value('description'),
-                    'enrolmentkey' => new external_value(PARAM_RAW, 'group enrol secret phrase'),
+                    'enrolmentkey' => new external_value(PARAM_RAW, 'group enroll secret phrase'),
                     'idnumber' => new external_value(PARAM_RAW, 'id number'),
                     'visibility' => new external_value(PARAM_INT,
                             'group visibility mode. 0 = Visible to all. 1 = Visible to members. 2 = See own membership. '
@@ -958,7 +958,7 @@ class core_group_external extends external_api {
                                 'name' => new external_value(PARAM_TEXT, 'multilang compatible name, course unique'),
                                 'description' => new external_value(PARAM_RAW, 'group description text'),
                                 'descriptionformat' => new external_format_value('description'),
-                                'enrolmentkey' => new external_value(PARAM_RAW, 'group enrol secret phrase'),
+                                'enrolmentkey' => new external_value(PARAM_RAW, 'group enroll secret phrase'),
                                 'idnumber' => new external_value(PARAM_RAW, 'id number'),
                                 'customfields' => self::build_custom_fields_returns_structure(),
                             )
@@ -1593,7 +1593,7 @@ class core_group_external extends external_api {
                             'name' => new external_value(PARAM_TEXT, 'multilang compatible name, course unique'),
                             'description' => new external_value(PARAM_RAW, 'group description text', VALUE_OPTIONAL),
                             'descriptionformat' => new external_format_value('description', VALUE_DEFAULT),
-                            'enrolmentkey' => new external_value(PARAM_RAW, 'group enrol secret phrase', VALUE_OPTIONAL),
+                            'enrolmentkey' => new external_value(PARAM_RAW, 'group enroll secret phrase', VALUE_OPTIONAL),
                             'idnumber' => new external_value(PARAM_RAW, 'id number', VALUE_OPTIONAL),
                             'visibility' => new external_value(PARAM_TEXT,
                                     'group visibility mode. 0 = Visible to all. 1 = Visible to members. '

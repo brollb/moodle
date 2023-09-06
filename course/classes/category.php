@@ -685,7 +685,7 @@ class core_course_category implements renderable, cacheable_object, IteratorAggr
     }
 
     /**
-     * Checks if current user can view course information or enrolment page.
+     * Checks if current user can view course information or enrollment page.
      *
      * This method does not check if user is already enrolled in the course
      *
@@ -901,8 +901,8 @@ class core_course_category implements renderable, cacheable_object, IteratorAggr
             return;
         }
 
-        // Trigger a purge for all caches listening for changes to category enrolment.
-        cache_helper::purge_by_event('changesincategoryenrolment');
+        // Trigger a purge for all caches listening for changes to category enrollment.
+        cache_helper::purge_by_event('changesincategoryenrollment');
 
         if (empty($CFG->coursecontact) || !in_array($roleid, explode(',', $CFG->coursecontact))) {
             // The role is not one of course contact roles.
@@ -927,14 +927,14 @@ class core_course_category implements renderable, cacheable_object, IteratorAggr
     }
 
     /**
-     * Executed when user enrolment was changed to check if course
+     * Executed when user enrollment was changed to check if course
      * contacts cache needs to be cleared
      *
      * @param int $courseid course id
      * @param int $userid user id
-     * @param int $status new enrolment status (0 - active, 1 - suspended)
-     * @param int $timestart new enrolment time start
-     * @param int $timeend new enrolment time end
+     * @param int $status new enrollment status (0 - active, 1 - suspended)
+     * @param int $timestart new enrollment time start
+     * @param int $timeend new enrollment time end
      */
     public static function user_enrolment_changed($courseid, $userid,
             $status, $timestart = null, $timeend = null) {
@@ -955,16 +955,16 @@ class core_course_category implements renderable, cacheable_object, IteratorAggr
                 }
             }
             if (!$isincontacts) {
-                // Changed user's enrolment does not exist or is not active,
+                // Changed user's enrollment does not exist or is not active,
                 // and he is not in cached course contacts, no changes to be made.
                 return;
             }
         }
-        // Either enrolment of manager was deleted/suspended
-        // or user enrolment was added or activated.
+        // Either enrollment of manager was deleted/suspended
+        // or user enrollment was added or activated.
         // In order to see if the course contacts for this course need
         // changing we would need to make additional queries, they will
-        // slow down bulk enrolment changes. It is better just to remove
+        // slow down bulk enrollment changes. It is better just to remove
         // course contacts cache for this course.
         $cache->delete($courseid);
     }
@@ -1099,7 +1099,7 @@ class core_course_category implements renderable, cacheable_object, IteratorAggr
      * Verify user enrollments for multiple course-user combinations
      *
      * @param array $courseusers array where keys are course ids and values are array
-     *     of users in this course whose enrolment we wish to verify
+     *     of users in this course whose enrollment we wish to verify
      * @return array same structure as input array but values list only users from input
      *     who are enrolled in the course
      */
@@ -1119,7 +1119,7 @@ class core_course_category implements renderable, cacheable_object, IteratorAggr
         // Create a query verifying valid user enrolments for the number of courses.
         $sql = "SELECT DISTINCT e.courseid, ue.userid
           FROM {user_enrolments} ue
-          JOIN {enrol} e ON e.id = ue.enrolid
+          JOIN {enroll} e ON e.id = ue.enrolid
           WHERE ue.status = :active
             AND e.status = :enabled
             AND ue.timestart < :now1 AND (ue.timeend = 0 OR ue.timeend > :now2)";

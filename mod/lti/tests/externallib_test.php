@@ -176,16 +176,16 @@ class externallib_test extends mod_lti_testcase {
         $record->course = $course2->id;
         $lti2 = self::getDataGenerator()->create_module('lti', $record);
 
-        // Execute real Moodle enrolment as we'll call unenrol() method on the instance later.
-        $enrol = enrol_get_plugin('manual');
+        // Execute real Moodle enrollment as we'll call unenroll() method on the instance later.
+        $enroll = enrol_get_plugin('manual');
         $enrolinstances = enrol_get_instances($course2->id, true);
         foreach ($enrolinstances as $courseenrolinstance) {
-            if ($courseenrolinstance->enrol == "manual") {
+            if ($courseenrolinstance->enroll == "manual") {
                 $instance2 = $courseenrolinstance;
                 break;
             }
         }
-        $enrol->enrol_user($instance2, $student->id, $studentrole->id);
+        $enroll->enrol_user($instance2, $student->id, $studentrole->id);
 
         self::setUser($student);
 
@@ -238,8 +238,8 @@ class externallib_test extends mod_lti_testcase {
         $this->assertEquals($expectedltis, $result['ltis']);
         $this->assertCount(0, $result['warnings']);
 
-        // Unenrol user from second course and alter expected ltis.
-        $enrol->unenrol_user($instance2, $student->id);
+        // Unenroll user from second course and alter expected ltis.
+        $enroll->unenrol_user($instance2, $student->id);
         array_shift($expectedltis);
 
         // Call the external function without passing course id.
@@ -302,7 +302,7 @@ class externallib_test extends mod_lti_testcase {
     /**
      * Test view_lti as a user who is not enrolled in the course.
      */
-    public function test_view_lti_no_enrolment() {
+    public function test_view_lti_no_enrollment() {
         [
             'lti' => $lti
         ] = $this->setup_test_data();
@@ -403,7 +403,7 @@ class externallib_test extends mod_lti_testcase {
      */
     public function test_mod_lti_create_tool_proxy_without_capability() {
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $this->setUser($teacher);
         $this->expectException(\required_capability_exception::class);
         mod_lti_external::create_tool_proxy('Test proxy', $this->getExternalTestFileUrl('/test.html'), array(), array());
@@ -511,7 +511,7 @@ class externallib_test extends mod_lti_testcase {
      */
     public function test_mod_lti_create_tool_type_without_capability() {
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $this->setUser($teacher);
         $this->expectException(\required_capability_exception::class);
         mod_lti_external::create_tool_type($this->getExternalTestFileUrl('/ims_cartridge_basic_lti_link.xml'), '', '');
@@ -557,7 +557,7 @@ class externallib_test extends mod_lti_testcase {
         $this->assertNotEmpty(lti_get_type($type['id']));
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $this->setUser($teacher);
         $this->expectException(\required_capability_exception::class);
         mod_lti_external::delete_tool_type($type['id']);

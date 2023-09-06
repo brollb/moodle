@@ -76,7 +76,7 @@ $sql = "
         {role_assignments} ra
      ON ra.contextid = con.id
     INNER JOIN
-        {enrol} e
+        {enroll} e
      ON c.id = e.courseid
     INNER JOIN
         {user_enrolments} ue

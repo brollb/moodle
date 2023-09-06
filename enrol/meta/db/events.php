@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Meta course enrolment plugin event handler definition.
+ * Meta course enrollment plugin event handler definition.
  *
  * @package enrol_meta
  * @category event

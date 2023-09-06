@@ -49,7 +49,7 @@ class content_test extends \advanced_testcase {
         $course2context = \context_course::instance($course2->id);
 
         // Enrol user as student in course1 only.
-        $user = $this->getDataGenerator()->create_and_enrol($course1, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course1, 'student');
 
         // Confirm by default enrolled user does not have permission to export in course1.
         $this->assertFalse(content::can_export_context($course1context, $user));
@@ -108,7 +108,7 @@ class content_test extends \advanced_testcase {
         $systemcontext = \context_system::instance();
 
         // Enrol user as student in course1 only.
-        $user = $this->getDataGenerator()->create_and_enrol($course1, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course1, 'student');
 
         // Make course download available on site (course context).
         set_config('downloadcoursecontentallowed', true);

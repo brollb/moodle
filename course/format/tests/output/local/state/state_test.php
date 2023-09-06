@@ -58,7 +58,7 @@ class state_test extends \advanced_testcase {
             set_section_visible($course->id, $section, 0);
         }
 
-        // Create and enrol user.
+        // Create and enroll user.
         $this->setAdminUser();
 
         // Add some activities to the course.

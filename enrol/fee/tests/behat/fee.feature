@@ -1,5 +1,5 @@
-@enrol @enrol_fee
-Feature: Signing up for a course with a fee enrolment method
+@enroll @enrol_fee
+Feature: Signing up for a course with a fee enrollment method
 
   Background:
     Given the following "users" exist:
@@ -18,11 +18,11 @@ Feature: Signing up for a course with a fee enrolment method
       | name           | gateways |
       | Account1       | paypal   |
     And I log in as "admin"
-    And I navigate to "Plugins > Enrolments > Manage enrol plugins" in site administration
+    And I navigate to "Plugins > Enrolments > Manage enroll plugins" in site administration
     And I click on "Enable" "link" in the "Enrolment on payment" "table_row"
     And I log out
     And I log in as "manager1"
-    And I am on the "Course 1" "enrolment methods" page
+    And I am on the "Course 1" "enrollment methods" page
     And I select "Enrolment on payment" from the "Add method" singleselect
     And I set the following fields to these values:
       | Payment account | Account1 |
@@ -32,7 +32,7 @@ Feature: Signing up for a course with a fee enrolment method
     And I log out
 
   @javascript
-  Scenario: Student can see the payment prompt on the course enrolment page
+  Scenario: Student can see the payment prompt on the course enrollment page
     When I log in as "student1"
     And I am on course index
     And I follow "Course 1"
@@ -42,7 +42,7 @@ Feature: Signing up for a course with a fee enrolment method
     And I should see "PayPal" in the "Select payment type" "dialogue"
     And I click on "Cancel" "button" in the "Select payment type" "dialogue"
 
-  Scenario: Guest can see the login prompt on the course enrolment page
+  Scenario: Guest can see the login prompt on the course enrollment page
     When I log in as "guest"
     And I am on course index
     And I follow "Course 1"

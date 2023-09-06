@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Manual enrolment plugin settings and presets.
+ * Manual enrollment plugin settings and presets.
  *
  * @package    enrol_manual
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -32,10 +32,10 @@ if ($ADMIN->fulltree) {
     // Note: let's reuse the ext sync constants and strings here, internally it is very similar,
     //       it describes what should happend when users are not supposed to be enerolled any more.
     $options = array(
-        ENROL_EXT_REMOVED_KEEP           => get_string('extremovedkeep', 'enrol'),
-        ENROL_EXT_REMOVED_SUSPEND        => get_string('extremovedsuspend', 'enrol'),
-        ENROL_EXT_REMOVED_SUSPENDNOROLES => get_string('extremovedsuspendnoroles', 'enrol'),
-        ENROL_EXT_REMOVED_UNENROL        => get_string('extremovedunenrol', 'enrol'),
+        ENROL_EXT_REMOVED_KEEP           => get_string('extremovedkeep', 'enroll'),
+        ENROL_EXT_REMOVED_SUSPEND        => get_string('extremovedsuspend', 'enroll'),
+        ENROL_EXT_REMOVED_SUSPENDNOROLES => get_string('extremovedsuspendnoroles', 'enroll'),
+        ENROL_EXT_REMOVED_UNENROL        => get_string('extremovedunenroll', 'enroll'),
     );
     $settings->add(new admin_setting_configselect('enrol_manual/expiredaction', get_string('expiredaction', 'enrol_manual'), get_string('expiredaction_help', 'enrol_manual'), ENROL_EXT_REMOVED_KEEP, $options));
 
@@ -43,15 +43,15 @@ if ($ADMIN->fulltree) {
     for ($i=0; $i<24; $i++) {
         $options[$i] = $i;
     }
-    $settings->add(new admin_setting_configselect('enrol_manual/expirynotifyhour', get_string('expirynotifyhour', 'core_enrol'), '', 6, $options));
+    $settings->add(new admin_setting_configselect('enrol_manual/expirynotifyhour', get_string('expirynotifyhour', 'core_enroll'), '', 6, $options));
 
 
-    //--- enrol instance defaults ----------------------------------------------------------------------------
+    //--- enroll instance defaults ----------------------------------------------------------------------------
     $settings->add(new admin_setting_heading('enrol_manual_defaults',
         get_string('enrolinstancedefaults', 'admin'), get_string('enrolinstancedefaults_desc', 'admin')));
 
-    $settings->add(new admin_setting_configcheckbox('enrol_manual/defaultenrol',
-        get_string('defaultenrol', 'enrol'), get_string('defaultenrol_desc', 'enrol'), 1));
+    $settings->add(new admin_setting_configcheckbox('enrol_manual/defaultenroll',
+        get_string('defaultenroll', 'enroll'), get_string('defaultenrol_desc', 'enroll'), 1));
 
     $options = array(ENROL_INSTANCE_ENABLED  => get_string('yes'),
                      ENROL_INSTANCE_DISABLED => get_string('no'));
@@ -74,11 +74,11 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configduration('enrol_manual/enrolperiod',
         get_string('defaultperiod', 'enrol_manual'), get_string('defaultperiod_desc', 'enrol_manual'), 0));
 
-    $options = array(0 => get_string('no'), 1 => get_string('expirynotifyenroller', 'core_enrol'), 2 => get_string('expirynotifyall', 'core_enrol'));
+    $options = array(0 => get_string('no'), 1 => get_string('expirynotifyenroller', 'core_enroll'), 2 => get_string('expirynotifyall', 'core_enroll'));
     $settings->add(new admin_setting_configselect('enrol_manual/expirynotify',
-        get_string('expirynotify', 'core_enrol'), get_string('expirynotify_help', 'core_enrol'), 0, $options));
+        get_string('expirynotify', 'core_enroll'), get_string('expirynotify_help', 'core_enroll'), 0, $options));
 
     $settings->add(new admin_setting_configduration('enrol_manual/expirythreshold',
-        get_string('expirythreshold', 'core_enrol'), get_string('expirythreshold_help', 'core_enrol'), 86400, 86400));
+        get_string('expirythreshold', 'core_enroll'), get_string('expirythreshold_help', 'core_enroll'), 86400, 86400));
 
 }

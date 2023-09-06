@@ -11,14 +11,14 @@ Feature: Show capabilities for multiple contexts
       | Course 2 | C2        | 0        |
     And the following "permission overrides" exist:
       | capability                    | permission | role       | contextlevel | reference |
-      | enrol/category:config         | Allow      | student    | Course       | C1        |
-      | enrol/cohort:unenrol          | Allow      | student    | Course       | C2        |
+      | enroll/category:config         | Allow      | student    | Course       | C1        |
+      | enroll/cohort:unenroll          | Allow      | student    | Course       | C2        |
     And I log in as "admin"
     And I navigate to "Users > Permissions > Capability overview" in site administration
 
   Scenario: Show capabilities table with one capability with overrides
     When I set the following fields to these values:
-      | Capability: | enrol/category:config |
+      | Capability: | enroll/category:config |
       | Roles:      | Student               |
     And I click on "Get the overview" "button"
     Then I should see "Permissions in System"
@@ -28,7 +28,7 @@ Feature: Show capabilities for multiple contexts
 
   Scenario: Show capabilities table with one capability without overrides
     When I set the following fields to these values:
-      | Capability: | enrol/cohort:config |
+      | Capability: | enroll/cohort:config |
       | Roles:      | Student               |
     And I click on "Get the overview" "button"
     Then I should see "Permissions in System"
@@ -38,7 +38,7 @@ Feature: Show capabilities for multiple contexts
 
   Scenario: Show capabilities table with two capabilities, 1st without overrides and 2nd with
     When I set the following fields to these values:
-      | Capability: | enrol/category:synchronised, enrol/category:config |
+      | Capability: | enroll/category:synchronised, enroll/category:config |
       | Roles:      | Student                                            |
     And I click on "Get the overview" "button"
     Then I should see "Permissions in System"
@@ -48,7 +48,7 @@ Feature: Show capabilities for multiple contexts
 
   Scenario: Show capabilities table with two capabilities, 1st with overrides and 2nd without
     When I set the following fields to these values:
-      | Capability: | enrol/category:config, enrol/cohort:config |
+      | Capability: | enroll/category:config, enroll/cohort:config |
       | Roles:      | Student                                    |
     And I click on "Get the overview" "button"
     Then I should see "Permissions in System"
@@ -58,7 +58,7 @@ Feature: Show capabilities for multiple contexts
 
   Scenario: Show capabilities table with two capabilities, none with overrides
     When I set the following fields to these values:
-      | Capability: | enrol/category:synchronised, enrol/cohort:config |
+      | Capability: | enroll/category:synchronised, enroll/cohort:config |
       | Roles:      | Student                                          |
     And I click on "Get the overview" "button"
     Then I should see "Permissions in System"
@@ -68,7 +68,7 @@ Feature: Show capabilities for multiple contexts
 
   Scenario: Show capabilities table with capability with override and no role selected
     When I set the following fields to these values:
-      | Capability: | enrol/category:config |
+      | Capability: | enroll/category:config |
       | Roles:      |                       |
     And I click on "Get the overview" "button"
     Then I should see "Permissions in System"
@@ -78,7 +78,7 @@ Feature: Show capabilities for multiple contexts
 
   Scenario: Show capabilities table with capability without override and no role selected
     When I set the following fields to these values:
-      | Capability: | enrol/cohort:config |
+      | Capability: | enroll/cohort:config |
       | Roles:      |                     |
     And I click on "Get the overview" "button"
     Then I should see "Permissions in System"
@@ -88,7 +88,7 @@ Feature: Show capabilities for multiple contexts
 
   Scenario: Show capabilities table with capability with two overrides on different contexts
     When I set the following fields to these values:
-      | Capability: | enrol/category:config, enrol/cohort:unenrol |
+      | Capability: | enroll/category:config, enroll/cohort:unenroll |
       | Roles:      |                                           |
     And I click on "Get the overview" "button"
     Then I should see "Permissions in System"
@@ -98,7 +98,7 @@ Feature: Show capabilities for multiple contexts
 
   Scenario: Show capabilities table with capability with override and only diff
     When I set the following fields to these values:
-      | Capability: | enrol/category:config |
+      | Capability: | enroll/category:config |
       | Roles:      | Student, Teacher      |
     And I set the field "Show differences only" to "1"
     And I click on "Get the overview" "button"
@@ -110,7 +110,7 @@ Feature: Show capabilities for multiple contexts
 
   Scenario: Show capabilities table with capability without override and only diff and same capability
     When I set the following fields to these values:
-      | Capability: | enrol/category:synchronised |
+      | Capability: | enroll/category:synchronised |
       | Roles:      | Student, Teacher            |
     And I set the field "Show differences only" to "1"
     And I click on "Get the overview" "button"
@@ -122,7 +122,7 @@ Feature: Show capabilities for multiple contexts
 
   Scenario: Show capabilities table with two capabilities only one override and only diff checked
     When I set the following fields to these values:
-      | Capability: | enrol/category:config, enrol/cohort:config |
+      | Capability: | enroll/category:config, enroll/cohort:config |
       | Roles:      | Student, Teacher                           |
     And I set the field "Show differences only" to "1"
     And I click on "Get the overview" "button"

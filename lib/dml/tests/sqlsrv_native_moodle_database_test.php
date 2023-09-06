@@ -218,7 +218,7 @@ EOT
                 'sql' => <<<EOT
   SELECT c.fullname, COUNT(ue.id) AS Enroled
     FROM prefix_course AS c
-    JOIN prefix_enrol AS en ON en.courseid = c.id
+    JOIN prefix_enroll AS en ON en.courseid = c.id
     JOIN prefix_user_enrolments AS ue ON ue.enrolid = en.id
 GROUP BY c.id
 ORDER BY c.fullname
@@ -227,7 +227,7 @@ EOT
                 'expectedmainquery' => <<<EOT
   SELECT c.fullname, COUNT() AS Enroled
     FROM prefix_course AS c
-    JOIN prefix_enrol AS en ON en.courseid = c.id
+    JOIN prefix_enroll AS en ON en.courseid = c.id
     JOIN prefix_user_enrolments AS ue ON ue.enrolid = en.id
 GROUP BY c.id
 ORDER BY c.fullname

@@ -1,4 +1,4 @@
-@enrol @enrol_manual
+@enroll @enrol_manual
 Feature: A teacher can manage manually enrolled users in their course
   In order to manage manually enrolled students in my course
   As a teacher
@@ -27,7 +27,7 @@ Feature: A teacher can manage manually enrolled users in their course
     And the following "permission overrides" exist:
       | capability                | permission   | role           | contextlevel | reference |
       | moodle/site:viewfullnames | <permission> | editingteacher | Course       | C1        |
-    When I am on the "Course 1" "enrolment methods" page logged in as "teacher"
+    When I am on the "Course 1" "enrollment methods" page logged in as "teacher"
     And I click on "Enrol users" "link" in the "Manual enrolments" "table_row"
     And I set the field "addselect_searchtext" to "First"
     And I wait "1" seconds
@@ -50,7 +50,7 @@ Feature: A teacher can manage manually enrolled users in their course
       | user  | course | role    |
       | user1 | C1     | student |
       | user2 | C1     | student |
-    When I am on the "Course 1" "enrolment methods" page logged in as "teacher"
+    When I am on the "Course 1" "enrollment methods" page logged in as "teacher"
     And I click on "Enrol users" "link" in the "Manual enrolments" "table_row"
     And I set the field "removeselect_searchtext" to "First"
     And I wait "1" seconds
@@ -63,10 +63,10 @@ Feature: A teacher can manage manually enrolled users in their course
       | Prohibit   | First User       |
 
   @javascript
-  Scenario: Manually enrol users in course using custom user profile fields
+  Scenario: Manually enroll users in course using custom user profile fields
     Given the following config values are set as admin:
       | showuseridentity | email,profile_field_fruit |
-    When I am on the "Course 1" "enrolment methods" page logged in as "teacher"
+    When I am on the "Course 1" "enrollment methods" page logged in as "teacher"
     And I click on "Enrol users" "link" in the "Manual enrolments" "table_row"
     Then the "Not enrolled users" select box should contain "Second User (second@example.com\, Banana)"
     And I set the field "addselect_searchtext" to "Apple"
@@ -77,14 +77,14 @@ Feature: A teacher can manage manually enrolled users in their course
     And the "Enrolled users" select box should contain "First User (first@example.com\, Apple)"
 
   @javascript
-  Scenario: Manually unenrol users in course using custom user profile fields
+  Scenario: Manually unenroll users in course using custom user profile fields
     Given the following config values are set as admin:
       | showuseridentity | email,profile_field_fruit |
     And the following "course enrolments" exist:
       | user  | course | role    |
       | user1 | C1     | student |
       | user2 | C1     | student |
-    When I am on the "Course 1" "enrolment methods" page logged in as "teacher"
+    When I am on the "Course 1" "enrollment methods" page logged in as "teacher"
     And I click on "Enrol users" "link" in the "Manual enrolments" "table_row"
     Then the "Enrolled users" select box should contain "Second User (second@example.com\, Banana)"
     And I set the field "removeselect_searchtext" to "Apple"

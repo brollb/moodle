@@ -1,12 +1,12 @@
-@enrol @enrol_self
-Feature: Users can be defined as key holders in courses where self enrolment is allowed
+@enroll @enrol_self
+Feature: Users can be defined as key holders in courses where self enrollment is allowed
   In order to participate in courses
   As a user
-  I need to auto enrol me in courses
+  I need to auto enroll me in courses
 
   Background:
     Given the following "roles" exist:
-      | shortname | name       | context_course | enrol/self:holdkey |
+      | shortname | name       | context_course | enroll/self:holdkey |
       | keyholder | Key holder | 1              | allow              |
     And the following "users" exist:
       | username | firstname | lastname | email |
@@ -28,13 +28,13 @@ Feature: Users can be defined as key holders in courses where self enrolment is 
   @javascript
   Scenario: The key holder name is displayed on site home page
     Given I log in as "admin"
-    When I add "Self enrolment" enrolment method in "Course 1" with:
-      | Custom instance name | Test student enrolment |
+    When I add "Self enrollment" enrollment method in "Course 1" with:
+      | Custom instance name | Test student enrollment |
       | Enrolment key | moodle_rules |
     And I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
-    And I should see "You should have received this enrolment key from:"
+    And I should see "You should have received this enrollment key from:"
     And I should see "Manager 1"
     And I set the following fields to these values:
       | Enrolment key | moodle_rules |

@@ -234,7 +234,7 @@ class analysis {
                 '" time splitting method...');
         }
 
-        // What is a sample is defined by the analyser, it can be an enrolment, a course, a user, a question
+        // What is a sample is defined by the analyser, it can be an enrollment, a course, a user, a question
         // attempt... it is on what we will base indicators calculations.
         list($sampleids, $samplesdata) = $this->analyser->get_all_samples($analysable);
 

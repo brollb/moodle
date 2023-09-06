@@ -136,11 +136,11 @@ class locallib_participants_test extends \advanced_testcase {
         $course = self::getDataGenerator()->create_course();
         $coursecontext = \context_course::instance($course->id);
         $assign = $this->create_instance($course);
-        self::getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student1 = self::getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = self::getDataGenerator()->create_and_enrol($course, 'student');
-        $cannotsubmit1 = self::getDataGenerator()->create_and_enrol($course, 'student');
-        $cannotsubmit2 = self::getDataGenerator()->create_and_enrol($course, 'student');
+        self::getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student1 = self::getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = self::getDataGenerator()->create_and_enroll($course, 'student');
+        $cannotsubmit1 = self::getDataGenerator()->create_and_enroll($course, 'student');
+        $cannotsubmit2 = self::getDataGenerator()->create_and_enroll($course, 'student');
         // Create submissions for some users.
         $this->add_submission($student1, $assign);
         $this->submit_for_grading($student1, $assign);

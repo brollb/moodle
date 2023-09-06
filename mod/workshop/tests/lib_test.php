@@ -98,7 +98,7 @@ class lib_test extends \advanced_testcase {
         $workshop = $this->getDataGenerator()->create_module('workshop', ['course' => $course->id,
             'submissionstart' => $now - DAYSECS, 'submissionend' => $now + DAYSECS]);
         $event = $this->create_action_event($course->id, $workshop->id, WORKSHOP_EVENT_TYPE_SUBMISSION_OPEN);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Now log out.
         $CFG->forcelogin = true; // We don't want to be logged in as guest, as guest users might still have some capabilities.
@@ -174,7 +174,7 @@ class lib_test extends \advanced_testcase {
         $workshop = $this->getDataGenerator()->create_module('workshop', array('course' => $course->id,
             'submissionend' => time() - DAYSECS));
         $event = $this->create_action_event($course->id, $workshop->id, WORKSHOP_EVENT_TYPE_SUBMISSION_OPEN);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Now log out.
         $CFG->forcelogin = true; // We don't want to be logged in as guest, as guest users might still have some capabilities.
@@ -250,7 +250,7 @@ class lib_test extends \advanced_testcase {
         $workshop = $this->getDataGenerator()->create_module('workshop', ['course' => $course->id,
             'submissionstart' => time() + DAYSECS]);
         $event = $this->create_action_event($course->id, $workshop->id, WORKSHOP_EVENT_TYPE_SUBMISSION_OPEN);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Now log out.
         $CFG->forcelogin = true; // We don't want to be logged in as guest, as guest users might still have some capabilities.
@@ -353,7 +353,7 @@ class lib_test extends \advanced_testcase {
             array('completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS));
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('workshop', $workshop->id);
@@ -411,7 +411,7 @@ class lib_test extends \advanced_testcase {
         $student = self::getDataGenerator()->create_user();
         $teacher = self::getDataGenerator()->create_user();
 
-        // User enrolment.
+        // User enrollment.
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $this->getDataGenerator()->enrol_user($student->id, $course->id, $studentrole->id, 'manual');
         $teacherrole = $DB->get_record('role', array('shortname' => 'editingteacher'));

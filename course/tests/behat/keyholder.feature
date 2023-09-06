@@ -1,6 +1,6 @@
 @core @core_course
 Feature: Keyholder role is listed as course contact
-  As a student I need to know who the keyholder is to enrol in a course
+  As a student I need to know who the keyholder is to enroll in a course
 
   Background:
     Given the following "role" exists:
@@ -8,7 +8,7 @@ Feature: Keyholder role is listed as course contact
         | name               | Keyholder |
         | context_coursecat  | 1         |
         | context_course     | 1         |
-        | enrol/self:holdkey | allow     |
+        | enroll/self:holdkey | allow     |
     And the following "categories" exist:
       | name | category | idnumber |
       | Cat 1 | 0 | CAT1 |
@@ -21,8 +21,8 @@ Feature: Keyholder role is listed as course contact
       | fullname | shortname | format | coursedisplay | numsections | category |
       | Course 1 | C1        | topics | 0             | 5           | CAT1     |
     And I log in as "admin"
-    And I add "Self enrolment" enrolment method in "Course 1" with:
-      | Custom instance name | Test student enrolment |
+    And I add "Self enrollment" enrollment method in "Course 1" with:
+      | Custom instance name | Test student enrollment |
       | Enrolment key | letmein |
     And I navigate to "Appearance > Courses" in site administration
     And I set the following fields to these values:

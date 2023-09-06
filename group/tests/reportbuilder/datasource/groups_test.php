@@ -45,8 +45,8 @@ class groups_test extends core_reportbuilder_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $userone = $this->getDataGenerator()->create_and_enrol($course, 'student', ['firstname' => 'Zoe']);
-        $usertwo = $this->getDataGenerator()->create_and_enrol($course, 'student', ['firstname' => 'Amy']);
+        $userone = $this->getDataGenerator()->create_and_enroll($course, 'student', ['firstname' => 'Zoe']);
+        $usertwo = $this->getDataGenerator()->create_and_enroll($course, 'student', ['firstname' => 'Amy']);
 
         $groupone = $this->getDataGenerator()->create_group(['courseid' => $course->id, 'name' => 'Zebras']);
         $grouptwo = $this->getDataGenerator()->create_group(['courseid' => $course->id, 'name' => 'Aardvarks']);
@@ -118,7 +118,7 @@ class groups_test extends core_reportbuilder_testcase {
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         /** @var core_customfield_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('core_customfield');
@@ -349,7 +349,7 @@ class groups_test extends core_reportbuilder_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course(['fullname' => 'Test course']);
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student', ['username' => 'testuser']);
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student', ['username' => 'testuser']);
 
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id, 'idnumber' => 'G101', 'name' => 'Test group']);
         $this->getDataGenerator()->create_group_member(['userid' => $user->id, 'groupid' => $group->id]);
@@ -390,7 +390,7 @@ class groups_test extends core_reportbuilder_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course(['fullname' => 'Test course']);
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student', ['username' => 'testuser']);
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student', ['username' => 'testuser']);
 
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id, 'idnumber' => 'G101', 'name' => 'Test group']);
         $this->getDataGenerator()->create_group_member(['userid' => $user->id, 'groupid' => $group->id]);

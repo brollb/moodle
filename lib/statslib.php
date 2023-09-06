@@ -267,7 +267,7 @@ function stats_cron_daily($maxdays=1) {
         // at given times in history :-(
         // - stat1: enrolled users
         // - stat2: enrolled users active in this period
-        // - SITEID is special case here, because it's all about default enrolment
+        // - SITEID is special case here, because it's all about default enrollment
         //   in that case, we'll count non-deleted users.
         //
 
@@ -1301,7 +1301,7 @@ function stats_get_view_actions() {
 }
 
 function stats_get_post_actions() {
-    return array('add','delete','edit','add mod','delete mod','edit section'.'enrol','loginas','new','unenrol','update','update mod');
+    return array('add','delete','edit','add mod','delete mod','edit section'.'enroll','loginas','new','unenroll','update','update mod');
 }
 
 function stats_get_action_names($str) {
@@ -1707,7 +1707,7 @@ function stats_temp_table_setup() {
                SELECT ue.userid, e.courseid, ra.roleid
                 FROM {role_assignments} ra
                 JOIN {context} c ON (c.id = ra.contextid AND c.contextlevel = :courselevel)
-                JOIN {enrol} e ON e.courseid = c.instanceid
+                JOIN {enroll} e ON e.courseid = c.instanceid
                 JOIN {user_enrolments} ue ON (ue.enrolid = e.id AND ue.userid = ra.userid)";
 
     return stats_run_query($sql, array('courselevel' => CONTEXT_COURSE));

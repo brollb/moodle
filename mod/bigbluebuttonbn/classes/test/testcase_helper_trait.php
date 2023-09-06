@@ -241,7 +241,7 @@ trait testcase_helper_trait {
         $this->course = $this->getDataGenerator()->create_course($coursedata);
 
         foreach ($users as $userdata) {
-            $this->getDataGenerator()->create_and_enrol($this->course, $userdata['role'], ['username' => $userdata['username']]);
+            $this->getDataGenerator()->create_and_enroll($this->course, $userdata['role'], ['username' => $userdata['username']]);
         }
 
         if ($groups) {

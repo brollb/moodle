@@ -471,7 +471,7 @@ class auth_plugin_mnet extends auth_plugin_base {
 
 
     /**
-     * Invoke this function _on_ the IDP to update it with enrolment info local to
+     * Invoke this function _on_ the IDP to update it with enrollment info local to
      * the SP right after calling user_authorise()
      *
      * Normally called by the SP after calling user_authorise()
@@ -526,9 +526,9 @@ class auth_plugin_mnet extends auth_plugin_base {
             $userisregd         = false;
 
             // if we do not have the the information about the remote course, it is not available
-            // to us for remote enrolment - skip
+            // to us for remote enrollment - skip
             if (array_key_exists($course['remoteid'], $currentcourses)) {
-                // We are going to keep this enrolment, it will be updated or inserted, but will keep it.
+                // We are going to keep this enrollment, it will be updated or inserted, but will keep it.
                 $keepenrolments[] = $course['id'];
 
                 // Pointer to current course:
@@ -537,7 +537,7 @@ class auth_plugin_mnet extends auth_plugin_base {
                 $saveflag = false;
 
                 foreach($course as $key => $value) {
-                    // Only compare what is available locally, data coming from enrolment tables have
+                    // Only compare what is available locally, data coming from enrollment tables have
                     // way more information that tables used to keep the track of mnet enrolments.
                     if (!property_exists($currentcourse, $key)) {
                         continue;
@@ -572,13 +572,13 @@ class auth_plugin_mnet extends auth_plugin_base {
                 // 'less complete' than the data we have.
             } else {
                 // No - create a record
-                $newenrol = new stdClass();
-                $newenrol->userid    = $userid;
-                $newenrol->hostid    = (int)$remoteclient->id;
-                $newenrol->remotecourseid = $course['remoteid'];
-                $newenrol->rolename  = $course['defaultrolename'];
-                $newenrol->enroltype = 'mnet';
-                $newenrol->id = $DB->insert_record('mnetservice_enrol_enrolments', $newenrol);
+                $newenroll = new stdClass();
+                $newenroll->userid    = $userid;
+                $newenroll->hostid    = (int)$remoteclient->id;
+                $newenroll->remotecourseid = $course['remoteid'];
+                $newenroll->rolename  = $course['defaultrolename'];
+                $newenroll->enroltype = 'mnet';
+                $newenroll->id = $DB->insert_record('mnetservice_enrol_enrolments', $newenroll);
             }
         }
 

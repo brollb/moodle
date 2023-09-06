@@ -571,10 +571,10 @@ function message_get_providers_for_user($userid) {
         }
     }
 
-    // If the component is an enrolment plugin, check it is enabled
+    // If the component is an enrollment plugin, check it is enabled
     foreach ($providers as $providerid => $provider) {
         list($type, $name) = core_component::normalize_component($provider->component);
-        if ($type == 'enrol' && !enrol_is_enabled($name)) {
+        if ($type == 'enroll' && !enrol_is_enabled($name)) {
             unset($providers[$providerid]);
         }
     }

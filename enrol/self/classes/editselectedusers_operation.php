@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A bulk operation for the manual enrolment plugin to edit selected users.
+ * A bulk operation for the manual enrollment plugin to edit selected users.
  *
  * @package enrol_self
  * @copyright 2018 Farhan Karmali
@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * A bulk operation for the manual enrolment plugin to edit selected users.
+ * A bulk operation for the manual enrollment plugin to edit selected users.
  *
  * @package enrol_self
  * @copyright 2018 Farhan Karmali
@@ -60,18 +60,18 @@ class enrol_self_editselectedusers_operation extends enrol_bulk_enrolment_operat
     public function process(course_enrolment_manager $manager, array $users, stdClass $properties) {
         global $DB, $USER;
 
-        if (!has_capability("enrol/self:manage", $manager->get_context())) {
+        if (!has_capability("enroll/self:manage", $manager->get_context())) {
             return false;
         }
 
-        // Get all of the user enrolment id's.
+        // Get all of the user enrollment id's.
         $ueids = array();
         $instances = array();
         foreach ($users as $user) {
-            foreach ($user->enrolments as $enrolment) {
-                $ueids[] = $enrolment->id;
-                if (!array_key_exists($enrolment->id, $instances)) {
-                    $instances[$enrolment->id] = $enrolment;
+            foreach ($user->enrolments as $enrollment) {
+                $ueids[] = $enrollment->id;
+                if (!array_key_exists($enrollment->id, $instances)) {
+                    $instances[$enrollment->id] = $enrollment;
                 }
             }
         }
@@ -123,17 +123,17 @@ class enrol_self_editselectedusers_operation extends enrol_bulk_enrolment_operat
 
         if ($DB->execute($sql, $params)) {
             foreach ($users as $user) {
-                foreach ($user->enrolments as $enrolment) {
-                    $enrolment->courseid  = $enrolment->enrolmentinstance->courseid;
-                    $enrolment->enrol     = 'self';
+                foreach ($user->enrolments as $enrollment) {
+                    $enrollment->courseid  = $enrollment->enrolmentinstance->courseid;
+                    $enrollment->enroll     = 'self';
                     // Trigger event.
                     $event = \core\event\user_enrolment_updated::create(
                         array(
-                            'objectid' => $enrolment->id,
-                            'courseid' => $enrolment->courseid,
-                            'context' => context_course::instance($enrolment->courseid),
+                            'objectid' => $enrollment->id,
+                            'courseid' => $enrollment->courseid,
+                            'context' => context_course::instance($enrollment->courseid),
                             'relateduserid' => $user->id,
-                            'other' => array('enrol' => 'self')
+                            'other' => array('enroll' => 'self')
                         )
                     );
                     $event->trigger();

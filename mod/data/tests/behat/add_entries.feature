@@ -107,7 +107,7 @@ Feature: Users can add entries to database activities
 
   @javascript
   Scenario: Guest user cannot add entries to a database
-    Given I am on the "Course 1" "enrolment methods" page logged in as teacher1
+    Given I am on the "Course 1" "enrollment methods" page logged in as teacher1
     And I click on "Enable" "link" in the "Guest access" "table_row"
     And I am on "Course 1" course homepage
     And I add a "Text area" field to "Test database name" database and I fill the form with:

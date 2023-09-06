@@ -71,9 +71,9 @@ class get_results_test extends externallib_advanced_testcase {
 
         // Prepare users: 1 teacher, 1 student and 1 unenroled user.
         $users = [
-            'editingteacher' => $this->getDataGenerator()->create_and_enrol($course, 'editingteacher'),
-            'student' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
-            'other' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
+            'editingteacher' => $this->getDataGenerator()->create_and_enroll($course, 'editingteacher'),
+            'student' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
+            'other' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
         ];
 
         $attempts = [];
@@ -205,9 +205,9 @@ class get_results_test extends externallib_advanced_testcase {
 
         // Prepare users: 1 teacher, 2 student.
         $users = [
-            'editingteacher' => $this->getDataGenerator()->create_and_enrol($course, 'editingteacher'),
-            'student1' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
-            'student2' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
+            'editingteacher' => $this->getDataGenerator()->create_and_enroll($course, 'editingteacher'),
+            'student1' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
+            'student2' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
         ];
 
         $attempts = [];
@@ -326,7 +326,7 @@ class get_results_test extends externallib_advanced_testcase {
         $course2 = $this->getDataGenerator()->create_course();
 
         // Prepare users: 1 teacher, 1 student.
-        $user = $this->getDataGenerator()->create_and_enrol($course1, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course1, 'student');
         $this->getDataGenerator()->enrol_user($user->id, $course2->id, 'student');
 
         // Create our base activity.

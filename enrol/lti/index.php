@@ -25,7 +25,7 @@
 use enrol_lti\local\ltiadvantage\table\published_resources_table;
 
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->dirroot.'/enrol/lti/lib.php');
+require_once($CFG->dirroot.'/enroll/lti/lib.php');
 
 $courseid = required_param('courseid', PARAM_INT);
 $action = optional_param('action', '', PARAM_ALPHA);
@@ -33,7 +33,7 @@ $legacy = optional_param('legacy', false, PARAM_BOOL);
 if ($action) {
     require_sesskey();
     $instanceid = required_param('instanceid', PARAM_INT);
-    $instance = $DB->get_record('enrol', array('id' => $instanceid), '*', MUST_EXIST);
+    $instance = $DB->get_record('enroll', array('id' => $instanceid), '*', MUST_EXIST);
 }
 $confirm = optional_param('confirm', 0, PARAM_INT);
 
@@ -46,7 +46,7 @@ require_capability('moodle/course:enrolreview', $context);
 
 $ltiplugin = enrol_get_plugin('lti');
 $canconfig = has_capability('moodle/course:enrolconfig', $context);
-$pageurl = new moodle_url('/enrol/lti/index.php', array('courseid' => $courseid, 'legacy' => $legacy));
+$pageurl = new moodle_url('/enroll/lti/index.php', array('courseid' => $courseid, 'legacy' => $legacy));
 
 $PAGE->set_url($pageurl);
 $PAGE->set_title(get_string('course') . ': ' . $course->fullname);
@@ -61,7 +61,7 @@ if ($action) {
                 redirect($PAGE->url);
             }
 
-            $yesurl = new moodle_url('/enrol/lti/index.php',
+            $yesurl = new moodle_url('/enroll/lti/index.php',
                 array('courseid' => $course->id,
                     'action' => 'delete',
                     'instanceid' => $instance->id,
@@ -71,11 +71,11 @@ if ($action) {
             $displayname = $ltiplugin->get_instance_name($instance);
             $users = $DB->count_records('user_enrolments', array('enrolid' => $instance->id));
             if ($users) {
-                $message = markdown_to_html(get_string('deleteinstanceconfirm', 'enrol',
+                $message = markdown_to_html(get_string('deleteinstanceconfirm', 'enroll',
                     array('name' => $displayname,
                           'users' => $users)));
             } else {
-                $message = markdown_to_html(get_string('deleteinstancenousersconfirm', 'enrol',
+                $message = markdown_to_html(get_string('deleteinstancenousersconfirm', 'enroll',
                     array('name' => $displayname)));
             }
             echo $OUTPUT->header();
@@ -108,15 +108,15 @@ if ($legacy) {
     echo $OUTPUT->heading(get_string('publishedcontent', 'enrol_lti'));
     echo html_writer::tag('p', get_string('publishedcontent_help', 'enrol_lti'));
 }
-echo html_writer::tag('p', $OUTPUT->doc_link('enrol/lti/index', get_string('morehelp')), ['class' => 'helplink']);
+echo html_writer::tag('p', $OUTPUT->doc_link('enroll/lti/index', get_string('morehelp')), ['class' => 'helplink']);
 
 
 // Distinguish between legacy published tools and LTI-Advantage published resources.
 $tabs = [
     0 => [
-        new tabobject('0', new moodle_url('/enrol/lti/index.php', ['courseid' => $courseid]),
+        new tabobject('0', new moodle_url('/enroll/lti/index.php', ['courseid' => $courseid]),
             get_string('lti13', 'enrol_lti')),
-        new tabobject('1', new moodle_url('/enrol/lti/index.php', ['legacy' => 1, 'courseid' => $courseid]),
+        new tabobject('1', new moodle_url('/enroll/lti/index.php', ['legacy' => 1, 'courseid' => $courseid]),
              get_string('ltilegacy', 'enrol_lti')),
     ]
 ];
@@ -151,12 +151,12 @@ if ($legacy) {
 }
 
 if ($ltiplugin->can_add_instance($course->id)) {
-    echo $OUTPUT->single_button(new moodle_url('/enrol/editinstance.php',
+    echo $OUTPUT->single_button(new moodle_url('/enroll/editinstance.php',
         array(
             'legacy' => $legacy,
             'type' => 'lti',
             'courseid' => $course->id,
-            'returnurl' => new moodle_url('/enrol/lti/index.php', ['courseid' => $course->id, 'legacy' => $legacy]))
+            'returnurl' => new moodle_url('/enroll/lti/index.php', ['courseid' => $course->id, 'legacy' => $legacy]))
         ),
         get_string('add'));
 }

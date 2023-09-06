@@ -167,7 +167,7 @@ class contentbank_test extends advanced_testcase {
         $cb = new contentbank();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $this->setUser($teacher);
         $coursecontext = context_course::instance($course->id);
 

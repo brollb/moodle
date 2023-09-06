@@ -25,10 +25,10 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
-require_once($CFG->dirroot . '/enrol/self/externallib.php');
+require_once($CFG->dirroot . '/enroll/self/externallib.php');
 
 /**
- * Self enrol external PHPunit tests
+ * Self enroll external PHPunit tests
  *
  * @package   enrol_self
  * @copyright 2013 Rajesh Taneja <rajesh@moodle.com>
@@ -45,7 +45,7 @@ class externallib_test extends externallib_advanced_testcase {
 
         $this->resetAfterTest(true);
 
-        // Check if self enrolment plugin is enabled.
+        // Check if self enrollment plugin is enabled.
         $selfplugin = enrol_get_plugin('self');
         $this->assertNotEmpty($selfplugin);
 
@@ -56,7 +56,7 @@ class externallib_test extends externallib_advanced_testcase {
         $coursedata->visible = 0;
         $course = self::getDataGenerator()->create_course($coursedata);
 
-        // Add enrolment methods for course.
+        // Add enrollment methods for course.
         $instanceid1 = $selfplugin->add_instance($course, array('status' => ENROL_INSTANCE_ENABLED,
                                                                 'name' => 'Test instance 1',
                                                                 'customint6' => 1,
@@ -72,7 +72,7 @@ class externallib_test extends externallib_advanced_testcase {
                                                                 'name' => 'Test instance 3',
                                                                 'password' => 'test'));
 
-        $enrolmentmethods = $DB->get_records('enrol', array('courseid' => $course->id, 'status' => ENROL_INSTANCE_ENABLED));
+        $enrolmentmethods = $DB->get_records('enroll', array('courseid' => $course->id, 'status' => ENROL_INSTANCE_ENABLED));
         $this->assertCount(3, $enrolmentmethods);
 
         $this->setAdminUser();
@@ -92,7 +92,7 @@ class externallib_test extends externallib_advanced_testcase {
         $this->assertEquals($course->id, $instanceinfo2['courseid']);
         $this->assertEquals('self', $instanceinfo2['type']);
         $this->assertEquals('Test instance 2', $instanceinfo2['name']);
-        $this->assertEquals(get_string('canntenrol', 'enrol_self'), $instanceinfo2['status']);
+        $this->assertEquals(get_string('canntenroll', 'enrol_self'), $instanceinfo2['status']);
         $this->assertFalse(isset($instanceinfo2['enrolpassword']));
 
         $instanceinfo3 = enrol_self_external::get_instance_info($instanceid3);
@@ -145,12 +145,12 @@ class externallib_test extends externallib_advanced_testcase {
                                                                 'customint6' => 1,
                                                                 'name' => 'Test instance 2',
                                                                 'roleid' => $studentrole->id));
-        $instance1 = $DB->get_record('enrol', array('id' => $instance1id), '*', MUST_EXIST);
-        $instance2 = $DB->get_record('enrol', array('id' => $instance2id), '*', MUST_EXIST);
+        $instance1 = $DB->get_record('enroll', array('id' => $instance1id), '*', MUST_EXIST);
+        $instance2 = $DB->get_record('enroll', array('id' => $instance2id), '*', MUST_EXIST);
 
         self::setUser($user1);
 
-        // Self enrol me.
+        // Self enroll me.
         $result = enrol_self_external::enrol_user($course1->id);
         $result = external_api::clean_returnvalue(enrol_self_external::enrol_user_returns(), $result);
 
@@ -160,13 +160,13 @@ class externallib_test extends externallib_advanced_testcase {
 
         // Add password.
         $instance2->password = 'abcdef';
-        $DB->update_record('enrol', $instance2);
+        $DB->update_record('enroll', $instance2);
 
         // Try instance not enabled.
         try {
             enrol_self_external::enrol_user($course2->id);
         } catch (\moodle_exception $e) {
-            self::assertEquals('canntenrol', $e->errorcode);
+            self::assertEquals('canntenroll', $e->errorcode);
         }
 
         // Enable the instance.
@@ -205,7 +205,7 @@ class externallib_test extends externallib_advanced_testcase {
         // Try group password now, other user.
         $instance2->customint1 = 1;
         $instance2->password = 'zyx';
-        $DB->update_record('enrol', $instance2);
+        $DB->update_record('enroll', $instance2);
 
         $group1 = $this->getDataGenerator()->create_group(array('courseid' => $course2->id));
         $group2 = $this->getDataGenerator()->create_group(array('courseid' => $course2->id, 'enrolmentkey' => 'zyx'));
@@ -231,9 +231,9 @@ class externallib_test extends externallib_advanced_testcase {
                                                                 'customint6' => 1,
                                                                 'name' => 'Test instance 2',
                                                                 'roleid' => $studentrole->id));
-        $instance3 = $DB->get_record('enrol', array('id' => $instance3id), '*', MUST_EXIST);
+        $instance3 = $DB->get_record('enroll', array('id' => $instance3id), '*', MUST_EXIST);
         $instance3->password = 'abcdef';
-        $DB->update_record('enrol', $instance3);
+        $DB->update_record('enroll', $instance3);
 
         self::setUser($user3);
         $result = enrol_self_external::enrol_user($course2->id, 'invalidkey');

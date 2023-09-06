@@ -73,7 +73,7 @@ class participants_filter extends \core\output\datafilter {
     }
 
     /**
-     * Get data for the enrolment status filter.
+     * Get data for the enrollment status filter.
      *
      * @return stdClass|null
      */
@@ -84,7 +84,7 @@ class participants_filter extends \core\output\datafilter {
 
         return $this->get_filter_object(
             'status',
-            get_string('participationstatus', 'core_enrol'),
+            get_string('participationstatus', 'core_enroll'),
             false,
             true,
             null,
@@ -141,7 +141,7 @@ class participants_filter extends \core\output\datafilter {
         }
 
         if ($this->course->id == SITEID) {
-            // No enrolment methods for the site.
+            // No enrollment methods for the site.
             return null;
         }
 
@@ -150,18 +150,18 @@ class participants_filter extends \core\output\datafilter {
 
         return $this->get_filter_object(
             'enrolments',
-            get_string('enrolmentinstances', 'core_enrol'),
+            get_string('enrolmentinstances', 'core_enroll'),
             false,
             true,
             null,
             array_filter(array_map(function($instance) use ($plugins): ?stdClass {
-                if (!array_key_exists($instance->enrol, $plugins)) {
+                if (!array_key_exists($instance->enroll, $plugins)) {
                     return null;
                 }
 
                 return (object) [
                     'value' => $instance->id,
-                    'title' => $plugins[$instance->enrol]->get_instance_name($instance),
+                    'title' => $plugins[$instance->enroll]->get_instance_name($instance),
                 ];
             }, array_values($instances)))
         );

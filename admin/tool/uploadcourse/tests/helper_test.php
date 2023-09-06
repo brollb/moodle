@@ -293,7 +293,7 @@ class helper_test extends \advanced_testcase {
         ];
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'manager');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'manager');
         $this->setUser($user);
 
         $context = \context_course::instance($course->id);

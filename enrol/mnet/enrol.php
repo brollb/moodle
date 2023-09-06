@@ -17,7 +17,7 @@
 /**
  * Implements the XML-RPC methods this plugin publishes to MNet peers
  *
- * This file must be named enrol.php because current MNet framework has the
+ * This file must be named enroll.php because current MNet framework has the
  * filename hardcoded in XML-RPC path and we want to be compatible with
  * Moodle 1.x MNet clients. There is a proposal in MDL-21993 to allow
  * map XMP-RPC calls to whatever file, function, class or methods. Once this
@@ -33,7 +33,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * MNet server-side methods that are part of mnetservice_enrol
+ * MNet server-side methods that are part of mnetservice_enroll
  *
  * The weird name of the class tries to follow a pattern
  * {plugintype}_{pluginnname}_mnetservice_{servicename}
@@ -42,10 +42,10 @@ defined('MOODLE_INTERNAL') || die();
  * and 2.0 peers. The API version might become a part of class name but it is
  * not neccessary due to how xml-rcp methods are/will be mapped to php methods.
  */
-class enrol_mnet_mnetservice_enrol {
+class enrol_mnet_mnetservice_enroll {
 
     /**
-     * Returns list of courses that we offer to the caller for remote enrolment of their users
+     * Returns list of courses that we offer to the caller for remote enrollment of their users
      *
      * Since Moodle 2.0, courses are made available for MNet peers by creating an instance
      * of enrol_mnet plugin for the course. Hidden courses are not returned. If there are two
@@ -70,11 +70,11 @@ class enrol_mnet_mnetservice_enrol {
                        cat.description AS cat_description, cat.descriptionformat AS cat_descriptionformat,
                        e.cost, e.currency, e.roleid AS defaultroleid, r.name AS defaultrolename,
                        e.customint1
-                  FROM {enrol} e
+                  FROM {enroll} e
             INNER JOIN {course} c ON c.id = e.courseid
             INNER JOIN {course_categories} cat ON cat.id = c.category
             INNER JOIN {role} r ON r.id = e.roleid
-                 WHERE e.enrol = 'mnet'
+                 WHERE e.enroll = 'mnet'
                        AND (e.customint1 = 0 OR e.customint1 = ?)
                        AND c.visible = 1
               ORDER BY cat.sortorder, c.sortorder, c.shortname";
@@ -121,7 +121,7 @@ class enrol_mnet_mnetservice_enrol {
      * @uses mnet_remote_client Callable via XML-RPC only
      * @param array $userdata user details {@see mnet_fields_to_import()}
      * @param int $courseid our local course id
-     * @return bool true if the enrolment has been successful, throws exception otherwise
+     * @return bool true if the enrollment has been successful, throws exception otherwise
      */
     public function enrol_user(array $userdata, $courseid) {
         global $CFG, $DB;
@@ -169,11 +169,11 @@ class enrol_mnet_mnetservice_enrol {
         }
 
         // try to load host specific enrol_mnet instance first
-        $instance = $DB->get_record('enrol', array('courseid'=>$course->id, 'enrol'=>'mnet', 'customint1'=>$client->id), '*', IGNORE_MISSING);
+        $instance = $DB->get_record('enroll', array('courseid'=>$course->id, 'enroll'=>'mnet', 'customint1'=>$client->id), '*', IGNORE_MISSING);
 
         if ($instance === false) {
             // if not found, try to load instance for all hosts
-            $instance = $DB->get_record('enrol', array('courseid'=>$course->id, 'enrol'=>'mnet', 'customint1'=>0), '*', IGNORE_MISSING);
+            $instance = $DB->get_record('enroll', array('courseid'=>$course->id, 'enroll'=>'mnet', 'customint1'=>0), '*', IGNORE_MISSING);
         }
 
         if ($instance === false) {
@@ -181,32 +181,32 @@ class enrol_mnet_mnetservice_enrol {
             throw new mnet_server_exception(5017, 'noenrolinstance', 'enrol_mnet');
         }
 
-        if (!$enrol = enrol_get_plugin('mnet')) {
+        if (!$enroll = enrol_get_plugin('mnet')) {
             throw new mnet_server_exception(5018, 'couldnotinstantiate', 'enrol_mnet');
         }
 
         try {
-            $enrol->enrol_user($instance, $user->id, $instance->roleid, time());
+            $enroll->enrol_user($instance, $user->id, $instance->roleid, time());
 
         } catch (Exception $e) {
-            throw new mnet_server_exception(5019, 'couldnotenrol', 'enrol_mnet', $e->getMessage());
+            throw new mnet_server_exception(5019, 'couldnotenroll', 'enrol_mnet', $e->getMessage());
         }
 
         return true;
     }
 
     /**
-     * Unenrol remote user from our course
+     * Unenroll remote user from our course
      *
      * Only users enrolled via enrol_mnet plugin can be unenrolled remotely. If the
-     * remote user is enrolled into the local course via some other enrol plugin
-     * (enrol_manual for example), the remote host can't touch such enrolment. Please
+     * remote user is enrolled into the local course via some other enroll plugin
+     * (enrol_manual for example), the remote host can't touch such enrollment. Please
      * do not report this behaviour as bug, it is a feature ;-)
      *
      * @uses mnet_remote_client Callable via XML-RPC only
      * @param string $username of the remote user
      * @param int $courseid of our local course
-     * @return bool true if the unenrolment has been successful, throws exception otherwise
+     * @return bool true if the unenrollment has been successful, throws exception otherwise
      */
     public function unenrol_user($username, $courseid) {
         global $CFG, $DB;
@@ -234,16 +234,16 @@ class enrol_mnet_mnetservice_enrol {
             }
         }
         if (!$isavailable) {
-            // if they can not enrol, they can not unenrol
+            // if they can not enroll, they can not unenroll
             throw new mnet_server_exception(5013, 'courseunavailable', 'enrol_mnet');
         }
 
         // try to load host specific enrol_mnet instance first
-        $instance = $DB->get_record('enrol', array('courseid'=>$course->id, 'enrol'=>'mnet', 'customint1'=>$client->id), '*', IGNORE_MISSING);
+        $instance = $DB->get_record('enroll', array('courseid'=>$course->id, 'enroll'=>'mnet', 'customint1'=>$client->id), '*', IGNORE_MISSING);
 
         if ($instance === false) {
             // if not found, try to load instance for all hosts
-            $instance = $DB->get_record('enrol', array('courseid'=>$course->id, 'enrol'=>'mnet', 'customint1'=>0), '*', IGNORE_MISSING);
+            $instance = $DB->get_record('enroll', array('courseid'=>$course->id, 'enroll'=>'mnet', 'customint1'=>0), '*', IGNORE_MISSING);
             $instanceforall = true;
         }
 
@@ -252,23 +252,23 @@ class enrol_mnet_mnetservice_enrol {
             throw new mnet_server_exception(5017, 'noenrolinstance', 'enrol_mnet');
         }
 
-        if (!$enrol = enrol_get_plugin('mnet')) {
+        if (!$enroll = enrol_get_plugin('mnet')) {
             throw new mnet_server_exception(5018, 'couldnotinstantiate', 'enrol_mnet');
         }
 
         if ($DB->record_exists('user_enrolments', array('enrolid'=>$instance->id, 'userid'=>$user->id))) {
             try {
-                $enrol->unenrol_user($instance, $user->id);
+                $enroll->unenrol_user($instance, $user->id);
 
             } catch (Exception $e) {
-                throw new mnet_server_exception(5020, 'couldnotunenrol', 'enrol_mnet', $e->getMessage());
+                throw new mnet_server_exception(5020, 'couldnotunenroll', 'enrol_mnet', $e->getMessage());
             }
         }
 
         if (empty($instanceforall)) {
             // if the user was enrolled via 'All hosts' instance and the specific one
-            // was created after that, the first enrolment would be kept.
-            $instance = $DB->get_record('enrol', array('courseid'=>$course->id, 'enrol'=>'mnet', 'customint1'=>0), '*', IGNORE_MISSING);
+            // was created after that, the first enrollment would be kept.
+            $instance = $DB->get_record('enroll', array('courseid'=>$course->id, 'enroll'=>'mnet', 'customint1'=>0), '*', IGNORE_MISSING);
 
             if ($instance) {
                 // repeat the same procedure for 'All hosts' instance, too. Note that as the host specific
@@ -276,10 +276,10 @@ class enrol_mnet_mnetservice_enrol {
 
                 if ($DB->record_exists('user_enrolments', array('enrolid'=>$instance->id, 'userid'=>$user->id))) {
                     try {
-                        $enrol->unenrol_user($instance, $user->id);
+                        $enroll->unenrol_user($instance, $user->id);
 
                     } catch (Exception $e) {
-                        throw new mnet_server_exception(5020, 'couldnotunenrol', 'enrol_mnet', $e->getMessage());
+                        throw new mnet_server_exception(5020, 'couldnotunenroll', 'enrol_mnet', $e->getMessage());
                     }
                 }
             }
@@ -293,17 +293,17 @@ class enrol_mnet_mnetservice_enrol {
      *
      * Suitable instance of enrol_mnet must be created in the course. This method will not
      * return any information about the enrolments in courses that are not available for
-     * remote enrolment, even if their users are enrolled into them via other plugin
+     * remote enrollment, even if their users are enrolled into them via other plugin
      * (note the difference from {@link self::user_enrolments()}).
      *
-     * This method will return enrolment information for users from hosts regardless
-     * the enrolment plugin. It does not matter if the user was enrolled remotely by
+     * This method will return enrollment information for users from hosts regardless
+     * the enrollment plugin. It does not matter if the user was enrolled remotely by
      * their admin or locally. Once the course is available for remote enrolments, we
      * will tell them everything about their users.
      *
      * In Moodle 1.x the returned array used to be indexed by username. The side effect
      * of MDL-19219 fix is that we do not need to use such index and therefore we can
-     * return all enrolment records. MNet clients 1.x will only use the last record for
+     * return all enrollment records. MNet clients 1.x will only use the last record for
      * the student, if she is enrolled via multiple plugins.
      *
      * @uses mnet_remote_client Callable via XML-RPC only
@@ -318,10 +318,10 @@ class enrol_mnet_mnetservice_enrol {
             die('Callable via XML-RPC only');
         }
 
-        $sql = "SELECT u.username, r.shortname, r.name, e.enrol, ue.timemodified
+        $sql = "SELECT u.username, r.shortname, r.name, e.enroll, ue.timemodified
                   FROM {user_enrolments} ue
                   JOIN {user} u ON ue.userid = u.id
-                  JOIN {enrol} e ON ue.enrolid = e.id
+                  JOIN {enroll} e ON ue.enrolid = e.id
                   JOIN {role} r ON e.roleid = r.id
                  WHERE u.mnethostid = :mnethostid
                        AND e.courseid = :courseid

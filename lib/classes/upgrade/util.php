@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * PayPal enrolment plugin utility class.
+ * PayPal enrollment plugin utility class.
  *
  * @package    core
  * @copyright  2016 Cameron Ball <cameron@cameron1729.xyz>

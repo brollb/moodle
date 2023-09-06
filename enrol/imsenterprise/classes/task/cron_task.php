@@ -24,7 +24,7 @@
 namespace enrol_imsenterprise\task;
 
 /**
- * Simple task to run the IMS Enterprise enrolment cron.
+ * Simple task to run the IMS Enterprise enrollment cron.
  *
  * @copyright  2014 Universite de Montreal
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -46,7 +46,7 @@ class cron_task extends \core\task\scheduled_task {
      */
     public function execute() {
         global $CFG;
-        require_once($CFG->dirroot . '/enrol/imsenterprise/lib.php');
+        require_once($CFG->dirroot . '/enroll/imsenterprise/lib.php');
         $ims = new \enrol_imsenterprise_plugin();
         $ims->cron();
     }

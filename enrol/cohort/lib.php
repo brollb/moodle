@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Cohort enrolment plugin.
+ * Cohort enrollment plugin.
  *
  * @package    enrol_cohort
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -36,25 +36,25 @@ define('COHORT_NOGROUP', 0);
 
 
 /**
- * Cohort enrolment plugin implementation.
+ * Cohort enrollment plugin implementation.
  * @author Petr Skoda
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class enrol_cohort_plugin extends enrol_plugin {
 
     /**
-     * Is it possible to delete enrol instance via standard UI?
+     * Is it possible to delete enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/cohort:config', $context);
+        return has_capability('enroll/cohort:config', $context);
     }
 
     /**
-     * Returns localised name of enrol instance.
+     * Returns localised name of enroll instance.
      *
      * @param stdClass $instance (null is accepted too)
      * @return string
@@ -63,21 +63,21 @@ class enrol_cohort_plugin extends enrol_plugin {
         global $DB;
 
         if (empty($instance)) {
-            $enrol = $this->get_name();
-            return get_string('pluginname', 'enrol_'.$enrol);
+            $enroll = $this->get_name();
+            return get_string('pluginname', 'enrol_'.$enroll);
 
         } else if (empty($instance->name)) {
-            $enrol = $this->get_name();
+            $enroll = $this->get_name();
             $cohort = $DB->get_record('cohort', array('id'=>$instance->customint1));
             if (!$cohort) {
-                return get_string('pluginname', 'enrol_'.$enrol);
+                return get_string('pluginname', 'enrol_'.$enroll);
             }
             $cohortname = format_string($cohort->name, true, array('context'=>context::instance_by_id($cohort->contextid)));
             if ($role = $DB->get_record('role', array('id'=>$instance->roleid))) {
                 $role = role_get_name($role, context_course::instance($instance->courseid, IGNORE_MISSING), ROLENAME_BOTH);
-                return get_string('pluginname', 'enrol_'.$enrol) . ' (' . $cohortname . ' - ' . $role .')';
+                return get_string('pluginname', 'enrol_'.$enroll) . ' (' . $cohortname . ' - ' . $role .')';
             } else {
-                return get_string('pluginname', 'enrol_'.$enrol) . ' (' . $cohortname . ')';
+                return get_string('pluginname', 'enrol_'.$enroll) . ' (' . $cohortname . ')';
             }
 
         } else {
@@ -86,7 +86,7 @@ class enrol_cohort_plugin extends enrol_plugin {
     }
 
     /**
-     * Given a courseid this function returns true if the user is able to enrol or configure cohorts.
+     * Given a courseid this function returns true if the user is able to enroll or configure cohorts.
      * AND there are cohorts that the user can view.
      *
      * @param int $courseid
@@ -96,14 +96,14 @@ class enrol_cohort_plugin extends enrol_plugin {
         global $CFG;
         require_once($CFG->dirroot . '/cohort/lib.php');
         $coursecontext = context_course::instance($courseid);
-        if (!has_capability('moodle/course:enrolconfig', $coursecontext) or !has_capability('enrol/cohort:config', $coursecontext)) {
+        if (!has_capability('moodle/course:enrolconfig', $coursecontext) or !has_capability('enroll/cohort:config', $coursecontext)) {
             return false;
         }
         return cohort_get_available_cohorts($coursecontext, 0, 0, 1) ? true : false;
     }
 
     /**
-     * Add new instance of enrol plugin.
+     * Add new instance of enroll plugin.
      * @param object $course
      * @param array $fields instance fields
      * @return int id of new instance, null if can not be created
@@ -131,7 +131,7 @@ class enrol_cohort_plugin extends enrol_plugin {
         } else {
             $result = parent::add_instance($course, $fields);
         }
-        require_once("$CFG->dirroot/enrol/cohort/locallib.php");
+        require_once("$CFG->dirroot/enroll/cohort/locallib.php");
         $trace = new null_progress_trace();
         enrol_cohort_sync($trace, $course->id);
         $trace->finished();
@@ -139,7 +139,7 @@ class enrol_cohort_plugin extends enrol_plugin {
     }
 
     /**
-     * Update instance of enrol plugin.
+     * Update instance of enroll plugin.
      * @param stdClass $instance
      * @param stdClass $data modified instance fields
      * @return boolean
@@ -168,7 +168,7 @@ class enrol_cohort_plugin extends enrol_plugin {
 
         $result = parent::update_instance($instance, $data);
 
-        require_once("$CFG->dirroot/enrol/cohort/locallib.php");
+        require_once("$CFG->dirroot/enroll/cohort/locallib.php");
         $trace = new null_progress_trace();
         enrol_cohort_sync($trace, $instance->courseid);
         $trace->finished();
@@ -200,20 +200,20 @@ class enrol_cohort_plugin extends enrol_plugin {
 
         parent::update_status($instance, $newstatus);
 
-        require_once("$CFG->dirroot/enrol/cohort/locallib.php");
+        require_once("$CFG->dirroot/enroll/cohort/locallib.php");
         $trace = new null_progress_trace();
         enrol_cohort_sync($trace, $instance->courseid);
         $trace->finished();
     }
 
     /**
-     * Does this plugin allow manual unenrolment of a specific user?
+     * Does this plugin allow manual unenrollment of a specific user?
      * Yes, but only if user suspended...
      *
-     * @param stdClass $instance course enrol instance
+     * @param stdClass $instance course enroll instance
      * @param stdClass $ue record from user_enrolments table
      *
-     * @return bool - true means user with 'enrol/xxx:unenrol' may unenrol this user, false means nobody may touch this user enrolment
+     * @return bool - true means user with 'enroll/xxx:unenroll' may unenroll this user, false means nobody may touch this user enrollment
      */
     public function allow_unenrol_user(stdClass $instance, stdClass $ue) {
         if ($ue->status == ENROL_USER_SUSPENDED) {
@@ -236,7 +236,7 @@ class enrol_cohort_plugin extends enrol_plugin {
 
         if (!$step->get_task()->is_samesite()) {
             // No cohort restore from other sites.
-            $step->set_mapping('enrol', $oldid, 0);
+            $step->set_mapping('enroll', $oldid, 0);
             return;
         }
 
@@ -245,22 +245,22 @@ class enrol_cohort_plugin extends enrol_plugin {
         }
 
         if ($data->roleid and $DB->record_exists('cohort', array('id'=>$data->customint1))) {
-            $instance = $DB->get_record('enrol', array('roleid'=>$data->roleid, 'customint1'=>$data->customint1, 'courseid'=>$course->id, 'enrol'=>$this->get_name()));
+            $instance = $DB->get_record('enroll', array('roleid'=>$data->roleid, 'customint1'=>$data->customint1, 'courseid'=>$course->id, 'enroll'=>$this->get_name()));
             if ($instance) {
                 $instanceid = $instance->id;
             } else {
                 $instanceid = $this->add_instance($course, (array)$data);
             }
-            $step->set_mapping('enrol', $oldid, $instanceid);
+            $step->set_mapping('enroll', $oldid, $instanceid);
 
-            require_once("$CFG->dirroot/enrol/cohort/locallib.php");
+            require_once("$CFG->dirroot/enroll/cohort/locallib.php");
             $trace = new null_progress_trace();
             enrol_cohort_sync($trace, $course->id);
             $trace->finished();
 
         } else if ($this->get_config('unenrolaction') == ENROL_EXT_REMOVED_SUSPENDNOROLES) {
             $data->customint1 = 0;
-            $instance = $DB->get_record('enrol', array('roleid'=>$data->roleid, 'customint1'=>$data->customint1, 'courseid'=>$course->id, 'enrol'=>$this->get_name()));
+            $instance = $DB->get_record('enroll', array('roleid'=>$data->roleid, 'customint1'=>$data->customint1, 'courseid'=>$course->id, 'enroll'=>$this->get_name()));
 
             if ($instance) {
                 $instanceid = $instance->id;
@@ -268,20 +268,20 @@ class enrol_cohort_plugin extends enrol_plugin {
                 $data->status = ENROL_INSTANCE_DISABLED;
                 $instanceid = $this->add_instance($course, (array)$data);
             }
-            $step->set_mapping('enrol', $oldid, $instanceid);
+            $step->set_mapping('enroll', $oldid, $instanceid);
 
-            require_once("$CFG->dirroot/enrol/cohort/locallib.php");
+            require_once("$CFG->dirroot/enroll/cohort/locallib.php");
             $trace = new null_progress_trace();
             enrol_cohort_sync($trace, $course->id);
             $trace->finished();
 
         } else {
-            $step->set_mapping('enrol', $oldid, 0);
+            $step->set_mapping('enroll', $oldid, 0);
         }
     }
 
     /**
-     * Restore user enrolment.
+     * Restore user enrollment.
      *
      * @param restore_enrolments_structure_step $step
      * @param stdClass $data
@@ -289,7 +289,7 @@ class enrol_cohort_plugin extends enrol_plugin {
      * @param int $oldinstancestatus
      * @param int $userid
      */
-    public function restore_user_enrolment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
+    public function restore_user_enrollment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
         global $DB;
 
         if ($this->get_config('unenrolaction') != ENROL_EXT_REMOVED_SUSPENDNOROLES) {
@@ -317,14 +317,14 @@ class enrol_cohort_plugin extends enrol_plugin {
     }
 
     /**
-     * Is it possible to hide/show enrol instance via standard UI?
+     * Is it possible to hide/show enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/cohort:config', $context);
+        return has_capability('enroll/cohort:config', $context);
     }
 
     /**
@@ -475,8 +475,8 @@ class enrol_cohort_plugin extends enrol_plugin {
             'id' => $data['id']
         );
         $params = array_merge($params, $params1);
-        $sql = "roleid = :roleid AND customint1 $sql1 AND courseid = :courseid AND enrol = 'cohort' AND id <> :id";
-        if ($DB->record_exists_select('enrol', $sql, $params)) {
+        $sql = "roleid = :roleid AND customint1 $sql1 AND courseid = :courseid AND enroll = 'cohort' AND id <> :id";
+        if ($DB->record_exists_select('enroll', $sql, $params)) {
             $errors['customint1'] = get_string('instanceexists', 'enrol_cohort');
         }
         $validstatus = array_keys($this->get_status_options());
@@ -489,8 +489,8 @@ class enrol_cohort_plugin extends enrol_plugin {
             'customint2' => $validgroups
         );
         $typeerrors = $this->validate_param_types($data, $tovalidate);
-        // When creating a new cohort enrolment, we allow multiple cohorts in just one go.
-        // When editing an existing enrolment, changing the cohort is no allowed, so cohort is a single value.
+        // When creating a new cohort enrollment, we allow multiple cohorts in just one go.
+        // When editing an existing enrollment, changing the cohort is no allowed, so cohort is a single value.
         if (is_array($data['customint1'])) {
             $cohorts = $data['customint1'];
         } else {
@@ -506,9 +506,9 @@ class enrol_cohort_plugin extends enrol_plugin {
     }
 
     /**
-     * Check if data is valid for a given enrolment plugin
+     * Check if data is valid for a given enrollment plugin
      *
-     * @param array $enrolmentdata enrolment data to validate.
+     * @param array $enrolmentdata enrollment data to validate.
      * @param int|null $courseid Course ID.
      * @return array Errors
      */
@@ -568,11 +568,11 @@ class enrol_cohort_plugin extends enrol_plugin {
     }
 
     /**
-     * Fill custom fields data for a given enrolment plugin.
+     * Fill custom fields data for a given enrollment plugin.
      *
-     * @param array $enrolmentdata enrolment data.
+     * @param array $enrolmentdata enrollment data.
      * @param int $courseid Course ID.
-     * @return array Updated enrolment data with custom fields info.
+     * @return array Updated enrollment data with custom fields info.
      */
     public function fill_enrol_custom_fields(array $enrolmentdata, int $courseid) : array {
         global $DB;
@@ -596,7 +596,7 @@ class enrol_cohort_plugin extends enrol_plugin {
     /**
      * Check if plugin custom data is allowed in relevant context.
      *
-     * @param array $enrolmentdata enrolment data to validate.
+     * @param array $enrolmentdata enrollment data to validate.
      * @param int|null $courseid Course ID.
      * @return lang_string|null Error
      */
@@ -611,7 +611,7 @@ class enrol_cohort_plugin extends enrol_plugin {
     }
 
     /**
-     * Add new instance of enrol plugin with custom settings,
+     * Add new instance of enroll plugin with custom settings,
      * called when adding new instance manually or when adding new course.
      * Used for example on course upload.
      *
@@ -627,7 +627,7 @@ class enrol_cohort_plugin extends enrol_plugin {
 
 
     /**
-     * Check if enrolment plugin is supported in csv course upload.
+     * Check if enrollment plugin is supported in csv course upload.
      *
      * @return bool
      */
@@ -637,7 +637,7 @@ class enrol_cohort_plugin extends enrol_plugin {
 }
 
 /**
- * Prevent removal of enrol roles.
+ * Prevent removal of enroll roles.
  * @param int $itemid
  * @param int $groupid
  * @param int $userid

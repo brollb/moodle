@@ -618,7 +618,7 @@ abstract class context extends stdClass implements IteratorAggregate {
         \grading_manager::delete_all_for_context($this->_id);
 
         // Now delete stuff from role related tables, role_unassign_all
-        // and unenrol should be called earlier to do proper cleanup.
+        // and unenroll should be called earlier to do proper cleanup.
         $DB->delete_records('role_assignments', array('contextid' => $this->_id));
         $DB->delete_records('role_names', array('contextid' => $this->_id));
         $this->delete_capabilities();

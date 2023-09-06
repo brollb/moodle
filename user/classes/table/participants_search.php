@@ -190,7 +190,7 @@ class participants_search {
         [
             // SQL that forms part of the filter.
             'sql' => $esql,
-            // SQL for enrolment filtering that must always be applied (eg due to capability restrictions).
+            // SQL for enrollment filtering that must always be applied (eg due to capability restrictions).
             'forcedsql' => $esqlforced,
             'params' => $eparams,
         ] = $this->get_enrolled_sql();
@@ -206,12 +206,12 @@ class participants_search {
             $params = array_merge($params, $userfieldsparams);
         }
 
-        // Include any compulsory enrolment SQL (eg capability related filtering that must be applied).
+        // Include any compulsory enrollment SQL (eg capability related filtering that must be applied).
         if (!empty($esqlforced)) {
             $outerjoins[] = "JOIN ({$esqlforced}) fef ON fef.id = u.id";
         }
 
-        // Include any enrolment related filtering.
+        // Include any enrollment related filtering.
         if (!empty($esql)) {
             $outerjoins[] = "LEFT JOIN ({$esql}) ef ON ef.id = u.id";
             $wheres[] = 'ef.id IS NOT NULL';
@@ -231,9 +231,9 @@ class participants_search {
                 $wheres[] = user_get_course_lastaccess_sql($accesssince, 'ul', $matchaccesssince);
             }
 
-            // Make sure we only ever fetch users in the course (regardless of enrolment filters).
+            // Make sure we only ever fetch users in the course (regardless of enrollment filters).
             $innerjoins[] = "JOIN {user_enrolments} ue ON ue.userid = {$inneruseralias}.id";
-            $innerjoins[] = 'JOIN {enrol} e ON e.id = ue.enrolid
+            $innerjoins[] = 'JOIN {enroll} e ON e.id = ue.enrolid
                                       AND e.courseid = :courseid1';
             $params['courseid1'] = $this->course->id;
         }
@@ -367,7 +367,7 @@ class participants_search {
         $forcedwhere = "{$forcedprefix}u.deleted = 0";
 
         if (!$isfrontpage) {
-            // Prepare any enrolment method filtering.
+            // Prepare any enrollment method filtering.
             [
                 'joins' => $methodjoins,
                 'where' => $wheres[],
@@ -478,7 +478,7 @@ class participants_search {
     }
 
     /**
-     * Prepare the enrolment methods filter SQL content.
+     * Prepare the enrollment methods filter SQL content.
      *
      * @param string $useridcolumn User ID column used in the calling query, e.g. u.id
      * @return array SQL query data in the format ['joins' => [], 'where' => '', 'params' => []].
@@ -508,7 +508,7 @@ class participants_search {
                     $thisprefix = "{$prefix}{$i}";
                     list($enrolidsql, $enrolidparam) = $DB->get_in_or_equal($enrolid, SQL_PARAMS_NAMED, $thisprefix);
 
-                    $joins[] = "LEFT JOIN {enrol} {$thisprefix}e
+                    $joins[] = "LEFT JOIN {enroll} {$thisprefix}e
                                        ON ({$thisprefix}e.id {$enrolidsql}
                                       AND {$thisprefix}e.courseid = :{$thisprefix}courseid)";
                     $joins[] = "LEFT JOIN {user_enrolments} {$thisprefix}ue
@@ -534,7 +534,7 @@ class participants_search {
 
                 list($enrolidssql, $enrolidsparams) = $DB->get_in_or_equal($enrolids, SQL_PARAMS_NAMED, $prefix);
 
-                $joins[] = "LEFT JOIN {enrol} {$prefix}e
+                $joins[] = "LEFT JOIN {enroll} {$prefix}e
                                    ON ({$prefix}e.id {$enrolidssql}
                                   AND {$prefix}e.courseid = :{$prefix}courseid)";
                 $joins[] = "LEFT JOIN {user_enrolments} {$prefix}ue ON {$prefix}ue.userid = {$useridcolumn}
@@ -596,7 +596,7 @@ class participants_search {
         }
 
         if (!empty($statusids)) {
-            $enroljoin = 'JOIN {enrol} %1$se ON %1$se.id = %1$sue.enrolid
+            $enroljoin = 'JOIN {enroll} %1$se ON %1$se.id = %1$sue.enrolid
                                                   AND %1$se.courseid = :%1$scourseid';
 
             $whereactive = '(%1$sue.status = :%2$sactive

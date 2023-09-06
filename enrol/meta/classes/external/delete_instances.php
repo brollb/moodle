@@ -26,7 +26,7 @@ use context_course;
 use moodle_exception;
 
 /**
- * Web service function relating to add enrol meta instances
+ * Web service function relating to add enroll meta instances
  *
  * @package    enrol_meta
  * @copyright  2021 WKS KV Bildung
@@ -35,7 +35,7 @@ use moodle_exception;
 class delete_instances extends external_api {
 
     /**
-     * Parameters for deleting meta enrolment instances
+     * Parameters for deleting meta enrollment instances
      *
      * @return external_function_parameters
      */
@@ -44,16 +44,16 @@ class delete_instances extends external_api {
             'instances' => new external_multiple_structure(
                 new external_single_structure(
                     [
-                        'metacourseid' => new external_value(PARAM_INT, 'ID of the course with meta enrolment.'),
-                        'courseid' => new external_value(PARAM_RAW, 'ID of the course where meta enrolment is linked to.'),
+                        'metacourseid' => new external_value(PARAM_INT, 'ID of the course with meta enrollment.'),
+                        'courseid' => new external_value(PARAM_RAW, 'ID of the course where meta enrollment is linked to.'),
                     ]
-                ), 'List of course meta enrolment instances to delete.', VALUE_DEFAULT, []
+                ), 'List of course meta enrollment instances to delete.', VALUE_DEFAULT, []
             ),
         ]);
     }
 
     /**
-     * Deleting meta enrolment instances
+     * Deleting meta enrollment instances
      *
      * @param  array $instances
      * @return array
@@ -80,7 +80,7 @@ class delete_instances extends external_api {
             $contextmeta = context_course::instance($instance['metacourseid'], IGNORE_MISSING);
             try {
                 self::validate_context($contextmeta);
-                require_all_capabilities(['moodle/course:enrolconfig', 'enrol/meta:config'], $contextmeta);
+                require_all_capabilities(['moodle/course:enrolconfig', 'enroll/meta:config'], $contextmeta);
             } catch (moodle_exception $e) {
                 throw new invalid_parameter_exception(get_string('wsinvalidmetacourse', 'enrol_meta', $instance['metacourseid']));
             }
@@ -94,8 +94,8 @@ class delete_instances extends external_api {
             // but can_delete_instance does not do that, so we stop permission check here.
 
             // Check for existing meta course link.
-            $enrolrecord = $DB->get_record('enrol',
-                    ['enrol' => 'meta', 'courseid' => $instance['metacourseid'], 'customint1' => $instance['courseid']]);
+            $enrolrecord = $DB->get_record('enroll',
+                    ['enroll' => 'meta', 'courseid' => $instance['metacourseid'], 'customint1' => $instance['courseid']]);
             if ($enrolrecord) {
                 // Link exists. Delete instance.
                 $enrolplugin = enrol_get_plugin('meta');
@@ -119,7 +119,7 @@ class delete_instances extends external_api {
     }
 
     /**
-     * Return for deleting enrolment instances.
+     * Return for deleting enrollment instances.
      *
      * @return external_multiple_structure
      */
@@ -127,12 +127,12 @@ class delete_instances extends external_api {
         return new external_multiple_structure(
             new external_single_structure(
                 [
-                    'metacourseid' => new external_value(PARAM_INT, 'ID of the course where meta enrolment is deleted.'),
+                    'metacourseid' => new external_value(PARAM_INT, 'ID of the course where meta enrollment is deleted.'),
                     'courseid' => new external_value(PARAM_RAW, 'ID of the course that was meta linked.'),
                     'status' => new external_value(PARAM_BOOL, 'True on success, false if meta link did not exist.'),
 
                 ]
-            ), 'List of course meta enrolment instances that were deleted.', VALUE_DEFAULT, []
+            ), 'List of course meta enrollment instances that were deleted.', VALUE_DEFAULT, []
         );
     }
 }

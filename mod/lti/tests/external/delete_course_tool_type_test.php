@@ -42,7 +42,7 @@ class delete_course_tool_type_test extends \mod_lti_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $this->setUser($editingteacher);
 
         $typeid = lti_add_type(
@@ -71,7 +71,7 @@ class delete_course_tool_type_test extends \mod_lti_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $this->setUser($editingteacher);
 
         $type = $this->generate_tool_type(123); // Creates a site tool.

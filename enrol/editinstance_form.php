@@ -17,7 +17,7 @@
 /**
  * Adds new instance of enrol_plugin to specified course or edits current instance.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2015 Damyon Wiese
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,9 +27,9 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/formslib.php');
 
 /**
- * Standard edit form shared by all enrol plugins.
+ * Standard edit form shared by all enroll plugins.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2015 Damyon Wiese
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -64,7 +64,7 @@ class enrol_instance_edit_form extends moodleform {
         $mform->setType('returnurl', PARAM_LOCALURL);
         $mform->setConstant('returnurl', $returnurl);
 
-        $this->add_action_buttons(true, ($instance->id ? null : get_string('addinstance', 'enrol')));
+        $this->add_action_buttons(true, ($instance->id ? null : get_string('addinstance', 'enroll')));
 
         $this->set_data($instance);
     }

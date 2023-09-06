@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Redirection of old enrol entry point.
+ * Redirection of old enroll entry point.
  *
  * @copyright 1999 Martin Dougiamas  http://dougiamas.com
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,4 +27,4 @@ require('../config.php');
 
 $id = required_param('id', PARAM_INT);
 
-redirect(new moodle_url('/enrol/index.php', array('id'=>$id)));
+redirect(new moodle_url('/enroll/index.php', array('id'=>$id)));

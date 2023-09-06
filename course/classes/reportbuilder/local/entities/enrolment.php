@@ -19,7 +19,7 @@ declare(strict_types=1);
 namespace core_course\reportbuilder\local\entities;
 
 use context_course;
-use core_course\reportbuilder\local\formatters\enrolment as enrolment_formatter;
+use core_course\reportbuilder\local\formatters\enrollment as enrolment_formatter;
 use core_reportbuilder\local\entities\base;
 use core_reportbuilder\local\filters\date;
 use core_reportbuilder\local\filters\select;
@@ -33,13 +33,13 @@ use lang_string;
 use stdClass;
 
 /**
- * Course enrolment entity implementation
+ * Course enrollment entity implementation
  *
  * @package     core_course
  * @copyright   2022 David Matamoros <davidmc@moodle.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class enrolment extends base {
+class enrollment extends base {
 
     /**
      * Database tables that this entity uses and their default aliases
@@ -47,7 +47,7 @@ class enrolment extends base {
      * @return array
      */
     protected function get_default_table_aliases(): array {
-        return ['user_enrolments' => 'ue', 'enrol' => 'e'];
+        return ['user_enrolments' => 'ue', 'enroll' => 'e'];
     }
 
     /**
@@ -56,7 +56,7 @@ class enrolment extends base {
      * @return lang_string
      */
     protected function get_default_entity_title(): lang_string {
-        return new lang_string('enrolment', 'enrol');
+        return new lang_string('enrollment', 'enroll');
     }
 
     /**
@@ -86,19 +86,19 @@ class enrolment extends base {
      */
     protected function get_all_columns(): array {
         $userenrolments = $this->get_table_alias('user_enrolments');
-        $enrol = $this->get_table_alias('enrol');
+        $enroll = $this->get_table_alias('enroll');
 
         // Enrolment method column (Deprecated since Moodle 4.3, to remove in MDL-78118).
         $columns[] = (new column(
             'method',
-            new lang_string('method', 'enrol'),
+            new lang_string('method', 'enroll'),
             $this->get_entity_name()
         ))
             ->add_joins($this->get_joins())
             ->set_type(column::TYPE_TEXT)
-            ->add_fields("{$enrol}.enrol, {$enrol}.id")
+            ->add_fields("{$enroll}.enroll, {$enroll}.id")
             ->set_is_sortable(true)
-            ->set_is_deprecated('See \'enrol:name\' for replacement')
+            ->set_is_deprecated('See \'enroll:name\' for replacement')
             ->add_callback([enrolment_formatter::class, 'enrolment_name']);
 
         // Enrolment time created.
@@ -116,7 +116,7 @@ class enrolment extends base {
         // Enrolment time started.
         $columns[] = (new column(
             'timestarted',
-            new lang_string('timestarted', 'enrol'),
+            new lang_string('timestarted', 'enroll'),
             $this->get_entity_name()
         ))
             ->add_joins($this->get_joins())
@@ -132,7 +132,7 @@ class enrolment extends base {
         // Enrolment time ended.
         $columns[] = (new column(
             'timeended',
-            new lang_string('timeended', 'enrol'),
+            new lang_string('timeended', 'enroll'),
             $this->get_entity_name()
         ))
             ->add_joins($this->get_joins())
@@ -164,7 +164,7 @@ class enrolment extends base {
         ))
             ->add_joins($this->get_joins())
             ->add_join("LEFT JOIN {context} {$ctx}
-                ON {$ctx}.instanceid = {$enrol}.courseid AND {$ctx}.contextlevel = " . CONTEXT_COURSE)
+                ON {$ctx}.instanceid = {$enroll}.courseid AND {$ctx}.contextlevel = " . CONTEXT_COURSE)
             ->add_join("LEFT JOIN {role_assignments} {$ra}
                 ON {$ra}.contextid = {$ctx}.id AND {$ra}.userid = {$userenrolments}.userid")
             ->add_join("LEFT JOIN {role} {$r} ON {$r}.id = {$ra}.roleid")
@@ -184,20 +184,20 @@ class enrolment extends base {
     }
 
     /**
-     * Generate SQL snippet suitable for returning enrolment status field
+     * Generate SQL snippet suitable for returning enrollment status field
      *
      * @return string
      */
     private function get_status_field_sql(): string {
         $time = time();
         $userenrolments = $this->get_table_alias('user_enrolments');
-        $enrol = $this->get_table_alias('enrol');
+        $enroll = $this->get_table_alias('enroll');
 
         return "
             CASE WHEN {$userenrolments}.status = " . ENROL_USER_ACTIVE . "
                  THEN CASE WHEN ({$userenrolments}.timestart > {$time})
                              OR ({$userenrolments}.timeend > 0 AND {$userenrolments}.timeend < {$time})
-                             OR ({$enrol}.status = " . ENROL_INSTANCE_DISABLED . ")
+                             OR ({$enroll}.status = " . ENROL_INSTANCE_DISABLED . ")
                            THEN " . status_field::STATUS_NOT_CURRENT . "
                            ELSE " . status_field::STATUS_ACTIVE . "
                       END
@@ -212,7 +212,7 @@ class enrolment extends base {
      */
     protected function get_all_filters(): array {
         $userenrolments = $this->get_table_alias('user_enrolments');
-        $enrol = $this->get_table_alias('enrol');
+        $enroll = $this->get_table_alias('enroll');
 
         // Enrolment method (Deprecated since Moodle 4.3, to remove in MDL-78118).
         $enrolmentmethods = static function(): array {
@@ -223,12 +223,12 @@ class enrolment extends base {
         $filters[] = (new filter(
             select::class,
             'method',
-            new lang_string('method', 'enrol'),
+            new lang_string('method', 'enroll'),
             $this->get_entity_name(),
-            "{$enrol}.enrol"
+            "{$enroll}.enroll"
         ))
             ->add_joins($this->get_joins())
-            ->set_is_deprecated('See \'enrol:plugin\' for replacement')
+            ->set_is_deprecated('See \'enroll:plugin\' for replacement')
             ->set_options_callback($enrolmentmethods);
 
         // Enrolment time created.
@@ -253,7 +253,7 @@ class enrolment extends base {
         $filters[] = (new filter(
             date::class,
             'timestarted',
-            new lang_string('timestarted', 'enrol'),
+            new lang_string('timestarted', 'enroll'),
             $this->get_entity_name(),
             "CASE WHEN {$userenrolments}.timestart = 0
                           THEN {$userenrolments}.timecreated
@@ -274,7 +274,7 @@ class enrolment extends base {
         $filters[] = (new filter(
             date::class,
             'timeended',
-            new lang_string('timeended', 'enrol'),
+            new lang_string('timeended', 'enroll'),
             $this->get_entity_name(),
             "{$userenrolments}.timeend"
         ))

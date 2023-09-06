@@ -80,7 +80,7 @@ class uu_progress_tracker {
             'email' => get_string('email'),
             'password' => get_string('password'),
             'auth' => get_string('authentication'),
-            'enrolments' => get_string('enrolments', 'enrol'),
+            'enrolments' => get_string('enrolments', 'enroll'),
             'suspended' => get_string('suspended', 'auth'),
             'theme' => get_string('theme'),
             'deleted' => get_string('delete'),

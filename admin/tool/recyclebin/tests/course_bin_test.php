@@ -214,7 +214,7 @@ class course_bin_test extends \advanced_testcase {
             set_config($setting->name, $setting->value, $setting->plugin);
         }
 
-        $student = $this->getDataGenerator()->create_and_enrol($this->course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($this->course, 'student');
         $this->setUser($student);
 
         set_config('backup_auto_users', true, 'backup');
@@ -284,7 +284,7 @@ class course_bin_test extends \advanced_testcase {
             set_config($setting->name, $setting->value, $setting->plugin);
         }
 
-        $student = $this->getDataGenerator()->create_and_enrol($this->course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($this->course, 'student');
         $this->setUser($student);
 
         set_config('backup_auto_users', false, 'backup');

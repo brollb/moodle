@@ -54,11 +54,11 @@ class grading_external_test extends \externallib_advanced_testcase {
 
         $cm = self::getDataGenerator()->create_module('assign', $assigndata);
 
-        // Create manual enrolment record.
-        $manualenroldata['enrol'] = 'manual';
+        // Create manual enrollment record.
+        $manualenroldata['enroll'] = 'manual';
         $manualenroldata['status'] = 0;
         $manualenroldata['courseid'] = $course->id;
-        $enrolid = $DB->insert_record('enrol', $manualenroldata);
+        $enrolid = $DB->insert_record('enroll', $manualenroldata);
 
         // Create a teacher and give them capabilities.
         $coursecontext = \context_course::instance($course->id);
@@ -66,7 +66,7 @@ class grading_external_test extends \externallib_advanced_testcase {
         $modulecontext = \context_module::instance($cm->cmid);
         $this->assignUserCapability('mod/assign:grade', $modulecontext->id, $roleid);
 
-        // Create the teacher's enrolment record.
+        // Create the teacher's enrollment record.
         $userenrolmentdata['status'] = 0;
         $userenrolmentdata['enrolid'] = $enrolid;
         $userenrolmentdata['userid'] = $USER->id;
@@ -198,11 +198,11 @@ class grading_external_test extends \externallib_advanced_testcase {
 
         $assign = self::getDataGenerator()->create_module('assign', $assigndata);
 
-        // Create manual enrolment record.
-        $manualenroldata['enrol'] = 'manual';
+        // Create manual enrollment record.
+        $manualenroldata['enroll'] = 'manual';
         $manualenroldata['status'] = 0;
         $manualenroldata['courseid'] = $course->id;
-        $enrolid = $DB->insert_record('enrol', $manualenroldata);
+        $enrolid = $DB->insert_record('enroll', $manualenroldata);
 
         // Create a teacher and give them capabilities.
         $coursecontext = \context_course::instance($course->id);
@@ -210,7 +210,7 @@ class grading_external_test extends \externallib_advanced_testcase {
         $modulecontext = \context_module::instance($assign->cmid);
         $this->assignUserCapability('mod/assign:grade', $modulecontext->id, $roleid);
 
-        // Create the teacher's enrolment record.
+        // Create the teacher's enrollment record.
         $userenrolmentdata['status'] = 0;
         $userenrolmentdata['enrolid'] = $enrolid;
         $userenrolmentdata['userid'] = $USER->id;

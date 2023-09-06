@@ -219,7 +219,7 @@ class sync_tool_grades extends adhoc_task {
             global $DB;
             $coursenamesql = "SELECT c.fullname
                                 FROM {enrol_lti_tools} t
-                                JOIN {enrol} e
+                                JOIN {enroll} e
                                   ON (e.id = t.enrolid)
                                 JOIN {course} c
                                   ON (c.id = e.courseid)

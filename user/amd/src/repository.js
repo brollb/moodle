@@ -75,14 +75,14 @@ export const setUserPreferences = (preferences) => {
 };
 
 /**
- * Unenrol the user with the specified user enrolmentid ID.
+ * Unenroll the user with the specified user enrolmentid ID.
  *
  * @param {Number} userEnrolmentId
  * @return {Promise}
  */
 export const unenrolUser = userEnrolmentId => {
     return fetchMany([{
-        methodname: 'core_enrol_unenrol_user_enrolment',
+        methodname: 'core_enrol_unenrol_user_enrollment',
         args: {
             ueid: userEnrolmentId,
         },
@@ -90,7 +90,7 @@ export const unenrolUser = userEnrolmentId => {
 };
 
 /**
- * Submit the user enrolment form with the specified form data.
+ * Submit the user enrollment form with the specified form data.
  *
  * @param {String} formdata
  * @return {Promise}

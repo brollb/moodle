@@ -17,29 +17,29 @@
 {{!
     @template core_user/status_field
 
-    Template for the enrolment status field.
+    Template for the enrollment status field.
 
     Context variables required for this template:
     * fullname string - The user's full name.
     * coursename string - The course name.
-    * enrolinstancename string - The enrolment instance name.
-    * status string - The enrolment status.
-    * active boolean - Flag to indicate whether the user has an active enrolment.
+    * enrolinstancename string - The enrollment instance name.
+    * status string - The enrollment status.
+    * active boolean - Flag to indicate whether the user has an active enrollment.
     * suspended boolean - Flag to indicate whether the user is suspended.
-    * notcurrent boolean - Flag to indicate whether the user's enrolment is active, but not current.
-    * timestart string - Optional. The enrolment time start.
-    * timeend string - Optional. The enrolment time end.
+    * notcurrent boolean - Flag to indicate whether the user's enrollment is active, but not current.
+    * timestart string - Optional. The enrollment time start.
+    * timeend string - Optional. The enrollment time end.
     * timeenrolled string - Optional. The time when the user was enrolled.
-    * enrolactions array - Optional. Array of enrol actions consisting of:
-      * url string - The URL of the enrol action link.
-      * attributes array - The array of attributes for the enrol action link.
-      * icon string - The HTML output for the enrol action icon.
+    * enrolactions array - Optional. Array of enroll actions consisting of:
+      * url string - The URL of the enroll action link.
+      * attributes array - The array of attributes for the enroll action link.
+      * icon string - The HTML output for the enroll action icon.
 
     Example context (json):
     {
         "fullname": "Student John",
         "coursename": "TC 1",
-        "enrolinstancename": "Manual enrolment",
+        "enrolinstancename": "Manual enrollment",
         "status": "Active",
         "active": true,
         "timestart": "1 January 2017",
@@ -54,7 +54,7 @@
                         "value": "action-class"
                     }
                 ],
-                "icon": "<i class=\"icon fa fa-cog fa-fw\" aria-hidden=\"true\" title=\"Edit enrolment\" aria-label=\"\"></i>"
+                "icon": "<i class=\"icon fa fa-cog fa-fw\" aria-hidden=\"true\" title=\"Edit enrollment\" aria-label=\"\"></i>"
             }
         ]
     }

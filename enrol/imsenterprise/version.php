@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * IMS Enterprise file enrolment plugin version specification.
+ * IMS Enterprise file enrollment plugin version specification.
  *
  * @package    enrol_imsenterprise
  * @copyright  2010 Eugene Venter

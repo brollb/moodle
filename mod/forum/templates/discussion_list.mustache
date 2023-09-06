@@ -61,7 +61,7 @@
             {{/enablediscussioncreation}}
         {{/forum.capabilities.create}}
         {{^forum.capabilities.create}}
-            {{#forum.capabilities.selfenrol}}
+            {{#forum.capabilities.selfenroll}}
                 {{#enablediscussioncreation}}
                     <a class="btn btn-primary" href="{{forum.urls.create}}">
                         {{$discussion_create_text}}
@@ -69,7 +69,7 @@
                         {{/discussion_create_text}}
                     </a>
                 {{/enablediscussioncreation}}
-            {{/forum.capabilities.selfenrol}}
+            {{/forum.capabilities.selfenroll}}
         {{/forum.capabilities.create}}
         {{#forum.capabilities.grade}}
             {{#forum.state.gradingenabled}}

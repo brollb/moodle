@@ -455,7 +455,7 @@ class sync_members_test extends \lti_advantage_testcase {
      *
      * @covers ::execute
      */
-    public function test_sync_mode_enrol_and_unenrol() {
+    public function test_sync_mode_enrol_and_unenroll() {
         $this->resetAfterTest();
         [$course, $resource] = $this->create_test_environment();
         $userrepo = new user_repository();
@@ -574,7 +574,7 @@ class sync_members_test extends \lti_advantage_testcase {
         $launchservice->user_launches_tool($instructoruser, $mocklaunch);
         $this->assertCount(1, $userrepo->find_by_resource($resource->id));
 
-        // If the task were to run, this would trigger 1 unenrolment (the launching user) and 3 enrolments.
+        // If the task were to run, this would trigger 1 unenrollment (the launching user) and 3 enrolments.
         $task = $this->get_mock_task_with_users($this->get_mock_members_with_ids(range(2, 2)));
         $task->execute();
 
@@ -600,7 +600,7 @@ class sync_members_test extends \lti_advantage_testcase {
         $launchservice->user_launches_tool($instructoruser, $mocklaunch);
         $this->assertCount(1, $userrepo->find_by_resource($resource->id));
 
-        // If the task were to run, this would trigger 1 unenrolment of the launching user and enrolment of 3 users.
+        // If the task were to run, this would trigger 1 unenrollment of the launching user and enrollment of 3 users.
         $task = $this->get_mock_task_with_users($this->get_mock_members_with_ids(range(2, 2)));
         $task->execute();
 
@@ -610,7 +610,7 @@ class sync_members_test extends \lti_advantage_testcase {
     }
 
     /**
-     * Test syncing members when the enrolment instance is disabled.
+     * Test syncing members when the enrollment instance is disabled.
      *
      * @covers ::execute
      */
@@ -622,8 +622,8 @@ class sync_members_test extends \lti_advantage_testcase {
         $userrepo = new user_repository();
 
         // Disable resource 1.
-        $enrol = (object) ['id' => $resource->enrolid, 'status' => ENROL_INSTANCE_DISABLED];
-        $DB->update_record('enrol', $enrol);
+        $enroll = (object) ['id' => $resource->enrolid, 'status' => ENROL_INSTANCE_DISABLED];
+        $DB->update_record('enroll', $enroll);
 
         // Delete the activity being shared by resource2, leaving resource 2 disabled as a result.
         $modcontext = \context::instance_by_id($resource2->contextid);

@@ -84,9 +84,9 @@ class mod_assign_grading_options_form extends moodleform {
 
         // Show active/suspended user option.
         if ($instance['showonlyactiveenrolopt']) {
-            $mform->addElement('checkbox', 'showonlyactiveenrol', get_string('showonlyactiveenrol', 'grades'));
-            $mform->addHelpButton('showonlyactiveenrol', 'showonlyactiveenrol', 'grades');
-            $mform->setDefault('showonlyactiveenrol', $instance['showonlyactiveenrol']);
+            $mform->addElement('checkbox', 'showonlyactiveenroll', get_string('showonlyactiveenroll', 'grades'));
+            $mform->addHelpButton('showonlyactiveenroll', 'showonlyactiveenroll', 'grades');
+            $mform->setDefault('showonlyactiveenroll', $instance['showonlyactiveenroll']);
         }
 
         // Place student downloads in seperate folders.

@@ -42,7 +42,7 @@ Feature: Bulk enrolments
     And I navigate to course participants
     And I click on "Select all" "checkbox"
     And I set the field "With selected users..." to "Delete selected user enrolments"
-    And I press "Unenrol users"
+    And I press "Unenroll users"
     Then I should not see "Student 1"
     And I should not see "Student 2"
     And I should not see "Teacher 1"
@@ -61,7 +61,7 @@ Feature: Bulk enrolments
       | Student 1 | Active |
       | Student 2 | Active |
     And I should not see "Teacher 1" in the "generaltable" "table"
-    And I press "Unenrol users"
+    And I press "Unenroll users"
     And I should see "2 unenrolled users"
     And I should see "User \"Teacher 1\" was removed from the selection."
     And I should see "Teacher 1" in the "participants" "table"
@@ -69,7 +69,7 @@ Feature: Bulk enrolments
     And I should not see "Student 2" in the "participants" "table"
 
   @javascript
-  Scenario: Bulk edit enrolment for deleted user
+  Scenario: Bulk edit enrollment for deleted user
     When I log in as "admin"
     And I navigate to "Users > Accounts > Bulk user actions" in site administration
     And I set the field "Available" to "Student 1"

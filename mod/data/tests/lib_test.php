@@ -998,7 +998,7 @@ class lib_test extends \advanced_testcase {
         $this->assertEmpty($res->prevpageurl);
         $this->assertEmpty($res->nextpageurl);
 
-        // Create and enrol a user.
+        // Create and enroll a user.
         $student = self::getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $this->getDataGenerator()->enrol_user($student->id, $course1->id, $studentrole->id, 'manual');
@@ -1059,7 +1059,7 @@ class lib_test extends \advanced_testcase {
         $this->assertEmpty($res->prevpageurl);
         $this->assertEmpty($res->nextpageurl);
 
-        // Create and enrol a user.
+        // Create and enroll a user.
         $student = self::getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $this->getDataGenerator()->enrol_user($student->id, $course1->id, $studentrole->id, 'manual');
@@ -1083,7 +1083,7 @@ class lib_test extends \advanced_testcase {
         $this->assertStringContainsString('value21', $res->content);
     }
 
-    public function test_mod_data_get_tagged_records_course_enrolment() {
+    public function test_mod_data_get_tagged_records_course_enrollment() {
         global $DB;
 
         $this->resetAfterTest();
@@ -1114,7 +1114,7 @@ class lib_test extends \advanced_testcase {
         $this->assertEmpty($res->prevpageurl);
         $this->assertEmpty($res->nextpageurl);
 
-        // Create and enrol a user.
+        // Create and enroll a user.
         $student = self::getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $this->getDataGenerator()->enrol_user($student->id, $course1->id, $studentrole->id, 'manual');
@@ -1177,7 +1177,7 @@ class lib_test extends \advanced_testcase {
         $this->assertEmpty($res->prevpageurl);
         $this->assertEmpty($res->nextpageurl);
 
-        // Create and enrol a user.
+        // Create and enroll a user.
         $student = self::getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $this->getDataGenerator()->enrol_user($student->id, $course1->id, $studentrole->id, 'manual');
@@ -1212,7 +1212,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         // Create user.
         $student = self::getDataGenerator()->create_user();
-        // User enrolment.
+        // User enrollment.
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $this->getDataGenerator()->enrol_user($student->id, $course->id, $studentrole->id, 'manual');
         $this->setCurrentTimeStart();
@@ -1286,7 +1286,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a database activity.
         $data = $this->getDataGenerator()->create_module('data', array('course' => $course->id,
@@ -1383,7 +1383,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a database activity.
         $data = $this->getDataGenerator()->create_module('data', array('course' => $course->id,
@@ -1444,7 +1444,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a database activity.
         $data = $this->getDataGenerator()->create_module('data', array('course' => $course->id,
@@ -1506,7 +1506,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a database activity.
         $data = $this->getDataGenerator()->create_module('data', array('course' => $course->id,
@@ -1572,7 +1572,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a database activity.
         $data = $this->getDataGenerator()->create_module('data', array('course' => $course->id));
@@ -1953,7 +1953,7 @@ class lib_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = self::getDataGenerator()->create_course();
         $context = \context_course::instance($course->id);
-        $user = self::getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = self::getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $roleid = self::getDataGenerator()->create_role();
         self::getDataGenerator()->role_assign($roleid, $user->id, $context->id);
         assign_capability('moodle/calendar:manageentries', CAP_PROHIBIT, $roleid, $context, true);

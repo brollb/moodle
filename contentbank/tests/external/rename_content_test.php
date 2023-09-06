@@ -117,8 +117,8 @@ class rename_content_test extends \externallib_advanced_testcase {
 
         // Create users.
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Add some content to the content bank as teacher.
         $generator = $this->getDataGenerator()->get_plugin_generator('core_contentbank');

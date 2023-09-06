@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Database enrolment tests.
+ * Database enrollment tests.
  *
  * @package    enrol_database
  * @copyright  2017 Jun Pataleta
@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Database enrolment tests.
+ * Database enrollment tests.
  *
  * @package    enrol_database
  * @copyright  2017 Jun Pataleta
@@ -49,28 +49,28 @@ class lib_test extends \advanced_testcase {
     }
 
     /**
-     * Test for getting user enrolment actions.
+     * Test for getting user enrollment actions.
      */
     public function test_get_user_enrolment_actions() {
         global $CFG, $PAGE;
         $this->resetAfterTest();
 
         // Set page URL to prevent debugging messages.
-        $PAGE->set_url('/enrol/editinstance.php');
+        $PAGE->set_url('/enroll/editinstance.php');
 
         $pluginname = 'database';
 
-        // Only enable the database enrol plugin.
+        // Only enable the database enroll plugin.
         $CFG->enrol_plugins_enabled = $pluginname;
 
         $generator = $this->getDataGenerator();
 
-        // Get the enrol plugin.
+        // Get the enroll plugin.
         $plugin = enrol_get_plugin($pluginname);
 
         // Create a course.
         $course = $generator->create_course();
-        // Enable this enrol plugin for the course.
+        // Enable this enroll plugin for the course.
         $plugin->add_instance($course);
 
         // Create a student.
@@ -78,16 +78,16 @@ class lib_test extends \advanced_testcase {
         // Enrol the student to the course.
         $generator->enrol_user($student->id, $course->id, 'student', $pluginname);
 
-        // Teachers don't have enrol/database:unenrol capability by default. Login as admin for simplicity.
+        // Teachers don't have enroll/database:unenroll capability by default. Login as admin for simplicity.
         $this->setAdminUser();
-        require_once($CFG->dirroot . '/enrol/locallib.php');
+        require_once($CFG->dirroot . '/enroll/locallib.php');
         $manager = new course_enrolment_manager($PAGE, $course);
         $userenrolments = $manager->get_user_enrolments($student->id);
         $this->assertCount(1, $userenrolments);
 
         $ue = reset($userenrolments);
         $actions = $plugin->get_user_enrolment_actions($manager, $ue);
-        // Database enrol has 0 enrol actions for active users.
+        // Database enroll has 0 enroll actions for active users.
         $this->assertCount(0, $actions);
 
         // Enrol actions for a suspended student.
@@ -95,7 +95,7 @@ class lib_test extends \advanced_testcase {
         $ue->status = ENROL_USER_SUSPENDED;
 
         $actions = $plugin->get_user_enrolment_actions($manager, $ue);
-        // Database enrol has enrol actions for suspended students -- unenrol.
+        // Database enroll has enroll actions for suspended students -- unenroll.
         $this->assertCount(1, $actions);
     }
 }

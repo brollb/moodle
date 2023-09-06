@@ -65,7 +65,7 @@ class provider implements
         // General preferences.
         $items->add_user_preference('grade_report_quickgrading', 'privacy:metadata:preference:grade_report_quickgrading');
         $items->add_user_preference('grade_report_studentsperpage', 'privacy:metadata:preference:grade_report_studentsperpage');
-        $items->add_user_preference('grade_report_showonlyactiveenrol', 'privacy:metadata:preference:grade_report_showonlyactiveenrol');
+        $items->add_user_preference('grade_report_showonlyactiveenroll', 'privacy:metadata:preference:grade_report_showonlyactiveenroll');
         $items->add_user_preference('grade_report_aggregationposition', 'privacy:metadata:preference:grade_report_aggregationposition');
 
         // There is also one user preference which can be defined on each course.
@@ -91,7 +91,7 @@ class provider implements
                 case 'grade_report_showranges':
                 case 'grade_report_shownumberofgrades':
                 case 'grade_report_quickgrading':
-                case 'grade_report_showonlyactiveenrol':
+                case 'grade_report_showonlyactiveenroll':
                 case 'grade_report_meanselection':
                     $prefname = $name;
                     switch ($value) {

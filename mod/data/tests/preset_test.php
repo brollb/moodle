@@ -416,7 +416,7 @@ class preset_test extends \advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
         $activity = $this->getDataGenerator()->create_module(manager::MODULE, ['course' => $course]);
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $this->setUser($user);
 
         // Check userid is null for plugin preset.
@@ -678,8 +678,8 @@ class preset_test extends \advanced_testcase {
         // Create course, database activity and users.
         $course = $this->getDataGenerator()->create_course();
         $data = $this->getDataGenerator()->create_module('data', ['course' => $course->id]);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $manager = manager::create_from_instance($data);
 
         $preset1name = 'Admin preset';

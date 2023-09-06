@@ -1,8 +1,8 @@
-@enrol @enrol_manual
-Feature: Teacher can search and enrol users one by one into the course
-  In order to quickly enrol particular students into my course
+@enroll @enrol_manual
+Feature: Teacher can search and enroll users one by one into the course
+  In order to quickly enroll particular students into my course
   As a teacher
-  I can search for the students and enrol them into the course
+  I can search for the students and enroll them into the course
 
   Background:
     Given the following "custom profile fields" exist:
@@ -120,7 +120,7 @@ Feature: Teacher can search and enrol users one by one into the course
     And I am on "Course 001" course homepage
 
   @javascript
-  Scenario: Teacher can search and enrol one particular student
+  Scenario: Teacher can search and enroll one particular student
     Given I navigate to course participants
     And I press "Enrol users"
     When I set the field "Select users" to "student001"
@@ -158,7 +158,7 @@ Feature: Teacher can search and enrol users one by one into the course
     Then I should see "Too many users (>100) to show"
 
   @javascript
-  Scenario: Changing the Maximum users per page setting affects the enrolment pop-up.
+  Scenario: Changing the Maximum users per page setting affects the enrollment pop-up.
     Given the following config values are set as admin:
       | maxusersperpage | 5 |
     And I navigate to course participants
@@ -168,7 +168,7 @@ Feature: Teacher can search and enrol users one by one into the course
     Then I should see "Too many users (>5) to show"
 
   @javascript
-  Scenario: Change the Show user identity setting affects the enrolment pop-up.
+  Scenario: Change the Show user identity setting affects the enrollment pop-up.
     Given I log out
     When I log in as "admin"
     Then the following "users" exist:
@@ -236,14 +236,14 @@ Feature: Teacher can search and enrol users one by one into the course
 #    And I am on "Course 001" course homepage
 #    And I navigate to course participants
 #    And I should see "Student 099" in the "participants" "table"
-#    And I click on "Edit enrolment" "icon" in the "Student 099" "table_row"
+#    And I click on "Edit enrollment" "icon" in the "Student 099" "table_row"
 #    And the field "timeend[day]" matches value "10"
 #
 #  @javascript
 #  Scenario: Update Enrol user
 #    Given I am on "Course 001" course homepage
 #    And I navigate to course participants
-#    When I click on "Edit enrolment" "icon" in the "Teacher 001" "table_row"
+#    When I click on "Edit enrollment" "icon" in the "Teacher 001" "table_row"
 #    Then the "Enrolment duration" "select" should be enabled
 #    # Fill duration
 #    And "input[name='timeend[enabled]'][checked=checked]" "css_element" should not exist
@@ -254,5 +254,5 @@ Feature: Teacher can search and enrol users one by one into the course
 #    And I set the field "timeend[day]" to "28"
 #    And the "Enrolment duration" "select" should be disabled
 #    And I press "Save changes"
-#    And I click on "Edit enrolment" "icon" in the "Teacher 001" "table_row"
+#    And I click on "Edit enrollment" "icon" in the "Teacher 001" "table_row"
 #    And the field "timeend[day]" matches value "28"

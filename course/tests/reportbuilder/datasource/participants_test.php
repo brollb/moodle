@@ -65,14 +65,14 @@ class participants_test extends core_reportbuilder_testcase {
 
         // Course one, two manually enrolled users.
         $courseone = $this->getDataGenerator()->create_course(['fullname' => 'Zebras']);
-        $userone = $this->getDataGenerator()->create_and_enrol($courseone, 'student', ['firstname' => 'Zoe']);
-        $usertwo = $this->getDataGenerator()->create_and_enrol($courseone, 'student', ['firstname' => 'Amy']);
+        $userone = $this->getDataGenerator()->create_and_enroll($courseone, 'student', ['firstname' => 'Zoe']);
+        $usertwo = $this->getDataGenerator()->create_and_enroll($courseone, 'student', ['firstname' => 'Amy']);
 
         // Course two, two self enrolled users (one inactive).
         $coursetwo = $this->getDataGenerator()->create_course(['fullname' => 'Aardvarks']);
 
-        $enrol = $DB->get_record('enrol', ['courseid' => $coursetwo->id, 'enrol' => 'self']);
-        enrol_get_plugin($enrol->enrol)->update_status($enrol, ENROL_INSTANCE_ENABLED);
+        $enroll = $DB->get_record('enroll', ['courseid' => $coursetwo->id, 'enroll' => 'self']);
+        enrol_get_plugin($enroll->enroll)->update_status($enroll, ENROL_INSTANCE_ENABLED);
 
         $this->getDataGenerator()->enrol_user($userone->id, $coursetwo->id, null, 'self');
         $this->getDataGenerator()->enrol_user($usertwo->id, $coursetwo->id, null, 'self', 0, 0, ENROL_USER_SUSPENDED);
@@ -92,7 +92,7 @@ class participants_test extends core_reportbuilder_testcase {
 
         $this->assertEquals([
             ["<a href=\"{$coursetwourl}\">{$coursetwo->fullname}</a>",
-                "<a href=\"{$useroneurl}\">" . fullname($userone) . "</a>", 'Self enrolment (Student)'],
+                "<a href=\"{$useroneurl}\">" . fullname($userone) . "</a>", 'Self enrollment (Student)'],
             ["<a href=\"{$courseoneurl}\">{$courseone->fullname}</a>",
                 "<a href=\"{$usertwourl}\">" . fullname($usertwo) . "</a>", 'Manual enrolments'],
             ["<a href=\"{$courseoneurl}\">{$courseone->fullname}</a>",
@@ -156,13 +156,13 @@ class participants_test extends core_reportbuilder_testcase {
         $generator->create_column(['reportid' => $report->get('id'),
             'uniqueidentifier' => 'user:fullname']);
 
-        // Enrol entity (report ordering by enrolment name).
-        $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enrol:name', 'sortenabled' => 1]);
-        $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enrol:plugin']);
-        $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enrol:enabled']);
-        $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enrol:period']);
-        $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enrol:startdate']);
-        $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enrol:enddate']);
+        // Enrol entity (report ordering by enrollment name).
+        $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enroll:name', 'sortenabled' => 1]);
+        $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enroll:plugin']);
+        $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enroll:enabled']);
+        $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enroll:period']);
+        $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enroll:startdate']);
+        $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enroll:enddate']);
 
         // Role entity.
         $generator->create_column(['reportid' => $report->get('id'), 'uniqueidentifier' => 'role:name']);
@@ -194,17 +194,17 @@ class participants_test extends core_reportbuilder_testcase {
             'uniqueidentifier' => 'completion:grade']);
 
         // Add filter to the report.
-        $generator->create_filter(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enrol:plugin']);
+        $generator->create_filter(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enroll:plugin']);
 
         $content = $this->get_custom_report_content($report->get('id'));
 
-        // It should get 3 records (manual enrolment, self and guest).
+        // It should get 3 records (manual enrollment, self and guest).
         $this->assertCount(3, $content);
 
-        // Filter by Manual enrolment method.
+        // Filter by Manual enrollment method.
         $content = $this->get_custom_report_content($report->get('id'), 30, [
-            'enrol:plugin_operator' => select::EQUAL_TO,
-            'enrol:plugin_value' => 'manual',
+            'enroll:plugin_operator' => select::EQUAL_TO,
+            'enroll:plugin_value' => 'manual',
         ]);
 
         $this->assertCount(1, $content);
@@ -247,79 +247,79 @@ class participants_test extends core_reportbuilder_testcase {
 
         return [
             [
-                'enrolment:status',
+                'enrollment:status',
                 [
-                    'enrolment:status_operator' => select::EQUAL_TO,
-                    'enrolment:status_value' => 1,
+                    'enrollment:status_operator' => select::EQUAL_TO,
+                    'enrollment:status_value' => 1,
                 ],
                 ['Luna'],
             ],
             [
-                'enrolment:timecreated',
+                'enrollment:timecreated',
                 [
-                    'enrolment:timecreated_operator' => date::DATE_CURRENT,
-                    'enrolment:timecreated_unit' => date::DATE_UNIT_DAY,
+                    'enrollment:timecreated_operator' => date::DATE_CURRENT,
+                    'enrollment:timecreated_unit' => date::DATE_UNIT_DAY,
                 ],
                 ['Kira'],
             ],
             [
-                'enrolment:timestarted',
+                'enrollment:timestarted',
                 [
-                    'enrolment:timestarted_operator' => date::DATE_CURRENT,
-                    'enrolment:timecreated_unit' => date::DATE_UNIT_DAY,
+                    'enrollment:timestarted_operator' => date::DATE_CURRENT,
+                    'enrollment:timecreated_unit' => date::DATE_UNIT_DAY,
                 ],
                 ['Luna'],
             ],
             [
-                'enrolment:timeended',
+                'enrollment:timeended',
                 [
-                    'enrolment:timeended_operator' => date::DATE_CURRENT,
-                    'enrolment:timeended_unit' => date::DATE_UNIT_DAY,
+                    'enrollment:timeended_operator' => date::DATE_CURRENT,
+                    'enrollment:timeended_unit' => date::DATE_UNIT_DAY,
                 ],
                 ['Luna'],
             ],
             [
-                'enrol:enabled',
+                'enroll:enabled',
                 [
                     'completion:enabled_operator' => boolean_select::CHECKED,
                 ],
                 ['Lionel', 'Kira', 'Luna'],
             ],
             [
-                'enrol:period',
+                'enroll:period',
                 [
-                    'enrol:period_operator' => duration::DURATION_MAXIMUM,
-                    'enrol:period_unit' => MINSECS,
-                    'enrol:period_value' => 2,
+                    'enroll:period_operator' => duration::DURATION_MAXIMUM,
+                    'enroll:period_unit' => MINSECS,
+                    'enroll:period_value' => 2,
                 ],
                 ['Lionel', 'Kira', 'Luna'],
             ],
             [
-                'enrol:startdate',
+                'enroll:startdate',
                 [
-                    'enrol:startdate_operator' => date::DATE_EMPTY,
+                    'enroll:startdate_operator' => date::DATE_EMPTY,
                 ],
                 ['Lionel', 'Kira', 'Luna'],
             ],
             [
-                'enrol:enddate',
+                'enroll:enddate',
                 [
-                    'enrol:enddate_operator' => date::DATE_EMPTY,
+                    'enroll:enddate_operator' => date::DATE_EMPTY,
                 ],
                 ['Lionel', 'Kira', 'Luna'],
             ],
             [
-                'enrol:customname',
+                'enroll:customname',
                 [
-                    'enrol:customname_operator' => text::IS_EMPTY,
+                    'enroll:customname_operator' => text::IS_EMPTY,
                 ],
                 ['Luna', 'Kira', 'Lionel'],
             ],
             [
-                'enrol:customname',
+                'enroll:customname',
                 [
-                    'enrol:customname_operator' => text::IS_EQUAL_TO,
-                    'enrol:customname_value' => 'All night long'
+                    'enroll:customname_operator' => text::IS_EQUAL_TO,
+                    'enroll:customname_value' => 'All night long'
                 ],
                 [],
             ],
@@ -428,11 +428,11 @@ class participants_test extends core_reportbuilder_testcase {
         $DB->set_field('user_enrolments', 'timecreated', 0, ['userid' => $user3->id]);
 
         // Add filters to the report.
-        $generator->create_filter(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enrol:plugin']);
+        $generator->create_filter(['reportid' => $report->get('id'), 'uniqueidentifier' => 'enroll:plugin']);
         $generator->create_filter(['reportid' => $report->get('id'), 'uniqueidentifier' => $filter]);
 
         // Apply filters.
-        $filtermanual = ['enrol:plugin_operator' => select::EQUAL_TO, 'enrol:plugin_value' => 'manual'];
+        $filtermanual = ['enroll:plugin_operator' => select::EQUAL_TO, 'enroll:plugin_value' => 'manual'];
         $content = $this->get_custom_report_content($report->get('id'), 30, $filtermanual + $filtervalues);
 
         $this->assertEqualsCanonicalizing($expected, array_column($content, 'c0_firstname'));
@@ -451,7 +451,7 @@ class participants_test extends core_reportbuilder_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $this->getDataGenerator()->create_and_enrol($course);
+        $this->getDataGenerator()->create_and_enroll($course);
 
         $this->datasource_stress_test_columns(participants::class);
         $this->datasource_stress_test_columns_aggregation(participants::class);

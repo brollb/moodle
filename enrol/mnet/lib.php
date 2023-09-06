@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * MNet enrolment plugin
+ * MNet enrollment plugin
  *
  * @package    enrol_mnet
  * @copyright  2010 David Mudrak <david@moodle.com>
@@ -25,12 +25,12 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * MNet enrolment plugin implementation for Moodle 2.x enrolment framework
+ * MNet enrollment plugin implementation for Moodle 2.x enrollment framework
  */
 class enrol_mnet_plugin extends enrol_plugin {
 
     /**
-     * Returns localised name of enrol instance
+     * Returns localised name of enroll instance
      *
      * @param object|null $instance enrol_mnet instance
      * @return string
@@ -39,11 +39,11 @@ class enrol_mnet_plugin extends enrol_plugin {
         global $DB;
 
         if (empty($instance)) {
-            $enrol = $this->get_name();
-            return get_string('pluginname', 'enrol_'.$enrol);
+            $enroll = $this->get_name();
+            return get_string('pluginname', 'enrol_'.$enroll);
 
         } else if (empty($instance->name)) {
-            $enrol = $this->get_name();
+            $enroll = $this->get_name();
             if ($role = $DB->get_record('role', array('id'=>$instance->roleid))) {
                 $role = role_get_name($role, context_course::instance($instance->courseid, IGNORE_MISSING));
             } else {
@@ -54,7 +54,7 @@ class enrol_mnet_plugin extends enrol_plugin {
             } else {
                 $host = $DB->get_field('mnet_host', 'name', array('id'=>$instance->customint1));
             }
-            return get_string('pluginname', 'enrol_'.$enrol) . ' (' . format_string($host) . ' - ' . $role .')';
+            return get_string('pluginname', 'enrol_'.$enroll) . ' (' . format_string($host) . ' - ' . $role .')';
 
         } else {
             return format_string($instance->name);
@@ -64,16 +64,16 @@ class enrol_mnet_plugin extends enrol_plugin {
     /**
      * Returns true if a new instance can be added to this course.
      *
-     * The link is returned only if there are some MNet peers that we publish enrolment service to.
+     * The link is returned only if there are some MNet peers that we publish enrollment service to.
      *
      * @param int $courseid id of the course to add the instance to
      * @return boolean
      */
     public function can_add_instance($courseid) {
         global $CFG, $DB;
-        require_once($CFG->dirroot.'/mnet/service/enrol/locallib.php');
+        require_once($CFG->dirroot.'/mnet/service/enroll/locallib.php');
 
-        $service = mnetservice_enrol::get_instance();
+        $service = mnetservice_enroll::get_instance();
         if (!$service->is_available()) {
             return false;
         }
@@ -90,25 +90,25 @@ class enrol_mnet_plugin extends enrol_plugin {
     }
 
     /**
-     * Is it possible to delete enrol instance via standard UI?
+     * Is it possible to delete enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/mnet:config', $context);
+        return has_capability('enroll/mnet:config', $context);
     }
 
     /**
-     * Is it possible to hide/show enrol instance via standard UI?
+     * Is it possible to hide/show enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/mnet:config', $context);
+        return has_capability('enroll/mnet:config', $context);
     }
 
     /**
@@ -118,9 +118,9 @@ class enrol_mnet_plugin extends enrol_plugin {
      */
     protected function get_valid_hosts_options() {
         global $CFG;
-        require_once($CFG->dirroot.'/mnet/service/enrol/locallib.php');
+        require_once($CFG->dirroot.'/mnet/service/enroll/locallib.php');
 
-        $service = mnetservice_enrol::get_instance();
+        $service = mnetservice_enroll::get_instance();
 
         $subscribers = $service->get_remote_subscribers();
         $hosts = array(0 => get_string('remotesubscribersall', 'enrol_mnet'));
@@ -195,8 +195,8 @@ class enrol_mnet_plugin extends enrol_plugin {
         $validroles = array_keys($this->get_valid_roles_options($context));
         $validhosts = array_keys($this->get_valid_hosts_options());
 
-        $params = array('enrol' => 'mnet', 'courseid' => $instance->courseid, 'customint1' => $data['customint1']);
-        if ($DB->record_exists('enrol', $params)) {
+        $params = array('enroll' => 'mnet', 'courseid' => $instance->courseid, 'customint1' => $data['customint1']);
+        if ($DB->record_exists('enroll', $params)) {
             $errors['customint1'] = get_string('error_multiplehost', 'enrol_mnet');
         }
 

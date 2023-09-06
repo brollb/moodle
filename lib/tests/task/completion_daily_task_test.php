@@ -72,7 +72,7 @@ class completion_daily_task_test extends advanced_testcase {
 
         // Enrol the rest.
         foreach ([$c1, $c2, $c3] as $course) {
-            // Enrol s2 by manual and self enrol methods.
+            // Enrol s2 by manual and self enroll methods.
             $generator->enrol_user($s2->id, $course->id, 'student', 'self');
             $generator->enrol_user($s2->id, $course->id, 'student', 'manual', $course->startdate);
 

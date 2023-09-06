@@ -1,8 +1,8 @@
-@enrol @enrol_self
-Feature: Users can auto-enrol themself in courses where self enrolment is allowed
+@enroll @enrol_self
+Feature: Users can auto-enroll themself in courses where self enrollment is allowed
   In order to participate in courses
   As a user
-  I need to auto enrol me in courses
+  I need to auto enroll me in courses
 
   Background:
     Given the following "users" exist:
@@ -19,10 +19,10 @@ Feature: Users can auto-enrol themself in courses where self enrolment is allowe
   # Note: Please keep the javascript tag on this Scenario to ensure that we
   # test use of the singleselect functionality.
   @javascript
-  Scenario: Self-enrolment enabled as guest
+  Scenario: Self-enrollment enabled as guest
     Given I log in as "teacher1"
-    And I add "Self enrolment" enrolment method in "Course 1" with:
-      | Custom instance name | Test student enrolment |
+    And I add "Self enrollment" enrollment method in "Course 1" with:
+      | Custom instance name | Test student enrollment |
     And I log out
     When I am on "Course 1" course homepage
     And I press "Access as a guest"
@@ -30,10 +30,10 @@ Feature: Users can auto-enrol themself in courses where self enrolment is allowe
     And I press "Continue"
     And I should see "Log in"
 
-  Scenario: Self-enrolment enabled
+  Scenario: Self-enrollment enabled
     Given I log in as "teacher1"
-    When I add "Self enrolment" enrolment method in "Course 1" with:
-      | Custom instance name | Test student enrolment |
+    When I add "Self enrollment" enrollment method in "Course 1" with:
+      | Custom instance name | Test student enrollment |
     And I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
@@ -41,10 +41,10 @@ Feature: Users can auto-enrol themself in courses where self enrolment is allowe
     Then I should see "Topic 1"
     And I should not see "Enrolment options"
 
-  Scenario: Self-enrolment enabled requiring an enrolment key
+  Scenario: Self-enrollment enabled requiring an enrollment key
     Given I log in as "teacher1"
-    When I add "Self enrolment" enrolment method in "Course 1" with:
-      | Custom instance name | Test student enrolment |
+    When I add "Self enrollment" enrollment method in "Course 1" with:
+      | Custom instance name | Test student enrollment |
       | Enrolment key | moodle_rules |
     And I log out
     And I log in as "student1"
@@ -56,17 +56,17 @@ Feature: Users can auto-enrol themself in courses where self enrolment is allowe
     And I should not see "Enrolment options"
     And I should not see "Enrol me in this course"
 
-  Scenario: Self-enrolment disabled
+  Scenario: Self-enrollment disabled
     Given I log in as "student1"
     When I am on "Course 1" course homepage
-    Then I should see "You cannot enrol yourself in this course"
+    Then I should see "You cannot enroll yourself in this course"
 
-  Scenario: Self-enrolment enabled requiring a group enrolment key
+  Scenario: Self-enrollment enabled requiring a group enrollment key
     Given I log in as "teacher1"
-    When I add "Self enrolment" enrolment method in "Course 1" with:
-      | Custom instance name | Test student enrolment |
+    When I add "Self enrollment" enrollment method in "Course 1" with:
+      | Custom instance name | Test student enrollment |
       | Enrolment key | moodle_rules |
-      | Use group enrolment keys | Yes |
+      | Use group enrollment keys | Yes |
     And I am on the "Course 1" "groups" page
     And I press "Create group"
     And I set the following fields to these values:
@@ -84,10 +84,10 @@ Feature: Users can auto-enrol themself in courses where self enrolment is allowe
     And I should not see "Enrol me in this course"
 
   @javascript
-  Scenario: Edit a self-enrolled user's enrolment from the course participants page
+  Scenario: Edit a self-enrolled user's enrollment from the course participants page
     Given I log in as "teacher1"
-    When I add "Self enrolment" enrolment method in "Course 1" with:
-      | Custom instance name | Test student enrolment |
+    When I add "Self enrollment" enrollment method in "Course 1" with:
+      | Custom instance name | Test student enrollment |
     And I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
@@ -97,17 +97,17 @@ Feature: Users can auto-enrol themself in courses where self enrolment is allowe
     And I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I navigate to course participants
-    When I click on "//a[@data-action='editenrolment']" "xpath_element" in the "student1" "table_row"
-    And I should see "Edit Student 1's enrolment"
+    When I click on "//a[@data-action='editenrollment']" "xpath_element" in the "student1" "table_row"
+    And I should see "Edit Student 1's enrollment"
     And I set the field "Status" to "Suspended"
     And I click on "Save changes" "button"
     Then I should see "Suspended" in the "student1" "table_row"
 
   @javascript
-  Scenario: Unenrol a self-enrolled student from the course participants page
+  Scenario: Unenroll a self-enrolled student from the course participants page
     Given I log in as "teacher1"
-    When I add "Self enrolment" enrolment method in "Course 1" with:
-      | Custom instance name | Test student enrolment |
+    When I add "Self enrollment" enrollment method in "Course 1" with:
+      | Custom instance name | Test student enrollment |
     And I log out
     And I log in as "student1"
     And I am on "Course 1" course homepage
@@ -117,17 +117,17 @@ Feature: Users can auto-enrol themself in courses where self enrolment is allowe
     And I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I navigate to course participants
-    When I click on "//a[@data-action='unenrol']" "xpath_element" in the "student1" "table_row"
-    And I click on "Unenrol" "button" in the "Unenrol" "dialogue"
+    When I click on "//a[@data-action='unenroll']" "xpath_element" in the "student1" "table_row"
+    And I click on "Unenroll" "button" in the "Unenroll" "dialogue"
     Then I should not see "Student 1" in the "participants" "table"
 
   @javascript
-  Scenario: Self unenrol as a self-enrolled student from the course
+  Scenario: Self unenroll as a self-enrolled student from the course
     Given the "multilang" filter is "on"
     And the "multilang" filter applies to "content and headings"
     And I am on the "C1" "Course" page logged in as "teacher1"
-    When I add "Self enrolment" enrolment method in "Course 1" with:
-      | Custom instance name | Test student enrolment |
+    When I add "Self enrollment" enrollment method in "Course 1" with:
+      | Custom instance name | Test student enrollment |
     And I am on "Course 1" course homepage
     And I navigate to "Settings" in current page administration
     And I set the field "Course full name" in the "General" "fieldset" to "<span lang=\"en\" class=\"multilang\">Course</span><span lang=\"it\" class=\"multilang\">Corso</span> 1"
@@ -137,15 +137,15 @@ Feature: Users can auto-enrol themself in courses where self enrolment is allowe
     And I press "Enrol me"
     And I should see "You are enrolled in the course"
     And I am on the "C1" "course" page
-    And I navigate to "Unenrol me from this course" in current page administration
+    And I navigate to "Unenroll me from this course" in current page administration
     And I click on "Continue" "button" in the "Confirm" "dialogue"
     Then I should see "You are unenrolled from the course \"Course 1\""
 
   @javascript
-  Scenario: Self-enrolment enabled with simultaneous guest access
+  Scenario: Self-enrollment enabled with simultaneous guest access
     Given I log in as "teacher1"
-    And I am on the "Course 1" "enrolment methods" page
-    And I click on "Enable" "link" in the "Self enrolment (Student)" "table_row"
+    And I am on the "Course 1" "enrollment methods" page
+    And I click on "Enable" "link" in the "Self enrollment (Student)" "table_row"
     And I click on "Edit" "link" in the "Guest access" "table_row"
     And I set the following fields to these values:
       | Allow guest access | Yes |

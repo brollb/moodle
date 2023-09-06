@@ -145,7 +145,7 @@ abstract class backup implements checksumable {
     const OPERATION_BACKUP  ='backup'; // We are performing one backup
     const OPERATION_RESTORE ='restore';// We are performing one restore
 
-    // Options for "Include enrolment methods" restore setting.
+    // Options for "Include enrollment methods" restore setting.
     const ENROL_NEVER     = 0;
     const ENROL_WITHUSERS = 1;
     const ENROL_ALWAYS    = 2;

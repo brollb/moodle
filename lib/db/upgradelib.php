@@ -1502,8 +1502,8 @@ function upgrade_add_foreign_key_and_indexes() {
     // Launch add key originalcourseid.
     $dbman->add_key($table, $key);
 
-    // Define key roleid (foreign) to be added to enrol.
-    $table = new xmldb_table('enrol');
+    // Define key roleid (foreign) to be added to enroll.
+    $table = new xmldb_table('enroll');
     $key = new xmldb_key('roleid', XMLDB_KEY_FOREIGN, ['roleid'], 'role', ['id']);
     // Launch add key roleid.
     $dbman->add_key($table, $key);

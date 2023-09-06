@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A bulk operation for the self enrolment plugin to delete selected users enrolments.
+ * A bulk operation for the self enrollment plugin to delete selected users enrolments.
  *
  * @package enrol_self
  * @copyright 2018 Farhan Karmali
@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * A bulk operation for the self enrolment plugin to delete selected users enrolments.
+ * A bulk operation for the self enrollment plugin to delete selected users enrolments.
  *
  * @package enrol_self
  * @copyright 2018 Farhan Karmali
@@ -65,7 +65,7 @@ class enrol_self_deleteselectedusers_operation extends enrol_bulk_enrolment_oper
             $defaultcustomdata = array();
         }
         $defaultcustomdata['title'] = $this->get_title();
-        $defaultcustomdata['message'] = get_string('confirmbulkdeleteenrolment', 'enrol_self');
+        $defaultcustomdata['message'] = get_string('confirmbulkdeleteenrollment', 'enrol_self');
         $defaultcustomdata['button'] = get_string('unenrolusers', 'enrol_self');
 
         return new enrol_self_deleteselectedusers_form($defaultaction, $defaultcustomdata);
@@ -79,15 +79,15 @@ class enrol_self_deleteselectedusers_operation extends enrol_bulk_enrolment_oper
      * @param stdClass $properties The data returned by the form.
      */
     public function process(course_enrolment_manager $manager, array $users, stdClass $properties) {
-        if (!has_capability("enrol/self:unenrol", $manager->get_context())) {
+        if (!has_capability("enroll/self:unenroll", $manager->get_context())) {
             return false;
         }
 
         foreach ($users as $user) {
-            foreach ($user->enrolments as $enrolment) {
-                $plugin = $enrolment->enrolmentplugin;
-                $instance = $enrolment->enrolmentinstance;
-                if ($plugin->allow_unenrol_user($instance, $enrolment)) {
+            foreach ($user->enrolments as $enrollment) {
+                $plugin = $enrollment->enrolmentplugin;
+                $instance = $enrollment->enrolmentinstance;
+                if ($plugin->allow_unenrol_user($instance, $enrollment)) {
                     $plugin->unenrol_user($instance, $user->id);
                 }
             }

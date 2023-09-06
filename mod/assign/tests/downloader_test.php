@@ -69,11 +69,11 @@ class downloader_test extends \advanced_testcase {
         // Create course and enrols.
         $course = $this->getDataGenerator()->create_course();
         $users = [
-            'student1' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
-            'student2' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
-            'student3' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
-            'student4' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
-            'student5' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
+            'student1' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
+            'student2' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
+            'student3' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
+            'student4' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
+            'student5' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
         ];
 
         // Generate groups.

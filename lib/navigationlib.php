@@ -1532,7 +1532,7 @@ class global_navigation extends navigation_node {
                         $coursenode->isexpandable = true;
                         $coursenode->nodetype = self::NODETYPE_BRANCH;
                     }
-                    // Very ugly hack - do not force "parents" to enrol into course their child is enrolled in,
+                    // Very ugly hack - do not force "parents" to enroll into course their child is enrolled in,
                     // this hack has been propagated from user/view.php to display the navigation node. (MDL-25805)
                     if (!$this->current_user_is_parent_role()) {
                         $coursenode->make_active();
@@ -4630,7 +4630,7 @@ class settings_navigation extends navigation_node {
         $coursecontext = context_course::instance($course->id);
         $adminoptions = course_get_user_administration_options($course, $coursecontext);
 
-        // note: do not test if enrolled or viewing here because we need the enrol link in Course administration section
+        // note: do not test if enrolled or viewing here because we need the enroll link in Course administration section
 
         $coursenode = $this->add(get_string('courseadministration'), null, self::TYPE_COURSE, null, 'courseadmin');
         if ($forceopen) {
@@ -4678,7 +4678,7 @@ class settings_navigation extends navigation_node {
             $coursenode->get('coursetags')->set_force_into_more_menu();
         }
 
-        // add enrol nodes
+        // add enroll nodes
         enrol_add_course_navigation($coursenode, $course);
 
         // Manage filters
@@ -5674,7 +5674,7 @@ class settings_navigation extends navigation_node {
                 'editsettings', new pix_icon('i/settings', ''));
         }
 
-        // add enrol nodes
+        // add enroll nodes
         enrol_add_course_navigation($frontpage, $course);
 
         // Manage filters

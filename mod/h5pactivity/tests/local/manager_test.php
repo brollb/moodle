@@ -78,7 +78,7 @@ class manager_test extends \advanced_testcase {
         $activity = $this->getDataGenerator()->create_module('h5pactivity',
                 ['course' => $course, 'enabletracking' => $enabletracking]);
 
-        $user = $this->getDataGenerator()->create_and_enrol($course, $role);
+        $user = $this->getDataGenerator()->create_and_enroll($course, $role);
         if ($login) {
             $this->setUser($user);
             $param = null;
@@ -144,9 +144,9 @@ class manager_test extends \advanced_testcase {
                 ['course' => $course, 'enabletracking' => $enabletracking, 'grademethod' => $gradingmethod]);
 
         // Generate two users with 4 attempts each.
-        $user1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->generate_fake_attempts($activity, $user1, 1);
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->generate_fake_attempts($activity, $user2, 2);
 
         $manager = manager::create_from_instance($activity);
@@ -371,7 +371,7 @@ class manager_test extends \advanced_testcase {
 
         $manager = manager::create_from_instance($activity);
 
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $loggedin = $USER;
 
         // We want to test what when the method is called to check a different user than $USER.
@@ -448,7 +448,7 @@ class manager_test extends \advanced_testcase {
 
         $manager = manager::create_from_instance($activity);
 
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         if ($hasattempts) {
             $this->generate_fake_attempts($activity, $user, 1);
@@ -537,14 +537,14 @@ class manager_test extends \advanced_testcase {
         $manager = manager::create_from_instance($activity);
 
         // User without attempts.
-        $user1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // User with 1 attempt.
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->generate_fake_attempts($activity, $user2, 1);
 
         // User with 2 attempts.
-        $user3 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user3 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->generate_fake_attempts($activity, $user3, 1);
 
         // Incomplete user2 and 3 has only 3 attempts completed.
@@ -586,16 +586,16 @@ class manager_test extends \advanced_testcase {
 
         // Teacher with review capability and attempts (should not be listed).
         if ($extrarole) {
-            $user1 = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+            $user1 = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
             $this->generate_fake_attempts($activity, $user1, 1);
         }
 
         // Student with attempts.
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->generate_fake_attempts($activity, $user2, 1);
 
         // Another student with attempts.
-        $user3 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user3 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->generate_fake_attempts($activity, $user3, 1);
 
         $this->assertEquals($result, $manager->count_attempts());
@@ -643,16 +643,16 @@ class manager_test extends \advanced_testcase {
 
         $manager = manager::create_from_instance($activity);
 
-        $user1 = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user1 = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $this->generate_fake_attempts($activity, $user1, 1);
 
         // Student with attempts.
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->generate_fake_attempts($activity, $user2, 1);
 
         // 2 more students without attempts.
-        $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $usersjoin = $manager->get_active_users_join($allpotentialusers);
 
@@ -697,24 +697,24 @@ class manager_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course(['groupmode' => SEPARATEGROUPS, 'groupmodeforce' => 1]);
 
         // Teacher/user one in group one.
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $userone = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $userone = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $groupone = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         $this->getDataGenerator()->create_group_member(['groupid' => $groupone->id, 'userid' => $teacher->id]);
         $this->getDataGenerator()->create_group_member(['groupid' => $groupone->id, 'userid' => $userone->id]);
 
         // User two in group two.
-        $usertwo = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $usertwo = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grouptwo = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         $this->getDataGenerator()->create_group_member(['groupid' => $grouptwo->id, 'userid' => $usertwo->id]);
 
         // User three in no group.
-        $userthree = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $userthree = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // User four in a non-participation group.
-        $userfour = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $userfour = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $groupthree = $this->getDataGenerator()->create_group(['courseid' => $course->id, 'participation' => 0]);
         $this->getDataGenerator()->create_group_member(['groupid' => $groupthree->id, 'userid' => $userfour->id]);
 
@@ -757,7 +757,7 @@ class manager_test extends \advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $manager = manager::create_from_instance($activity);
 
@@ -796,14 +796,14 @@ class manager_test extends \advanced_testcase {
         $manager = manager::create_from_instance($activity);
 
         // User without attempts.
-        $user1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // User with 1 attempt.
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->generate_fake_attempts($activity, $user2, 1);
 
         // User with 2 attempts.
-        $user3 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user3 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->generate_fake_attempts($activity, $user3, 1);
 
         $attempts = $manager->count_users_attempts();
@@ -838,9 +838,9 @@ class manager_test extends \advanced_testcase {
         $cm = get_coursemodule_from_id('h5pactivity', $activity->cmid, 0, false, MUST_EXIST);
 
         $users = [
-            'editingteacher' => $this->getDataGenerator()->create_and_enrol($course, 'editingteacher'),
-            'student' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
-            'otheruser' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
+            'editingteacher' => $this->getDataGenerator()->create_and_enroll($course, 'editingteacher'),
+            'student' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
+            'otheruser' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
         ];
 
         $attempts = [];
@@ -981,7 +981,7 @@ class manager_test extends \advanced_testcase {
 
         $manager = manager::create_from_instance($activity);
 
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $attempts = ['inexistent' => 0];
 

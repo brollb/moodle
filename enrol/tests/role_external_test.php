@@ -14,19 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace core_enrol;
+namespace core_enroll;
 
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
-require_once($CFG->dirroot . '/enrol/externallib.php');
+require_once($CFG->dirroot . '/enroll/externallib.php');
 
 /**
  * Role external PHPunit tests
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @category   test
  * @copyright  2012 Jerome Mouneyrac
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -39,7 +39,7 @@ class role_external_test extends \externallib_advanced_testcase {
      */
     protected function setUp(): void {
         global $CFG;
-        require_once($CFG->dirroot . '/enrol/externallib.php');
+        require_once($CFG->dirroot . '/enroll/externallib.php');
     }
 
     /**

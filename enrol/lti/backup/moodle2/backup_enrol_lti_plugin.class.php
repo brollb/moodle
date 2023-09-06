@@ -34,7 +34,7 @@ defined('MOODLE_INTERNAL') || die();
 class backup_enrol_lti_plugin extends backup_enrol_plugin {
 
     /**
-     * Defines the other LTI enrolment structures to append.
+     * Defines the other LTI enrollment structures to append.
      *
      * @return backup_plugin_element
      */

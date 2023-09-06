@@ -1,33 +1,33 @@
-.path-admin-mnet-service-enrol .singlebutton {
+.path-admin-mnet-service-enroll .singlebutton {
     text-align: center;
 }
-.path-admin-mnet-service-enrol table.remotehosts,
-.path-admin-mnet-service-enrol table.otherenrolledusers,
-.path-admin-mnet-service-enrol table.remotecourses {
+.path-admin-mnet-service-enroll table.remotehosts,
+.path-admin-mnet-service-enroll table.otherenrolledusers,
+.path-admin-mnet-service-enroll table.remotecourses {
     margin: 0 auto 1em auto;
 }
-.path-admin-mnet-service-enrol table.remotecourses th.categoryname {
+.path-admin-mnet-service-enroll table.remotecourses th.categoryname {
     text-align: left;
     background-color: #f6f6f6;
 }
-.path-admin-mnet-service-enrol table.remotecourses td.c1 {
+.path-admin-mnet-service-enroll table.remotecourses td.c1 {
     font-weight: bold;
 }
-.path-admin-mnet-service-enrol table.remotecourses th.categoryname img {
+.path-admin-mnet-service-enroll table.remotecourses th.categoryname img {
     margin-right: 1em;
 }
-.path-admin-mnet-service-enrol .collapsibleregioncaption {
+.path-admin-mnet-service-enroll .collapsibleregioncaption {
     font-size: 110%;
     font-weight: bold;
     text-align: center;
 }
-.path-admin-mnet-service-enrol .collapsibleregioninner {
+.path-admin-mnet-service-enroll .collapsibleregioninner {
     border: 1px solid #ddd;
     padding: 1em;
 }
-.path-admin-mnet-service-enrol .collapsibleregion.remotecourse.summary {
+.path-admin-mnet-service-enroll .collapsibleregion.remotecourse.summary {
     margin: 0 10em;
 }
-.path-admin-mnet-service-enrol .roleassigntable {
+.path-admin-mnet-service-enroll .roleassigntable {
     margin: 1em auto;
 }

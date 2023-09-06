@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * imsenterprise enrolment plugin installation.
+ * imsenterprise enrollment plugin installation.
  *
  * @package    enrol_imsenterprise
  * @copyright  2011 Petr Skoda {@link http://skodak.org}

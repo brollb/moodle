@@ -274,9 +274,9 @@ Feature: View course participants
     And I should not see "Student 10x" in the "participants" "table"
     And I should not see "Student 11x" in the "participants" "table"
 
-  Scenario: Check status after disabling manual enrolment
+  Scenario: Check status after disabling manual enrollment
     Given I log in as "admin"
-    And I am on the "Course 1" "enrolment methods" page
+    And I am on the "Course 1" "enrollment methods" page
     And I click on "Disable" "link" in the "Manual enrolments" "table_row"
     Then I navigate to course participants
     And I should see "Not current" in the "student0x" "table_row"

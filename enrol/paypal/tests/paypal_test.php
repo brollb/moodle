@@ -17,7 +17,7 @@
 namespace enrol_paypal;
 
 /**
- * paypal enrolment plugin tests.
+ * paypal enrollment plugin tests.
  *
  * @package    enrol_paypal
  * @category   test
@@ -93,15 +93,15 @@ class paypal_test extends \advanced_testcase {
 
         $data = array('roleid'=>$studentrole->id, 'courseid'=>$course1->id);
         $id = $paypalplugin->add_instance($course1, $data);
-        $instance1  = $DB->get_record('enrol', array('id'=>$id));
+        $instance1  = $DB->get_record('enroll', array('id'=>$id));
         $data = array('roleid'=>$studentrole->id, 'courseid'=>$course2->id);
         $id = $paypalplugin->add_instance($course2, $data);
-        $instance2 = $DB->get_record('enrol', array('id'=>$id));
+        $instance2 = $DB->get_record('enroll', array('id'=>$id));
         $data = array('roleid'=>$teacherrole->id, 'courseid'=>$course2->id);
         $id = $paypalplugin->add_instance($course2, $data);
-        $instance3 = $DB->get_record('enrol', array('id'=>$id));
+        $instance3 = $DB->get_record('enroll', array('id'=>$id));
 
-        $maninstance1 = $DB->get_record('enrol', array('courseid'=>$course2->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $maninstance1 = $DB->get_record('enroll', array('courseid'=>$course2->id, 'enroll'=>'manual'), '*', MUST_EXIST);
 
         $manualplugin->enrol_user($maninstance1, $user3->id, $studentrole->id);
 
@@ -168,28 +168,28 @@ class paypal_test extends \advanced_testcase {
     }
 
     /**
-     * Test for getting user enrolment actions.
+     * Test for getting user enrollment actions.
      */
     public function test_get_user_enrolment_actions() {
         global $CFG, $PAGE;
         $this->resetAfterTest();
 
         // Set page URL to prevent debugging messages.
-        $PAGE->set_url('/enrol/editinstance.php');
+        $PAGE->set_url('/enroll/editinstance.php');
 
         $pluginname = 'paypal';
 
-        // Only enable the paypal enrol plugin.
+        // Only enable the paypal enroll plugin.
         $CFG->enrol_plugins_enabled = $pluginname;
 
         $generator = $this->getDataGenerator();
 
-        // Get the enrol plugin.
+        // Get the enroll plugin.
         $plugin = enrol_get_plugin($pluginname);
 
         // Create a course.
         $course = $generator->create_course();
-        // Enable this enrol plugin for the course.
+        // Enable this enroll plugin for the course.
         $plugin->add_instance($course);
 
         // Create a student.
@@ -197,18 +197,18 @@ class paypal_test extends \advanced_testcase {
         // Enrol the student to the course.
         $generator->enrol_user($student->id, $course->id, 'student', $pluginname);
 
-        require_once($CFG->dirroot . '/enrol/locallib.php');
+        require_once($CFG->dirroot . '/enroll/locallib.php');
         $manager = new \course_enrolment_manager($PAGE, $course);
         $userenrolments = $manager->get_user_enrolments($student->id);
         $this->assertCount(1, $userenrolments);
 
         $ue = reset($userenrolments);
 
-        // Login as admin to see all enrol actions.
+        // Login as admin to see all enroll actions.
         $this->setAdminUser();
         $actions = $plugin->get_user_enrolment_actions($manager, $ue);
 
-        // Paypal enrolment has 2 enrol actions for active users when logged in as admin: edit and unenrol.
+        // Paypal enrollment has 2 enroll actions for active users when logged in as admin: edit and unenroll.
         $this->assertCount(2, $actions);
 
         // Enrol actions when viewing as a teacher.
@@ -219,7 +219,7 @@ class paypal_test extends \advanced_testcase {
         // Login as the teacher.
         $this->setUser($teacher);
         $actions = $plugin->get_user_enrolment_actions($manager, $ue);
-        // Teachers don't have the enrol/paypal:unenrol capability by default, but have enrol/paypal:manage.
+        // Teachers don't have the enroll/paypal:unenroll capability by default, but have enroll/paypal:manage.
         $this->assertCount(1, $actions);
     }
 }

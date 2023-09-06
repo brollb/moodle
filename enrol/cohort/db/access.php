@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    'enrol/cohort:config' => array(
+    'enroll/cohort:config' => array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
@@ -36,8 +36,8 @@ $capabilities = array(
         )
     ),
 
-    /* This is used only when sync suspends users instead of full unenrolment. */
-    'enrol/cohort:unenrol' => array(
+    /* This is used only when sync suspends users instead of full unenrollment. */
+    'enroll/cohort:unenroll' => array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,

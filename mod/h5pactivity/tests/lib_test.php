@@ -48,7 +48,7 @@ class lib_test extends advanced_testcase {
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
         $this->setUser($user);
 
@@ -116,7 +116,7 @@ class lib_test extends advanced_testcase {
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $activity = $this->getDataGenerator()->create_module('h5pactivity',
             ['course' => $course, 'enabletracking' => 1, 'grademethod' => manager::GRADEHIGHESTATTEMPT]);
 
@@ -143,8 +143,8 @@ class lib_test extends advanced_testcase {
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $activity = $this->getDataGenerator()->create_module('h5pactivity',
             ['course' => $course, 'enabletracking' => 1, 'grademethod' => manager::GRADEHIGHESTATTEMPT]);
 
@@ -174,8 +174,8 @@ class lib_test extends advanced_testcase {
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $activity = $this->getDataGenerator()->create_module('h5pactivity',
             ['course' => $course, 'enabletracking' => 1, 'grademethod' => manager::GRADEHIGHESTATTEMPT]);
 
@@ -220,10 +220,10 @@ class lib_test extends advanced_testcase {
         // Create users and groups.
         $students = array();
         $groups = array();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         for ($i = 1; $i < 6; $i++) {
-            $students[$i] = $this->getDataGenerator()->create_and_enrol($course, 'student');
+            $students[$i] = $this->getDataGenerator()->create_and_enroll($course, 'student');
             $groups[$i] = $this->getDataGenerator()->create_group(array('courseid' => $course->id));
         }
         $groups[$i] = $this->getDataGenerator()->create_group(array('courseid' => $course->id, 'participation' => 0));
@@ -342,7 +342,7 @@ class lib_test extends advanced_testcase {
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
         $this->setUser($user);
 

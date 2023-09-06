@@ -80,7 +80,7 @@ class provider_test extends provider_testcase {
     }
 
     /**
-     * Verify that the relevant course contexts are returned for users with pending enrolment records.
+     * Verify that the relevant course contexts are returned for users with pending enrollment records.
      */
     public function test_get_contexts_for_user() {
         global $DB;
@@ -104,7 +104,7 @@ class provider_test extends provider_testcase {
     }
 
     /**
-     * Verify the export includes any future enrolment records for the user.
+     * Verify the export includes any future enrollment records for the user.
      */
     public function test_export_user_data() {
         // Create, via flatfile syncing, the future enrolments entries in the enrol_flatfile table.
@@ -123,8 +123,8 @@ class provider_test extends provider_testcase {
         // Export for the approved contexts.
         provider::export_user_data($approvedcontextlist);
 
-        // Verify we see one future course enrolment in course1, and one in course3.
-        $subcontext = \core_enrol\privacy\provider::get_subcontext([get_string('pluginname', 'enrol_flatfile')]);
+        // Verify we see one future course enrollment in course1, and one in course3.
+        $subcontext = \core_enroll\privacy\provider::get_subcontext([get_string('pluginname', 'enrol_flatfile')]);
 
         $writer = writer::with_context($this->coursecontext1);
         $this->assertNotEmpty($writer->get_data($subcontext));
@@ -138,7 +138,7 @@ class provider_test extends provider_testcase {
     }
 
     /**
-     * Verify export will limit any future enrolment records to only those contextids provided.
+     * Verify export will limit any future enrollment records to only those contextids provided.
      */
     public function test_export_user_data_restricted_context_subset() {
         // Create, via flatfile syncing, the future enrolments entries in the enrol_flatfile table.
@@ -154,8 +154,8 @@ class provider_test extends provider_testcase {
         // Export for the approved contexts.
         provider::export_user_data($subsetapprovedcontextlist);
 
-        // Verify we see one future course enrolment in course1 only.
-        $subcontext = \core_enrol\privacy\provider::get_subcontext([get_string('pluginname', 'enrol_flatfile')]);
+        // Verify we see one future course enrollment in course1 only.
+        $subcontext = \core_enroll\privacy\provider::get_subcontext([get_string('pluginname', 'enrol_flatfile')]);
 
         $writer = writer::with_context($this->coursecontext1);
         $this->assertNotEmpty($writer->get_data($subcontext));
@@ -243,7 +243,7 @@ class provider_test extends provider_testcase {
         // Create, via flatfile syncing, the future enrolments entries in the enrol_flatfile table.
         $this->create_future_enrolments();
 
-        // Verify we have 3 future enrolment for user 1, user 3 and user 4.
+        // Verify we have 3 future enrollment for user 1, user 3 and user 4.
         $userlist = new \core_privacy\local\request\userlist($this->coursecontext1, 'enrol_flatfile');
         provider::get_users_in_context($userlist);
         $this->assertEqualsCanonicalizing(
@@ -285,7 +285,7 @@ class provider_test extends provider_testcase {
         $future = $now + 60 * 60 * 5;
         $farfuture = $now + 60 * 60 * 24 * 5;
 
-        $file = "$CFG->dataroot/enrol.txt";
+        $file = "$CFG->dataroot/enroll.txt";
         $data = "add,student,u1,c1,$future,0
                  add,student,u2,c2,$future,0
                  add,student,u3,c1,$future,0

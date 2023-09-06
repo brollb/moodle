@@ -51,8 +51,8 @@ class importziplib_test extends \advanced_testcase {
         // Do the initial assign setup.
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
                 'assignsubmission_onlinetext_enabled' => 1,

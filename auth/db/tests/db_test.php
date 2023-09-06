@@ -179,7 +179,7 @@ class db_test extends \advanced_testcase {
         $this->resetAfterTest(true);
 
         // NOTE: It is strongly discouraged to create new tables in advanced_testcase classes,
-        //       but there is no other simple way to test ext database enrol sync, so let's
+        //       but there is no other simple way to test ext database enroll sync, so let's
         //       disable transactions are try to cleanup after the tests.
 
         $this->preventResetByRollback();

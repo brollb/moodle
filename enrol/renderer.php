@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is the main renderer for the enrol section.
+ * This is the main renderer for the enroll section.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2010 Sam Hemelryk
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -89,7 +89,7 @@ class core_enrol_renderer extends plugin_renderer_base {
     }
 
     /**
-     * Renders a course enrolment table
+     * Renders a course enrollment table
      *
      * @param course_enrolment_table $table
      * @return string
@@ -99,7 +99,7 @@ class core_enrol_renderer extends plugin_renderer_base {
         $table->initialise_javascript();
 
         $content = '';
-        $content .= html_writer::tag('div', get_string('otheruserdesc', 'enrol'), array('class'=>'otherusersdesc'));
+        $content .= html_writer::tag('div', get_string('otheruserdesc', 'enroll'), array('class'=>'otherusersdesc'));
         $content .= $this->output->render($table->get_paging_bar());
         $content .= html_writer::table($table);
         $content .= $this->output->render($table->get_paging_bar());
@@ -202,13 +202,13 @@ class core_enrol_renderer extends plugin_renderer_base {
             foreach ($ue['actions'] as $action) {
                 $enrolmentoutput .= $this->render($action);
             }
-            $output .= html_writer::tag('div', $enrolmentoutput, array('class'=>'enrolment'));
+            $output .= html_writer::tag('div', $enrolmentoutput, array('class'=>'enrollment'));
         }
         return $output;
     }
 
     /**
-     * Renders a user enrolment action
+     * Renders a user enrollment action
      * @param user_enrolment_action $icon
      * @return string
      */
@@ -218,16 +218,16 @@ class core_enrol_renderer extends plugin_renderer_base {
 }
 
 /**
- * Main course enrolment table
+ * Main course enrollment table
  *
- * This table is used to display the enrolment information for a course.
- * It requires that a course enrolment manager be provided during constuct with
+ * This table is used to display the enrollment information for a course.
+ * It requires that a course enrollment manager be provided during constuct with
  * provides all of the information for the table.
  * The control then produces the table, the paging, and the associated JS actions
  * for the page.
  *
  * @package    core
- * @subpackage enrol
+ * @subpackage enroll
  * @copyright  2010 Sam Hemelryk
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -337,7 +337,7 @@ class course_enrolment_table extends html_table implements renderable {
     protected $fields = array();
 
     /**
-     * An array of bulk user enrolment operations
+     * An array of bulk user enrollment operations
      * @var array
      */
     protected $bulkoperations = array();
@@ -368,7 +368,7 @@ class course_enrolment_table extends html_table implements renderable {
         $this->sort           = optional_param(self::SORTVAR, self::DEFAULTSORT, PARAM_ALPHANUM);
         $this->sortdirection  = optional_param(self::SORTDIRECTIONVAR, self::DEFAULTSORTDIRECTION, PARAM_ALPHA);
 
-        $this->attributes = array('class' => 'userenrolment table-striped');
+        $this->attributes = array('class' => 'userenrollment table-striped');
         if (!in_array($this->sort, self::$sortablefields)) {
             $this->sort = self::DEFAULTSORT;
         }
@@ -390,7 +390,7 @@ class course_enrolment_table extends html_table implements renderable {
 
     /**
      * Returns an array of enrol_user_buttons that are created by the different
-     * enrolment plugins available.
+     * enrollment plugins available.
      *
      * @return array
      */
@@ -533,8 +533,8 @@ class course_enrolment_table extends html_table implements renderable {
                 'confirmunassignyes',
                 'confirmunassignno'
             ), 'role');
-            $modules = array('moodle-enrol-rolemanager', 'moodle-enrol-rolemanager-skin');
-            $function = 'M.enrol.rolemanager.init';
+            $modules = array('moodle-enroll-rolemanager', 'moodle-enroll-rolemanager-skin');
+            $function = 'M.enroll.rolemanager.init';
             $arguments = array(
                 'containerId'=>$this->id,
                 'userIds'=>array_keys($this->users),
@@ -618,7 +618,7 @@ class course_enrolment_table extends html_table implements renderable {
 
     /**
      * Returns true fi the table is aware of any bulk operations that can be performed on users
-     * selected from the currently filtered enrolment plugins.
+     * selected from the currently filtered enrollment plugins.
      *
      * @return bool
      */
@@ -654,7 +654,7 @@ class course_enrolment_other_users_table extends course_enrolment_table {
      */
     public function __construct(course_enrolment_manager $manager) {
         parent::__construct($manager);
-        $this->attributes = array('class'=>'userenrolment otheruserenrolment');
+        $this->attributes = array('class'=>'userenrollment otheruserenrollment');
     }
 
     /**
@@ -679,11 +679,11 @@ class course_enrolment_other_users_table extends course_enrolment_table {
                     'ajaxxusersfound',
                     'ajaxxmoreusersfound',
                     'ajaxnext25',
-                    'enrol',
+                    'enroll',
                     'enrolmentoptions',
                     'enrolusers',
                     'enrolxusers',
-                    'errajaxfailedenrol',
+                    'errajaxfailedenroll',
                     'errajaxsearch',
                     'foundxcohorts',
                     'none',
@@ -691,14 +691,14 @@ class course_enrolment_other_users_table extends course_enrolment_table {
                     'unlimitedduration',
                     'startdatetoday',
                     'durationdays',
-                    'enrolperiod'), 'enrol');
+                    'enrolperiod'), 'enroll');
             $this->manager->get_moodlepage()->requires->string_for_js('assignrole', 'role');
 
-            $modules = array('moodle-enrol-otherusersmanager', 'moodle-enrol-otherusersmanager-skin');
-            $function = 'M.enrol.otherusersmanager.init';
+            $modules = array('moodle-enroll-otherusersmanager', 'moodle-enroll-otherusersmanager-skin');
+            $function = 'M.enroll.otherusersmanager.init';
             $arguments = array(
                 'courseId'=> $this->manager->get_course()->id,
-                'ajaxUrl' => '/enrol/ajax.php',
+                'ajaxUrl' => '/enroll/ajax.php',
                 'url' => $this->manager->get_moodlepage()->url->out(false));
             $this->manager->get_moodlepage()->requires->yui_module($modules, $function, array($arguments));
         }

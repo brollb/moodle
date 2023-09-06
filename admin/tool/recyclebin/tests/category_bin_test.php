@@ -219,7 +219,7 @@ class category_bin_test extends \advanced_testcase {
         // We want user data to be included for this test.
         set_config('backup_auto_users', true, 'backup');
 
-        $student = $this->getDataGenerator()->create_and_enrol($this->course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($this->course, 'student');
 
         // Delete course.
         delete_course($this->course, false);
@@ -263,7 +263,7 @@ class category_bin_test extends \advanced_testcase {
         // We want user data to be included for this test.
         set_config('backup_auto_users', false, 'backup');
 
-        $student = $this->getDataGenerator()->create_and_enrol($this->course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($this->course, 'student');
 
         // Delete course.
         delete_course($this->course, false);

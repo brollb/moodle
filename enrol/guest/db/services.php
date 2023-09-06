@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Guest enrolment external functions and service definitions.
+ * Guest enrollment external functions and service definitions.
  *
  * @package    enrol_guest
  * @category   external
@@ -29,7 +29,7 @@ $functions = array(
     'enrol_guest_get_instance_info' => array(
         'classname'   => 'enrol_guest_external',
         'methodname'  => 'get_instance_info',
-        'description' => 'Return guest enrolment instance information.',
+        'description' => 'Return guest enrollment instance information.',
         'type'        => 'read',
         'services'    => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
     ),

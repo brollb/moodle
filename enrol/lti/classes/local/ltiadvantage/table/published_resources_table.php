@@ -109,7 +109,7 @@ class published_resources_table extends \table_sql {
 
         $customparamslabel = get_string('customproperties', 'enrol_lti');
         $customparams = "id={$tool->uuid}";
-        $launchurl = new \moodle_url('/enrol/lti/launch.php');
+        $launchurl = new \moodle_url('/enroll/lti/launch.php');
         $launchurllabel = get_string('launchurl', 'enrol_lti');
 
         $data = [
@@ -148,14 +148,14 @@ class published_resources_table extends \table_sql {
         $instance = new \stdClass();
         $instance->id = $tool->enrolid;
         $instance->courseid = $tool->courseid;
-        $instance->enrol = 'lti';
+        $instance->enroll = 'lti';
         $instance->status = $tool->status;
 
         $strdelete = get_string('delete');
         $strenable = get_string('enable');
         $strdisable = get_string('disable');
 
-        $url = new \moodle_url('/enrol/lti/index.php', array('sesskey' => sesskey(), 'courseid' => $this->courseid));
+        $url = new \moodle_url('/enroll/lti/index.php', array('sesskey' => sesskey(), 'courseid' => $this->courseid));
 
         if ($this->ltiplugin->can_delete_instance($instance)) {
             $aurl = new \moodle_url($url, array('action' => 'delete', 'instanceid' => $instance->id));
@@ -178,10 +178,10 @@ class published_resources_table extends \table_sql {
         if ($this->ltienabled && $this->canconfig) {
             $linkparams = array(
                 'courseid' => $instance->courseid,
-                'id' => $instance->id, 'type' => $instance->enrol,
-                'returnurl' => new \moodle_url('/enrol/lti/index.php', array('courseid' => $this->courseid))
+                'id' => $instance->id, 'type' => $instance->enroll,
+                'returnurl' => new \moodle_url('/enroll/lti/index.php', array('courseid' => $this->courseid))
             );
-            $editlink = new \moodle_url("/enrol/editinstance.php", $linkparams);
+            $editlink = new \moodle_url("/enroll/editinstance.php", $linkparams);
             $buttons[] = $OUTPUT->action_icon($editlink, new \pix_icon('t/edit', get_string('edit'), 'core',
                 array('class' => 'iconsmall')));
         }
@@ -223,7 +223,7 @@ class published_resources_table extends \table_sql {
     }
 
     /**
-     * Get a warning icon, with tooltip, describing enrolment instances sharing activities which have been deleted.
+     * Get a warning icon, with tooltip, describing enrollment instances sharing activities which have been deleted.
      *
      * @param \stdClass $tool the tool instance record.
      * @return string the HTML for the name column.

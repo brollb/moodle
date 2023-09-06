@@ -17,7 +17,7 @@
 /**
  * Enrolment steps definitions.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @category   test
  * @copyright  2013 David Monllaó
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -30,29 +30,29 @@ require_once(__DIR__ . '/../../../lib/behat/behat_base.php');
 use Behat\Gherkin\Node\TableNode as TableNode;
 
 /**
- * Steps definitions for general enrolment actions.
+ * Steps definitions for general enrollment actions.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @category   test
  * @copyright  2013 David Monllaó
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class behat_enrol extends behat_base {
+class behat_enroll extends behat_base {
 
     /**
-     * Add the specified enrolment method to the specified course filling the form with the provided data.
+     * Add the specified enrollment method to the specified course filling the form with the provided data.
      *
-     * @Given /^I add "(?P<enrolment_method_name_string>(?:[^"]|\\")*)" enrolment method in "(?P<course_identifier_string>(?:[^"]|\\")*)" with:$/
-     * @param string $enrolmethod The enrolment method being used
+     * @Given /^I add "(?P<enrolment_method_name_string>(?:[^"]|\\")*)" enrollment method in "(?P<course_identifier_string>(?:[^"]|\\")*)" with:$/
+     * @param string $enrolmethod The enrollment method being used
      * @param string $courseidentifier The courseidentifier such as short name
      * @param TableNode $table Enrolment details
      */
     public function i_add_enrolment_method_for_with(string $enrolmethod, string $courseidentifier, TableNode $table): void {
-        $this->execute("behat_navigation::i_am_on_page_instance", [$courseidentifier, 'enrolment methods']);
+        $this->execute("behat_navigation::i_am_on_page_instance", [$courseidentifier, 'enrollment methods']);
 
-        // Select enrolment method.
+        // Select enrollment method.
         $this->execute('behat_forms::i_select_from_the_singleselect',
-            array($this->escape($enrolmethod), get_string('addinstance', 'enrol'))
+            array($this->escape($enrolmethod), get_string('addinstance', 'enroll'))
         );
 
         // Wait again, for page to reloaded.
@@ -67,32 +67,32 @@ class behat_enrol extends behat_base {
         }
 
         // Save changes.
-        $this->execute("behat_forms::press_button", get_string('addinstance', 'enrol'));
+        $this->execute("behat_forms::press_button", get_string('addinstance', 'enroll'));
     }
 
     /**
      * Enrols the specified user in the current course without options.
      *
-     * This is a simple step, to set enrolment options would be better to
+     * This is a simple step, to set enrollment options would be better to
      * create a separate step as a TableNode will be required.
      *
-     * @Given /^I enrol "(?P<user_fullname_string>(?:[^"]|\\")*)" user as "(?P<rolename_string>(?:[^"]|\\")*)"$/
+     * @Given /^I enroll "(?P<user_fullname_string>(?:[^"]|\\")*)" user as "(?P<rolename_string>(?:[^"]|\\")*)"$/
      * @param string $userfullname
      * @param string $rolename
      */
     public function i_enrol_user_as($userfullname, $rolename) {
 
-        // Navigate to enrolment page.
+        // Navigate to enrollment page.
         try {
             $parentnodes = get_string('users', 'admin');
             $this->execute("behat_navigation::i_navigate_to_in_current_page_administration",
-                array($parentnodes . ' > '. get_string('enrolledusers', 'enrol'))
+                array($parentnodes . ' > '. get_string('enrolledusers', 'enroll'))
             );
         } catch (Exception $e) {
             $this->execute("behat_general::i_click_on", [get_string('participants'), 'link']);
         }
 
-        $this->execute("behat_forms::press_button", get_string('enrolusers', 'enrol'));
+        $this->execute("behat_forms::press_button", get_string('enrolusers', 'enroll'));
 
         if ($this->running_javascript()) {
             $this->execute('behat_forms::i_set_the_field_to', array(get_string('assignrole', 'enrol_manual'), $rolename));

@@ -2,7 +2,7 @@
 Feature: forum report shows post/reply/word counts correctly
   In order to gather data on users' forum activities
   As a teacher
-  I need to view accurate forum summary report when students have more than 1 enrolment
+  I need to view accurate forum summary report when students have more than 1 enrollment
 
   Scenario: Add discussions and replies with attached files
     Given the following "users" exist:
@@ -15,7 +15,7 @@ Feature: forum report shows post/reply/word counts correctly
       | Course 1 | C1        | 0        |
       | Course 2 | C2        | 0        |
     And the following "course enrolments" exist:
-      | user     | course | role           | enrol  |
+      | user     | course | role           | enroll  |
       | teacher1 | C1     | editingteacher | manual |
       | student1 | C1     | student        | manual |
       | student1 | C1     | student        | self   |

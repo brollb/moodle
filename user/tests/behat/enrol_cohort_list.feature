@@ -1,5 +1,5 @@
 @core @core_user
-Feature: Viewing the list of cohorts to enrol in a course
+Feature: Viewing the list of cohorts to enroll in a course
   In order to ensure we only display the cohorts when applicable
   As a teacher
   I should only see the list of cohorts under some circumstances

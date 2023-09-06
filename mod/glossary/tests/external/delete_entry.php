@@ -52,8 +52,8 @@ class delete_entry_testcase extends externallib_advanced_testcase {
 
         // Create required data.
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $anotherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $anotherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $glossary = $this->getDataGenerator()->create_module('glossary', ['course' => $course->id]);
         $gg = $this->getDataGenerator()->get_plugin_generator('mod_glossary');
 

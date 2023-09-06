@@ -144,16 +144,16 @@ class external_test extends externallib_advanced_testcase {
         $record->course = $course2->id;
         $workshop2 = self::getDataGenerator()->create_module('workshop', $record);
 
-        // Execute real Moodle enrolment as we'll call unenrol() method on the instance later.
-        $enrol = enrol_get_plugin('manual');
+        // Execute real Moodle enrollment as we'll call unenroll() method on the instance later.
+        $enroll = enrol_get_plugin('manual');
         $enrolinstances = enrol_get_instances($course2->id, true);
         foreach ($enrolinstances as $courseenrolinstance) {
-            if ($courseenrolinstance->enrol == "manual") {
+            if ($courseenrolinstance->enroll == "manual") {
                 $instance2 = $courseenrolinstance;
                 break;
             }
         }
-        $enrol->enrol_user($instance2, $this->student->id, $this->studentrole->id);
+        $enroll->enrol_user($instance2, $this->student->id, $this->studentrole->id);
 
         self::setUser($this->student);
 
@@ -215,8 +215,8 @@ class external_test extends externallib_advanced_testcase {
         $this->assertEquals($expectedworkshops, $result['workshops']);
         $this->assertCount(0, $result['warnings']);
 
-        // Unenrol user from second course and alter expected workshops.
-        $enrol->unenrol_user($instance2, $this->student->id);
+        // Unenroll user from second course and alter expected workshops.
+        $enroll->unenrol_user($instance2, $this->student->id);
         array_shift($expectedworkshops);
 
         // Call the external function without passing course id.

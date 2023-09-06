@@ -218,12 +218,12 @@ $stickyfooter = '';
 if (($itemtype !== 'select') && ($itemtype !== 'grade_select') &&($itemtype !== 'user_select')) {
     $item = (isset($userid)) ? $userid : $itemid;
 
-    $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-    $showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-    $showonlyactiveenrol = $showonlyactiveenrol || !has_capability('moodle/course:viewsuspendedusers', $context);
+    $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+    $showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
+    $showonlyactiveenroll = $showonlyactiveenroll || !has_capability('moodle/course:viewsuspendedusers', $context);
 
     $gui = new graded_users_iterator($course, null, $currentgroup);
-    $gui->require_active_enrolment($showonlyactiveenrol);
+    $gui->require_active_enrollment($showonlyactiveenroll);
     $gui->init();
 
     $userreportrenderer = $PAGE->get_renderer('gradereport_singleview');

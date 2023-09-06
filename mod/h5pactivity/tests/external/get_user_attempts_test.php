@@ -65,14 +65,14 @@ class get_user_attempts_test extends externallib_advanced_testcase {
         $manager = manager::create_from_instance($activity);
         $cm = $manager->get_coursemodule();
 
-        $users = ['editingteacher' => $this->getDataGenerator()->create_and_enrol($course, 'editingteacher')];
+        $users = ['editingteacher' => $this->getDataGenerator()->create_and_enroll($course, 'editingteacher')];
 
         // Prepare users.
         foreach ($participants as $participant) {
             if ($participant == 'noenrolled') {
                 $users[$participant] = $this->getDataGenerator()->create_user();
             } else {
-                $users[$participant] = $this->getDataGenerator()->create_and_enrol($course, 'student');
+                $users[$participant] = $this->getDataGenerator()->create_and_enroll($course, 'student');
             }
         }
 
@@ -222,12 +222,12 @@ class get_user_attempts_test extends externallib_advanced_testcase {
         $module = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
 
         // Couple of enrolled users in the course.
-        $users['user01'] = $this->getDataGenerator()->create_and_enrol($course, 'student', [
+        $users['user01'] = $this->getDataGenerator()->create_and_enroll($course, 'student', [
             'username' => 'user01',
             'firstname' => 'Adam',
             'lastname' => 'Zebra',
         ]);
-        $users['user02'] = $this->getDataGenerator()->create_and_enrol($course, 'student', [
+        $users['user02'] = $this->getDataGenerator()->create_and_enroll($course, 'student', [
             'username' => 'user02',
             'firstname' => 'Zoe',
             'lastname' => 'Apples',

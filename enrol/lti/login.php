@@ -48,8 +48,8 @@ $ltimessagehint = optional_param('lti_message_hint', null, PARAM_RAW);
 
 // The target_link_uri param should contain the endpoint that will be executed at the end of the OIDC login process.
 // In Moodle, this will either be:
-// - enrol/lti/launch.php endpoint (for regular resource link launches) or
-// - enrol/lti/launch_deeplink.php endpoint (for deep linking launches)
+// - enroll/lti/launch.php endpoint (for regular resource link launches) or
+// - enroll/lti/launch_deeplink.php endpoint (for deep linking launches)
 // Thus, the target_link_uri signifies intent to perform a certain launch type. It can be used to generate the
 // redirect_uri param for the auth request but must first be verified, as it is unsigned data at this stage.
 // See here: https://www.imsglobal.org/spec/lti/v1p3/impl#verify-the-target_link_uri.
@@ -58,8 +58,8 @@ $ltimessagehint = optional_param('lti_message_hint', null, PARAM_RAW);
 // https://purl.imsglobal.org/spec/lti/claim/target_link_uri claim instead of the target_link_uri value provided here.
 // See here: http://www.imsglobal.org/spec/lti/v1p3/#target-link-uri.
 $validuris = [
-    (new moodle_url('/enrol/lti/launch.php'))->out(false), // Resource link launches.
-    (new moodle_url('/enrol/lti/launch_deeplink.php'))->out(false) // Deep linking launches.
+    (new moodle_url('/enroll/lti/launch.php'))->out(false), // Resource link launches.
+    (new moodle_url('/enroll/lti/launch_deeplink.php'))->out(false) // Deep linking launches.
 ];
 
 // This code verifies the target_link_uri. Only two values are permitted (see endpoints listed above).

@@ -18,7 +18,7 @@
  * This file contains the course_enrolment_manager class which is used to interface
  * with the functions that exist in enrollib.php in relation to a single course.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2010 Sam Hemelryk
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,7 +28,7 @@ use core_user\fields;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * This class provides a targeted tied together means of interfacing the enrolment
+ * This class provides a targeted tied together means of interfacing the enrollment
  * tasks together with a course.
  *
  * It is provided as a convenience more than anything else.
@@ -49,7 +49,7 @@ class course_enrolment_manager {
      */
     protected $course = null;
     /**
-     * Limits the focus of the manager to one enrolment plugin instance
+     * Limits the focus of the manager to one enrollment plugin instance
      * @var string
      */
     protected $instancefilter = null;
@@ -126,7 +126,7 @@ class course_enrolment_manager {
     /**#@-*/
 
     /**
-     * Constructs the course enrolment manager
+     * Constructs the course enrollment manager
      *
      * @param moodle_page $moodlepage
      * @param stdClass $course
@@ -174,7 +174,7 @@ class course_enrolment_manager {
             $sqltotal = "SELECT COUNT(DISTINCT u.id)
                            FROM {user} u
                            JOIN {user_enrolments} ue ON (ue.userid = u.id  AND ue.enrolid $instancessql)
-                           JOIN {enrol} e ON (e.id = ue.enrolid)";
+                           JOIN {enroll} e ON (e.id = ue.enrolid)";
             if ($this->groupfilter) {
                 $sqltotal .= " LEFT JOIN ({groups_members} gm JOIN {groups} g ON (g.id = gm.groupid))
                                          ON (u.id = gm.userid AND g.courseid = e.courseid)";
@@ -206,7 +206,7 @@ class course_enrolment_manager {
                  LEFT JOIN (
                            SELECT ue.id, ue.userid
                              FROM {user_enrolments} ue
-                        LEFT JOIN {enrol} e ON e.id=ue.enrolid
+                        LEFT JOIN {enroll} e ON e.id=ue.enrolid
                             WHERE e.courseid = :courseid
                          ) ue ON ue.userid=u.id
                      WHERE ctx.id $ctxcondition AND
@@ -247,7 +247,7 @@ class course_enrolment_manager {
             $sql = "SELECT DISTINCT $fieldselect, COALESCE(ul.timeaccess, 0) AS lastcourseaccess
                       FROM {user} u
                       JOIN {user_enrolments} ue ON (ue.userid = u.id  AND ue.enrolid $instancessql)
-                      JOIN {enrol} e ON (e.id = ue.enrolid)
+                      JOIN {enroll} e ON (e.id = ue.enrolid)
                            $fieldjoin
                  LEFT JOIN {user_lastaccess} ul ON (ul.courseid = e.courseid AND ul.userid = u.id)";
             if ($this->groupfilter) {
@@ -360,7 +360,7 @@ class course_enrolment_manager {
                  LEFT JOIN (
                        SELECT ue.id, ue.userid
                          FROM {user_enrolments} ue
-                         JOIN {enrol} e ON e.id = ue.enrolid
+                         JOIN {enroll} e ON e.id = ue.enrolid
                         WHERE e.courseid = :courseid
                        ) ue ON ue.userid=u.id
                      WHERE ctx.id $ctxcondition AND
@@ -577,7 +577,7 @@ class course_enrolment_manager {
         $sql = " FROM {user} u
                       $joins
                  JOIN {user_enrolments} ue ON ue.userid = u.id
-                 JOIN {enrol} e ON ue.enrolid = e.id
+                 JOIN {enroll} e ON ue.enrolid = e.id
                 WHERE $wherecondition
                   AND e.courseid = :courseid";
         $params['courseid'] = $this->course->id;
@@ -617,9 +617,9 @@ class course_enrolment_manager {
     }
 
     /**
-     * Returns all of the enrolment instances for this course.
+     * Returns all of the enrollment instances for this course.
      *
-     * @param bool $onlyenabled Whether to return data from enabled enrolment instance names only.
+     * @param bool $onlyenabled Whether to return data from enabled enrollment instance names only.
      * @return array
      */
     public function get_enrolment_instances($onlyenabled = false) {
@@ -630,9 +630,9 @@ class course_enrolment_manager {
     }
 
     /**
-     * Returns the names for all of the enrolment instances for this course.
+     * Returns the names for all of the enrollment instances for this course.
      *
-     * @param bool $onlyenabled Whether to return data from enabled enrolment instance names only.
+     * @param bool $onlyenabled Whether to return data from enabled enrollment instance names only.
      * @return array
      */
     public function get_enrolment_instance_names($onlyenabled = false) {
@@ -640,21 +640,21 @@ class course_enrolment_manager {
             $instances = $this->get_enrolment_instances($onlyenabled);
             $plugins = $this->get_enrolment_plugins(false);
             foreach ($instances as $key=>$instance) {
-                if (!isset($plugins[$instance->enrol])) {
+                if (!isset($plugins[$instance->enroll])) {
                     // weird, some broken stuff in plugin
                     unset($instances[$key]);
                     continue;
                 }
-                $this->_inames[$key] = $plugins[$instance->enrol]->get_instance_name($instance);
+                $this->_inames[$key] = $plugins[$instance->enroll]->get_instance_name($instance);
             }
         }
         return $this->_inames;
     }
 
     /**
-     * Gets all of the enrolment plugins that are available for this course.
+     * Gets all of the enrollment plugins that are available for this course.
      *
-     * @param bool $onlyenabled return only enabled enrol plugins
+     * @param bool $onlyenabled return only enabled enroll plugins
      * @return array
      */
     public function get_enrolment_plugins($onlyenabled = true) {
@@ -770,7 +770,7 @@ class course_enrolment_manager {
     public function unenrol_user($ue) {
         global $DB;
         list ($instance, $plugin) = $this->get_user_enrolment_components($ue);
-        if ($instance && $plugin && $plugin->allow_unenrol_user($instance, $ue) && has_capability("enrol/$instance->enrol:unenrol", $this->context)) {
+        if ($instance && $plugin && $plugin->allow_unenrol_user($instance, $ue) && has_capability("enroll/$instance->enroll:unenroll", $this->context)) {
             $plugin->unenrol_user($instance, $ue->userid);
             return true;
         }
@@ -778,24 +778,24 @@ class course_enrolment_manager {
     }
 
     /**
-     * Given a user enrolment record this method returns the plugin and enrolment
+     * Given a user enrollment record this method returns the plugin and enrollment
      * instance that relate to it.
      *
-     * @param stdClass|int $userenrolment
+     * @param stdClass|int $userenrollment
      * @return array array($instance, $plugin)
      */
-    public function get_user_enrolment_components($userenrolment) {
+    public function get_user_enrolment_components($userenrollment) {
         global $DB;
-        if (is_numeric($userenrolment)) {
-            $userenrolment = $DB->get_record('user_enrolments', array('id'=>(int)$userenrolment));
+        if (is_numeric($userenrollment)) {
+            $userenrollment = $DB->get_record('user_enrolments', array('id'=>(int)$userenrollment));
         }
         $instances = $this->get_enrolment_instances();
         $plugins = $this->get_enrolment_plugins(false);
-        if (!$userenrolment || !isset($instances[$userenrolment->enrolid])) {
+        if (!$userenrollment || !isset($instances[$userenrollment->enrolid])) {
             return array(false, false);
         }
-        $instance = $instances[$userenrolment->enrolid];
-        $plugin = $plugins[$instance->enrol];
+        $instance = $instances[$userenrollment->enrolid];
+        $plugin = $plugins[$instance->enroll];
         return array($instance, $plugin);
     }
 
@@ -905,28 +905,28 @@ class course_enrolment_manager {
     }
 
     /**
-     * Edits an enrolment
+     * Edits an enrollment
      *
-     * @param stdClass $userenrolment
+     * @param stdClass $userenrollment
      * @param stdClass $data
      * @return bool
      */
-    public function edit_enrolment($userenrolment, $data) {
+    public function edit_enrollment($userenrollment, $data) {
         //Only allow editing if the user has the appropriate capability
         //Already checked in /user/index.php but checking again in case this function is called from elsewhere
-        list($instance, $plugin) = $this->get_user_enrolment_components($userenrolment);
-        if ($instance && $plugin && $plugin->allow_manage($instance) && has_capability("enrol/$instance->enrol:manage", $this->context)) {
+        list($instance, $plugin) = $this->get_user_enrolment_components($userenrollment);
+        if ($instance && $plugin && $plugin->allow_manage($instance) && has_capability("enroll/$instance->enroll:manage", $this->context)) {
             if (!isset($data->status)) {
-                $data->status = $userenrolment->status;
+                $data->status = $userenrollment->status;
             }
-            $plugin->update_user_enrol($instance, $userenrolment->userid, $data->status, $data->timestart, $data->timeend);
+            $plugin->update_user_enroll($instance, $userenrollment->userid, $data->status, $data->timestart, $data->timeend);
             return true;
         }
         return false;
     }
 
     /**
-     * Returns the current enrolment filter that is being applied by this class
+     * Returns the current enrollment filter that is being applied by this class
      * @return string
      */
     public function get_enrolment_filter() {
@@ -987,7 +987,7 @@ class course_enrolment_manager {
         $inames = $this->get_enrolment_instance_names();
         foreach ($userenrolments as &$ue) {
             $ue->enrolmentinstance     = $instances[$ue->enrolid];
-            $ue->enrolmentplugin       = $plugins[$ue->enrolmentinstance->enrol];
+            $ue->enrolmentplugin       = $plugins[$ue->enrolmentinstance->enroll];
             $ue->enrolmentinstancename = $inames[$ue->enrolmentinstance->id];
         }
         return $userenrolments;
@@ -1094,20 +1094,20 @@ class course_enrolment_manager {
                         }
                     }
                 }
-                $roletext = get_string('rolefromthiscourse', 'enrol', $a);
+                $roletext = get_string('rolefromthiscourse', 'enroll', $a);
             } else {
                 $changeable = false;
                 switch ($userrole->contextlevel) {
                     case CONTEXT_COURSE :
                         // Meta course
-                        $roletext = get_string('rolefrommetacourse', 'enrol', $a);
+                        $roletext = get_string('rolefrommetacourse', 'enroll', $a);
                         break;
                     case CONTEXT_COURSECAT :
-                        $roletext = get_string('rolefromcategory', 'enrol', $a);
+                        $roletext = get_string('rolefromcategory', 'enroll', $a);
                         break;
                     case CONTEXT_SYSTEM:
                     default:
-                        $roletext = get_string('rolefromsystem', 'enrol', $a);
+                        $roletext = get_string('rolefromsystem', 'enroll', $a);
                         break;
                 }
             }
@@ -1140,7 +1140,7 @@ class course_enrolment_manager {
 
         $now = time();
         $straddgroup = get_string('addgroup', 'group');
-        $strunenrol = get_string('unenrol', 'enrol');
+        $strunenroll = get_string('unenroll', 'enroll');
         $stredit = get_string('edit');
 
         $visibleroles   = $this->get_viewable_roles();
@@ -1187,7 +1187,7 @@ class course_enrolment_manager {
             // Enrolments
             $details['enrolments'] = array();
             foreach ($this->get_user_enrolments($user->id) as $ue) {
-                if (!isset($enabledplugins[$ue->enrolmentinstance->enrol])) {
+                if (!isset($enabledplugins[$ue->enrolmentinstance->enroll])) {
                     $details['enrolments'][$ue->id] = array(
                         'text' => $ue->enrolmentinstancename,
                         'period' => null,
@@ -1196,17 +1196,17 @@ class course_enrolment_manager {
                     );
                     continue;
                 } else if ($ue->timestart and $ue->timeend) {
-                    $period = get_string('periodstartend', 'enrol', array('start'=>userdate($ue->timestart), 'end'=>userdate($ue->timeend)));
+                    $period = get_string('periodstartend', 'enroll', array('start'=>userdate($ue->timestart), 'end'=>userdate($ue->timeend)));
                     $periodoutside = ($ue->timestart && $ue->timeend && ($now < $ue->timestart || $now > $ue->timeend));
                 } else if ($ue->timestart) {
-                    $period = get_string('periodstart', 'enrol', userdate($ue->timestart));
+                    $period = get_string('periodstart', 'enroll', userdate($ue->timestart));
                     $periodoutside = ($ue->timestart && $now < $ue->timestart);
                 } else if ($ue->timeend) {
-                    $period = get_string('periodend', 'enrol', userdate($ue->timeend));
+                    $period = get_string('periodend', 'enroll', userdate($ue->timeend));
                     $periodoutside = ($ue->timeend && $now > $ue->timeend);
                 } else {
                     // If there is no start or end show when user was enrolled.
-                    $period = get_string('periodnone', 'enrol', userdate($ue->timecreated));
+                    $period = get_string('periodnone', 'enroll', userdate($ue->timecreated));
                     $periodoutside = false;
                 }
                 $details['enrolments'][$ue->id] = array(
@@ -1279,7 +1279,7 @@ class course_enrolment_manager {
     public function has_instance($enrolpluginname) {
         // Make sure manual enrolments instance exists
         foreach ($this->get_enrolment_instances() as $instance) {
-            if ($instance->enrol == $enrolpluginname) {
+            if ($instance->enroll == $enrolpluginname) {
                 return true;
             }
         }
@@ -1287,7 +1287,7 @@ class course_enrolment_manager {
     }
 
     /**
-     * Returns the enrolment plugin that the course manager was being filtered to.
+     * Returns the enrollment plugin that the course manager was being filtered to.
      *
      * If no filter was being applied then this function returns false.
      *
@@ -1302,14 +1302,14 @@ class course_enrolment_manager {
         }
 
         $instance = $instances[$this->instancefilter];
-        return $plugins[$instance->enrol];
+        return $plugins[$instance->enroll];
     }
 
     /**
-     * Returns and array of users + enrolment details.
+     * Returns and array of users + enrollment details.
      *
      * Given an array of user id's this function returns and array of user enrolments for those users
-     * as well as enough user information to display the users name and picture for each enrolment.
+     * as well as enough user information to display the users name and picture for each enrollment.
      *
      * @global moodle_database $DB
      * @param array $userids
@@ -1352,7 +1352,7 @@ class course_enrolment_manager {
                 $users[$user->id] = $user;
             }
             $ue->enrolmentinstance = $instances[$ue->enrolid];
-            $ue->enrolmentplugin = $plugins[$ue->enrolmentinstance->enrol];
+            $ue->enrolmentplugin = $plugins[$ue->enrolmentinstance->enroll];
             $users[$user->id]->enrolments[$ue->id] = $ue;
         }
         $rs->close();
@@ -1361,7 +1361,7 @@ class course_enrolment_manager {
 }
 
 /**
- * A button that is used to enrol users in a course
+ * A button that is used to enroll users in a course
  *
  * @copyright 2010 Sam Hemelryk
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -1389,7 +1389,7 @@ class enrol_user_button extends single_button {
     /**
      * Initialises the new enrol_user_button
      *
-     * @staticvar int $count The number of enrol user buttons already created
+     * @staticvar int $count The number of enroll user buttons already created
      * @param moodle_url $url
      * @param string $label The text to display in the button
      * @param string $method Either post or get
@@ -1475,10 +1475,10 @@ class enrol_user_button extends single_button {
 }
 
 /**
- * User enrolment action
+ * User enrollment action
  *
- * This class is used to manage a renderable ue action such as editing an user enrolment or deleting
- * a user enrolment.
+ * This class is used to manage a renderable ue action such as editing an user enrollment or deleting
+ * a user enrollment.
  *
  * @copyright  2011 Sam Hemelryk
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -1569,12 +1569,12 @@ class enrol_ajax_exception extends moodle_exception {
      * @param string $debuginfo optional debugging information
      */
     public function __construct($errorcode, $link = '', $a = NULL, $debuginfo = null) {
-        parent::__construct($errorcode, 'enrol', $link, $a, $debuginfo);
+        parent::__construct($errorcode, 'enroll', $link, $a, $debuginfo);
     }
 }
 
 /**
- * This class is used to manage a bulk operations for enrolment plugins.
+ * This class is used to manage a bulk operations for enrollment plugins.
  *
  * @copyright 2011 Sam Hemelryk
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -1582,13 +1582,13 @@ class enrol_ajax_exception extends moodle_exception {
 abstract class enrol_bulk_enrolment_operation {
 
     /**
-     * The course enrolment manager
+     * The course enrollment manager
      * @var course_enrolment_manager
      */
     protected $manager;
 
     /**
-     * The enrolment plugin to which this operation belongs
+     * The enrollment plugin to which this operation belongs
      * @var enrol_plugin
      */
     protected $plugin;

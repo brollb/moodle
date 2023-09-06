@@ -1,4 +1,4 @@
-YUI.add('moodle-enrol-rolemanager', function(Y) {
+YUI.add('moodle-enroll-rolemanager', function(Y) {
 
     var MOD_NAME                    = 'Moodle role manager',
         MOD_USER                    = 'Moodle role user',
@@ -84,7 +84,7 @@ YUI.add('moodle-enrol-rolemanager', function(Y) {
             var panel = this._getRoleAssignmentPanel();
             panel.submitevent.detach();
             panel.submitevent = null;
-            Y.io(M.cfg.wwwroot+'/enrol/ajax.php', {
+            Y.io(M.cfg.wwwroot+'/enroll/ajax.php', {
                 method:'POST',
                 data:'id='+this.get(COURSEID)+'&action=assign&sesskey='+M.cfg.sesskey+'&roleid='+roleid+'&user='+userid,
                 on: {
@@ -124,7 +124,7 @@ YUI.add('moodle-enrol-rolemanager', function(Y) {
             this._loadAssignableRoles();
         },
         removeRoleCallback: function(userid, roleid) {
-            Y.io(M.cfg.wwwroot+'/enrol/ajax.php', {
+            Y.io(M.cfg.wwwroot+'/enroll/ajax.php', {
                 method:'POST',
                 data:'id='+this.get(COURSEID)+'&action=unassign&sesskey='+M.cfg.sesskey+'&role='+roleid+'&user='+userid,
                 on: {
@@ -164,7 +164,7 @@ YUI.add('moodle-enrol-rolemanager', function(Y) {
                 action : 'getassignable',
                 sesskey : M.cfg.sesskey
             };
-            Y.io(M.cfg.wwwroot+'/enrol/ajax.php', {
+            Y.io(M.cfg.wwwroot+'/enroll/ajax.php', {
                 method:'POST',
                 data:build_querystring(params),
                 on: {
@@ -432,12 +432,12 @@ YUI.add('moodle-enrol-rolemanager', function(Y) {
     });
     Y.augment(ROLEPANEL, Y.EventTarget);
 
-    M.enrol = M.enrol || {};
-    M.enrol.rolemanager = {
+    M.enroll = M.enroll || {};
+    M.enroll.rolemanager = {
         instance : null,
         init : function(config) {
-            M.enrol.rolemanager.instance = new ROLE(config);
-            return M.enrol.rolemanager.instance;
+            M.enroll.rolemanager.instance = new ROLE(config);
+            return M.enroll.rolemanager.instance;
         }
     }
 

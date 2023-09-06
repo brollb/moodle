@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * LDAP enrolment plugin version specification.
+ * LDAP enrollment plugin version specification.
  *
  * @package    enrol_ldap
  * @author     Iñaki Arenaza

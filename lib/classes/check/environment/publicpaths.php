@@ -154,7 +154,7 @@ class publicpaths extends check {
                 'pattern'   => '/fixtures/',
                 '404'       => [
                     'privacy/tests/fixtures/logo.png',
-                    'enrol/lti/tests/fixtures/input.xml',
+                    'enroll/lti/tests/fixtures/input.xml',
                 ],
             ],
             [

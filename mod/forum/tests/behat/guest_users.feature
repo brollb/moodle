@@ -16,7 +16,7 @@ Feature: Guest and not logged users could see the option to add new post or repl
     And the following "course enrolments" exist:
       | user    | course | role           |
       | teacher | C1     | editingteacher |
-    And I am on the "Course 1" "enrolment methods" page logged in as teacher
+    And I am on the "Course 1" "enrollment methods" page logged in as teacher
     And I click on "Enable" "link" in the "Guest access" "table_row"
 
   Scenario Outline: As a not enrolled guest I don't see the option to add a new discussion
@@ -69,8 +69,8 @@ Feature: Guest and not logged users could see the option to add new post or repl
     And I should not see "Reply"
 
   Scenario Outline: As an enrolled guest I see the option to add a new discussion
-    Given I am on the "Course 1" "enrolment methods" page logged in as teacher
-    And I click on "Enable" "link" in the "Self enrolment" "table_row"
+    Given I am on the "Course 1" "enrollment methods" page logged in as teacher
+    And I click on "Enable" "link" in the "Self enrollment" "table_row"
     And the following "activities" exist:
       | activity | name       | course | idnumber | type   |
       | forum    | Forum      | C1     | forum    | <type> |
@@ -100,8 +100,8 @@ Feature: Guest and not logged users could see the option to add new post or repl
       | qanda      |
 
   Scenario: As an enrolled guest I see the option to reply in a single forum
-    Given I am on the "Course 1" "enrolment methods" page logged in as teacher
-    And I click on "Enable" "link" in the "Self enrolment" "table_row"
+    Given I am on the "Course 1" "enrollment methods" page logged in as teacher
+    And I click on "Enable" "link" in the "Self enrollment" "table_row"
     And the following "activities" exist:
       | activity | name                      | course | idnumber | type   |
       | forum    | Forum (single discussion) | C1     | forum    | single |
@@ -120,8 +120,8 @@ Feature: Guest and not logged users could see the option to add new post or repl
     And I should see "Log in"
 
   Scenario: As an enrolled guest I see the option to reply in a blog type forum
-    Given I am on the "Course 1" "enrolment methods" page logged in as teacher
-    And I click on "Enable" "link" in the "Self enrolment" "table_row"
+    Given I am on the "Course 1" "enrollment methods" page logged in as teacher
+    And I click on "Enable" "link" in the "Self enrollment" "table_row"
     And the following "activities" exist:
       | activity | name       | course | idnumber | type   |
       | forum    | Forum      | C1     | forum    | blog |

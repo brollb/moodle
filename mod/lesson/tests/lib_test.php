@@ -105,7 +105,7 @@ class lib_test extends \advanced_testcase {
         $teacherg1 = self::getDataGenerator()->create_user();
         $studentg2 = self::getDataGenerator()->create_user();
 
-        // User enrolment.
+        // User enrollment.
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $teacherrole = $DB->get_record('role', array('shortname' => 'editingteacher'));
         $this->getDataGenerator()->enrol_user($studentg1->id, $course->id, $studentrole->id, 'manual');
@@ -230,8 +230,8 @@ class lib_test extends \advanced_testcase {
         $this->setAdminUser();
         // Create a course.
         $course = $this->getDataGenerator()->create_course();
-        // Create a teacher and enrol into the course.
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        // Create a teacher and enroll into the course.
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         // Create a lesson activity.
         $lesson = $this->getDataGenerator()->create_module('lesson', array('course' => $course->id,
             'available' => time() - DAYSECS, 'deadline' => time() + DAYSECS));
@@ -292,7 +292,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a lesson activity.
         $lesson = $this->getDataGenerator()->create_module('lesson', array('course' => $course->id,
@@ -327,7 +327,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a lesson activity.
         $lesson = $this->getDataGenerator()->create_module('lesson', array('course' => $course->id,
@@ -355,8 +355,8 @@ class lib_test extends \advanced_testcase {
 
         // Create a course.
         $course = $this->getDataGenerator()->create_course();
-        // Create a teacher and enrol.
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        // Create a teacher and enroll.
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         // Create a lesson activity.
         $lesson = $this->getDataGenerator()->create_module('lesson', array('course' => $course->id,
@@ -391,7 +391,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a lesson activity.
         $lesson = $this->getDataGenerator()->create_module('lesson', array('course' => $course->id,
@@ -424,8 +424,8 @@ class lib_test extends \advanced_testcase {
 
         // Create a course.
         $course = $this->getDataGenerator()->create_course();
-        // Create a teacher and enrol into the course.
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        // Create a teacher and enroll into the course.
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         // Create a lesson activity.
         $lesson = $this->getDataGenerator()->create_module('lesson', array('course' => $course->id,
             'available' => time() + DAYSECS));
@@ -459,7 +459,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a lesson activity.
         $lesson = $this->getDataGenerator()->create_module('lesson', array('course' => $course->id,
@@ -492,8 +492,8 @@ class lib_test extends \advanced_testcase {
 
         // Create a course.
         $course = $this->getDataGenerator()->create_course();
-        // Create a teacher and enrol into the course.
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        // Create a teacher and enroll into the course.
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         // Create a lesson activity.
         $lesson = $this->getDataGenerator()->create_module('lesson', array('course' => $course->id));
 
@@ -525,7 +525,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a lesson activity.
         $lesson = $this->getDataGenerator()->create_module('lesson', array('course' => $course->id));
@@ -611,8 +611,8 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create 2 students in the course.
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a lesson activity.
         $lesson = $this->getDataGenerator()->create_module('lesson', array('course' => $course->id));
@@ -694,7 +694,7 @@ class lib_test extends \advanced_testcase {
             array('completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS));
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('lesson', $lesson->id);
@@ -1072,7 +1072,7 @@ class lib_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = self::getDataGenerator()->create_course();
         $context = \context_course::instance($course->id);
-        $user = self::getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = self::getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $roleid = self::getDataGenerator()->create_role();
         self::getDataGenerator()->role_assign($roleid, $user->id, $context->id);
         assign_capability('moodle/calendar:manageentries', CAP_PROHIBIT, $roleid, $context, true);

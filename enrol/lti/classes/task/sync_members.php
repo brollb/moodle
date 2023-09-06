@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handles synchronising members using the enrolment LTI.
+ * Handles synchronising members using the enrollment LTI.
  *
  * @package    enrol_lti
  * @copyright  2016 Mark Nelson <markn@moodle.com>
@@ -39,7 +39,7 @@ use stdClass;
 require_once($CFG->dirroot . '/user/lib.php');
 
 /**
- * Task for synchronising members using the enrolment LTI.
+ * Task for synchronising members using the enrollment LTI.
  *
  * @package    enrol_lti
  * @copyright  2016 Mark Nelson <markn@moodle.com>
@@ -71,7 +71,7 @@ class sync_members extends scheduled_task {
             return;
         }
 
-        // Check if the enrolment plugin is disabled - isn't really necessary as the task should not run if
+        // Check if the enrollment plugin is disabled - isn't really necessary as the task should not run if
         // the plugin is disabled, but there is no harm in making sure core hasn't done something wrong.
         if (!enrol_is_enabled('lti')) {
             mtrace('Skipping task - ' . get_string('enrolisdisabled', 'enrol_lti'));
@@ -117,7 +117,7 @@ class sync_members extends scheduled_task {
                 $enrolcount += $enrolledcount;
 
                 // Now sync unenrolments for the consumer.
-                $unenrolcount += $this->sync_unenrol($tool, $consumer->getKey(), $users);
+                $unenrolcount += $this->sync_unenroll($tool, $consumer->getKey(), $users);
             }
 
             mtrace("Completed - Synced members for tool '$tool->id' in the course '$tool->courseid'. " .
@@ -194,7 +194,7 @@ class sync_members extends scheduled_task {
      * @param int $syncmode The tool's membersyncmode.
      * @return bool
      */
-    protected function should_sync_unenrol($syncmode) {
+    protected function should_sync_unenroll($syncmode) {
         return $syncmode == helper::MEMBER_SYNC_ENROL_AND_UNENROL || $syncmode == helper::MEMBER_SYNC_UNENROL_MISSING;
     }
 
@@ -204,7 +204,7 @@ class sync_members extends scheduled_task {
      * @param int $syncmode The tool's membersyncmode.
      * @return bool
      */
-    protected function should_sync_enrol($syncmode) {
+    protected function should_sync_enroll($syncmode) {
         return $syncmode == helper::MEMBER_SYNC_ENROL_AND_UNENROL || $syncmode == helper::MEMBER_SYNC_ENROL_NEW;
     }
 
@@ -247,7 +247,7 @@ class sync_members extends scheduled_task {
                 $users[$user->id] = $user;
                 $this->userphotos[$user->id] = $member->image;
             } else {
-                if ($this->should_sync_enrol($tool->membersyncmode)) {
+                if ($this->should_sync_enroll($tool->membersyncmode)) {
                     // If the email was stripped/not set then fill it with a default one. This
                     // stops the user from being redirected to edit their profile page.
                     if (empty($user->email)) {
@@ -264,10 +264,10 @@ class sync_members extends scheduled_task {
             }
 
             // Sync enrolments.
-            if ($this->should_sync_enrol($tool->membersyncmode)) {
+            if ($this->should_sync_enroll($tool->membersyncmode)) {
                 // Enrol the user in the course.
                 if (helper::enrol_user($tool, $user->id) === helper::ENROLMENT_SUCCESSFUL) {
-                    // Increment enrol count.
+                    // Increment enroll count.
                     $enrolcount++;
                 }
 
@@ -288,19 +288,19 @@ class sync_members extends scheduled_task {
     }
 
     /**
-     * Performs unenrolment of users that are no longer enrolled in the consumer side.
+     * Performs unenrollment of users that are no longer enrolled in the consumer side.
      *
      * @param stdClass $tool The tool record object.
-     * @param string $consumerkey ensure we only unenrol users from this tool consumer.
+     * @param string $consumerkey ensure we only unenroll users from this tool consumer.
      * @param array $currentusers The list of current users.
      * @return int The number of users that have been unenrolled.
      */
-    protected function sync_unenrol(stdClass $tool, string $consumerkey, array $currentusers) {
+    protected function sync_unenroll(stdClass $tool, string $consumerkey, array $currentusers) {
         global $DB;
 
         $ltiplugin = enrol_get_plugin('lti');
 
-        if (!$this->should_sync_unenrol($tool->membersyncmode)) {
+        if (!$this->should_sync_unenroll($tool->membersyncmode)) {
             return 0;
         }
 
@@ -319,9 +319,9 @@ class sync_members extends scheduled_task {
                 $instance = new stdClass();
                 $instance->id = $tool->enrolid;
                 $instance->courseid = $tool->courseid;
-                $instance->enrol = 'lti';
+                $instance->enroll = 'lti';
                 $ltiplugin->unenrol_user($instance, $ltiuser->userid);
-                // Increment unenrol count.
+                // Increment unenroll count.
                 $unenrolcount++;
             }
         }

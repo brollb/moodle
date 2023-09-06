@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * LTI enrolment plugin helper.
+ * LTI enrollment plugin helper.
  *
  * @package enrol_lti
  * @copyright 2016 Mark Nelson <markn@moodle.com>
@@ -27,7 +27,7 @@ namespace enrol_lti;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * LTI enrolment plugin helper class.
+ * LTI enrollment plugin helper class.
  *
  * @package enrol_lti
  * @copyright 2016 Mark Nelson <markn@moodle.com>
@@ -35,37 +35,37 @@ defined('MOODLE_INTERNAL') || die();
  */
 class helper {
     /*
-     * The value used when we want to enrol new members and unenrol old ones.
+     * The value used when we want to enroll new members and unenroll old ones.
      */
     const MEMBER_SYNC_ENROL_AND_UNENROL = 1;
 
     /*
-     * The value used when we want to enrol new members only.
+     * The value used when we want to enroll new members only.
      */
     const MEMBER_SYNC_ENROL_NEW = 2;
 
     /*
-     * The value used when we want to unenrol missing users.
+     * The value used when we want to unenroll missing users.
      */
     const MEMBER_SYNC_UNENROL_MISSING = 3;
 
     /**
-     * Code for when an enrolment was successful.
+     * Code for when an enrollment was successful.
      */
     const ENROLMENT_SUCCESSFUL = true;
 
     /**
-     * Error code for enrolment when max enrolled reached.
+     * Error code for enrollment when max enrolled reached.
      */
     const ENROLMENT_MAX_ENROLLED = 'maxenrolledreached';
 
     /**
-     * Error code for enrolment has not started.
+     * Error code for enrollment has not started.
      */
     const ENROLMENT_NOT_STARTED = 'enrolmentnotstarted';
 
     /**
-     * Error code for enrolment when enrolment has finished.
+     * Error code for enrollment when enrollment has finished.
      */
     const ENROLMENT_FINISHED = 'enrolmentfinished';
 
@@ -240,7 +240,7 @@ class helper {
     public static function enrol_user($tool, $userid) {
         global $DB;
 
-        // Check if the user enrolment exists.
+        // Check if the user enrollment exists.
         if (!$DB->record_exists('user_enrolments', array('enrolid' => $tool->enrolid, 'userid' => $userid))) {
             // Check if the maximum enrolled limit has been met.
             if ($tool->maxenrolled) {
@@ -248,11 +248,11 @@ class helper {
                     return self::ENROLMENT_MAX_ENROLLED;
                 }
             }
-            // Check if the enrolment has not started.
+            // Check if the enrollment has not started.
             if ($tool->enrolstartdate && time() < $tool->enrolstartdate) {
                 return self::ENROLMENT_NOT_STARTED;
             }
-            // Check if the enrolment has finished.
+            // Check if the enrollment has finished.
             if ($tool->enrolenddate && time() > $tool->enrolenddate) {
                 return self::ENROLMENT_FINISHED;
             }
@@ -262,17 +262,17 @@ class helper {
                 $timeend = time() + $tool->enrolperiod;
             }
 
-            // Finally, enrol the user.
+            // Finally, enroll the user.
             $instance = new \stdClass();
             $instance->id = $tool->enrolid;
             $instance->courseid = $tool->courseid;
-            $instance->enrol = 'lti';
+            $instance->enroll = 'lti';
             $instance->status = $tool->status;
-            $ltienrol = enrol_get_plugin('lti');
+            $ltienroll = enrol_get_plugin('lti');
 
             // Hack - need to do this to workaround DB caching hack. See MDL-53977.
             $timestart = intval(substr(time(), 0, 8) . '00') - 1;
-            $ltienrol->enrol_user($instance, $userid, null, $timestart, $timeend);
+            $ltienroll->enrol_user($instance, $userid, null, $timestart, $timeend);
         }
 
         return self::ENROLMENT_SUCCESSFUL;
@@ -289,7 +289,7 @@ class helper {
 
         $sql = "SELECT elt.*, e.name, e.courseid, e.status, e.enrolstartdate, e.enrolenddate, e.enrolperiod
                   FROM {enrol_lti_tools} elt
-                  JOIN {enrol} e
+                  JOIN {enroll} e
                     ON elt.enrolid = e.id
                  WHERE elt.id = :tid";
 
@@ -309,7 +309,7 @@ class helper {
 
         $sql = "SELECT elt.*, e.name, e.courseid, e.status, e.enrolstartdate, e.enrolenddate, e.enrolperiod
                   FROM {enrol_lti_tools} elt
-                  JOIN {enrol} e
+                  JOIN {enroll} e
                     ON elt.enrolid = e.id";
         if ($params) {
             $where = "WHERE";
@@ -334,7 +334,7 @@ class helper {
 
         $sql = "SELECT COUNT(*)
                   FROM {enrol_lti_tools} elt
-                  JOIN {enrol} e
+                  JOIN {enroll} e
                     ON elt.enrolid = e.id";
         if ($params) {
             $where = "WHERE";
@@ -389,11 +389,11 @@ class helper {
      * @since Moodle 3.2
      */
     public static function get_launch_url($toolid) {
-        return new \moodle_url('/enrol/lti/tool.php', array('id' => $toolid));
+        return new \moodle_url('/enroll/lti/tool.php', array('id' => $toolid));
     }
 
     /**
-     * Returns the name of the lti enrolment instance, or the name of the course/module being shared.
+     * Returns the name of the lti enrollment instance, or the name of the course/module being shared.
      *
      * @param \stdClass $tool The lti tool
      * @return string The name of the tool
@@ -464,9 +464,9 @@ class helper {
         $id = $tool->id;
         $token = self::generate_cartridge_token($tool->id);
         if ($CFG->slasharguments) {
-            $url = new \moodle_url('/enrol/lti/cartridge.php/' . $id . '/' . $token . '/cartridge.xml');
+            $url = new \moodle_url('/enroll/lti/cartridge.php/' . $id . '/' . $token . '/cartridge.xml');
         } else {
-            $url = new \moodle_url('/enrol/lti/cartridge.php',
+            $url = new \moodle_url('/enroll/lti/cartridge.php',
                     array(
                         'id' => $id,
                         'token' => $token
@@ -492,9 +492,9 @@ class helper {
         $id = $tool->id;
         $token = self::generate_proxy_token($tool->id);
         if ($CFG->slasharguments) {
-            $url = new \moodle_url('/enrol/lti/proxy.php/' . $id . '/' . $token . '/');
+            $url = new \moodle_url('/enroll/lti/proxy.php/' . $id . '/' . $token . '/');
         } else {
-            $url = new \moodle_url('/enrol/lti/proxy.php',
+            $url = new \moodle_url('/enroll/lti/proxy.php',
                     array(
                         'id' => $id,
                         'token' => $token
@@ -505,12 +505,12 @@ class helper {
     }
 
     /**
-     * Returns a unique hash for this site and this enrolment instance.
+     * Returns a unique hash for this site and this enrollment instance.
      *
      * Used to verify that the link to the cartridge has not just been guessed.
      *
      * @param int $toolid The id of the shared tool
-     * @return string MD5 hash of combined site ID and enrolment instance ID.
+     * @return string MD5 hash of combined site ID and enrollment instance ID.
      * @since Moodle 3.2
      */
     public static function generate_cartridge_token($toolid) {
@@ -520,12 +520,12 @@ class helper {
     }
 
     /**
-     * Returns a unique hash for this site and this enrolment instance.
+     * Returns a unique hash for this site and this enrollment instance.
      *
      * Used to verify that the link to the proxy has not just been guessed.
      *
      * @param int $toolid The id of the shared tool
-     * @return string MD5 hash of combined site ID and enrolment instance ID.
+     * @return string MD5 hash of combined site ID and enrollment instance ID.
      * @since Moodle 3.2
      */
     public static function generate_proxy_token($toolid) {
@@ -538,7 +538,7 @@ class helper {
      * Verifies that the given token matches the cartridge token of the given shared tool.
      *
      * @param int $toolid The id of the shared tool
-     * @param string $token hash for this site and this enrolment instance
+     * @param string $token hash for this site and this enrollment instance
      * @return boolean True if the token matches, false if it does not
      * @since Moodle 3.2
      */
@@ -550,7 +550,7 @@ class helper {
      * Verifies that the given token matches the proxy token of the given shared tool.
      *
      * @param int $toolid The id of the shared tool
-     * @param string $token hash for this site and this enrolment instance
+     * @param string $token hash for this site and this enrollment instance
      * @return boolean True if the token matches, false if it does not
      * @since Moodle 3.2
      */

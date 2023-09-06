@@ -174,7 +174,7 @@ class completion extends base {
         // Time enrolled.
         $columns[] = (new column(
             'timeenrolled',
-            new lang_string('timeenrolled', 'enrol'),
+            new lang_string('timeenrolled', 'enroll'),
             $this->get_entity_name()
         ))
             ->add_joins($this->get_joins())
@@ -186,7 +186,7 @@ class completion extends base {
         // Time started.
         $columns[] = (new column(
             'timestarted',
-            new lang_string('timestarted', 'enrol'),
+            new lang_string('timestarted', 'enroll'),
             $this->get_entity_name()
         ))
             ->add_joins($this->get_joins())
@@ -210,7 +210,7 @@ class completion extends base {
         // Time reaggregated.
         $columns[] = (new column(
             'reaggregate',
-            new lang_string('timereaggregated', 'enrol'),
+            new lang_string('timereaggregated', 'enroll'),
             $this->get_entity_name()
         ))
             ->add_joins($this->get_joins())
@@ -239,7 +239,7 @@ class completion extends base {
             ->set_is_sortable(true)
             ->add_callback([completion_formatter::class, 'get_days']);
 
-        // Days since last completion (days since last enrolment date until completion or until current date if not completed).
+        // Days since last completion (days since last enrollment date until completion or until current date if not completed).
         $columns[] = (new column(
             'daysuntilcompletion',
             new lang_string('daysuntilcompletion', 'completion'),
@@ -328,7 +328,7 @@ class completion extends base {
             $filters[] = (new filter(
                 date::class,
                 $field,
-                new lang_string($field, 'enrol'),
+                new lang_string($field, 'enroll'),
                 $this->get_entity_name(),
                 "{$coursecompletion}.{$field}"
             ))
@@ -347,7 +347,7 @@ class completion extends base {
         $filters[] = (new filter(
             date::class,
             'reaggregate',
-            new lang_string('timereaggregated', 'enrol'),
+            new lang_string('timereaggregated', 'enroll'),
             $this->get_entity_name(),
             "{$coursecompletion}.reaggregate"
         ))

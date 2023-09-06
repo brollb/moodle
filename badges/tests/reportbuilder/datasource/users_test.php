@@ -90,7 +90,7 @@ class users_test extends core_reportbuilder_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student', ['firstname' => 'Zoe', 'lastname' => 'Zebra']);
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student', ['firstname' => 'Zoe', 'lastname' => 'Zebra']);
 
         /** @var core_badges_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('core_badges');
@@ -298,7 +298,7 @@ class users_test extends core_reportbuilder_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course(['fullname' => 'Course 1']);
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student', ['firstname' => 'Zoe', 'lastname' => 'Zebra']);
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student', ['firstname' => 'Zoe', 'lastname' => 'Zebra']);
 
         /** @var core_badges_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('core_badges');
@@ -343,7 +343,7 @@ class users_test extends core_reportbuilder_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course);
+        $user = $this->getDataGenerator()->create_and_enroll($course);
 
         /** @var core_badges_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('core_badges');

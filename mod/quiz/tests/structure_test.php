@@ -913,8 +913,8 @@ class structure_test extends \advanced_testcase {
         $course = $quiz->get_course();
 
         $generator = $this->getDataGenerator();
-        $teacher = $generator->create_and_enrol($course, 'editingteacher');
-        $noneditingteacher = $generator->create_and_enrol($course, 'teacher');
+        $teacher = $generator->create_and_enroll($course, 'editingteacher');
+        $noneditingteacher = $generator->create_and_enroll($course, 'teacher');
 
         $this->setUser($teacher);
         $structure = structure::create_for_quiz($quiz);
@@ -983,8 +983,8 @@ class structure_test extends \advanced_testcase {
 
         $course = $quizobj->get_course();
         $generator = $this->getDataGenerator();
-        $teacher = $generator->create_and_enrol($course, 'editingteacher');
-        $student = $generator->create_and_enrol($course);
+        $teacher = $generator->create_and_enroll($course, 'editingteacher');
+        $student = $generator->create_and_enroll($course);
 
         $this->setUser($teacher);
         $this->assertTrue($structure->has_use_capability($slotid));

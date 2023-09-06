@@ -228,7 +228,7 @@ class manager_test extends \advanced_testcase {
         $this->assertEquals(0, get_config('core', 'usecomments'));
 
         // Check the plugins visibility have changed accordingly with the ones defined in the preset.
-        $enabledplugins = \core\plugininfo\enrol::get_enabled_plugins();
+        $enabledplugins = \core\plugininfo\enroll::get_enabled_plugins();
         $this->assertArrayNotHasKey('guest', $enabledplugins);
         $this->assertArrayHasKey('manual', $enabledplugins);
         $enabledplugins = \core\plugininfo\mod::get_enabled_plugins();
@@ -329,7 +329,7 @@ class manager_test extends \advanced_testcase {
 
         // Check plugins have been created with the expected values.
         $manager = \core_plugin_manager::instance();
-        $plugintype = 'enrol';
+        $plugintype = 'enroll';
         $plugins = $manager->get_present_plugins($plugintype);
         $enabledplugins = $manager->get_enabled_plugins($plugintype);
         foreach ($plugins as $pluginname => $unused) {
@@ -724,7 +724,7 @@ class manager_test extends \advanced_testcase {
         $this->assertEquals(0, get_config('core', 'usecomments'));
 
         // Check the plugins visibility have changed accordingly with the ones defined in the preset.
-        $enabledplugins = \core\plugininfo\enrol::get_enabled_plugins();
+        $enabledplugins = \core\plugininfo\enroll::get_enabled_plugins();
         $this->assertArrayNotHasKey('guest', $enabledplugins);
         $enabledplugins = \core\plugininfo\mod::get_enabled_plugins();
         $this->assertArrayNotHasKey('glossary', $enabledplugins);
@@ -760,7 +760,7 @@ class manager_test extends \advanced_testcase {
         $this->assertEquals(0, get_config('core', 'usecomments'));
 
         // Check the plugins visibility have been reverted accordingly.
-        $enabledplugins = \core\plugininfo\enrol::get_enabled_plugins();
+        $enabledplugins = \core\plugininfo\enroll::get_enabled_plugins();
         $this->assertArrayHasKey('guest', $enabledplugins);
         $enabledplugins = \core\plugininfo\mod::get_enabled_plugins();
         $this->assertArrayHasKey('glossary', $enabledplugins);

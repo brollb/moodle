@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Paypal enrolment plugin.
+ * Paypal enrollment plugin.
  *
  * This plugin allows you to set up paid courses.
  *
@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Paypal enrolment plugin implementation.
+ * Paypal enrollment plugin implementation.
  * @author  Eugene Venter - based on code by Martin Dougiamas and others
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -48,15 +48,15 @@ class enrol_paypal_plugin extends enrol_plugin {
     }
 
     /**
-     * Returns optional enrolment information icons.
+     * Returns optional enrollment information icons.
      *
-     * This is used in course list for quick overview of enrolment options.
+     * This is used in course list for quick overview of enrollment options.
      *
      * We are not using single instance parameter because sometimes
      * we might want to prevent icon repetition when multiple instances
      * of one type exist. One instance may also produce several icons.
      *
-     * @param array $instances all enrol instances of this type in one course
+     * @param array $instances all enroll instances of this type in one course
      * @return array of pix_icon
      */
     public function get_info_icons(array $instances) {
@@ -82,13 +82,13 @@ class enrol_paypal_plugin extends enrol_plugin {
         return false;
     }
 
-    public function allow_unenrol(stdClass $instance) {
-        // users with unenrol cap may unenrol other users manually - requires enrol/paypal:unenrol
+    public function allow_unenroll(stdClass $instance) {
+        // users with unenroll cap may unenroll other users manually - requires enroll/paypal:unenroll
         return true;
     }
 
     public function allow_manage(stdClass $instance) {
-        // users with manage cap may tweak period and status - requires enrol/paypal:manage
+        // users with manage cap may tweak period and status - requires enroll/paypal:manage
         return true;
     }
 
@@ -104,7 +104,7 @@ class enrol_paypal_plugin extends enrol_plugin {
     public function can_add_instance($courseid) {
         $context = context_course::instance($courseid, MUST_EXIST);
 
-        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enrol/paypal:config', $context)) {
+        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enroll/paypal:config', $context)) {
             return false;
         }
 
@@ -122,7 +122,7 @@ class enrol_paypal_plugin extends enrol_plugin {
     }
 
     /**
-     * Add new instance of enrol plugin.
+     * Add new instance of enroll plugin.
      * @param object $course
      * @param array $fields instance fields
      * @return int id of new instance, null if can not be created
@@ -135,7 +135,7 @@ class enrol_paypal_plugin extends enrol_plugin {
     }
 
     /**
-     * Update instance of enrol plugin.
+     * Update instance of enroll plugin.
      * @param stdClass $instance
      * @param stdClass $data modified instance fields
      * @return boolean
@@ -148,7 +148,7 @@ class enrol_paypal_plugin extends enrol_plugin {
     }
 
     /**
-     * Creates course enrol form, checks if form submitted
+     * Creates course enroll form, checks if form submitted
      * and enrols user if necessary. It can also redirect.
      *
      * @param stdClass $instance
@@ -193,7 +193,7 @@ class enrol_paypal_plugin extends enrol_plugin {
             $cost = (float) $instance->cost;
         }
 
-        if (abs($cost) < 0.01) { // no cost, other enrolment methods (instances) should be used
+        if (abs($cost) < 0.01) { // no cost, other enrollment methods (instances) should be used
             echo '<p>'.get_string('nocost', 'enrol_paypal').'</p>';
         } else {
 
@@ -219,7 +219,7 @@ class enrol_paypal_plugin extends enrol_plugin {
                 $usercity        = $USER->city;
                 $instancename    = $this->get_instance_name($instance);
 
-                include($CFG->dirroot.'/enrol/paypal/enrol.html');
+                include($CFG->dirroot.'/enroll/paypal/enroll.html');
             }
 
         }
@@ -242,23 +242,23 @@ class enrol_paypal_plugin extends enrol_plugin {
         } else {
             $merge = array(
                 'courseid'   => $data->courseid,
-                'enrol'      => $this->get_name(),
+                'enroll'      => $this->get_name(),
                 'roleid'     => $data->roleid,
                 'cost'       => $data->cost,
                 'currency'   => $data->currency,
             );
         }
-        if ($merge and $instances = $DB->get_records('enrol', $merge, 'id')) {
+        if ($merge and $instances = $DB->get_records('enroll', $merge, 'id')) {
             $instance = reset($instances);
             $instanceid = $instance->id;
         } else {
             $instanceid = $this->add_instance($course, (array)$data);
         }
-        $step->set_mapping('enrol', $oldid, $instanceid);
+        $step->set_mapping('enroll', $oldid, $instanceid);
     }
 
     /**
-     * Restore user enrolment.
+     * Restore user enrollment.
      *
      * @param restore_enrolments_structure_step $step
      * @param stdClass $data
@@ -266,7 +266,7 @@ class enrol_paypal_plugin extends enrol_plugin {
      * @param int $oldinstancestatus
      * @param int $userid
      */
-    public function restore_user_enrolment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
+    public function restore_user_enrollment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
         $this->enrol_user($instance, $userid, null, $data->timestart, $data->timeend, $data->status);
     }
 
@@ -308,7 +308,7 @@ class enrol_paypal_plugin extends enrol_plugin {
      */
     public function edit_instance_form($instance, MoodleQuickForm $mform, $context) {
 
-        $mform->addElement('text', 'name', get_string('custominstancename', 'enrol'));
+        $mform->addElement('text', 'name', get_string('custominstancename', 'enroll'));
         $mform->setType('name', PARAM_TEXT);
 
         $options = $this->get_status_options();
@@ -343,8 +343,8 @@ class enrol_paypal_plugin extends enrol_plugin {
         $mform->addHelpButton('enrolenddate', 'enrolenddate', 'enrol_paypal');
 
         if (enrol_accessing_via_instance($instance)) {
-            $warningtext = get_string('instanceeditselfwarningtext', 'core_enrol');
-            $mform->addElement('static', 'selfwarn', get_string('instanceeditselfwarning', 'core_enrol'), $warningtext);
+            $warningtext = get_string('instanceeditselfwarningtext', 'core_enroll');
+            $mform->addElement('static', 'selfwarn', get_string('instanceeditselfwarning', 'core_enroll'), $warningtext);
         }
     }
 
@@ -401,24 +401,24 @@ class enrol_paypal_plugin extends enrol_plugin {
     }
 
     /**
-     * Is it possible to delete enrol instance via standard UI?
+     * Is it possible to delete enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/paypal:config', $context);
+        return has_capability('enroll/paypal:config', $context);
     }
 
     /**
-     * Is it possible to hide/show enrol instance via standard UI?
+     * Is it possible to hide/show enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/paypal:config', $context);
+        return has_capability('enroll/paypal:config', $context);
     }
 }

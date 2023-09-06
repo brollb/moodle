@@ -23,16 +23,16 @@ use lang_string;
 use stdClass;
 
 /**
- * Formatters for the course enrolment entity
+ * Formatters for the course enrollment entity
  *
  * @package     core_course
  * @copyright   2022 David Matamoros <davidmc@moodle.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class enrolment {
+class enrollment {
 
     /**
-     * Return enrolment plugin instance name
+     * Return enrollment plugin instance name
      *
      * @param string|null $value
      * @param stdClass $row
@@ -47,27 +47,27 @@ class enrolment {
             return '';
         }
 
-        $instance = $DB->get_record('enrol', ['id' => $row->id, 'enrol' => $row->enrol], '*', MUST_EXIST);
-        $plugin = enrol_get_plugin($row->enrol);
+        $instance = $DB->get_record('enroll', ['id' => $row->id, 'enroll' => $row->enroll], '*', MUST_EXIST);
+        $plugin = enrol_get_plugin($row->enroll);
 
         return $plugin ? $plugin->get_instance_name($instance) : '-';
     }
 
     /**
-     * Returns list of enrolment statuses
+     * Returns list of enrollment statuses
      *
      * @return lang_string[]
      */
     public static function enrolment_values(): array {
         return [
-            status_field::STATUS_ACTIVE => new lang_string('participationactive', 'enrol'),
-            status_field::STATUS_SUSPENDED => new lang_string('participationsuspended', 'enrol'),
-            status_field::STATUS_NOT_CURRENT => new lang_string('participationnotcurrent', 'enrol'),
+            status_field::STATUS_ACTIVE => new lang_string('participationactive', 'enroll'),
+            status_field::STATUS_SUSPENDED => new lang_string('participationsuspended', 'enroll'),
+            status_field::STATUS_NOT_CURRENT => new lang_string('participationnotcurrent', 'enroll'),
         ];
     }
 
     /**
-     * Return enrolment status for user
+     * Return enrollment status for user
      *
      * @param string|null $value
      * @return string|null

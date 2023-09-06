@@ -17,7 +17,7 @@
 /**
  * Course participations External functions.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @category   external
  * @copyright  2010 Jerome Mouneyrac
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -34,10 +34,10 @@ use core_external\external_value;
 /**
  * Enrol external functions
  *
- * This api is mostly read only, the actual enrol and unenrol
- * support is in each enrol plugin.
+ * This api is mostly read only, the actual enroll and unenroll
+ * support is in each enroll plugin.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @category   external
  * @copyright  2010 Jerome Mouneyrac
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -510,7 +510,7 @@ class core_enrol_external extends external_api {
         return new external_function_parameters(
             array(
                 'courseid' => new external_value(PARAM_INT, 'course id'),
-                'enrolid' => new external_value(PARAM_INT, 'enrolment id'),
+                'enrolid' => new external_value(PARAM_INT, 'enrollment id'),
                 'search' => new external_value(PARAM_RAW, 'query'),
                 'searchanywhere' => new external_value(PARAM_BOOL, 'find a match anywhere, or only at the beginning'),
                 'page' => new external_value(PARAM_INT, 'Page number'),
@@ -533,7 +533,7 @@ class core_enrol_external extends external_api {
     public static function get_potential_users($courseid, $enrolid, $search, $searchanywhere, $page, $perpage) {
         global $PAGE, $DB, $CFG;
 
-        require_once($CFG->dirroot.'/enrol/locallib.php');
+        require_once($CFG->dirroot.'/enroll/locallib.php');
         require_once($CFG->dirroot.'/user/lib.php');
 
         $params = self::validate_parameters(
@@ -588,7 +588,7 @@ class core_enrol_external extends external_api {
             // Note: We pass the course here to validate that the current user can at least view user details in this course.
             // The user we are looking at is not in this course yet though - but we only fetch the minimal set of
             // user records, and the user has been validated to have course:enrolreview in this course. Otherwise
-            // there is no way to find users who aren't in the course in order to enrol them.
+            // there is no way to find users who aren't in the course in order to enroll them.
             if ($userdetails = user_get_user_details($user, $course, $requiredfields)) {
                 // For custom fields, only return the ones we actually need.
                 if ($customprofilefields && array_key_exists('customfields', $userdetails)) {
@@ -647,7 +647,7 @@ class core_enrol_external extends external_api {
     public static function search_users(int $courseid, string $search, bool $searchanywhere, int $page, int $perpage): array {
         global $PAGE, $DB, $CFG;
 
-        require_once($CFG->dirroot.'/enrol/locallib.php');
+        require_once($CFG->dirroot.'/enroll/locallib.php');
         require_once($CFG->dirroot.'/user/lib.php');
 
         $params = self::validate_parameters(
@@ -993,10 +993,10 @@ class core_enrol_external extends external_api {
     }
 
     /**
-     * Get list of active course enrolment methods for current user.
+     * Get list of active course enrollment methods for current user.
      *
      * @param int $courseid
-     * @return array of course enrolment methods
+     * @return array of course enrollment methods
      * @throws moodle_exception
      */
     public static function get_course_enrolment_methods($courseid) {
@@ -1013,7 +1013,7 @@ class core_enrol_external extends external_api {
         $result = array();
         $enrolinstances = enrol_get_instances($params['courseid'], true);
         foreach ($enrolinstances as $enrolinstance) {
-            if ($enrolplugin = enrol_get_plugin($enrolinstance->enrol)) {
+            if ($enrolplugin = enrol_get_plugin($enrolinstance->enroll)) {
                 if ($instanceinfo = $enrolplugin->get_enrol_info($enrolinstance)) {
                     $result[] = (array) $instanceinfo;
                 }
@@ -1031,11 +1031,11 @@ class core_enrol_external extends external_api {
         return new external_multiple_structure(
             new external_single_structure(
                 array(
-                    'id' => new external_value(PARAM_INT, 'id of course enrolment instance'),
+                    'id' => new external_value(PARAM_INT, 'id of course enrollment instance'),
                     'courseid' => new external_value(PARAM_INT, 'id of course'),
-                    'type' => new external_value(PARAM_PLUGIN, 'type of enrolment plugin'),
-                    'name' => new external_value(PARAM_RAW, 'name of enrolment plugin'),
-                    'status' => new external_value(PARAM_RAW, 'status of enrolment plugin'),
+                    'type' => new external_value(PARAM_PLUGIN, 'type of enrollment plugin'),
+                    'name' => new external_value(PARAM_RAW, 'name of enrollment plugin'),
+                    'status' => new external_value(PARAM_RAW, 'status of enrollment plugin'),
                     'wsfunction' => new external_value(PARAM_ALPHANUMEXT, 'webservice function to get more information', VALUE_OPTIONAL),
                 )
             )
@@ -1054,9 +1054,9 @@ class core_enrol_external extends external_api {
     }
 
     /**
-     * External function that handles the user enrolment form submission.
+     * External function that handles the user enrollment form submission.
      *
-     * @param string $formdata The user enrolment form data in s URI encoded param string
+     * @param string $formdata The user enrollment form data in s URI encoded param string
      * @return array An array consisting of the processing result and error flag, if available
      */
     public static function submit_user_enrolment_form($formdata) {
@@ -1068,16 +1068,16 @@ class core_enrol_external extends external_api {
         $data = [];
         parse_str($params['formdata'], $data);
 
-        $userenrolment = $DB->get_record('user_enrolments', ['id' => $data['ue']], '*', MUST_EXIST);
-        $instance = $DB->get_record('enrol', ['id' => $userenrolment->enrolid], '*', MUST_EXIST);
-        $plugin = enrol_get_plugin($instance->enrol);
+        $userenrollment = $DB->get_record('user_enrolments', ['id' => $data['ue']], '*', MUST_EXIST);
+        $instance = $DB->get_record('enroll', ['id' => $userenrollment->enrolid], '*', MUST_EXIST);
+        $plugin = enrol_get_plugin($instance->enroll);
         $course = get_course($instance->courseid);
         $context = context_course::instance($course->id);
         self::validate_context($context);
 
-        require_once("$CFG->dirroot/enrol/editenrolment_form.php");
+        require_once("$CFG->dirroot/enroll/editenrolment_form.php");
         $customformdata = [
-            'ue' => $userenrolment,
+            'ue' => $userenrollment,
             'modal' => true,
             'enrolinstancename' => $plugin->get_instance_name($instance)
         ];
@@ -1087,9 +1087,9 @@ class core_enrol_external extends external_api {
             if (!empty($validateddata->duration) && $validateddata->timeend == 0) {
                 $validateddata->timeend = $validateddata->timestart + $validateddata->duration;
             }
-            require_once($CFG->dirroot . '/enrol/locallib.php');
+            require_once($CFG->dirroot . '/enroll/locallib.php');
             $manager = new course_enrolment_manager($PAGE, $course);
-            $result = $manager->edit_enrolment($userenrolment, $validateddata);
+            $result = $manager->edit_enrollment($userenrollment, $validateddata);
 
             return ['result' => $result];
         } else {
@@ -1104,31 +1104,31 @@ class core_enrol_external extends external_api {
      */
     public static function submit_user_enrolment_form_returns() {
         return new external_single_structure([
-            'result' => new external_value(PARAM_BOOL, 'True if the user\'s enrolment was successfully updated'),
+            'result' => new external_value(PARAM_BOOL, 'True if the user\'s enrollment was successfully updated'),
             'validationerror' => new external_value(PARAM_BOOL, 'Indicates invalid form data', VALUE_DEFAULT, false),
         ]);
     }
 
     /**
-     * Returns description of unenrol_user_enrolment() parameters
+     * Returns description of unenrol_user_enrollment() parameters
      *
      * @return external_function_parameters
      */
     public static function unenrol_user_enrolment_parameters() {
         return new external_function_parameters(
             array(
-                'ueid' => new external_value(PARAM_INT, 'User enrolment ID')
+                'ueid' => new external_value(PARAM_INT, 'User enrollment ID')
             )
         );
     }
 
     /**
-     * External function that unenrols a given user enrolment.
+     * External function that unenrols a given user enrollment.
      *
-     * @param int $ueid The user enrolment ID.
+     * @param int $ueid The user enrollment ID.
      * @return array An array consisting of the processing result, errors.
      */
-    public static function unenrol_user_enrolment($ueid) {
+    public static function unenrol_user_enrollment($ueid) {
         global $CFG, $DB, $PAGE;
 
         $params = self::validate_parameters(self::unenrol_user_enrolment_parameters(), [
@@ -1138,24 +1138,24 @@ class core_enrol_external extends external_api {
         $result = false;
         $errors = [];
 
-        $userenrolment = $DB->get_record('user_enrolments', ['id' => $params['ueid']], '*');
-        if ($userenrolment) {
-            $userid = $userenrolment->userid;
-            $enrolid = $userenrolment->enrolid;
-            $enrol = $DB->get_record('enrol', ['id' => $enrolid], '*', MUST_EXIST);
-            $courseid = $enrol->courseid;
+        $userenrollment = $DB->get_record('user_enrolments', ['id' => $params['ueid']], '*');
+        if ($userenrollment) {
+            $userid = $userenrollment->userid;
+            $enrolid = $userenrollment->enrolid;
+            $enroll = $DB->get_record('enroll', ['id' => $enrolid], '*', MUST_EXIST);
+            $courseid = $enroll->courseid;
             $course = get_course($courseid);
             $context = context_course::instance($course->id);
             self::validate_context($context);
         } else {
-            $validationerrors['invalidrequest'] = get_string('invalidrequest', 'enrol');
+            $validationerrors['invalidrequest'] = get_string('invalidrequest', 'enroll');
         }
 
-        // If the userenrolment exists, unenrol the user.
+        // If the userenrollment exists, unenroll the user.
         if (!isset($validationerrors)) {
-            require_once($CFG->dirroot . '/enrol/locallib.php');
+            require_once($CFG->dirroot . '/enroll/locallib.php');
             $manager = new course_enrolment_manager($PAGE, $course);
-            $result = $manager->unenrol_user($userenrolment);
+            $result = $manager->unenrol_user($userenrollment);
         } else {
             foreach ($validationerrors as $key => $errormessage) {
                 $errors[] = (object)[
@@ -1172,14 +1172,14 @@ class core_enrol_external extends external_api {
     }
 
     /**
-     * Returns description of unenrol_user_enrolment() result value
+     * Returns description of unenrol_user_enrollment() result value
      *
      * @return \core_external\external_description
      */
     public static function unenrol_user_enrolment_returns() {
         return new external_single_structure(
             array(
-                'result' => new external_value(PARAM_BOOL, 'True if the user\'s enrolment was successfully updated'),
+                'result' => new external_value(PARAM_BOOL, 'True if the user\'s enrollment was successfully updated'),
                 'errors' => new external_multiple_structure(
                     new external_single_structure(
                         array(
@@ -1246,7 +1246,7 @@ class core_role_external extends external_api {
             // Ensure correct context level with a instance id or contextid is passed.
             $context = self::get_context_from_params($assignment);
 
-            // Ensure the current user is allowed to run this function in the enrolment context.
+            // Ensure the current user is allowed to run this function in the enrollment context.
             self::validate_context($context);
             require_capability('moodle/role:assign', $context);
 

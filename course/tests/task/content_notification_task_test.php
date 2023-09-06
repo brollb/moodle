@@ -50,7 +50,7 @@ class content_notification_task_test extends \advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course(['overviewfiles_filemanager' => $draft->get_itemid()]);
 
-        // Enrol couple of students to receive a notification and one unactive enrolment.
+        // Enrol couple of students to receive a notification and one unactive enrollment.
         $user1 = self::getDataGenerator()->create_user();
         $user2 = self::getDataGenerator()->create_user();
         $user3 = self::getDataGenerator()->create_user();
@@ -91,7 +91,7 @@ class content_notification_task_test extends \advanced_testcase {
         $messages = $sink->get_messages();
         $sink->close();
 
-        // We have 3 students, one with a non-active enrolment that should not receive a notification.
+        // We have 3 students, one with a non-active enrollment that should not receive a notification.
         $this->assertCount(2, $messages);
         foreach ($messages as $message) {
             $this->assertEquals('coursecontentupdated', $message->eventtype);

@@ -250,8 +250,8 @@ class helper {
         static::add_plugin($presetid, 'dataformat', 'json', false);
 
         // Enrolments: Disable Cohort sync, Guest access.
-        static::add_plugin($presetid, 'enrol', 'cohort', false);
-        static::add_plugin($presetid, 'enrol', 'guest', false);
+        static::add_plugin($presetid, 'enroll', 'cohort', false);
+        static::add_plugin($presetid, 'enroll', 'guest', false);
 
         // Filter: Disable MathJax, Activity names auto-linking.
         static::add_plugin($presetid, 'filter', 'mathjaxloader', TEXTFILTER_DISABLED);
@@ -353,8 +353,8 @@ class helper {
         static::add_plugin($presetid, 'dataformat', 'json', true);
 
         // Enrolments: Enable Cohort sync, Guest access.
-        static::add_plugin($presetid, 'enrol', 'cohort', true);
-        static::add_plugin($presetid, 'enrol', 'guest', true);
+        static::add_plugin($presetid, 'enroll', 'cohort', true);
+        static::add_plugin($presetid, 'enroll', 'guest', true);
 
         // Filter: Enable MathJax, Activity names auto-linking.
         static::add_plugin($presetid, 'filter', 'mathjaxloader', TEXTFILTER_ON);

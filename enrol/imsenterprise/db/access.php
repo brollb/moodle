@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for imsenterprise enrolment plugin.
+ * Capabilities for imsenterprise enrollment plugin.
  *
  * @package    enrol_imsenterprise
  * @copyright  2014 Daniel Neis Araujo
@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    'enrol/imsenterprise:config' => array(
+    'enroll/imsenterprise:config' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(

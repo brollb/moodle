@@ -55,7 +55,7 @@ class reportuserlib_test extends \advanced_testcase {
         $coursecategory = \grade_category::fetch_course_category($course->id);
         $coursecontext = \context_course::instance($course->id);
 
-        // Create and enrol test users.
+        // Create and enroll test users.
         $student = $this->getDataGenerator()->create_user(array('username' => 'student_sam'));
         $role = $DB->get_record('role', array('shortname' => 'student'), '*', MUST_EXIST);
         $this->getDataGenerator()->enrol_user($student->id, $course->id, $role->id);

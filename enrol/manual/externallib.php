@@ -23,8 +23,8 @@ use core_external\external_value;
 /**
  * External course participation api.
  *
- * This api is mostly read only, the actual enrol and unenrol
- * support is in each enrol plugin.
+ * This api is mostly read only, the actual enroll and unenroll
+ * support is in each enroll plugin.
  *
  * @package    enrol_manual
  * @category   external
@@ -48,10 +48,10 @@ class enrol_manual_external extends external_api {
                                     array(
                                         'roleid' => new external_value(PARAM_INT, 'Role to assign to the user'),
                                         'userid' => new external_value(PARAM_INT, 'The user that is going to be enrolled'),
-                                        'courseid' => new external_value(PARAM_INT, 'The course to enrol the user role in'),
-                                        'timestart' => new external_value(PARAM_INT, 'Timestamp when the enrolment start', VALUE_OPTIONAL),
-                                        'timeend' => new external_value(PARAM_INT, 'Timestamp when the enrolment end', VALUE_OPTIONAL),
-                                        'suspend' => new external_value(PARAM_INT, 'set to 1 to suspend the enrolment', VALUE_OPTIONAL)
+                                        'courseid' => new external_value(PARAM_INT, 'The course to enroll the user role in'),
+                                        'timestart' => new external_value(PARAM_INT, 'Timestamp when the enrollment start', VALUE_OPTIONAL),
+                                        'timeend' => new external_value(PARAM_INT, 'Timestamp when the enrollment end', VALUE_OPTIONAL),
+                                        'suspend' => new external_value(PARAM_INT, 'set to 1 to suspend the enrollment', VALUE_OPTIONAL)
                                     )
                             )
                     )
@@ -63,7 +63,7 @@ class enrol_manual_external extends external_api {
      * Enrolment of users.
      *
      * Function throw an exception at the first error encountered.
-     * @param array $enrolments  An array of user enrolment
+     * @param array $enrolments  An array of user enrollment
      * @since Moodle 2.2
      */
     public static function enrol_users($enrolments) {
@@ -74,65 +74,65 @@ class enrol_manual_external extends external_api {
         $params = self::validate_parameters(self::enrol_users_parameters(),
                 array('enrolments' => $enrolments));
 
-        $transaction = $DB->start_delegated_transaction(); // Rollback all enrolment if an error occurs
+        $transaction = $DB->start_delegated_transaction(); // Rollback all enrollment if an error occurs
                                                            // (except if the DB doesn't support it).
 
-        // Retrieve the manual enrolment plugin.
-        $enrol = enrol_get_plugin('manual');
-        if (empty($enrol)) {
+        // Retrieve the manual enrollment plugin.
+        $enroll = enrol_get_plugin('manual');
+        if (empty($enroll)) {
             throw new moodle_exception('manualpluginnotinstalled', 'enrol_manual');
         }
 
-        foreach ($params['enrolments'] as $enrolment) {
-            // Ensure the current user is allowed to run this function in the enrolment context.
-            $context = context_course::instance($enrolment['courseid'], IGNORE_MISSING);
+        foreach ($params['enrolments'] as $enrollment) {
+            // Ensure the current user is allowed to run this function in the enrollment context.
+            $context = context_course::instance($enrollment['courseid'], IGNORE_MISSING);
             self::validate_context($context);
 
-            // Check that the user has the permission to manual enrol.
-            require_capability('enrol/manual:enrol', $context);
+            // Check that the user has the permission to manual enroll.
+            require_capability('enroll/manual:enroll', $context);
 
             // Throw an exception if user is not able to assign the role.
             $roles = get_assignable_roles($context);
-            if (!array_key_exists($enrolment['roleid'], $roles)) {
+            if (!array_key_exists($enrollment['roleid'], $roles)) {
                 $errorparams = new stdClass();
-                $errorparams->roleid = $enrolment['roleid'];
-                $errorparams->courseid = $enrolment['courseid'];
-                $errorparams->userid = $enrolment['userid'];
+                $errorparams->roleid = $enrollment['roleid'];
+                $errorparams->courseid = $enrollment['courseid'];
+                $errorparams->userid = $enrollment['userid'];
                 throw new moodle_exception('wsusercannotassign', 'enrol_manual', '', $errorparams);
             }
 
-            // Check manual enrolment plugin instance is enabled/exist.
+            // Check manual enrollment plugin instance is enabled/exist.
             $instance = null;
-            $enrolinstances = enrol_get_instances($enrolment['courseid'], true);
+            $enrolinstances = enrol_get_instances($enrollment['courseid'], true);
             foreach ($enrolinstances as $courseenrolinstance) {
-              if ($courseenrolinstance->enrol == "manual") {
+              if ($courseenrolinstance->enroll == "manual") {
                   $instance = $courseenrolinstance;
                   break;
               }
             }
             if (empty($instance)) {
               $errorparams = new stdClass();
-              $errorparams->courseid = $enrolment['courseid'];
+              $errorparams->courseid = $enrollment['courseid'];
               throw new moodle_exception('wsnoinstance', 'enrol_manual', $errorparams);
             }
 
-            // Check that the plugin accept enrolment (it should always the case, it's hard coded in the plugin).
-            if (!$enrol->allow_enrol($instance)) {
+            // Check that the plugin accept enrollment (it should always the case, it's hard coded in the plugin).
+            if (!$enroll->allow_enroll($instance)) {
                 $errorparams = new stdClass();
-                $errorparams->roleid = $enrolment['roleid'];
-                $errorparams->courseid = $enrolment['courseid'];
-                $errorparams->userid = $enrolment['userid'];
-                throw new moodle_exception('wscannotenrol', 'enrol_manual', '', $errorparams);
+                $errorparams->roleid = $enrollment['roleid'];
+                $errorparams->courseid = $enrollment['courseid'];
+                $errorparams->userid = $enrollment['userid'];
+                throw new moodle_exception('wscannotenroll', 'enrol_manual', '', $errorparams);
             }
 
-            // Finally proceed the enrolment.
-            $enrolment['timestart'] = isset($enrolment['timestart']) ? $enrolment['timestart'] : 0;
-            $enrolment['timeend'] = isset($enrolment['timeend']) ? $enrolment['timeend'] : 0;
-            $enrolment['status'] = (isset($enrolment['suspend']) && !empty($enrolment['suspend'])) ?
+            // Finally proceed the enrollment.
+            $enrollment['timestart'] = isset($enrollment['timestart']) ? $enrollment['timestart'] : 0;
+            $enrollment['timeend'] = isset($enrollment['timeend']) ? $enrollment['timeend'] : 0;
+            $enrollment['status'] = (isset($enrollment['suspend']) && !empty($enrollment['suspend'])) ?
                     ENROL_USER_SUSPENDED : ENROL_USER_ACTIVE;
 
-            $enrol->enrol_user($instance, $enrolment['userid'], $enrolment['roleid'],
-                    $enrolment['timestart'], $enrolment['timeend'], $enrolment['status']);
+            $enroll->enrol_user($instance, $enrollment['userid'], $enrollment['roleid'],
+                    $enrollment['timestart'], $enrollment['timeend'], $enrollment['status']);
 
         }
 
@@ -160,7 +160,7 @@ class enrol_manual_external extends external_api {
                 new external_single_structure(
                     array(
                         'userid' => new external_value(PARAM_INT, 'The user that is going to be unenrolled'),
-                        'courseid' => new external_value(PARAM_INT, 'The course to unenrol the user from'),
+                        'courseid' => new external_value(PARAM_INT, 'The course to unenroll the user from'),
                         'roleid' => new external_value(PARAM_INT, 'The user role', VALUE_OPTIONAL),
                     )
                 )
@@ -169,7 +169,7 @@ class enrol_manual_external extends external_api {
     }
 
     /**
-     * Unenrolment of users.
+     * Unenrollment of users.
      *
      * @param array $enrolments an array of course user and role ids
      * @throws coding_exception
@@ -183,28 +183,28 @@ class enrol_manual_external extends external_api {
         global $CFG, $DB;
         $params = self::validate_parameters(self::unenrol_users_parameters(), array('enrolments' => $enrolments));
         require_once($CFG->libdir . '/enrollib.php');
-        $transaction = $DB->start_delegated_transaction(); // Rollback all enrolment if an error occurs.
-        $enrol = enrol_get_plugin('manual');
-        if (empty($enrol)) {
+        $transaction = $DB->start_delegated_transaction(); // Rollback all enrollment if an error occurs.
+        $enroll = enrol_get_plugin('manual');
+        if (empty($enroll)) {
             throw new moodle_exception('manualpluginnotinstalled', 'enrol_manual');
         }
 
-        foreach ($params['enrolments'] as $enrolment) {
-            $context = context_course::instance($enrolment['courseid']);
+        foreach ($params['enrolments'] as $enrollment) {
+            $context = context_course::instance($enrollment['courseid']);
             self::validate_context($context);
-            require_capability('enrol/manual:unenrol', $context);
-            $instance = $DB->get_record('enrol', array('courseid' => $enrolment['courseid'], 'enrol' => 'manual'));
+            require_capability('enroll/manual:unenroll', $context);
+            $instance = $DB->get_record('enroll', array('courseid' => $enrollment['courseid'], 'enroll' => 'manual'));
             if (!$instance) {
-                throw new moodle_exception('wsnoinstance', 'enrol_manual', $enrolment);
+                throw new moodle_exception('wsnoinstance', 'enrol_manual', $enrollment);
             }
-            $user = $DB->get_record('user', array('id' => $enrolment['userid']));
+            $user = $DB->get_record('user', array('id' => $enrollment['userid']));
             if (!$user) {
-                throw new invalid_parameter_exception('User id not exist: '.$enrolment['userid']);
+                throw new invalid_parameter_exception('User id not exist: '.$enrollment['userid']);
             }
-            if (!$enrol->allow_unenrol($instance)) {
-                throw new moodle_exception('wscannotunenrol', 'enrol_manual', '', $enrolment);
+            if (!$enroll->allow_unenroll($instance)) {
+                throw new moodle_exception('wscannotunenroll', 'enrol_manual', '', $enrollment);
             }
-            $enrol->unenrol_user($instance, $enrolment['userid']);
+            $enroll->unenrol_user($instance, $enrollment['userid']);
         }
         $transaction->allow_commit();
     }

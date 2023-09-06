@@ -242,7 +242,7 @@ class manager_test extends \advanced_testcase {
         $this->setUser($user);
 
         // Enrolment.
-        $enrolurl = new \moodle_url('/enrol/index.php');
+        $enrolurl = new \moodle_url('/enroll/index.php');
         $this->assertEquals(\tool_mfa\manager::REDIRECT, \tool_mfa\manager::should_require_mfa($badurl, false));
         $this->assertEquals(\tool_mfa\manager::NO_REDIRECT, \tool_mfa\manager::should_require_mfa($enrolurl, false));
 

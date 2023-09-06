@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Meta link enrolment plugin uninstallation.
+ * Meta link enrollment plugin uninstallation.
  *
  * @package    enrol_cohort
  * @copyright  2011 Petr Skoda {@link http://skodak.org}
@@ -28,7 +28,7 @@ function xmldb_enrol_cohort_uninstall() {
     global $CFG, $DB;
 
     $cohort = enrol_get_plugin('cohort');
-    $rs = $DB->get_recordset('enrol', array('enrol'=>'cohort'));
+    $rs = $DB->get_recordset('enroll', array('enroll'=>'cohort'));
     foreach ($rs as $instance) {
         $cohort->delete_instance($instance);
     }

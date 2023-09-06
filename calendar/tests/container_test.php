@@ -378,7 +378,7 @@ class container_test extends \advanced_testcase {
 
         // Create a course.
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
-        $user = $this->getDataGenerator()->create_and_enrol($course);
+        $user = $this->getDataGenerator()->create_and_enroll($course);
         // Create an assign activity with a time set.
         $time = time();
         $assign = $this->getDataGenerator()->create_module(
@@ -449,7 +449,7 @@ class container_test extends \advanced_testcase {
         // course the event is for.
         $this->assertNull($factory->create_instance($event));
 
-        // Now enrol the user in the course.
+        // Now enroll the user in the course.
         $this->getDataGenerator()->enrol_user($user->id, $course->id);
 
         // Check that we get the correct instance.

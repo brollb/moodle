@@ -2113,15 +2113,15 @@ class externallib_test extends externallib_advanced_testcase {
                 array('module1' => $module1->cmid, 'module2' => $module2->cmid)));
 
         // Enrol the user in the course.
-        $enrol = enrol_get_plugin('manual');
+        $enroll = enrol_get_plugin('manual');
         $enrolinstances = enrol_get_instances($course->id, true);
         foreach ($enrolinstances as $courseenrolinstance) {
-            if ($courseenrolinstance->enrol == "manual") {
+            if ($courseenrolinstance->enroll == "manual") {
                 $instance = $courseenrolinstance;
                 break;
             }
         }
-        $enrol->enrol_user($instance, $user->id);
+        $enroll->enrol_user($instance, $user->id);
 
         // Assign capabilities to delete module 1.
         $modcontext = context_module::instance($module1->cmid);
@@ -2166,8 +2166,8 @@ class externallib_test extends externallib_advanced_testcase {
             $this->assertEquals('nopermissions', $e->errorcode);
         }
 
-        // Unenrol user from the course.
-        $enrol->unenrol_user($instance, $user->id);
+        // Unenroll user from the course.
+        $enroll->unenrol_user($instance, $user->id);
 
         // Try and delete modules from the course the user was unenrolled in, make sure exception thrown.
         try {
@@ -3728,7 +3728,7 @@ class externallib_test extends externallib_advanced_testcase {
         $record->course = $course1->id;
         $forum1 = self::getDataGenerator()->create_module('forum', $record);
 
-        // Following lines enrol and assign default role id to the users.
+        // Following lines enroll and assign default role id to the users.
         $this->getDataGenerator()->enrol_user($user1->id, $course1->id);
         $this->getDataGenerator()->enrol_user($user2->id, $course1->id);
         // Enrol a suspended user in the course.
@@ -3801,7 +3801,7 @@ class externallib_test extends externallib_advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $this->setUser($user);
 
         // Using the internal API, confirm that no items are set as favourites for the user.
@@ -3839,7 +3839,7 @@ class externallib_test extends externallib_advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $this->setUser($user);
 
         // Using the internal API, set a favourite for the user.
@@ -3879,7 +3879,7 @@ class externallib_test extends externallib_advanced_testcase {
         $this->resetAfterTest();
 
         $course  = self::getDataGenerator()->create_course();
-        $user = self::getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = self::getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         // Fetch available content items as the editing teacher.
         $this->setUser($user);
@@ -3905,7 +3905,7 @@ class externallib_test extends externallib_advanced_testcase {
         $this->resetAfterTest();
 
         $course  = self::getDataGenerator()->create_course();
-        $user = self::getDataGenerator()->create_and_enrol($course, 'student');
+        $user = self::getDataGenerator()->create_and_enroll($course, 'student');
 
         // Fetch available content items as a student, who won't have the permission to manage activities.
         $this->setUser($user);

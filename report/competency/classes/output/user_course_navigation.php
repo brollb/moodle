@@ -98,15 +98,15 @@ class user_course_navigation implements renderable, templatable {
                 $data->groupselector = $select;
             }
             // Fetch showactive.
-            $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-            $showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-            $showonlyactiveenrol = $showonlyactiveenrol || !has_capability('moodle/course:viewsuspendedusers', $context);
+            $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+            $showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
+            $showonlyactiveenroll = $showonlyactiveenroll || !has_capability('moodle/course:viewsuspendedusers', $context);
 
             // Fetch current active group.
             $groupmode = groups_get_course_groupmode($course);
 
             $users = get_enrolled_users($context, 'moodle/competency:coursecompetencygradable', $currentgroup,
-                                        'u.*', null, 0, 0, $showonlyactiveenrol);
+                                        'u.*', null, 0, 0, $showonlyactiveenroll);
 
             $data->users = array();
             foreach ($users as $user) {

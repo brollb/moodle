@@ -114,7 +114,7 @@ class get_join_url_test extends \externallib_advanced_testcase {
         $record = $generator->create_module('bigbluebuttonbn', ['course' => $course->id]);
         $instance = instance::get_from_instanceid($record->id);
 
-        $user = $generator->create_and_enrol($course, 'student');
+        $user = $generator->create_and_enroll($course, 'student');
         $bbbgenerator = $this->getDataGenerator()->get_plugin_generator('mod_bigbluebuttonbn');
         // Make sure the meeting is running (this is not the default with the mock server).
         $bbbgenerator->create_meeting([
@@ -145,7 +145,7 @@ class get_join_url_test extends \externallib_advanced_testcase {
         $record = $generator->create_module('bigbluebuttonbn', ['course' => $course->id]);
         $instance = instance::get_from_instanceid($record->id);
 
-        $user = $generator->create_and_enrol($course, 'student');
+        $user = $generator->create_and_enroll($course, 'student');
         $bbbgenerator = $this->getDataGenerator()->get_plugin_generator('mod_bigbluebuttonbn');
         // Make sure the meeting is running (this is not the default with the mock server).
         $bbbgenerator->create_meeting([
@@ -181,7 +181,7 @@ class get_join_url_test extends \externallib_advanced_testcase {
         $record = $generator->create_module('bigbluebuttonbn', ['course' => $course->id]);
         $instance = instance::get_from_instanceid($record->id);
 
-        $user = $generator->create_and_enrol($course, 'student');
+        $user = $generator->create_and_enroll($course, 'student');
 
         $bbbgenerator = $this->getDataGenerator()->get_plugin_generator('mod_bigbluebuttonbn');
         // Make sure the meeting is running (this is not the default with the mock server).
@@ -214,8 +214,8 @@ class get_join_url_test extends \externallib_advanced_testcase {
         $course = $generator->create_course();
         $record = $generator->create_module('bigbluebuttonbn', ['course' => $course->id, 'userlimit' => 2]);
 
-        $user1 = $generator->create_and_enrol($course, 'student');
-        $user2 = $generator->create_and_enrol($course, 'student');
+        $user1 = $generator->create_and_enroll($course, 'student');
+        $user2 = $generator->create_and_enroll($course, 'student');
         $instance = instance::get_from_instanceid($record->id);
 
         $bbbgenerator = $this->getDataGenerator()->get_plugin_generator('mod_bigbluebuttonbn');

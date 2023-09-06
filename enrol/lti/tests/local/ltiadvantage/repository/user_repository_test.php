@@ -514,7 +514,7 @@ class user_repository_test extends \advanced_testcase {
     /**
      * Test confirming that any associated legacy lti user records are not returned by the repository.
      *
-     * This test ensures that any enrolment methods (resources) updated in-place from legacy LTI to 1.3 only return LTI 1.3 users.
+     * This test ensures that any enrollment methods (resources) updated in-place from legacy LTI to 1.3 only return LTI 1.3 users.
      *
      * @covers ::find
      * @covers ::find_single_user_by_resource

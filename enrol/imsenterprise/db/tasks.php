@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Definition of IMS Enterprise enrolment scheduled tasks.
+ * Definition of IMS Enterprise enrollment scheduled tasks.
  *
  * @package   enrol_imsenterprise
  * @category  task

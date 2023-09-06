@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for manual enrolment plugin.
+ * Capabilities for manual enrollment plugin.
  *
  * @package    enrol_manual
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -26,8 +26,8 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    /* Add, edit or remove manual enrol instance. */
-    'enrol/manual:config' => array(
+    /* Add, edit or remove manual enroll instance. */
+    'enroll/manual:config' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -36,7 +36,7 @@ $capabilities = array(
     ),
 
     /* Enrol anybody. */
-    'enrol/manual:enrol' => array(
+    'enroll/manual:enroll' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -46,7 +46,7 @@ $capabilities = array(
     ),
 
     /* Manage enrolments of users. */
-    'enrol/manual:manage' => array(
+    'enroll/manual:manage' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -55,8 +55,8 @@ $capabilities = array(
         )
     ),
 
-    /* Unenrol anybody (including self) - watch out for data loss. */
-    'enrol/manual:unenrol' => array(
+    /* Unenroll anybody (including self) - watch out for data loss. */
+    'enroll/manual:unenroll' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -65,8 +65,8 @@ $capabilities = array(
         )
     ),
 
-    /* Unenrol self - watch out for data loss. */
-    'enrol/manual:unenrolself' => array(
+    /* Unenroll self - watch out for data loss. */
+    'enroll/manual:unenrolself' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(

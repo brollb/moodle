@@ -23,7 +23,7 @@
  */
 
 $string['aftersaving...'] = 'Once you have saved your settings, you may wish to';
-$string['allowunenrol'] = 'Allow IMS data to unenrol students and teachers';
+$string['allowunenroll'] = 'Allow IMS data to unenroll students and teachers';
 $string['allowunenrol_desc'] = 'If enabled, course enrolments will be removed when specified in the Enterprise data.';
 $string['basicsettings'] = 'Basic settings';
 $string['categoryidnumber'] = 'Allow category ID number';
@@ -36,14 +36,14 @@ $string['createnewcategories_desc'] = 'If the &lt;org&gt;&lt;orgunit&gt; element
 
 If no category exists with the desired name, then a hidden category will be created.';
 $string['createnewcourses'] = 'Create new (hidden) courses if not found in Moodle';
-$string['createnewcourses_desc'] = 'If enabled, the IMS Enterprise enrolment plugin can create new courses for any it finds in the IMS data but not in Moodle\'s database. Any newly-created courses are initially hidden.';
+$string['createnewcourses_desc'] = 'If enabled, the IMS Enterprise enrollment plugin can create new courses for any it finds in the IMS data but not in Moodle\'s database. Any newly-created courses are initially hidden.';
 $string['createnewusers'] = 'Create user accounts for users not yet registered in Moodle';
-$string['createnewusers_desc'] = 'IMS Enterprise enrolment data typically describes a set of users. If enabled, accounts can be created for any users not found in the Moodle database.
+$string['createnewusers_desc'] = 'IMS Enterprise enrollment data typically describes a set of users. If enabled, accounts can be created for any users not found in the Moodle database.
 
 Users are searched for first by their ID number, and then by their Moodle username. Passwords are not imported by the IMS Enterprise plugin. The use of an authentication plugin is recommended for authenticating users.';
 $string['cronfrequency'] = 'Frequency of processing';
 $string['deleteusers'] = 'Delete user accounts when specified in IMS data';
-$string['deleteusers_desc'] = 'If enabled, IMS Enterprise enrolment data can specify the deletion of user accounts (if the "recstatus" flag is set to 3, which represents deletion of an account). As is standard in Moodle, the user record isn\'t actually deleted from Moodle\'s database, but a flag is set to mark the account as deleted.';
+$string['deleteusers_desc'] = 'If enabled, IMS Enterprise enrollment data can specify the deletion of user accounts (if the "recstatus" flag is set to 3, which represents deletion of an account). As is standard in Moodle, the user record isn\'t actually deleted from Moodle\'s database, but a flag is set to mark the account as deleted.';
 $string['doitnow'] = 'perform an IMS Enterprise import right now';
 $string['emptyattribute'] = 'Leave it empty';
 $string['filelockedmail'] = 'The text file you are using for IMS-file-based enrolments ({$a}) can not be deleted by the cron process.  This usually means the permissions are wrong on it.  Please fix the permissions so that Moodle can delete the file, otherwise it might be processed repeatedly.';
@@ -51,13 +51,13 @@ $string['filelockedmailsubject'] = 'Important error: Enrolment file';
 $string['fixcasepersonalnames'] = 'Change personal names to Title Case';
 $string['fixcaseusernames'] = 'Change usernames to lower case';
 $string['imsenterprisecrontask'] = 'Enrolment file processing';
-$string['imsenterprise:config'] = 'Configure IMS Enterprise enrol instances';
+$string['imsenterprise:config'] = 'Configure IMS Enterprise enroll instances';
 $string['imsrolesdescription'] = 'The IMS Enterprise specification includes 8 distinct role types. Please choose how you want them to be assigned in Moodle, including whether any of them should be ignored.';
 $string['location'] = 'File location';
 $string['logtolocation'] = 'Log file output location (blank for no logging)';
 $string['mailadmins'] = 'Notify admin by email';
 $string['mailusers'] = 'Notify users by email';
-$string['messageprovider:imsenterprise_enrolment'] = 'IMS Enterprise enrolment messages';
+$string['messageprovider:imsenterprise_enrollment'] = 'IMS Enterprise enrollment messages';
 $string['miscsettings'] = 'Miscellaneous';
 $string['nestedcategories'] = 'Allow nested categories';
 $string['nestedcategories_desc'] = 'If enabled IMS Enterprise will create nested categories';
@@ -82,9 +82,9 @@ Some student information systems fail to output the <userid> field. If this is t
 $string['truncatecoursecodes'] = 'Truncate course codes to this length';
 $string['truncatecoursecodes_desc'] = 'In some situations you may have course codes which you wish to truncate to a specified length before processing. If so, enter the number of characters in this box. Otherwise, leave the box blank and no truncation will occur.';
 $string['updatecourses'] = 'Update course';
-$string['updatecourses_desc'] = 'If enabled, the IMS Enterprise enrolment plugin can update course full and short names (if the "recstatus" flag is set to 2, which represents an update).';
+$string['updatecourses_desc'] = 'If enabled, the IMS Enterprise enrollment plugin can update course full and short names (if the "recstatus" flag is set to 2, which represents an update).';
 $string['updateusers'] = 'Update user accounts when specified in IMS data';
-$string['updateusers_desc'] = 'If enabled, IMS Enterprise enrolment data can specify changes to user accounts (if the "recstatus" flag is set to 2, which represents an update).';
+$string['updateusers_desc'] = 'If enabled, IMS Enterprise enrollment data can specify changes to user accounts (if the "recstatus" flag is set to 2, which represents an update).';
 $string['usecapitafix'] = 'Tick this box if using Capita (as their XML format is slightly different)';
 $string['usecapitafix_desc'] = 'The student data system produced by Capita has been found to have one slight error in its XML output. If you are using Capita you should enable this setting - otherwise leave it un-ticked.';
 $string['usersettings'] = 'User data options';
@@ -92,10 +92,10 @@ $string['zeroisnotruncation'] = '0 indicates no truncation';
 $string['roles'] = 'Roles';
 $string['ignore'] = 'Ignore';
 $string['importimsfile'] = 'Import IMS Enterprise file';
-$string['privacy:metadata'] = 'The IMS Enterprise file enrolment plugin does not store any personal data.';
-$string['unenrolaction'] = 'Unenrol action';
-$string['unenrolaction_desc'] = 'Action to be taken when a user is unenrolled from a course (only applies when the unenrol setting above is enabled).';
-$string['disableenrolonly'] = 'Suspend enrolment only';
-$string['disableenrolmentandremoveallroles'] = 'Suspend enrolment and remove roles';
+$string['privacy:metadata'] = 'The IMS Enterprise file enrollment plugin does not store any personal data.';
+$string['unenrolaction'] = 'Unenroll action';
+$string['unenrolaction_desc'] = 'Action to be taken when a user is unenrolled from a course (only applies when the unenroll setting above is enabled).';
+$string['disableenrolonly'] = 'Suspend enrollment only';
+$string['disableenrolmentandremoveallroles'] = 'Suspend enrollment and remove roles';
 $string['noaction'] = 'No action';
-$string['removeenrolmentandallroles'] = 'Delete enrolment and roles';
+$string['removeenrolmentandallroles'] = 'Delete enrollment and roles';

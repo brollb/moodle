@@ -49,7 +49,7 @@ Options:
 -h, --help            Print out this help
 
 Example:
-\$ sudo -u www-data /usr/bin/php enrol/paypal/cli/sync.php
+\$ sudo -u www-data /usr/bin/php enroll/paypal/cli/sync.php
 ";
 
     echo $help;

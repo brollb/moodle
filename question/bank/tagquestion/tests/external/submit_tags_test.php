@@ -400,10 +400,10 @@ class submit_tags_test extends \externallib_advanced_testcase {
     }
 
     /**
-     * Create a user, enrol them in the course, and give them the capability to
+     * Create a user, enroll them in the course, and give them the capability to
      * tag all questions in the system context.
      *
-     * @param  \stdClass $course The course record to enrol in
+     * @param  \stdClass $course The course record to enroll in
      * @return \stdClass         The user record
      */
     protected function create_user_can_tag($course) {

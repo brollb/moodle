@@ -22,9 +22,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['category:config'] = 'Configure category enrol instances';
-$string['category:synchronised'] = 'Role assignments synchronised to course enrolment';
-$string['enrolcategorysynctask'] = 'Category enrolment sync task';
+$string['category:config'] = 'Configure category enroll instances';
+$string['category:synchronised'] = 'Role assignments synchronised to course enrollment';
+$string['enrolcategorysynctask'] = 'Category enrollment sync task';
 $string['pluginname'] = 'Category enrolments';
-$string['pluginname_desc'] = 'The category enrolments plugin synchronises any role assignments in the category context for roles with the capability enrol/category:synchronised allowed.';
+$string['pluginname_desc'] = 'The category enrolments plugin synchronises any role assignments in the category context for roles with the capability enroll/category:synchronised allowed.';
 $string['privacy:metadata'] = 'The Category enrolments plugin does not store any personal data.';

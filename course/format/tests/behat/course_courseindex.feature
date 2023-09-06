@@ -42,7 +42,7 @@ Feature: Course index depending on role
     And I am on the "C1" "enrolled users" page
     And "courseindex-content" "region" should be visible
 #    Course index is visible on Enrolment methods page
-    And I am on the "C1" "enrolment methods" page
+    And I am on the "C1" "enrollment methods" page
     And "courseindex-content" "region" should be visible
 #    Course index is visible on Groups page
     And I am on the "C1" "groups" page

@@ -68,7 +68,7 @@ class locallib_test extends \advanced_testcase {
     public function test_get_feedback_plugins() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $this->setUser($teacher);
         $assign = $this->create_instance($course);
@@ -82,7 +82,7 @@ class locallib_test extends \advanced_testcase {
     public function test_get_submission_plugins() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $this->setUser($teacher);
         $assign = $this->create_instance($course);
@@ -96,8 +96,8 @@ class locallib_test extends \advanced_testcase {
     public function test_is_blind_marking() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
         $assign = $this->create_instance($course, ['blindmarking' => 1]);
@@ -183,8 +183,8 @@ class locallib_test extends \advanced_testcase {
     public function test_get_assign_perpage($maxperpage, $userprefs) {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
         $assign = $this->create_instance($course);
@@ -210,7 +210,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $this->setUser($teacher);
         $assign = $this->create_instance($course, [
                 'assignsubmission_onlinetext_enabled' => 1,
@@ -240,8 +240,8 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Setup the assignment.
         $this->setUser($teacher);
@@ -299,8 +299,8 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Setup the assignment.
         $this->setUser($teacher);
@@ -362,8 +362,8 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Setup the assignment.
         $this->setUser($teacher);
@@ -415,24 +415,24 @@ class locallib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
 
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         groups_add_member($group, $teacher);
 
         $students = [];
 
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $students[] = $student;
         groups_add_member($group, $student);
 
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $students[] = $student;
         groups_add_member($group, $student);
 
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $students[] = $student;
         groups_add_member($group, $student);
 
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $students[] = $student;
         groups_add_member($group, $student);
 
@@ -501,7 +501,7 @@ class locallib_test extends \advanced_testcase {
     public function test_show_intro() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         // Test whether we are showing the intro at the correct times.
         $this->setUser($teacher);
@@ -527,8 +527,8 @@ class locallib_test extends \advanced_testcase {
     public function test_has_submissions_or_grades() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
         $assign = $this->create_instance($course, ['assignsubmission_onlinetext_enabled' => 1]);
@@ -562,8 +562,8 @@ class locallib_test extends \advanced_testcase {
     public function test_delete_grades() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
         $assign = $this->create_instance($course);
@@ -588,8 +588,8 @@ class locallib_test extends \advanced_testcase {
     public function test_delete_instance() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
         $assign = $this->create_instance($course, ['assignsubmission_onlinetext_enabled' => 1]);
@@ -613,8 +613,8 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $now = time();
         $this->setUser($teacher);
@@ -693,7 +693,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $now = time();
         $this->setUser($teacher);
@@ -713,7 +713,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $this->setUser($teacher);
         $userctx = \context_user::instance($teacher->id)->id;
@@ -790,7 +790,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $this->setUser($teacher);
         $assign = $this->create_instance($course, ['assignsubmission_onlinetext_enabled' => 1]);
@@ -813,7 +813,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, ['submissiondrafts' => 1]);
 
@@ -832,7 +832,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
             'submissiondrafts' => 1,
@@ -854,7 +854,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
             'submissiondrafts' => 1,
@@ -887,7 +887,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
                 'assignsubmission_file_enabled' => 1,
@@ -942,11 +942,11 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         // Create 10 students.
         for ($i = 0; $i < 10; $i++) {
-            $this->getDataGenerator()->create_and_enrol($course, 'student');
+            $this->getDataGenerator()->create_and_enroll($course, 'student');
         }
 
         $this->setUser($teacher);
@@ -955,26 +955,26 @@ class locallib_test extends \advanced_testcase {
         $this->assertCount(10, $assign->list_participants(null, true));
     }
 
-    public function test_list_participants_activeenrol() {
+    public function test_list_participants_activeenroll() {
         global $CFG, $DB;
 
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         // Create 10 students.
         for ($i = 0; $i < 10; $i++) {
-            $this->getDataGenerator()->create_and_enrol($course, 'student');
+            $this->getDataGenerator()->create_and_enroll($course, 'student');
         }
 
         // Create 10 suspended students.
         for ($i = 0; $i < 10; $i++) {
-            $this->getDataGenerator()->create_and_enrol($course, 'student', null, 'manual', 0, 0, ENROL_USER_SUSPENDED);
+            $this->getDataGenerator()->create_and_enroll($course, 'student', null, 'manual', 0, 0, ENROL_USER_SUSPENDED);
         }
 
         $this->setUser($teacher);
-        set_user_preference('grade_report_showonlyactiveenrol', false);
+        set_user_preference('grade_report_showonlyactiveenroll', false);
         $assign = $this->create_instance($course, ['grade' => 100]);
 
         $this->assertCount(10, $assign->list_participants(null, true));
@@ -986,10 +986,10 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $unrelatedstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $unrelatedstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Turn on availability and a group restriction, and check that it doesn't show users who aren't in the group.
         $CFG->enableavailability = true;
@@ -1028,7 +1028,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
         $assign = $this->create_instance($course);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $participant = $assign->get_participant($student->id);
 
@@ -1042,8 +1042,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
         $assign = $this->create_instance($course);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
         $assign->save_user_extension($student->id, time());
@@ -1059,8 +1059,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
         $assign = $this->create_instance($course);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Simulate a submission.
         $this->add_submission($student, $assign);
@@ -1083,8 +1083,8 @@ class locallib_test extends \advanced_testcase {
         $course = self::getDataGenerator()->create_course();
         $coursecontext = \context_course::instance($course->id);
         $assign = $this->create_instance($course);
-        $teacher = self::getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = self::getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = self::getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = self::getDataGenerator()->create_and_enroll($course, 'student');
 
         // Remove the students capability to submit.
         $role = $DB->get_field('role', 'id', ['shortname' => 'student']);
@@ -1104,8 +1104,8 @@ class locallib_test extends \advanced_testcase {
         $course = self::getDataGenerator()->create_course();
         $coursecontext = \context_course::instance($course->id);
         $assign = $this->create_instance($course);
-        $teacher = self::getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = self::getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = self::getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = self::getDataGenerator()->create_and_enroll($course, 'student');
 
         // Simulate a submission.
         $this->add_submission($student, $assign);
@@ -1128,8 +1128,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
         $assign = $this->create_instance($course);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Simulate a submission.
         $this->add_submission($student, $assign);
@@ -1156,9 +1156,9 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grouping = $this->getDataGenerator()->create_grouping(array('courseid' => $course->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -1179,10 +1179,10 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student3 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student3 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grouping = $this->getDataGenerator()->create_grouping(array('courseid' => $course->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -1215,10 +1215,10 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student3 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student3 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grouping = $this->getDataGenerator()->create_grouping(array('courseid' => $course->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -1257,13 +1257,13 @@ class locallib_test extends \advanced_testcase {
             'teamsubmissiongroupingid' => $grouping->id,
             'preventsubmissionnotingroup' => false,
         ]);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         groups_add_member($group1, $student1);
 
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $group2 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         groups_add_member($group2, $student2);
 
@@ -1285,8 +1285,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grouping = $this->getDataGenerator()->create_grouping(['courseid' => $course->id]);
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -1319,8 +1319,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
             'assignsubmission_onlinetext_enabled' => 1,
@@ -1343,8 +1343,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
             'assignsubmission_onlinetext_enabled' => 1,
@@ -1369,8 +1369,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
             'assignsubmission_onlinetext_enabled' => 1,
@@ -1393,8 +1393,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
             'assignsubmission_onlinetext_enabled' => 1,
@@ -1421,8 +1421,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         $othergroup = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         groups_add_member($group, $student);
@@ -1454,8 +1454,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         $othergroup = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         groups_add_member($group, $student);
@@ -1535,9 +1535,9 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $suspendedstudent = $this->getDataGenerator()->create_and_enrol(
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $suspendedstudent = $this->getDataGenerator()->create_and_enroll(
             $course, 'student', null, 'manual', 0, 0, ENROL_USER_SUSPENDED);
 
         $this->setUser($teacher);
@@ -1550,13 +1550,13 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $suspendedstudent = $this->getDataGenerator()->create_and_enrol(
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $suspendedstudent = $this->getDataGenerator()->create_and_enroll(
             $course, 'student', null, 'manual', 0, 0, ENROL_USER_SUSPENDED);
 
         $this->setUser($teacher);
-        set_user_preference('grade_report_showonlyactiveenrol', false);
+        set_user_preference('grade_report_showonlyactiveenroll', false);
 
         $assign = $this->create_instance($course);
         $this->assertCount(2, $assign->testable_get_grading_userid_list());
@@ -1571,8 +1571,8 @@ class locallib_test extends \advanced_testcase {
         \assign::cron();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Now create an assignment and add some feedback.
         $this->setUser($teacher);
@@ -1613,8 +1613,8 @@ class locallib_test extends \advanced_testcase {
         \assign::cron();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Now create an assignment and add some feedback.
         $this->setUser($teacher);
@@ -1644,8 +1644,8 @@ class locallib_test extends \advanced_testcase {
         \assign::cron();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Now create an assignment and add some feedback.
         $this->setUser($teacher);
@@ -1686,8 +1686,8 @@ class locallib_test extends \advanced_testcase {
         \assign::cron();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Now create an assignment and add some feedback.
         $this->setUser($teacher);
@@ -1738,8 +1738,8 @@ class locallib_test extends \advanced_testcase {
         \assign::cron();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Now create an assignment and add some feedback.
         $this->setUser($teacher);
@@ -1772,9 +1772,9 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course);
 
@@ -1793,8 +1793,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course);
 
@@ -1823,11 +1823,11 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $suspendedstudent = $this->getDataGenerator()->create_and_enrol(
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $suspendedstudent = $this->getDataGenerator()->create_and_enroll(
             $course, 'student', null, 'manual', 0, 0, ENROL_USER_SUSPENDED);
 
         $assign = $this->create_instance($course);
@@ -1863,8 +1863,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course);
 
@@ -1885,13 +1885,13 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
 
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group, $student);
 
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group, $otherstudent);
 
         $assign = $this->create_instance($course, [
@@ -1927,8 +1927,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student', null, 'manual', 0, 0, ENROL_USER_SUSPENDED);
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student', null, 'manual', 0, 0, ENROL_USER_SUSPENDED);
 
         $assign = $this->create_instance($course);
 
@@ -1949,8 +1949,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
             'blindmarking' => 1,
@@ -1974,13 +1974,13 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
 
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group, $student);
 
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group, $otherstudent);
 
         $assign = $this->create_instance($course, [
@@ -2028,13 +2028,13 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
 
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group, $student);
 
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group, $otherstudent);
 
         // Now verify group assignments.
@@ -2092,11 +2092,11 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $suspendedstudent = $this->getDataGenerator()->create_and_enrol(
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $suspendedstudent = $this->getDataGenerator()->create_and_enroll(
             $course, 'student', null, 'manual', 0, 0, ENROL_USER_SUSPENDED);
 
         $this->setAdminUser();
@@ -2142,9 +2142,9 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setAdminUser();
 
@@ -2159,12 +2159,12 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grouping = $this->getDataGenerator()->create_grouping(array('courseid' => $course->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -2198,17 +2198,17 @@ class locallib_test extends \advanced_testcase {
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         $this->getDataGenerator()->create_grouping_group(array('groupid' => $group1->id, 'groupingid' => $grouping->id));
 
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         groups_add_member($group1, $teacher);
 
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         groups_add_member($group1, $editingteacher);
 
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group1, $student);
 
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $capability = 'mod/assign:receivegradernotifications';
         $coursecontext = \context_course::instance($course->id);
@@ -2242,17 +2242,17 @@ class locallib_test extends \advanced_testcase {
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         $this->getDataGenerator()->create_grouping_group(array('groupid' => $group1->id, 'groupingid' => $grouping->id));
 
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         groups_add_member($group1, $teacher);
 
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         groups_add_member($group1, $editingteacher);
 
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group1, $student);
 
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         // Force create an assignment with SEPARATEGROUPS.
         $assign = $this->create_instance($course, [
@@ -2310,19 +2310,19 @@ class locallib_test extends \advanced_testcase {
         // - Student - Group 2.
         // - Student - Unrelated Group
         // - Student - No group.
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         groups_add_member($group1, $teacher);
 
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group1, $student);
 
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group2, $otherstudent);
 
-        $yetotherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $yetotherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group2, $otherstudent);
 
-        $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setAdminUser();
 
@@ -2347,10 +2347,10 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $students = [];
         for ($i = 0; $i < 10; $i++) {
-            $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+            $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
             $students[$student->id] = $student;
         }
 
@@ -2369,8 +2369,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->setUser($teacher);
         $assign = $this->create_instance($course);
         $PAGE->set_url(new \moodle_url('/mod/assign/view.php', ['id' => $assign->get_course_module()->id]));
@@ -2433,8 +2433,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->setUser($teacher);
         $assign = $this->create_instance($course, [
             'assignfeedback_comments_enabled' => 1
@@ -2505,8 +2505,8 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $assign = $this->create_instance($course, [
             'attemptreopenmethod' => ASSIGN_ATTEMPT_REOPEN_METHOD_MANUAL,
@@ -2603,8 +2603,8 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $assign = $this->create_instance($course, [
             'attemptreopenmethod' => ASSIGN_ATTEMPT_REOPEN_METHOD_UNTILPASS,
@@ -2677,8 +2677,8 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $assign = $this->create_instance($course, [
             'attemptreopenmethod' => ASSIGN_ATTEMPT_REOPEN_METHOD_UNTILPASS,
@@ -2720,8 +2720,8 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $assign = $this->create_instance($course, [
             'attemptreopenmethod' => ASSIGN_ATTEMPT_REOPEN_METHOD_UNTILPASS,
@@ -2766,8 +2766,8 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $assign = $this->create_instance($course, [
             'markingworkflow' => 1,
@@ -2868,9 +2868,9 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $otherteacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $otherteacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $assign = $this->create_instance($course, [
             'markingworkflow' => 1,
@@ -2908,8 +2908,8 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         $assign = $this->create_instance($course, [
             'assignsubmission_onlinetext_enabled' => 1,
@@ -2940,9 +2940,9 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $otherteacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $otherteacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         $assign = $this->create_instance($course, [
             'assignsubmission_onlinetext_enabled' => 1,
@@ -3007,7 +3007,7 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $now = time();
         $tomorrow = $now + DAYSECS;
@@ -3118,8 +3118,8 @@ class locallib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $sourcetext = "Hello!
 
@@ -3229,8 +3229,8 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
     public function test_is_gradebook_feedback_enabled() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $adminconfig = get_config('assign');
         $gradebookplugin = $adminconfig->feedback_plugin_for_gradebook;
@@ -3254,8 +3254,8 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
     public function test_is_gradebook_feedback_disabled() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $adminconfig = get_config('assign');
         $gradebookplugin = $adminconfig->feedback_plugin_for_gradebook;
@@ -3277,9 +3277,9 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
     public function test_can_edit_submission() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
             'assignsubmission_onlinetext_enabled' => 1,
@@ -3302,9 +3302,9 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
     public function test_can_edit_submission_with_editothersubmission() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
             'assignsubmission_onlinetext_enabled' => 1,
@@ -3333,12 +3333,12 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
     public function test_can_edit_submission_separategroups() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student3 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student4 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student3 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student4 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grouping = $this->getDataGenerator()->create_grouping(array('courseid' => $course->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -3371,12 +3371,12 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
     public function test_can_edit_submission_separategroups_with_editothersubmission() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student3 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student4 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student3 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student4 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grouping = $this->getDataGenerator()->create_grouping(array('courseid' => $course->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -3423,9 +3423,9 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $manager = $this->getDataGenerator()->create_and_enrol($course, 'manager');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $manager = $this->getDataGenerator()->create_and_enroll($course, 'manager');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
             'blindmarking' => 1,
@@ -3454,12 +3454,12 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
     public function test_get_shared_group_members() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student3 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student4 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student3 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student4 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grouping = $this->getDataGenerator()->create_grouping(array('courseid' => $course->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -3507,12 +3507,12 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
     public function test_get_shared_group_members_override() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student3 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student4 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student3 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student4 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grouping = $this->getDataGenerator()->create_grouping(array('courseid' => $course->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -3570,7 +3570,7 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $assign = $this->create_instance($course);
 
@@ -3643,7 +3643,7 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $grouping = $this->getDataGenerator()->create_grouping(array('courseid' => $course->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -3655,21 +3655,21 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
         // - student3 => Group A + Group B (No user override)
         // - student4 => Group A + Group B (With user override)
         // - student4 => No groups.
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group1, $student1);
 
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group2, $student2);
 
-        $student3 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student3 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group1, $student3);
         groups_add_member($group2, $student3);
 
-        $student4 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student4 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group1, $student4);
         groups_add_member($group2, $student4);
 
-        $student5 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student5 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course);
         $instance = $assign->get_instance();
@@ -3740,8 +3740,8 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
     public function test_process_save_quick_grades() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $teacher->ignoresesskey = true;
         $this->setUser($teacher);
@@ -3817,8 +3817,8 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
         $assign = $this->create_instance($course, [
@@ -3853,9 +3853,9 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grouping = $this->getDataGenerator()->create_grouping(array('courseid' => $course->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -3904,9 +3904,9 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grouping = $this->getDataGenerator()->create_grouping(array('courseid' => $course->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -3981,8 +3981,8 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
         $assign = $this->create_instance($course);
@@ -4038,8 +4038,8 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
         $assign = $this->create_instance($course, [
@@ -4115,7 +4115,7 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
 
         $course = $this->getDataGenerator()->create_course($courseconfig);
         $assign = $this->create_instance($course, $assignconfig);
-        $user = $this->getDataGenerator()->create_and_enrol($course, ...array_values($enrolconfig));
+        $user = $this->getDataGenerator()->create_and_enroll($course, ...array_values($enrolconfig));
 
         $instance = $assign->get_instance($user->id);
 
@@ -4133,42 +4133,42 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
         // The get_default_instance() method shouldn't calculate any properties per-user. It should just return the record data.
         // We'll confirm this works for a few different user types anyway, just like we do for get_instance().
         return [
-            'Teacher whose enrolment starts after the course start date, relative dates mode enabled' => [
+            'Teacher whose enrollment starts after the course start date, relative dates mode enabled' => [
                 'courseconfig' => ['relativedatesmode' => true, 'startdate' => $timenow - 10 * DAYSECS],
                 'assignconfig' => ['duedate' => $timenow + 4 * DAYSECS],
                 'enrolconfig' => ['shortname' => 'teacher', 'userparams' => null, 'method' => 'manual',
                     'startdate' => $timenow - 8 * DAYSECS],
                 'expectedproperties' => ['duedate' => $timenow + 6 * DAYSECS]
             ],
-            'Teacher whose enrolment starts before the course start date, relative dates mode enabled' => [
+            'Teacher whose enrollment starts before the course start date, relative dates mode enabled' => [
                 'courseconfig' => ['relativedatesmode' => true, 'startdate' => $timenow - 10 * DAYSECS],
                 'assignconfig' => ['duedate' => $timenow + 4 * DAYSECS],
                 'enrolconfig' => ['shortname' => 'teacher', 'userparams' => null, 'method' => 'manual',
                     'startdate' => $timenow - 12 * DAYSECS],
                 'expectedproperties' => ['duedate' => $timenow + 4 * DAYSECS]
             ],
-            'Teacher whose enrolment starts after the course start date, relative dates mode disabled' => [
+            'Teacher whose enrollment starts after the course start date, relative dates mode disabled' => [
                 'courseconfig' => ['relativedatesmode' => false, 'startdate' => $timenow - 10 * DAYSECS],
                 'assignconfig' => ['duedate' => $timenow + 4 * DAYSECS],
                 'enrolconfig' => ['shortname' => 'teacher', 'userparams' => null, 'method' => 'manual',
                     'startdate' => $timenow - 8 * DAYSECS],
                 'expectedproperties' => ['duedate' => $timenow + 4 * DAYSECS]
             ],
-            'Student whose enrolment starts after the course start date, relative dates mode enabled' => [
+            'Student whose enrollment starts after the course start date, relative dates mode enabled' => [
                 'courseconfig' => ['relativedatesmode' => true, 'startdate' => $timenow - 10 * DAYSECS],
                 'assignconfig' => ['duedate' => $timenow + 4 * DAYSECS],
                 'enrolconfig' => ['shortname' => 'student', 'userparams' => null, 'method' => 'manual',
                     'startdate' => $timenow - 8 * DAYSECS],
                 'expectedproperties' => ['duedate' => $timenow + 6 * DAYSECS]
             ],
-            'Student whose enrolment starts before the course start date, relative dates mode enabled' => [
+            'Student whose enrollment starts before the course start date, relative dates mode enabled' => [
                 'courseconfig' => ['relativedatesmode' => true, 'startdate' => $timenow - 10 * DAYSECS],
                 'assignconfig' => ['duedate' => $timenow + 4 * DAYSECS],
                 'enrolconfig' => ['shortname' => 'student', 'userparams' => null, 'method' => 'manual',
                     'startdate' => $timenow - 12 * DAYSECS],
                 'expectedproperties' => ['duedate' => $timenow + 4 * DAYSECS]
             ],
-            'Student whose enrolment starts after the course start date, relative dates mode disabled' => [
+            'Student whose enrollment starts after the course start date, relative dates mode disabled' => [
                 'courseconfig' => ['relativedatesmode' => false, 'startdate' => $timenow - 10 * DAYSECS],
                 'assignconfig' => ['duedate' => $timenow + 4 * DAYSECS],
                 'enrolconfig' => ['shortname' => 'student', 'userparams' => null, 'method' => 'manual',
@@ -4195,7 +4195,7 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
 
         $course = $this->getDataGenerator()->create_course($courseconfig);
         $assign = $this->create_instance($course, $assignconfig);
-        $user = $this->getDataGenerator()->create_and_enrol($course, ...array_values($enrolconfig));
+        $user = $this->getDataGenerator()->create_and_enroll($course, ...array_values($enrolconfig));
 
         $this->setUser($user);
         $defaultinstance = $assign->get_default_instance();
@@ -4214,28 +4214,28 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
         // The get_default_instance() method shouldn't calculate any properties per-user. It should just return the record data.
         // We'll confirm this works for a few different user types anyway, just like we do for get_instance().
         return [
-            'Teacher whose enrolment starts after the course start date, relative dates mode enabled' => [
+            'Teacher whose enrollment starts after the course start date, relative dates mode enabled' => [
                 'courseconfig' => ['relativedatesmode' => true, 'startdate' => $timenow - 10 * DAYSECS],
                 'assignconfig' => ['duedate' => $timenow + 4 * DAYSECS],
                 'enrolconfig' => ['shortname' => 'teacher', 'userparams' => null, 'method' => 'manual',
                     'startdate' => $timenow - 8 * DAYSECS],
                 'expectedproperties' => ['duedate' => $timenow + 4 * DAYSECS]
             ],
-            'Teacher whose enrolment starts before the course start date, relative dates mode enabled' => [
+            'Teacher whose enrollment starts before the course start date, relative dates mode enabled' => [
                 'courseconfig' => ['relativedatesmode' => true, 'startdate' => $timenow - 10 * DAYSECS],
                 'assignconfig' => ['duedate' => $timenow + 4 * DAYSECS],
                 'enrolconfig' => ['shortname' => 'teacher', 'userparams' => null, 'method' => 'manual',
                     'startdate' => $timenow - 12 * DAYSECS],
                 'expectedproperties' => ['duedate' => $timenow + 4 * DAYSECS]
             ],
-            'Teacher whose enrolment starts after the course start date, relative dates mode disabled' => [
+            'Teacher whose enrollment starts after the course start date, relative dates mode disabled' => [
                 'courseconfig' => ['relativedatesmode' => false, 'startdate' => $timenow - 10 * DAYSECS],
                 'assignconfig' => ['duedate' => $timenow + 4 * DAYSECS],
                 'enrolconfig' => ['shortname' => 'teacher', 'userparams' => null, 'method' => 'manual',
                     'startdate' => $timenow - 8 * DAYSECS],
                 'expectedproperties' => ['duedate' => $timenow + 4 * DAYSECS]
             ],
-            'Student whose enrolment starts after the course start date, relative dates mode enabled' => [
+            'Student whose enrollment starts after the course start date, relative dates mode enabled' => [
                 'courseconfig' => ['relativedatesmode' => true, 'startdate' => $timenow - 10 * DAYSECS],
                 'assignconfig' => ['duedate' => $timenow + 4 * DAYSECS],
                 'enrolconfig' => ['shortname' => 'student', 'userparams' => null, 'method' => 'manual',
@@ -4303,8 +4303,8 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Setup the assignment.
         $this->setUser($teacher);
@@ -4556,11 +4556,11 @@ Anchor link 2:<a title=\"bananas\" href=\"../logo-240x60.gif\">Link text</a>
         // Generate data and simulate student submissions.
         $course = $this->getDataGenerator()->create_course();
         $params1 = ['firstname' => 'Valentin', 'lastname' => 'Ivanov'];
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student', $params1);
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student', $params1);
         $params2 = ['firstname' => 'Nikolay', 'lastname' => 'Petrov'];
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student', $params2);
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student', $params2);
         $assign = $this->create_instance($course, ['assignsubmission_onlinetext_enabled' => 1]);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $this->setUser($student1);
         $submission = $assign->get_user_submission($student1->id, true);
         $submission->status = ASSIGN_SUBMISSION_STATUS_SUBMITTED;

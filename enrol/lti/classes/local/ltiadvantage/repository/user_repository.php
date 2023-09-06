@@ -194,7 +194,7 @@ class user_repository {
             }
             unset($userrecord->id);
 
-            // Create the lti_user record, holding details that have a lifespan equal to that of the enrolment instance.
+            // Create the lti_user record, holding details that have a lifespan equal to that of the enrollment instance.
             $ltiuserrecord->timecreated = $ltiuserrecord->timemodified = $timenow;
             $ltiuserrecord->userid = $userid;
             $ltiuserrecord->id = $DB->insert_record($this->ltiuserstable, $ltiuserrecord);

@@ -245,7 +245,7 @@ class upgrade_recordings_task_test extends advanced_testcase {
         $generator = $this->getDataGenerator();
         // Create a course with student and teacher, and two groups.
         $this->course = $generator->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($this->course);
+        $user = $this->getDataGenerator()->create_and_enroll($this->course);
         // Create an ungrouped activity.
         $activity = $generator->create_module('bigbluebuttonbn', [
             'course' => $this->course->id,
@@ -320,8 +320,8 @@ class upgrade_recordings_task_test extends advanced_testcase {
         $groups[] = $generator->create_group(['courseid' => $this->course->id]);
         $groups[] = $generator->create_group(['courseid' => $this->course->id]);
 
-        $teacher = $generator->create_and_enrol($this->course, 'editingteacher');
-        $generator->create_and_enrol($this->course, 'student');
+        $teacher = $generator->create_and_enroll($this->course, 'editingteacher');
+        $generator->create_and_enroll($this->course, 'student');
 
         // Create a "normal" meeting.
         $instance = $this->create_meeting_for_logs();

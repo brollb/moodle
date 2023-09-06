@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
- * Privacy Subsystem implementation for core_enrol.
+ * Privacy Subsystem implementation for core_enroll.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2018 Carlos Escobedo <carlos@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace core_enrol\privacy;
+namespace core_enroll\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -35,7 +35,7 @@ use core_privacy\local\request\userlist;
 use \core_privacy\local\request\approved_userlist;
 
 /**
- * Privacy Subsystem for core_enrol implementing metadata and plugin providers.
+ * Privacy Subsystem for core_enroll implementing metadata and plugin providers.
  *
  * @copyright  2018 Carlos Escobedo <carlos@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -77,7 +77,7 @@ class provider implements
     public static function get_contexts_for_userid(int $userid) : contextlist {
         $sql = "SELECT ctx.id
                   FROM {user_enrolments} ue
-                  JOIN {enrol} e
+                  JOIN {enroll} e
                     ON e.id = ue.enrolid
                    AND ue.userid = :userid
                   JOIN {context} ctx
@@ -107,7 +107,7 @@ class provider implements
 
         $sql = "SELECT ue.userid as userid
                   FROM {user_enrolments} ue
-                  JOIN {enrol} e ON e.id = ue.enrolid
+                  JOIN {enroll} e ON e.id = ue.enrolid
                  WHERE e.courseid = ?";
         $params = [$context->instanceid];
         $userlist->add_from_sql('userid', $sql, $params);
@@ -137,48 +137,48 @@ class provider implements
                        ue.timeend,
                        ue.timecreated,
                        ue.timemodified,
-                       e.enrol,
+                       e.enroll,
                        ctx.id as contextid
                   FROM {user_enrolments} ue
-                  JOIN {enrol} e
+                  JOIN {enroll} e
                     ON e.id = ue.enrolid
                    AND ue.userid = :userid
                   JOIN {context} ctx
                     ON ctx.instanceid = e.courseid
                    AND ctx.contextlevel = :contextlevel
                  WHERE ctx.id $insql
-                 ORDER BY ctx.id, e.enrol";
+                 ORDER BY ctx.id, e.enroll";
         $data = [];
         $lastcontextid = null;
-        $lastenrol = null;
-        $path = [get_string('privacy:metadata:user_enrolments', 'core_enrol')];
-        $flush = function($lastcontextid, $lastenrol, $data) use ($path) {
+        $lastenroll = null;
+        $path = [get_string('privacy:metadata:user_enrolments', 'core_enroll')];
+        $flush = function($lastcontextid, $lastenroll, $data) use ($path) {
             $context = \context::instance_by_id($lastcontextid);
             writer::with_context($context)->export_related_data(
                 $path,
-                $lastenrol,
+                $lastenroll,
                 (object)$data
             );
         };
         $userenrolments = $DB->get_recordset_sql($sql, $params);
-        foreach ($userenrolments as $userenrolment) {
-            if (($lastcontextid && $lastcontextid != $userenrolment->contextid) ||
-                    ($lastenrol && $lastenrol != $userenrolment->enrol)) {
-                $flush($lastcontextid, $lastenrol, $data);
+        foreach ($userenrolments as $userenrollment) {
+            if (($lastcontextid && $lastcontextid != $userenrollment->contextid) ||
+                    ($lastenroll && $lastenroll != $userenrollment->enroll)) {
+                $flush($lastcontextid, $lastenroll, $data);
                 $data = [];
             }
             $data[] = (object) [
-                'status' => $userenrolment->status,
-                'timecreated' => transform::datetime($userenrolment->timecreated),
-                'timemodified' => transform::datetime($userenrolment->timemodified),
-                'timestart' => transform::datetime($userenrolment->timestart),
-                'timeend' => transform::datetime($userenrolment->timeend)
+                'status' => $userenrollment->status,
+                'timecreated' => transform::datetime($userenrollment->timecreated),
+                'timemodified' => transform::datetime($userenrollment->timemodified),
+                'timestart' => transform::datetime($userenrollment->timestart),
+                'timeend' => transform::datetime($userenrollment->timeend)
             ];
-            $lastcontextid = $userenrolment->contextid;
-            $lastenrol = $userenrolment->enrol;
+            $lastcontextid = $userenrollment->contextid;
+            $lastenroll = $userenrollment->enroll;
         }
         if (!empty($data)) {
-            $flush($lastcontextid, $lastenrol, $data);
+            $flush($lastcontextid, $lastenroll, $data);
         }
         $userenrolments->close();
     }
@@ -194,7 +194,7 @@ class provider implements
         if ($context->contextlevel == CONTEXT_COURSE) {
             $sql = "SELECT ue.id
                       FROM {user_enrolments} ue
-                      JOIN {enrol} e ON e.id = ue.enrolid
+                      JOIN {enroll} e ON e.id = ue.enrolid
                      WHERE e.courseid = :courseid";
             $params = ['courseid' => $context->instanceid];
             $enrolsids = $DB->get_fieldset_sql($sql, $params);
@@ -220,7 +220,7 @@ class provider implements
 
             $sql = "SELECT ue.id
                       FROM {user_enrolments} ue
-                      JOIN {enrol} e ON e.id = ue.enrolid
+                      JOIN {enroll} e ON e.id = ue.enrolid
                      WHERE e.courseid = :courseid
                            AND ue.userid {$usersql}";
 
@@ -254,7 +254,7 @@ class provider implements
         $params += $inparams;
         $sql = "SELECT ue.id
                   FROM {user_enrolments} ue
-                  JOIN {enrol} e
+                  JOIN {enroll} e
                     ON e.id = ue.enrolid
                    AND ue.userid = :userid
                   JOIN {context} ctx
@@ -288,7 +288,7 @@ class provider implements
      */
     public static function get_subcontext(array $subcontext) {
         return array_merge(
-            [get_string('privacy:metadata:user_enrolments', 'core_enrol')],
+            [get_string('privacy:metadata:user_enrolments', 'core_enroll')],
             $subcontext
         );
     }

@@ -89,8 +89,8 @@
         "allowedlevel2": true,
         "allowedspread": false
     },
-    "enrol": {
-        "component": "core_enrol",
+    "enroll": {
+        "component": "core_enroll",
         "allowedlevel2": false,
         "allowedspread": false
     },

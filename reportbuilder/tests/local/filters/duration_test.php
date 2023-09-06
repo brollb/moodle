@@ -96,12 +96,12 @@ class duration_test extends advanced_testcase {
 
         $this->resetAfterTest();
 
-        // We are going to enrol our student from now, with a duration of two hours (timeend is two hours later).
+        // We are going to enroll our student from now, with a duration of two hours (timeend is two hours later).
         $timestart = time();
         $timeend = $timestart + (HOURSECS * 2);
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student', null, 'manual', $timestart, $timeend);
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student', null, 'manual', $timestart, $timeend);
 
         $filter = new filter(
             duration::class,

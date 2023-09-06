@@ -88,9 +88,9 @@ class manage_badge_action_bar_test extends \advanced_testcase {
         global $DB;
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = self::getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = self::getDataGenerator()->create_and_enroll($course, 'editingteacher');
         if ($role != 'admin') {
-            $user = $this->getDataGenerator()->create_and_enrol($course, $role);
+            $user = $this->getDataGenerator()->create_and_enroll($course, $role);
             $this->setUser($user);
         } else {
             $this->setAdminUser();

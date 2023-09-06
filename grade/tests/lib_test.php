@@ -731,11 +731,11 @@ class lib_test extends \advanced_testcase {
         // Create groups.
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         $group2 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
-        // Create and enrol a teacher and some students into the course.
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student3 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        // Create and enroll a teacher and some students into the course.
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student3 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         // Add student1 and student2 to group1.
         $this->getDataGenerator()->create_group_member(['groupid' => $group1->id, 'userid' => $student1->id]);
         $this->getDataGenerator()->create_group_member(['groupid' => $group1->id, 'userid' => $student2->id]);
@@ -748,7 +748,7 @@ class lib_test extends \advanced_testcase {
         $gradableusers = get_gradable_users($course->id);
         $this->assertEqualsCanonicalizing([$student1->id, $student2->id, $student3->id], array_keys($gradableusers));
 
-        // Now, let's suspend the enrolment of student2.
+        // Now, let's suspend the enrollment of student2.
         $this->getDataGenerator()->enrol_user($student2->id, $course->id, 'student', 'manual', 0, 0, ENROL_USER_SUSPENDED);
         // Should return only the active gradable users (student1 and student3).
         $gradableusers = get_gradable_users($course->id);
@@ -756,7 +756,7 @@ class lib_test extends \advanced_testcase {
 
         // Give teacher 'viewsuspendedusers' capability and set a preference to display suspended users.
         assign_capability('moodle/course:viewsuspendedusers', CAP_ALLOW, $roleteacher->id, $coursecontext, true);
-        set_user_preference('grade_report_showonlyactiveenrol', false, $teacher);
+        set_user_preference('grade_report_showonlyactiveenroll', false, $teacher);
         accesslib_clear_all_caches_for_unit_testing();
 
         $this->setUser($teacher);
@@ -764,7 +764,7 @@ class lib_test extends \advanced_testcase {
         $gradableusers = get_gradable_users($course->id);
         $this->assertEqualsCanonicalizing([$student1->id, $student2->id, $student3->id], array_keys($gradableusers));
 
-        // Reactivate the course enrolment of student2.
+        // Reactivate the course enrollment of student2.
         $this->getDataGenerator()->enrol_user($student2->id, $course->id, 'student', 'manual', 0, 0, ENROL_USER_ACTIVE);
         $this->setAdminUser();
         // Should return all gradable users from group1 (student1 and student2).

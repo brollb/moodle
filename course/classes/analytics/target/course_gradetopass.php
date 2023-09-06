@@ -169,13 +169,13 @@ class course_gradetopass extends course_enrolments {
             return null;
         }
 
-        $userenrol = $this->retrieve('user_enrolments', $sampleid);
+        $userenroll = $this->retrieve('user_enrolments', $sampleid);
 
         // Get course grade to pass.
         $courseitem = $this->get_course_gradetopass($course->get_id());
 
         // Get the user grade.
-        $usergrade = $this->get_user_grade($courseitem['courseitemid'], $userenrol->userid);
+        $usergrade = $this->get_user_grade($courseitem['courseitemid'], $userenroll->userid);
 
         if ($usergrade >= $courseitem['gradetopass']) {
             return 0;

@@ -39,7 +39,7 @@ class restore_enrol_lti_plugin extends restore_enrol_plugin {
     protected $tools = array();
 
     /**
-     * Declares the enrol LTI XML paths attached to the enrol element
+     * Declares the enroll LTI XML paths attached to the enroll element
      *
      * @return array of {@link restore_path_element}
      */
@@ -110,14 +110,14 @@ class restore_enrol_lti_plugin extends restore_enrol_plugin {
      * This function is executed after all the tasks in the plan have been finished.
      * This must be done here because the activities have not been restored yet.
      */
-    public function after_restore_enrol() {
+    public function after_restore_enroll() {
         global $DB;
 
         // Need to go through and change the values.
         foreach ($this->tools as $tool) {
             $updatetool = new stdClass();
             $updatetool->id = $tool->id;
-            $updatetool->enrolid = $this->get_mappingid('enrol', $tool->enrolid);
+            $updatetool->enrolid = $this->get_mappingid('enroll', $tool->enrolid);
             $updatetool->contextid = $this->get_mappingid('context', $tool->contextid);
             $DB->update_record('enrol_lti_tools', $updatetool);
         }

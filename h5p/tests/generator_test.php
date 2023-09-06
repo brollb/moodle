@@ -223,7 +223,7 @@ class generator_test extends \advanced_testcase {
         /** @var \core_h5p_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('core_h5p');
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->setUser($user);
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
         $activitycontext = \context_module::instance($activity->cmid);

@@ -53,7 +53,7 @@ Feature: Course paged mode information
       | data     | C1     | Database     | 1       | <completion> |
       | forum    | C1     | First forum  | 2       | <completion> |
       | forum    | C1     | Second forum | 2       | <completion> |
-    And I am on the "Course 1" "enrolment methods" page logged in as admin
+    And I am on the "Course 1" "enrollment methods" page logged in as admin
     And I click on "Enable" "link" in the "Guest access" "table_row"
     And I log out
     When I log in as "guest"

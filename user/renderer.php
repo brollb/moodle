@@ -182,7 +182,7 @@ class core_user_renderer extends plugin_renderer_base {
     /**
      * Returns a formatted filter option.
      *
-     * @param int $filtertype The filter type (e.g. status, role, group, enrolment, last access).
+     * @param int $filtertype The filter type (e.g. status, role, group, enrollment, last access).
      * @param string $criteria The string label of the filter type.
      * @param int $value The value for the filter option.
      * @param string $label The string representation of the filter option's value.

@@ -238,7 +238,7 @@ class sync_members extends scheduled_task {
     }
 
     /**
-     * Process unenrolment of users for a given resource link and based on the list of recently synced users.
+     * Process unenrollment of users for a given resource link and based on the list of recently synced users.
      *
      * @param resource_link $resourcelink the resource_link instance to which the $synced users pertains
      * @param stdClass $resource the resource object instance
@@ -248,7 +248,7 @@ class sync_members extends scheduled_task {
     protected function sync_unenrol_resourcelink(resource_link $resourcelink, stdClass $resource,
             array $syncedusers): int {
 
-        if (!$this->should_sync_unenrol($resource->membersyncmode)) {
+        if (!$this->should_sync_unenroll($resource->membersyncmode)) {
             return 0;
         }
         $ltiplugin = enrol_get_plugin('lti');
@@ -262,7 +262,7 @@ class sync_members extends scheduled_task {
                 $instance = new stdClass();
                 $instance->id = $resource->enrolid;
                 $instance->courseid = $resource->courseid;
-                $instance->enrol = 'lti';
+                $instance->enroll = 'lti';
                 $ltiplugin->unenrol_user($instance, $ltiuser->get_localid());
                 $unenrolcount++;
             }
@@ -307,9 +307,9 @@ class sync_members extends scheduled_task {
      * Method to determine whether to sync unenrolments or not.
      *
      * @param int $syncmode The shared resource's membersyncmode.
-     * @return bool true if unenrolment should be synced, false if not.
+     * @return bool true if unenrollment should be synced, false if not.
      */
-    protected function should_sync_unenrol($syncmode): bool {
+    protected function should_sync_unenroll($syncmode): bool {
         return $syncmode == helper::MEMBER_SYNC_ENROL_AND_UNENROL || $syncmode == helper::MEMBER_SYNC_UNENROL_MISSING;
     }
 
@@ -317,9 +317,9 @@ class sync_members extends scheduled_task {
      * Method to determine whether to sync enrolments or not.
      *
      * @param int $syncmode The shared resource's membersyncmode.
-     * @return bool true if enrolment should be synced, false if not.
+     * @return bool true if enrollment should be synced, false if not.
      */
-    protected function should_sync_enrol($syncmode): bool {
+    protected function should_sync_enroll($syncmode): bool {
         return $syncmode == helper::MEMBER_SYNC_ENROL_AND_UNENROL || $syncmode == helper::MEMBER_SYNC_ENROL_NEW;
     }
 
@@ -404,7 +404,7 @@ class sync_members extends scheduled_task {
 
             $ltiuser = $this->ltiuser_from_member($user, $resource, $resourcelink, $member);
 
-            if ($this->should_sync_enrol($resource->membersyncmode)) {
+            if ($this->should_sync_enroll($resource->membersyncmode)) {
 
                 $ltiuser->set_resourcelinkid($resourcelink->get_id());
                 $ltiuser = $this->userrepo->save($ltiuser);
@@ -422,7 +422,7 @@ class sync_members extends scheduled_task {
                 }
             }
 
-            // If the member has been created, or exists locally already, mark them as valid so as to not unenrol them
+            // If the member has been created, or exists locally already, mark them as valid so as to not unenroll them
             // when syncing memberships for shared resources configured as either MEMBER_SYNC_ENROL_AND_UNENROL or
             // MEMBER_SYNC_UNENROL_MISSING.
             $userids[] = $user->id;

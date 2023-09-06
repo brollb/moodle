@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local stuff for category enrolment plugin.
+ * Local stuff for category enrollment plugin.
  *
  * @package    enrol_category
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Event handler for category enrolment plugin.
+ * Event handler for category enrollment plugin.
  *
  * We try to keep everything in sync via listening to events,
  * it may fail sometimes, so we always do a full sync in cron too.
@@ -58,16 +58,16 @@ class enrol_category_observer {
         // Make sure the role is to be actually synchronised,
         // please note we are ignoring overrides of the synchronised capability (for performance reasons in full sync).
         $syscontext = context_system::instance();
-        if (!$DB->record_exists('role_capabilities', array('contextid'=>$syscontext->id, 'roleid'=>$ra->roleid, 'capability'=>'enrol/category:synchronised', 'permission'=>CAP_ALLOW))) {
+        if (!$DB->record_exists('role_capabilities', array('contextid'=>$syscontext->id, 'roleid'=>$ra->roleid, 'capability'=>'enroll/category:synchronised', 'permission'=>CAP_ALLOW))) {
             return;
         }
 
-        // Add necessary enrol instances.
+        // Add necessary enroll instances.
         $plugin = enrol_get_plugin('category');
         $sql = "SELECT c.*
                   FROM {course} c
                   JOIN {context} ctx ON (ctx.instanceid = c.id AND ctx.contextlevel = :courselevel AND ctx.path LIKE :match)
-             LEFT JOIN {enrol} e ON (e.courseid = c.id AND e.enrol = 'category')
+             LEFT JOIN {enroll} e ON (e.courseid = c.id AND e.enroll = 'category')
                  WHERE e.id IS NULL";
         $params = array('courselevel'=>CONTEXT_COURSE, 'match'=>$parentcontext->path.'/%');
         $rs = $DB->get_recordset_sql($sql, $params);
@@ -80,7 +80,7 @@ class enrol_category_observer {
         $sql = "SELECT e.*
                   FROM {course} c
                   JOIN {context} ctx ON (ctx.instanceid = c.id AND ctx.contextlevel = :courselevel AND ctx.path LIKE :match)
-                  JOIN {enrol} e ON (e.courseid = c.id AND e.enrol = 'category')
+                  JOIN {enroll} e ON (e.courseid = c.id AND e.enroll = 'category')
              LEFT JOIN {user_enrolments} ue ON (ue.enrolid = e.id AND ue.userid = :userid)
                  WHERE ue.id IS NULL";
         $params = array('courselevel'=>CONTEXT_COURSE, 'match'=>$parentcontext->path.'/%', 'userid'=>$ra->userid);
@@ -115,7 +115,7 @@ class enrol_category_observer {
 
         // Now this is going to be a bit slow, take all enrolments in child courses and verify each separately.
         $syscontext = context_system::instance();
-        if (!$roles = get_roles_with_capability('enrol/category:synchronised', CAP_ALLOW, $syscontext)) {
+        if (!$roles = get_roles_with_capability('enroll/category:synchronised', CAP_ALLOW, $syscontext)) {
             return;
         }
 
@@ -124,7 +124,7 @@ class enrol_category_observer {
         $sql = "SELECT e.*
                   FROM {course} c
                   JOIN {context} ctx ON (ctx.instanceid = c.id AND ctx.contextlevel = :courselevel AND ctx.path LIKE :match)
-                  JOIN {enrol} e ON (e.courseid = c.id AND e.enrol = 'category')
+                  JOIN {enroll} e ON (e.courseid = c.id AND e.enroll = 'category')
                   JOIN {user_enrolments} ue ON (ue.enrolid = e.id AND ue.userid = :userid)";
         $params = array('courselevel'=>CONTEXT_COURSE, 'match'=>$parentcontext->path.'/%', 'userid'=>$ra->userid);
         $rs = $DB->get_recordset_sql($sql, $params);
@@ -144,7 +144,7 @@ class enrol_category_observer {
                       FROM {role_assignments} ra
                      WHERE ra.userid = :userid AND ra.contextid $contextids AND ra.roleid $roleids";
             if (!$DB->record_exists_sql($sql, $params)) {
-                // User does not have any interesting role in any parent context, let's unenrol.
+                // User does not have any interesting role in any parent context, let's unenroll.
                 $plugin->unenrol_user($instance, $ra->userid);
             }
         }

@@ -66,7 +66,7 @@ class participants_action_bar implements \renderable {
      */
     protected function get_ordered_nodes(): array {
         return [
-            'enrolments:enrol' => [
+            'enrolments:enroll' => [
                 'review',
                 'manageinstances',
                 'renameroles',
@@ -97,7 +97,7 @@ class participants_action_bar implements \renderable {
         }
 
         $formattedcontent = [];
-        $enrolmentsheading = get_string('enrolments', 'enrol');
+        $enrolmentsheading = get_string('enrolments', 'enroll');
         if ($this->page->context->contextlevel != CONTEXT_MODULE &&
                 $this->page->context->contextlevel != CONTEXT_COURSECAT) {
             // Pre-populate the formatted tertiary nav items with the "Enrolled users" node if user can view the participants page.
@@ -107,7 +107,7 @@ class participants_action_bar implements \renderable {
                 $participantsurl = (new moodle_url('/user/index.php', ['id' => $this->course->id]))->out();
                 $formattedcontent[] = [
                     $enrolmentsheading => [
-                        $participantsurl => get_string('enrolledusers', 'enrol'),
+                        $participantsurl => get_string('enrolledusers', 'enroll'),
                     ]
                 ];
             }

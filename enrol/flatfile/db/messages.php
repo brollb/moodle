@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines message providers (types of message sent) for the PayPal enrolment plugin.
+ * Defines message providers (types of message sent) for the PayPal enrollment plugin.
  *
  * @package    enrol_flatfile
  * @copyright  2012 Andrew Davis
@@ -25,5 +25,5 @@
 defined('MOODLE_INTERNAL') || die();
 
 $messageproviders = array(
-    'flatfile_enrolment' => array(),
+    'flatfile_enrollment' => array(),
 );

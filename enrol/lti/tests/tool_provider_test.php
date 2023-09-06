@@ -327,7 +327,7 @@ class tool_provider_test extends \advanced_testcase {
                         'message' => [
                             [
                                 'message_type' => 'basic-lti-launch-request',
-                                'path' => '/enrol/lti/tool.php'
+                                'path' => '/enroll/lti/tool.php'
                             ]
                         ]
                     ]
@@ -355,7 +355,7 @@ class tool_provider_test extends \advanced_testcase {
                         'message' => [
                             [
                                 'message_type' => 'basic-lti-launch-request',
-                                'path' => '/enrol/lti/tool.php?id=' . $tool->id
+                                'path' => '/enroll/lti/tool.php?id=' . $tool->id
                             ]
                         ]
                     ]
@@ -388,7 +388,7 @@ class tool_provider_test extends \advanced_testcase {
                         'message' => [
                             [
                                 'message_type' => 'ContentItemSelectionRequest',
-                                'path' => '/enrol/lti/tool.php?id=' . $tool->id
+                                'path' => '/enroll/lti/tool.php?id=' . $tool->id
                             ]
                         ]
                     ]
@@ -434,7 +434,7 @@ class tool_provider_test extends \advanced_testcase {
     /**
      * Test for tool_provider::onLaunch() to verify that a LTI user has been enrolled.
      */
-    public function test_on_launch_user_enrolment() {
+    public function test_on_launch_user_enrollment() {
         global $DB;
 
         $tp = $this->build_dummy_tp($this->tool->secret);
@@ -451,7 +451,7 @@ class tool_provider_test extends \advanced_testcase {
         // User picture was not set.
         $this->assertEmpty($user->picture);
 
-        // Check user enrolment.
+        // Check user enrollment.
         $enrolled = $DB->record_exists('user_enrolments', ['enrolid' => $this->tool->enrolid, 'userid' => $user->id]);
         $this->assertTrue($enrolled);
     }

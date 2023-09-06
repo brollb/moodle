@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Main course enrolment management UI.
+ * Main course enrollment management UI.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -42,16 +42,16 @@ require_capability('moodle/course:enrolreview', $context);
 
 $canconfig = has_capability('moodle/course:enrolconfig', $context);
 
-$PAGE->set_url('/enrol/instances.php', array('id'=>$course->id));
+$PAGE->set_url('/enroll/instances.php', array('id'=>$course->id));
 $PAGE->set_pagelayout('admin');
-$PAGE->set_title(get_string('enrolmentinstances', 'enrol'));
+$PAGE->set_title(get_string('enrolmentinstances', 'enroll'));
 $PAGE->set_heading($course->fullname);
 
 $instances = enrol_get_instances($course->id, false);
 $plugins   = enrol_get_plugins(false);
 
 if ($canconfig and $action and confirm_sesskey()) {
-    if (isset($instances[$instanceid]) and isset($plugins[$instances[$instanceid]->enrol])) {
+    if (isset($instances[$instanceid]) and isset($plugins[$instances[$instanceid]->enroll])) {
         if ($action === 'up') {
             $order = array_keys($instances);
             $order = array_flip($order);
@@ -66,7 +66,7 @@ if ($canconfig and $action and confirm_sesskey()) {
                 foreach ($resorted as $sortorder=>$instance) {
                     if ($instance->sortorder != $sortorder) {
                         $instance->sortorder = $sortorder;
-                        $DB->update_record('enrol', $instance);
+                        $DB->update_record('enroll', $instance);
                     }
                 }
             }
@@ -86,7 +86,7 @@ if ($canconfig and $action and confirm_sesskey()) {
                 foreach ($resorted as $sortorder=>$instance) {
                     if ($instance->sortorder != $sortorder) {
                         $instance->sortorder = $sortorder;
-                        $DB->update_record('enrol', $instance);
+                        $DB->update_record('enroll', $instance);
                     }
                 }
             }
@@ -95,13 +95,13 @@ if ($canconfig and $action and confirm_sesskey()) {
         } else if ($action === 'delete') {
 
             $instance = $instances[$instanceid];
-            $plugin = $plugins[$instance->enrol];
+            $plugin = $plugins[$instance->enroll];
 
             if ($plugin->can_delete_instance($instance)) {
                 if ($confirm) {
                     if (enrol_accessing_via_instance($instance)) {
                         if (!$confirm2) {
-                            $yesurl = new moodle_url('/enrol/instances.php',
+                            $yesurl = new moodle_url('/enroll/instances.php',
                                                      array('id' => $course->id,
                                                            'action' => 'delete',
                                                            'instance' => $instance->id,
@@ -110,7 +110,7 @@ if ($canconfig and $action and confirm_sesskey()) {
                                                            'sesskey' => sesskey()));
                             $displayname = $plugin->get_instance_name($instance);
                             $message = markdown_to_html(get_string('deleteinstanceconfirmself',
-                                                                   'enrol',
+                                                                   'enroll',
                                                                    array('name' => $displayname)));
                             echo $OUTPUT->header();
                             echo $OUTPUT->confirm($message, $yesurl, $PAGE->url);
@@ -119,7 +119,7 @@ if ($canconfig and $action and confirm_sesskey()) {
                         }
                     }
                     // Update communication for instance and given action.
-                    if (core_communication\api::is_available() && $instance->enrol !== 'guest') {
+                    if (core_communication\api::is_available() && $instance->enroll !== 'guest') {
                         $plugin->update_communication($instance->id, 'remove', $course->id);
                     }
                     $plugin->delete_instance($instance);
@@ -127,7 +127,7 @@ if ($canconfig and $action and confirm_sesskey()) {
                 }
 
                 echo $OUTPUT->header();
-                $yesurl = new moodle_url('/enrol/instances.php',
+                $yesurl = new moodle_url('/enroll/instances.php',
                                          array('id' => $course->id,
                                                'action' => 'delete',
                                                'instance' => $instance->id,
@@ -136,11 +136,11 @@ if ($canconfig and $action and confirm_sesskey()) {
                 $displayname = $plugin->get_instance_name($instance);
                 $users = $DB->count_records('user_enrolments', array('enrolid' => $instance->id));
                 if ($users) {
-                    $message = markdown_to_html(get_string('deleteinstanceconfirm', 'enrol',
+                    $message = markdown_to_html(get_string('deleteinstanceconfirm', 'enroll',
                                                            array('name' => $displayname,
                                                                  'users' => $users)));
                 } else {
-                    $message = markdown_to_html(get_string('deleteinstancenousersconfirm', 'enrol',
+                    $message = markdown_to_html(get_string('deleteinstancenousersconfirm', 'enroll',
                                                            array('name' => $displayname)));
                 }
                 echo $OUTPUT->confirm($message, $yesurl, $PAGE->url);
@@ -151,12 +151,12 @@ if ($canconfig and $action and confirm_sesskey()) {
         } else if ($action === 'disable') {
 
             $instance = $instances[$instanceid];
-            $plugin = $plugins[$instance->enrol];
+            $plugin = $plugins[$instance->enroll];
             if ($plugin->can_hide_show_instance($instance)) {
                 if ($instance->status != ENROL_INSTANCE_DISABLED) {
                     if (enrol_accessing_via_instance($instance)) {
                         if (!$confirm2) {
-                            $yesurl = new moodle_url('/enrol/instances.php',
+                            $yesurl = new moodle_url('/enroll/instances.php',
                                                      array('id' => $course->id,
                                                            'action' => 'disable',
                                                            'instance' => $instance->id,
@@ -164,7 +164,7 @@ if ($canconfig and $action and confirm_sesskey()) {
                                                            'sesskey' => sesskey()));
                             $displayname = $plugin->get_instance_name($instance);
                             $message = markdown_to_html(get_string('disableinstanceconfirmself',
-                                                        'enrol',
+                                                        'enroll',
                                                         array('name' => $displayname)));
                             echo $OUTPUT->header();
                             echo $OUTPUT->confirm($message, $yesurl, $PAGE->url);
@@ -173,7 +173,7 @@ if ($canconfig and $action and confirm_sesskey()) {
                         }
                     }
                     // Update communication for instance and given action.
-                    if (core_communication\api::is_available() && $instance->enrol !== 'guest') {
+                    if (core_communication\api::is_available() && $instance->enroll !== 'guest') {
                         $plugin->update_communication($instance->id, 'remove', $course->id);
                     }
                     $plugin->update_status($instance, ENROL_INSTANCE_DISABLED);
@@ -184,11 +184,11 @@ if ($canconfig and $action and confirm_sesskey()) {
         } else if ($action === 'enable') {
 
             $instance = $instances[$instanceid];
-            $plugin = $plugins[$instance->enrol];
+            $plugin = $plugins[$instance->enroll];
             if ($plugin->can_hide_show_instance($instance)) {
                 if ($instance->status != ENROL_INSTANCE_ENABLED) {
                     // Update communication for instance and given action.
-                    if (core_communication\api::is_available() && $instance->enrol !== 'guest') {
+                    if (core_communication\api::is_available() && $instance->enroll !== 'guest') {
                         $plugin->update_communication($instance->id, 'add', $course->id);
                     }
                     $plugin->update_status($instance, ENROL_INSTANCE_ENABLED);
@@ -211,7 +211,7 @@ $strdown    = get_string('down');
 $strdelete  = get_string('delete');
 $strenable  = get_string('enable');
 $strdisable = get_string('disable');
-$strmanage  = get_string('manageinstance', 'enrol');
+$strmanage  = get_string('manageinstance', 'enroll');
 
 $table = new html_table();
 $table->head  = array(get_string('name'), get_string('users'), $strup.'/'.$strdown, get_string('edit'));
@@ -219,18 +219,18 @@ $table->align = array('left', 'center', 'center', 'center');
 $table->width = '100%';
 $table->data  = array();
 
-// iterate through enrol plugins and add to the display table
+// iterate through enroll plugins and add to the display table
 $updowncount = 1;
 $icount = count($instances);
-$url = new moodle_url('/enrol/instances.php', array('sesskey'=>sesskey(), 'id'=>$course->id));
+$url = new moodle_url('/enroll/instances.php', array('sesskey'=>sesskey(), 'id'=>$course->id));
 foreach ($instances as $instance) {
-    if (!isset($plugins[$instance->enrol])) {
+    if (!isset($plugins[$instance->enroll])) {
         continue;
     }
-    $plugin = $plugins[$instance->enrol];
+    $plugin = $plugins[$instance->enroll];
 
     $displayname = $plugin->get_instance_name($instance);
-    if (!enrol_is_enabled($instance->enrol) or $instance->status != ENROL_INSTANCE_ENABLED) {
+    if (!enrol_is_enabled($instance->enroll) or $instance->status != ENROL_INSTANCE_ENABLED) {
         $displayname = html_writer::tag('span', $displayname, array('class'=>'dimmed_text'));
     }
 
@@ -259,7 +259,7 @@ foreach ($instances as $instance) {
             $edit[] = $OUTPUT->action_icon($aurl, new pix_icon('t/delete', $strdelete, 'core', array('class' => 'iconsmall')));
         }
 
-        if (enrol_is_enabled($instance->enrol) && $plugin->can_hide_show_instance($instance)) {
+        if (enrol_is_enabled($instance->enroll) && $plugin->can_hide_show_instance($instance)) {
             if ($instance->status == ENROL_INSTANCE_ENABLED) {
                 $aurl = new moodle_url($url, array('action'=>'disable', 'instance'=>$instance->id));
                 $edit[] = $OUTPUT->action_icon($aurl, new pix_icon('t/hide', $strdisable, 'core', array('class' => 'iconsmall')));
@@ -275,7 +275,7 @@ foreach ($instances as $instance) {
     }
 
     // link to instance management
-    if (enrol_is_enabled($instance->enrol) && $canconfig) {
+    if (enrol_is_enabled($instance->enroll) && $canconfig) {
         if ($icons = $plugin->get_action_icons($instance)) {
             $edit = array_merge($edit, $icons);
         }
@@ -294,7 +294,7 @@ foreach (enrol_get_plugins(true) as $name=>$plugin) {
         if ($plugin->can_add_instance($course->id)) {
             // Standard add/edit UI.
             $params = array('type' => $name, 'courseid' => $course->id);
-            $url = new moodle_url('/enrol/editinstance.php', $params);
+            $url = new moodle_url('/enroll/editinstance.php', $params);
             $link = $url->out(false);
             $candidates[$link] = get_string('pluginname', 'enrol_'.$name);
         }
@@ -307,7 +307,7 @@ foreach (enrol_get_plugins(true) as $name=>$plugin) {
 
 if ($candidates) {
     $select = new url_select($candidates);
-    $select->set_label(get_string('addinstance', 'enrol'));
+    $select->set_label(get_string('addinstance', 'enroll'));
     echo $OUTPUT->render($select);
 }
 

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for self enrolment plugin.
+ * Capabilities for self enrollment plugin.
  *
  * @package    enrol_self
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -26,8 +26,8 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    /* Add or edit enrol-self instance in course. */
-    'enrol/self:config' => array(
+    /* Add or edit enroll-self instance in course. */
+    'enroll/self:config' => array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
@@ -38,7 +38,7 @@ $capabilities = array(
     ),
 
     /* Manage user self-enrolments. */
-    'enrol/self:manage' => array(
+    'enroll/self:manage' => array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
@@ -48,14 +48,14 @@ $capabilities = array(
         )
     ),
 
-    'enrol/self:holdkey' => array(
+    'enroll/self:holdkey' => array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
     ),
 
-    /* Voluntarily unenrol self from course - watch out for data loss. */
-    'enrol/self:unenrolself' => array(
+    /* Voluntarily unenroll self from course - watch out for data loss. */
+    'enroll/self:unenrolself' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -63,8 +63,8 @@ $capabilities = array(
         )
     ),
 
-    /* Unenrol anybody from course (including self) -  watch out for data loss. */
-    'enrol/self:unenrol' => array(
+    /* Unenroll anybody from course (including self) -  watch out for data loss. */
+    'enroll/self:unenroll' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -73,8 +73,8 @@ $capabilities = array(
         )
     ),
 
-    /* Ability to enrol self in courses. */
-    'enrol/self:enrolself' => array(
+    /* Ability to enroll self in courses. */
+    'enroll/self:enrolself' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(

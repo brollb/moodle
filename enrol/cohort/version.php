@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Cohort enrolment plugin version specification.
+ * Cohort enrollment plugin version specification.
  *
  * @package    enrol_cohort
  * @copyright  2010 Petr Skoda {@link http://skodak.org}

@@ -862,7 +862,7 @@ class template_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $params['course'] = $course;
         $activity = $this->getDataGenerator()->create_module('data', $params);
-        $author = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $author = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         // Generate an entry.
         $generator = $this->getDataGenerator()->get_plugin_generator('mod_data');

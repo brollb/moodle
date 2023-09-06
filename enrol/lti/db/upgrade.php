@@ -16,7 +16,7 @@
 //
 
 /**
- * This file keeps track of upgrades to the lti enrolment plugin
+ * This file keeps track of upgrades to the lti enrollment plugin
  *
  * @package enrol_lti
  * @copyright  2016 John Okely <john@moodle.com>
@@ -45,7 +45,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
 
     if ($oldversion < 2021052501) {
         // LTI 1.3: Set a private key for this site (which is acting as a tool in LTI 1.3).
-        require_once($CFG->dirroot . '/enrol/lti/upgradelib.php');
+        require_once($CFG->dirroot . '/enroll/lti/upgradelib.php');
 
         $warning = enrol_lti_verify_private_key();
         if (!empty($warning)) {
@@ -53,7 +53,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         }
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2021052501, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2021052501, 'enroll', 'lti');
     }
 
     if ($oldversion < 2021052502) {
@@ -84,7 +84,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         }
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2021052502, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2021052502, 'enroll', 'lti');
     }
 
     if ($oldversion < 2021052503) {
@@ -111,7 +111,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         }
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2021052503, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2021052503, 'enroll', 'lti');
     }
 
     if ($oldversion < 2021052504) {
@@ -139,7 +139,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         }
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2021052504, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2021052504, 'enroll', 'lti');
     }
 
     if ($oldversion < 2021052505) {
@@ -159,7 +159,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         $dbman->add_key($table, $key);
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2021052505, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2021052505, 'enroll', 'lti');
     }
 
     if ($oldversion < 2021052506) {
@@ -196,7 +196,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         }
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2021052506, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2021052506, 'enroll', 'lti');
     }
 
     if ($oldversion < 2021052507) {
@@ -223,7 +223,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
             $dbman->create_table($table);
         }
 
-        upgrade_plugin_savepoint(true, 2021052507, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2021052507, 'enroll', 'lti');
     }
 
     if ($oldversion < 2021052508) {
@@ -247,7 +247,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
-        upgrade_plugin_savepoint(true, 2021052508, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2021052508, 'enroll', 'lti');
     }
 
     if ($oldversion < 2021052512) {
@@ -260,7 +260,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        upgrade_plugin_savepoint(true, 2021052512, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2021052512, 'enroll', 'lti');
     }
 
     if ($oldversion < 2021052513) {
@@ -281,7 +281,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
             $dbman->create_table($table);
         }
 
-        upgrade_plugin_savepoint(true, 2021052513, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2021052513, 'enroll', 'lti');
     }
 
     if ($oldversion < 2021052514) {
@@ -306,7 +306,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         }
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2021052514, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2021052514, 'enroll', 'lti');
     }
 
     if ($oldversion < 2022031400) {
@@ -361,7 +361,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         $dbman->change_field_notnull($table, $field);
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2022031400, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2022031400, 'enroll', 'lti');
     }
 
     if ($oldversion < 2022031401) {
@@ -377,7 +377,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
             $recordset = $DB->get_recordset('enrol_lti_app_registration');
             foreach ($recordset as $record) {
                 // Create a unique id for the registration. This will be used by:
-                // a) The initiate_login endpoint (enrol/lti/login.php), as a stand in for client_id, when that's not provided.
+                // a) The initiate_login endpoint (enroll/lti/login.php), as a stand in for client_id, when that's not provided.
                 // b) The dynamic registration endpoint, where it'll be used to identify the incomplete registration to update
                 // with the platform details.
                 do {
@@ -431,7 +431,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         }
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2022031401, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2022031401, 'enroll', 'lti');
     }
 
     if ($oldversion < 2022031402) {
@@ -444,22 +444,22 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         }
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2022031402, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2022031402, 'enroll', 'lti');
     }
 
     // Automatically generated Moodle v4.0.0 release upgrade line.
     // Put any upgrade step following this.
 
     if ($oldversion < 2022061500) {
-        // Disable all orphaned enrolment method instances.
+        // Disable all orphaned enrollment method instances.
         $sql = "id IN (SELECT t.enrolid
                          FROM {enrol_lti_tools} t
                     LEFT JOIN {context} c ON (t.contextid = c.id)
                         WHERE c.id IS NULL)";
-        $DB->set_field_select('enrol', 'status', 1, $sql);
+        $DB->set_field_select('enroll', 'status', 1, $sql);
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2022061500, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2022061500, 'enroll', 'lti');
     }
 
     if ($oldversion < 2022103100) {
@@ -480,7 +480,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         $affectedltiusersrs->close();
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2022103100, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2022103100, 'enroll', 'lti');
     }
 
     if ($oldversion < 2022110300) {
@@ -501,7 +501,7 @@ function xmldb_enrol_lti_upgrade($oldversion) {
         $affectedltiusersrs->close();
 
         // Lti savepoint reached.
-        upgrade_plugin_savepoint(true, 2022110300, 'enrol', 'lti');
+        upgrade_plugin_savepoint(true, 2022110300, 'enroll', 'lti');
     }
 
     // Automatically generated Moodle v4.1.0 release upgrade line.

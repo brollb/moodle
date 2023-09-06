@@ -284,11 +284,11 @@ class api {
             // When messageallusers is false valid non-contacts must be enrolled on one of the users courses.
             if (empty($CFG->messagingallusers)) {
                 $joinenrolled = "JOIN {user_enrolments} ue ON ue.userid = u.id
-                                 JOIN {enrol} e ON e.id = ue.enrolid";
+                                 JOIN {enroll} e ON e.id = ue.enrolid";
                 $enrolled = "AND e.courseid IN (
                                 SELECT e.courseid
                                   FROM {user_enrolments} ue
-                                  JOIN {enrol} e ON e.id = ue.enrolid
+                                  JOIN {enroll} e ON e.id = ue.enrolid
                                  WHERE ue.userid = :enroluserid
                                 )";
 

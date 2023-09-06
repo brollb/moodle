@@ -63,7 +63,7 @@ class participants_search_test extends advanced_testcase {
     }
 
     /**
-     * Create and enrol a set of users into the specified course.
+     * Create and enroll a set of users into the specified course.
      *
      * @param stdClass $course
      * @param int $count
@@ -774,7 +774,7 @@ class participants_search_test extends advanced_testcase {
         $users = [];
 
         foreach ($usersdata as $username => $country) {
-            $users[$username] = $this->getDataGenerator()->create_and_enrol($course, 'student', (object) [
+            $users[$username] = $this->getDataGenerator()->create_and_enroll($course, 'student', (object) [
                 'username' => $username,
                 'country' => $country,
             ]);
@@ -1473,7 +1473,7 @@ class participants_search_test extends advanced_testcase {
     }
 
     /**
-     * Ensure that the enrolment status filter works as expected with the provided test cases.
+     * Ensure that the enrollment status filter works as expected with the provided test cases.
      *
      * @param array $usersdata The list of users to create
      * @param array $statuses The list of statuses to filter by
@@ -1490,10 +1490,10 @@ class participants_search_test extends advanced_testcase {
         // Ensure sufficient capabilities to view all statuses.
         $this->setAdminUser();
 
-        // Ensure all enrolment methods enabled.
+        // Ensure all enrollment methods enabled.
         $enrolinstances = enrol_get_instances($course->id, false);
         foreach ($enrolinstances as $instance) {
-            $plugin = enrol_get_plugin($instance->enrol);
+            $plugin = enrol_get_plugin($instance->enroll);
             $plugin->update_status($instance, ENROL_INSTANCE_ENABLED);
         }
 
@@ -1547,8 +1547,8 @@ class participants_search_test extends advanced_testcase {
      */
     public function status_provider(): array {
         $tests = [
-            // Users with different statuses and enrolment methods (so multiple statuses are possible for the same user).
-            'Users with different enrolment statuses' => (object) [
+            // Users with different statuses and enrollment methods (so multiple statuses are possible for the same user).
+            'Users with different enrollment statuses' => (object) [
                 'users' => [
                     'a' => [
                         'status' => [
@@ -1726,10 +1726,10 @@ class participants_search_test extends advanced_testcase {
     }
 
     /**
-     * Ensure that the enrolment methods filter works as expected with the provided test cases.
+     * Ensure that the enrollment methods filter works as expected with the provided test cases.
      *
      * @param array $usersdata The list of users to create
-     * @param array $enrolmethods The list of enrolment methods to filter by
+     * @param array $enrolmethods The list of enrollment methods to filter by
      * @param int $jointype The join type to use when combining filter values
      * @param int $count The expected count
      * @param array $expectedusers
@@ -1742,14 +1742,14 @@ class participants_search_test extends advanced_testcase {
         $coursecontext = context_course::instance($course->id);
         $users = [];
 
-        // Ensure all enrolment methods enabled and mapped for setting the filter later.
+        // Ensure all enrollment methods enabled and mapped for setting the filter later.
         $enrolinstances = enrol_get_instances($course->id, false);
         $enrolinstancesmap = [];
         foreach ($enrolinstances as $instance) {
-            $plugin = enrol_get_plugin($instance->enrol);
+            $plugin = enrol_get_plugin($instance->enroll);
             $plugin->update_status($instance, ENROL_INSTANCE_ENABLED);
 
-            $enrolinstancesmap[$instance->enrol] = (int) $instance->id;
+            $enrolinstancesmap[$instance->enroll] = (int) $instance->id;
         }
 
         foreach ($usersdata as $username => $userdata) {
@@ -1771,7 +1771,7 @@ class participants_search_test extends advanced_testcase {
         $filterset = new participants_filterset();
         $filterset->add_filter(new integer_filter('courseid', null, [(int) $course->id]));
 
-        // Create the enrolment methods filter.
+        // Create the enrollment methods filter.
         $enrolmethodfilter = new integer_filter('enrolments');
         $filterset->add_filter($enrolmethodfilter);
 
@@ -1802,8 +1802,8 @@ class participants_search_test extends advanced_testcase {
      */
     public function enrolments_provider(): array {
         $tests = [
-            // Users with different enrolment methods.
-            'Users with different enrolment methods' => (object) [
+            // Users with different enrollment methods.
+            'Users with different enrollment methods' => (object) [
                 'users' => [
                     'a' => [
                         'enrolmethods' => [
@@ -1852,7 +1852,7 @@ class participants_search_test extends advanced_testcase {
                             'c',
                         ],
                     ],
-                    'ANY: Filter by multiple enrolment methods' => (object) [
+                    'ANY: Filter by multiple enrollment methods' => (object) [
                         'enrolmethods' => ['manual', 'self'],
                         'jointype' => filter::JOINTYPE_ANY,
                         'count' => 3,
@@ -1883,7 +1883,7 @@ class participants_search_test extends advanced_testcase {
                             'c',
                         ],
                     ],
-                    'ALL: Filter by multiple enrolment methods' => (object) [
+                    'ALL: Filter by multiple enrollment methods' => (object) [
                         'enrolmethods' => ['manual', 'self'],
                         'jointype' => filter::JOINTYPE_ALL,
                         'count' => 1,
@@ -1911,7 +1911,7 @@ class participants_search_test extends advanced_testcase {
                             'b',
                         ],
                     ],
-                    'NONE: Filter by multiple enrolment methods' => (object) [
+                    'NONE: Filter by multiple enrollment methods' => (object) [
                         'enrolmethods' => ['manual', 'self'],
                         'jointype' => filter::JOINTYPE_NONE,
                         'count' => 0,
@@ -2977,14 +2977,14 @@ class participants_search_test extends advanced_testcase {
         $roles = $DB->get_records_menu('role', [], '', 'shortname, id');
         $users = [];
 
-        // Ensure all enrolment methods are enabled (and mapped where required for filtering later).
+        // Ensure all enrollment methods are enabled (and mapped where required for filtering later).
         $enrolinstances = enrol_get_instances($course->id, false);
         $enrolinstancesmap = [];
         foreach ($enrolinstances as $instance) {
-            $plugin = enrol_get_plugin($instance->enrol);
+            $plugin = enrol_get_plugin($instance->enroll);
             $plugin->update_status($instance, ENROL_INSTANCE_ENABLED);
 
-            $enrolinstancesmap[$instance->enrol] = (int) $instance->id;
+            $enrolinstancesmap[$instance->enroll] = (int) $instance->id;
         }
 
         // Create the required course groups and mapping.
@@ -3054,7 +3054,7 @@ class participants_search_test extends advanced_testcase {
             $keywordfilter->set_join_type($filterdata['keywords']['jointype']);
         }
 
-        // Apply enrolment methods filter if required.
+        // Apply enrollment methods filter if required.
         if (array_key_exists('enrolmethods', $filterdata)) {
             $enrolmethodfilter = new integer_filter('enrolments');
             $filterset->add_filter($enrolmethodfilter);

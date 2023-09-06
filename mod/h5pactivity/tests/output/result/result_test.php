@@ -47,7 +47,7 @@ class result_test extends \advanced_testcase {
 
         $manager = manager::create_from_instance($activity);
         $cm = $manager->get_coursemodule();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $generator = $this->getDataGenerator()->get_plugin_generator('mod_h5pactivity');
 

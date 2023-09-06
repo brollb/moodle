@@ -170,7 +170,7 @@ class lib_test extends \advanced_testcase {
         $lti = $this->getDataGenerator()->create_module('lti', array('course' => $course->id));
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a calendar event.
         $event = $this->create_action_event($course->id, $lti->id,
@@ -280,8 +280,8 @@ class lib_test extends \advanced_testcase {
             array('completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS));
 
         // Enrol 2 students in the course.
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('lti', $lti->id);
@@ -339,9 +339,9 @@ class lib_test extends \advanced_testcase {
         $admin = get_admin();
         $time = time();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $course2 = $this->getDataGenerator()->create_course();
-        $teacher2 = $this->getDataGenerator()->create_and_enrol($course2, 'editingteacher');
+        $teacher2 = $this->getDataGenerator()->create_and_enroll($course2, 'editingteacher');
 
         // Create some preconfigured tools.
         $sitetoolrecord = (object) [

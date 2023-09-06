@@ -65,7 +65,7 @@ class get_h5pactivity_access_information_test extends externallib_advanced_testc
         );
 
         if ($role) {
-            $user = $this->getDataGenerator()->create_and_enrol($course, $role);
+            $user = $this->getDataGenerator()->create_and_enroll($course, $role);
             $this->setUser($user);
         }
 

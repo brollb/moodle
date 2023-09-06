@@ -1,4 +1,4 @@
-@enrol @enrol_meta @javascript
+@enroll @enrol_meta @javascript
 Feature: Enrolments are synchronised with meta courses
   In order to simplify enrolments in parent courses
   As a teacher
@@ -32,22 +32,22 @@ Feature: Enrolments are synchronised with meta courses
       | student1 | C4C4 | student | 0 |
       | student2 | C4C4 | student | 1 |
     And I log in as "admin"
-    And I navigate to "Plugins > Enrolments > Manage enrol plugins" in site administration
+    And I navigate to "Plugins > Enrolments > Manage enroll plugins" in site administration
     And I click on "Enable" "link" in the "Course meta link" "table_row"
     And I am on course index
 
-  Scenario: Add meta enrolment instance without groups
-    When I add "Course meta link" enrolment method in "Course 3" with:
+  Scenario: Add meta enrollment instance without groups
+    When I add "Course meta link" enrollment method in "Course 3" with:
       | Link course  | C1C1 |
     And I am on the "Course 3" "enrolled users" page
     Then I should see "No groups" in the "Student 1" "table_row"
     And I should see "No groups" in the "Student 4" "table_row"
 
-  Scenario: Add meta enrolment instance with groups
-    When I add "Course meta link" enrolment method in "Course 3" with:
+  Scenario: Add meta enrollment instance with groups
+    When I add "Course meta link" enrollment method in "Course 3" with:
       | Link course  | C1C1      |
       | Add to group | Groupcourse 1 |
-    And I add "Course meta link" enrolment method in "Course 3" with:
+    And I add "Course meta link" enrollment method in "Course 3" with:
       | Link course  | C2C2      |
       | Add to group | Groupcourse 2 |
     And I am on the "Course 3" "enrolled users" page
@@ -60,8 +60,8 @@ Feature: Enrolments are synchronised with meta courses
     And I should not see "Groupcourse 2" in the "Student 3" "table_row"
     And I should not see "Groupcourse 2" in the "Student 4" "table_row"
 
-  Scenario: Add meta enrolment instance with auto-created groups
-    When I add "Course meta link" enrolment method in "Course 3" with:
+  Scenario: Add meta enrollment instance with auto-created groups
+    When I add "Course meta link" enrollment method in "Course 3" with:
       | Link course  | C1C1      |
       | Add to group | Create new group |
     And I am on the "Course 3" "enrolled users" page
@@ -72,11 +72,11 @@ Feature: Enrolments are synchronised with meta courses
     And I am on the "Course 3" "groups" page
     And the "Groups" select box should contain "Course 1 course (4)"
 
-  Scenario: Backup and restore of meta enrolment instance
-    When I add "Course meta link" enrolment method in "Course 3" with:
+  Scenario: Backup and restore of meta enrollment instance
+    When I add "Course meta link" enrollment method in "Course 3" with:
       | Link course  | C1C1      |
       | Add to group | Groupcourse 1 |
-    And I add "Course meta link" enrolment method in "Course 3" with:
+    And I add "Course meta link" enrollment method in "Course 3" with:
       | Link course  | C2C2      |
     When I backup "Course 3" course using this options:
       | Confirmation | Filename | test_backup.mbz |
@@ -89,7 +89,7 @@ Feature: Enrolments are synchronised with meta courses
     And I press "Next"
     And I press "Perform restore"
     And I trigger cron
-    And I am on the "Course 5 copy 1" "enrolment methods" page
+    And I am on the "Course 5 copy 1" "enrollment methods" page
     Then I should see "Course meta link (Course 1)"
     And I should see "Course meta link (Course 2)"
     And I am on the "Course 5 copy 1" "enrolled users" page
@@ -100,11 +100,11 @@ Feature: Enrolments are synchronised with meta courses
     And I click on "[data-enrolinstancename='Course meta link (Course 2)'] a[data-action=showdetails]" "css_element" in the "Student 1" "table_row"
     And I should see "Course meta link (Course 2)" in the "Enrolment method" "table_row"
 
-  Scenario: Unenrol a user from the course participants page that was enrolled via course meta link.
-    Given I add "Course meta link" enrolment method in "Course 3" with:
+  Scenario: Unenroll a user from the course participants page that was enrolled via course meta link.
+    Given I add "Course meta link" enrollment method in "Course 3" with:
       | Link course  | C4C4 |
     And I navigate to course participants
     # Suspended users can be unenrolled.
-    When I click on "//a[@data-action='unenrol']" "xpath_element" in the "student2" "table_row"
-    And I click on "Unenrol" "button" in the "Unenrol" "dialogue"
+    When I click on "//a[@data-action='unenroll']" "xpath_element" in the "student2" "table_row"
+    And I click on "Unenroll" "button" in the "Unenroll" "dialogue"
     Then I should not see "Student 2" in the "participants" "table"

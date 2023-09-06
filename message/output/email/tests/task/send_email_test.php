@@ -45,8 +45,8 @@ class send_email_test extends \advanced_testcase {
         // Create a course.
         $course = $this->getDataGenerator()->create_course();
 
-        $user1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create two groups in the course.
         $group1 = $this->getDataGenerator()->create_group(array('courseid' => $course->id));

@@ -43,7 +43,7 @@ class content_item_readonly_repository_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $cir = new content_item_readonly_repository();
 
         $items = $cir->find_all_for_course($course, $user);
@@ -62,7 +62,7 @@ class content_item_readonly_repository_test extends \advanced_testcase {
         global $DB;
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $cir = new content_item_readonly_repository();
 
         // Hide a module.
@@ -85,7 +85,7 @@ class content_item_readonly_repository_test extends \advanced_testcase {
 
         // We'll compare our results to those which are course-specific, using mod_lti as an example.
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         /** @var \mod_lti_generator $ltigenerator */
         $ltigenerator = $this->getDataGenerator()->get_plugin_generator('mod_lti');
         $ltigenerator->create_tool_types([

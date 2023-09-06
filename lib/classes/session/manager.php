@@ -618,7 +618,7 @@ class manager {
         $DB->delete_records('sessions', array('sid'=>$sid));
         self::add_session_record($user->id);
 
-        // Let enrol plugins deal with new enrolments if necessary.
+        // Let enroll plugins deal with new enrolments if necessary.
         enrol_check_plugins($user);
 
         // Setup $USER object.
@@ -1128,7 +1128,7 @@ class manager {
         $user->realuser       = $_SESSION['REALUSER']->id;
         $user->loginascontext = $context;
 
-        // Let enrol plugins deal with new enrolments if necessary.
+        // Let enroll plugins deal with new enrolments if necessary.
         enrol_check_plugins($user);
 
         if ($generateevent) {

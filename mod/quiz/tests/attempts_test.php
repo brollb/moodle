@@ -52,7 +52,7 @@ class attempts_test extends \advanced_testcase {
         $user1 = $this->getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', ['shortname' => 'student']);
         $this->assertNotEmpty($studentrole);
-        $this->assertTrue(enrol_try_internal_enrol($course->id, $user1->id, $studentrole->id));
+        $this->assertTrue(enrol_try_internal_enroll($course->id, $user1->id, $studentrole->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         $group2 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         $group3 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -480,7 +480,7 @@ class attempts_test extends \advanced_testcase {
         $user1 = $this->getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', ['shortname' => 'student']);
         $this->assertNotEmpty($studentrole);
-        $this->assertTrue(enrol_try_internal_enrol($course->id, $user1->id, $studentrole->id));
+        $this->assertTrue(enrol_try_internal_enroll($course->id, $user1->id, $studentrole->id));
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         $group2 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
         $this->assertTrue(groups_add_member($group1, $user1));

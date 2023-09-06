@@ -158,8 +158,8 @@ class restore_final_task extends restore_task {
         $rules[] = new restore_log_rule('course', 'update mod', '../mod/[modname]/view.php?id={course_module}', '[modname] {[modname]}');
         $rules[] = new restore_log_rule('course', 'delete mod', 'view.php?id={course}', null);
         $rules[] = new restore_log_rule('course', 'update', 'view.php?id={course}', '');
-        $rules[] = new restore_log_rule('course', 'enrol', 'view.php?id={course}', '{user}');
-        $rules[] = new restore_log_rule('course', 'unenrol', 'view.php?id={course}', '{user}');
+        $rules[] = new restore_log_rule('course', 'enroll', 'view.php?id={course}', '{user}');
+        $rules[] = new restore_log_rule('course', 'unenroll', 'view.php?id={course}', '{user}');
         $rules[] = new restore_log_rule('course', 'editsection', 'editsection.php?id={course_section}', null);
         $rules[] = new restore_log_rule('course', 'new', 'view.php?id={course}', '');
         $rules[] = new restore_log_rule('course', 'recent', 'recent.php?id={course}', '');

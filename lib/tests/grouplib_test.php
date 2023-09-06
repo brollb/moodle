@@ -186,9 +186,9 @@ class grouplib_test extends \advanced_testcase {
         $plugin = enrol_get_plugin('manual');
         $role = $DB->get_record('role', array('shortname' => 'student'));
         $group = $generator->create_group(array('courseid' => $course->id));
-        $instance = $DB->get_record('enrol', array(
+        $instance = $DB->get_record('enroll', array(
                 'courseid' => $course->id,
-                'enrol' => 'manual',
+                'enroll' => 'manual',
         ));
 
         $this->assertNotEquals($instance, false);
@@ -227,9 +227,9 @@ class grouplib_test extends \advanced_testcase {
             $group1->id,
             $group2->id,
         ];
-        $instance = $DB->get_record('enrol', array(
+        $instance = $DB->get_record('enroll', array(
                 'courseid' => $course->id,
-                'enrol' => 'manual',
+                'enroll' => 'manual',
         ));
 
         $this->assertNotEquals($instance, false);
@@ -280,9 +280,9 @@ class grouplib_test extends \advanced_testcase {
             $group1->id,
             $group2->id,
         ];
-        $instance = $DB->get_record('enrol', array(
+        $instance = $DB->get_record('enroll', array(
                 'courseid' => $course->id,
-                'enrol' => 'manual',
+                'enroll' => 'manual',
         ));
 
         $this->assertNotEquals($instance, false);
@@ -378,9 +378,9 @@ class grouplib_test extends \advanced_testcase {
         $plugin = enrol_get_plugin('manual');
         $role = $DB->get_record('role', array('shortname' => 'student'));
         $group = $generator->create_group(array('courseid' => $course->id));
-        $instance = $DB->get_record('enrol', array(
+        $instance = $DB->get_record('enroll', array(
                 'courseid' => $course->id,
-                'enrol' => 'manual',
+                'enroll' => 'manual',
         ));
 
         $this->assertNotEquals($instance, false);
@@ -413,9 +413,9 @@ class grouplib_test extends \advanced_testcase {
         $plugin = enrol_get_plugin('manual');
         $role = $DB->get_record('role', array('shortname' => 'student'));
         $group = $generator->create_group(array('courseid' => $course->id));
-        $instance = $DB->get_record('enrol', array(
+        $instance = $DB->get_record('enroll', array(
                 'courseid' => $course->id,
-                'enrol' => 'manual',
+                'enroll' => 'manual',
         ));
 
         $this->assertNotEquals($instance, false);
@@ -446,9 +446,9 @@ class grouplib_test extends \advanced_testcase {
         $plugin = enrol_get_plugin('manual');
         $role = $DB->get_record('role', array('shortname' => 'student'));
         $group = $generator->create_group(array('courseid' => $course->id));
-        $instance = $DB->get_record('enrol', array(
+        $instance = $DB->get_record('enroll', array(
                 'courseid' => $course->id,
-                'enrol' => 'manual',
+                'enroll' => 'manual',
         ));
 
         $this->assertNotEquals($instance, false);
@@ -480,12 +480,12 @@ class grouplib_test extends \advanced_testcase {
         $group2 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
 
         // Create first user, add them to group 1 and group 2.
-        $user1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->getDataGenerator()->create_group_member(['userid' => $user1->id, 'groupid' => $group1->id]);
         $this->getDataGenerator()->create_group_member(['userid' => $user1->id, 'groupid' => $group2->id]);
 
         // Create second user, add them to group 1 only.
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->getDataGenerator()->create_group_member(['userid' => $user2->id, 'groupid' => $group1->id]);
 
         // Call our method, and assertion.

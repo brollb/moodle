@@ -1,22 +1,22 @@
-This files describes API changes in /enrol/* - plugins,
+This files describes API changes in /enroll/* - plugins,
 information provided here is intended especially for developers.
 
 === 4.3 ===
 
-* New is_csv_upload_supported() function has been created. It checks whether enrolment plugin is supported
- in CSV course upload. Defaults to false. Override this function in your enrolment plugin if you want it to
+* New is_csv_upload_supported() function has been created. It checks whether enrollment plugin is supported
+ in CSV course upload. Defaults to false. Override this function in your enrollment plugin if you want it to
  be supported in CSV course upload.
 
 === 4.2 ===
 
-* New is_self_enrol_available() function has been created. Similar to can_self_enrol but without checking user capabilities.
+* New is_self_enrol_available() function has been created. Similar to can_self_enroll but without checking user capabilities.
 * External function core_enrol_external::get_users_courses now returns a field called "courseimage" containing a URL pointing to
   the course image.
 
 === 4.0 ===
 
 * Final deprecation of the following webservice:
-  * core_enrol_edit_user_enrolment
+  * core_enrol_edit_user_enrollment
 * External function core_enrol_external::get_users_courses now returns the last time a course was modified (timemodified field)
 * The behat step i_add_enrolment_method_with() has been deprecated. Please use the new method i_add_enrolment_method_for_with()
 
@@ -62,7 +62,7 @@ information provided here is intended especially for developers.
 === 3.4 ===
 
 * render_course_enrolment_users_table method has been removed from the renderer. The enrolled users page is now
-  combined with the participants page. /enrol/users.php no longer exists.
+  combined with the participants page. /enroll/users.php no longer exists.
 
 === 3.3 ===
 
@@ -84,7 +84,7 @@ information provided here is intended especially for developers.
 
 * Added new events enrol_instance_created, enrol_instance_updated and
   enrol_instance_deleted . Always trigger them when changing records in the
-  DB table 'enrol'.
+  DB table 'enroll'.
 * Constant CACHE_COURSE_CONTACTS_TTL was deleted.
 * External function core_enrol_external::get_enrolled_users now returns only the viewable participants if the course has groups enabled and no groupid is passed.
 
@@ -101,12 +101,12 @@ information provided here is intended especially for developers.
 === 2.8 ===
 
 * enrol_plugin::instance_deleteable() is deprecated and has been replaced by enrol_plugin::can_delete_instance()
-* enrol_plugin::can_hide_show_instance() is a new function to control who can hide/show enrolment instances.
+* enrol_plugin::can_hide_show_instance() is a new function to control who can hide/show enrollment instances.
   Returns true by default but plugins must implement their own logic.
 
 === 2.6 ===
 
-* Enrolment plugin which supports self enrolment should implement can_self_enrol()
+* Enrolment plugin which supports self enrollment should implement can_self_enroll()
 * Enrolment plugin should implement get_enrol_info() to expose instance information
   with webservice or external interface.
 * Webservice core_enrol_get_enrolled_users_with_capability was incorrectly specifing
@@ -115,7 +115,7 @@ information provided here is intended especially for developers.
 
 === 2.5 ===
 
-* plugins may use general enrol/editenrolment.php page to let users edit
+* plugins may use general enroll/editenrollment.php page to let users edit
   enrolments manually
 * new support for grade recovery in enrol_plugin::enrol_user() method
 
@@ -128,8 +128,8 @@ required changes in code:
   and ENROL_RESTORE_CLASS were removed, implement new restore_* plugin methods instead
 
 other changes and new features:
-* course enrolment manager now works with disabled plugins too
-* new support for protected group membership linked to enrol instance
+* course enrollment manager now works with disabled plugins too
+* new support for protected group membership linked to enroll instance
 * new support for expiry notifications - see enrol_plugin::send_expiry_notifications() method
 
 
@@ -144,4 +144,4 @@ required changes in code:
 === 2.0 ===
 
 required changes in code:
-* enrolment plugins need to be rewritten to use new API - see inline phpdocs and official plugins
+* enrollment plugins need to be rewritten to use new API - see inline phpdocs and official plugins

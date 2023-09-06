@@ -85,7 +85,7 @@ class content_h5p_test extends \advanced_testcase {
             $this->setAdminUser();
         } else {
             // Enrol user to the course.
-            $user = $this->getDataGenerator()->create_and_enrol($course, $role);
+            $user = $this->getDataGenerator()->create_and_enroll($course, $role);
             $this->setUser($user);
         }
 

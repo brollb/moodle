@@ -989,14 +989,14 @@ EOD;
     }
 
     /**
-     * Simplified enrolment of user to course using default options.
+     * Simplified enrollment of user to course using default options.
      *
      * It is strongly recommended to use only this method for 'manual' and 'self' plugins only!!!
      *
      * @param int $userid
      * @param int $courseid
      * @param int|string $roleidorshortname optional role id or role shortname, use only with manual plugin
-     * @param string $enrol name of enrol plugin,
+     * @param string $enroll name of enroll plugin,
      *     there must be exactly one instance in course,
      *     it must support enrol_user() method.
      * @param int $timestart (optional) 0 means unknown
@@ -1004,7 +1004,7 @@ EOD;
      * @param int $status (optional) default to ENROL_USER_ACTIVE for new enrolments
      * @return bool success
      */
-    public function enrol_user($userid, $courseid, $roleidorshortname = null, $enrol = 'manual',
+    public function enrol_user($userid, $courseid, $roleidorshortname = null, $enroll = 'manual',
             $timestart = 0, $timeend = 0, $status = null) {
         global $DB;
 
@@ -1015,11 +1015,11 @@ EOD;
             $roleid = $roleidorshortname;
         }
 
-        if (!$plugin = enrol_get_plugin($enrol)) {
+        if (!$plugin = enrol_get_plugin($enroll)) {
             return false;
         }
 
-        $instances = $DB->get_records('enrol', array('courseid'=>$courseid, 'enrol'=>$enrol));
+        $instances = $DB->get_records('enroll', array('courseid'=>$courseid, 'enroll'=>$enroll));
         if (count($instances) != 1) {
             return false;
         }
@@ -1257,7 +1257,7 @@ EOD;
         $data->roleinstructor = $teacherrole->id;
         $data->rolelearner = $studentrole->id;
 
-        // Get the enrol LTI plugin.
+        // Get the enroll LTI plugin.
         $enrolplugin = enrol_get_plugin('lti');
         $instanceid = $enrolplugin->add_instance($course, (array) $data);
 
@@ -1468,21 +1468,21 @@ EOD;
     }
 
     /**
-     * Create a new user, and enrol them in the specified course as the supplied role.
+     * Create a new user, and enroll them in the specified course as the supplied role.
      *
-     * @param   \stdClass   $course The course to enrol in
+     * @param   \stdClass   $course The course to enroll in
      * @param   string      $role The role to give within the course
      * @param   \stdClass|array   $userparams User parameters
      * @return  \stdClass   The created user
      */
-    public function create_and_enrol($course, $role = 'student', $userparams = null, $enrol = 'manual',
+    public function create_and_enroll($course, $role = 'student', $userparams = null, $enroll = 'manual',
             $timestart = 0, $timeend = 0, $status = null) {
         global $DB;
 
         $user = $this->create_user($userparams);
         $roleid = $DB->get_field('role', 'id', ['shortname' => $role ]);
 
-        $this->enrol_user($user->id, $course->id, $roleid, $enrol, $timestart, $timeend, $status);
+        $this->enrol_user($user->id, $course->id, $roleid, $enroll, $timestart, $timeend, $status);
 
         return $user;
     }

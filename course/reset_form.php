@@ -59,7 +59,7 @@ class course_reset_form extends moodleform {
         $roles[0] = get_string('noroles', 'role');
         $roles = array_reverse($roles, true);
 
-        $mform->addElement('select', 'unenrol_users', get_string('unenrolroleusers', 'enrol'), $roles, array('multiple' => 'multiple'));
+        $mform->addElement('select', 'unenrol_users', get_string('unenrolroleusers', 'enroll'), $roles, array('multiple' => 'multiple'));
         $mform->addElement('checkbox', 'reset_roles_overrides', get_string('deletecourseoverrides', 'role'));
         $mform->setAdvanced('reset_roles_overrides');
         $mform->addElement('checkbox', 'reset_roles_local', get_string('deletelocalroles', 'role'));
@@ -134,7 +134,7 @@ class course_reset_form extends moodleform {
 
         $defaults = array ('reset_events'=>1, 'reset_roles_local'=>1, 'reset_gradebook_grades'=>1, 'reset_notes'=>1);
 
-        // Set student as default in unenrol user list, if role with student archetype exist.
+        // Set student as default in unenroll user list, if role with student archetype exist.
         if ($studentrole = get_archetype_roles('student')) {
             $defaults['unenrol_users'] = array_keys($studentrole);
         }

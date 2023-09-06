@@ -17,7 +17,7 @@
 /**
  * Empty enrol_self form.
  *
- * Useful to mimic valid enrol instances UI when the enrolment instance is not available.
+ * Useful to mimic valid enroll instances UI when the enrollment instance is not available.
  *
  * @package enrol_self
  * @copyright 2015 David Monllaó

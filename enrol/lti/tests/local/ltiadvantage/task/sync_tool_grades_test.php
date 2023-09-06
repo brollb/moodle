@@ -416,7 +416,7 @@ class sync_tool_grades_test extends \lti_advantage_testcase {
     }
 
     /**
-     * Test syncing grades when the enrolment instance is disabled.
+     * Test syncing grades when the enrollment instance is disabled.
      *
      * @covers ::execute
      */
@@ -427,8 +427,8 @@ class sync_tool_grades_test extends \lti_advantage_testcase {
         [$course, $resource, $resource2, $resource3] = $this->create_test_environment();
 
         // Disable resource 1.
-        $enrol = (object) ['id' => $resource->enrolid, 'status' => ENROL_INSTANCE_DISABLED];
-        $DB->update_record('enrol', $enrol);
+        $enroll = (object) ['id' => $resource->enrolid, 'status' => ENROL_INSTANCE_DISABLED];
+        $DB->update_record('enroll', $enroll);
 
         // Delete the activity being shared by resource 2, leaving resource 2 disabled as a result.
         $modcontext = \context::instance_by_id($resource2->contextid);
@@ -462,11 +462,11 @@ class sync_tool_grades_test extends \lti_advantage_testcase {
         $instructoruser = $this->getDataGenerator()->create_user();
         [$userid] = $launchservice->user_launches_tool($instructoruser, $teachermocklaunch);
 
-        // Delete the activity, then enable the enrolment method (it is disabled during activity deletion).
+        // Delete the activity, then enable the enrollment method (it is disabled during activity deletion).
         $modcontext = \context::instance_by_id($resource->contextid);
         course_delete_module($modcontext->instanceid);
-        $enrol = (object) ['id' => $resource->enrolid, 'status' => ENROL_INSTANCE_ENABLED];
-        $DB->update_record('enrol', $enrol);
+        $enroll = (object) ['id' => $resource->enrolid, 'status' => ENROL_INSTANCE_ENABLED];
+        $DB->update_record('enroll', $enroll);
 
         $task = $this->get_task_with_mocked_grade_service();
         $task->set_custom_data($resource);
@@ -692,7 +692,7 @@ class sync_tool_grades_test extends \lti_advantage_testcase {
         $instructoruser = $this->getDataGenerator()->create_user();
         [$teacherid] = $launchservice->user_launches_tool($instructoruser, $teachermocklaunch);
 
-        // Launch the resource for a student, creating the enrolment and allowing grading to take place.
+        // Launch the resource for a student, creating the enrollment and allowing grading to take place.
         $studentusers = $this->get_mock_launch_users_with_ids(['2', '3'], false,
             'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner');
         $student1mocklaunch = $this->get_mock_launch($resource, $studentusers[0]);

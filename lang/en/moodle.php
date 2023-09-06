@@ -1825,7 +1825,7 @@ $string['rejectdots'] = 'Reject...';
 $string['relativedatesmode'] = 'Relative dates mode';
 $string['relativedatesmode_help'] = 'Display course or activity dates relative to the user\'s start date in the course.
 
-The user\'s course start date will be their enrolment start date, unless they are enrolled before the course begins in which case their start date will be the course start date.
+The user\'s course start date will be their enrollment start date, unless they are enrolled before the course begins in which case their start date will be the course start date.
 
 WARNING: This is an experimental feature and not all activities may support it. Once the course has been created, this course setting can no longer be changed.';
 $string['relativedatesmode_warning'] = '<strong>Warning:</strong> Relative dates mode cannot be changed once the course has been created.';
@@ -2444,7 +2444,7 @@ $string['youhaveupcomingactivitiesdue'] = 'You have upcoming activities due';
 $string['youhaveupcomingactivitiesdueinfo'] = 'Hi {$a},
 
 <br/><br/>You have upcoming activities due:';
-$string['youneedtoenrol'] = 'To perform that action you need to enrol in this course.';
+$string['youneedtoenroll'] = 'To perform that action you need to enroll in this course.';
 $string['yourlastlogin'] = 'Your last login was';
 $string['yourself'] = 'yourself';
 $string['yourteacher'] = 'your {$a}';

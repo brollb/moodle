@@ -2760,11 +2760,11 @@ class events_test extends \advanced_testcase {
         ));
 
         $manplugin = enrol_get_plugin('manual');
-        $manualenrol = $DB->get_record('enrol', array('courseid' => $course->id, 'enrol' => 'manual'));
+        $manualenroll = $DB->get_record('enroll', array('courseid' => $course->id, 'enroll' => 'manual'));
         $student = $DB->get_record('role', array('shortname' => 'student'));
 
         // The role_assign observer does it's job adding the forum_subscriptions record.
-        $manplugin->enrol_user($manualenrol, $user->id, $student->id);
+        $manplugin->enrol_user($manualenroll, $user->id, $student->id);
 
         // They are not required, but in a real environment they are supposed to be required;
         // adding them just in case there are APIs changes in future.
@@ -2796,7 +2796,7 @@ class events_test extends \advanced_testcase {
         $extraforum = $this->getDataGenerator()->create_module('forum', $forumrecord);
         $this->assertEquals(2, $DB->count_records('forum_subscriptions'));
 
-        $manplugin->unenrol_user($manualenrol, $user->id);
+        $manplugin->unenrol_user($manualenroll, $user->id);
 
         $this->assertEquals(0, $DB->count_records('forum_digests'));
         $this->assertEquals(0, $DB->count_records('forum_subscriptions'));

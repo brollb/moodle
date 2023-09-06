@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * LDAP enrolment plugin admin setting classes
+ * LDAP enrollment plugin admin setting classes
  *
  * @package    enrol_ldap
  * @author     Iñaki Arenaza

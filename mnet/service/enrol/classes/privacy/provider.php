@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for mnetservice_enrol.
+ * Privacy Subsystem implementation for mnetservice_enroll.
  *
- * @package    mnetservice_enrol
+ * @package    mnetservice_enroll
  * @copyright  2018 Carlos Escobedo <carlos@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mnetservice_enrol\privacy;
+namespace mnetservice_enroll\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -36,7 +36,7 @@ use core_privacy\local\request\userlist;
 use core_privacy\local\request\approved_userlist;
 
 /**
- * Privacy Subsystem for mnetservice_enrol implementing metadata and plugin providers.
+ * Privacy Subsystem for mnetservice_enroll implementing metadata and plugin providers.
  *
  * @copyright  2018 Carlos Escobedo <carlos@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -147,19 +147,19 @@ class provider implements
                  WHERE me.userid = :userid
                    AND ctx.id {$insql}";
         $mnetenrolments = $DB->get_records_sql($sql, $params);
-        foreach ($mnetenrolments as $mnetenrolment) {
-            // The core_enrol data export is organised in:
+        foreach ($mnetenrolments as $mnetenrollment) {
+            // The core_enroll data export is organised in:
             // {User Context}/User enrolments/data.json.
             $data[] = (object) [
-                'host' => $mnetenrolment->hostname,
-                'remotecourseid' => $mnetenrolment->fullname,
-                'rolename' => $mnetenrolment->rolename,
-                'enroltime' => transform::datetime($mnetenrolment->enroltime),
-                'enroltype' => $mnetenrolment->enroltype
+                'host' => $mnetenrollment->hostname,
+                'remotecourseid' => $mnetenrollment->fullname,
+                'rolename' => $mnetenrollment->rolename,
+                'enroltime' => transform::datetime($mnetenrollment->enroltime),
+                'enroltype' => $mnetenrollment->enroltype
             ];
         }
         writer::with_context($contextuser)->export_data(
-                [get_string('privacy:metadata:mnetservice_enrol_enrolments', 'mnetservice_enrol')],
+                [get_string('privacy:metadata:mnetservice_enrol_enrolments', 'mnetservice_enroll')],
                 (object)$data
             );
     }

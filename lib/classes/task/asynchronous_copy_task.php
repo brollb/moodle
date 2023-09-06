@@ -156,19 +156,19 @@ class asynchronous_copy_task extends adhoc_task {
             mtrace('Course copy: Creating user enrolments in destination course.');
             $context = \context_course::instance($backuprecord->itemid);
 
-            $enrol = enrol_get_plugin('manual');
+            $enroll = enrol_get_plugin('manual');
             $instance = null;
             $enrolinstances = enrol_get_instances($restorerecord->itemid, true);
             foreach ($enrolinstances as $courseenrolinstance) {
-                if ($courseenrolinstance->enrol == 'manual') {
+                if ($courseenrolinstance->enroll == 'manual') {
                     $instance = $courseenrolinstance;
                     break;
                 }
             }
 
-            // Abort if there enrolment plugin problems.
-            if (empty($enrol) || empty($instance)) {
-                mtrace('Course copy: Could not enrol users in course.');;
+            // Abort if there enrollment plugin problems.
+            if (empty($enroll) || empty($instance)) {
+                mtrace('Course copy: Could not enroll users in course.');;
                 delete_course($restorerecord->itemid, false);
                 return;
             }
@@ -177,7 +177,7 @@ class asynchronous_copy_task extends adhoc_task {
             foreach ($keptroles as $roleid) {
                 $sourceusers = get_role_users($roleid, $context);
                 foreach ($sourceusers as $sourceuser) {
-                    $enrol->enrol_user($instance, $sourceuser->id, $roleid);
+                    $enroll->enrol_user($instance, $sourceuser->id, $roleid);
                 }
             }
         }

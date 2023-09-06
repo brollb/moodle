@@ -167,7 +167,7 @@ class browser_test extends \advanced_testcase {
 
         $admin = get_admin();
         // Create editing teacher enrolled in course1.
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course1, 'editingteacher');
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course1, 'editingteacher');
 
         // Add some content to the content bank.
         $generator = $this->getDataGenerator()->get_plugin_generator('core_contentbank');
@@ -232,9 +232,9 @@ class browser_test extends \advanced_testcase {
         // Create course2 in default category by default.
         $course2 = $this->getDataGenerator()->create_course(['fullname' => 'Course2']);
         // Create a teacher enrolled in course1.
-        $teacher = $this->getDataGenerator()->create_and_enrol($course1, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course1, 'teacher');
         // Create an editing teacher enrolled in course2.
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course2, 'editingteacher');
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course2, 'editingteacher');
 
         $admin = get_admin();
         // Add some content to the content bank.
@@ -285,7 +285,7 @@ class browser_test extends \advanced_testcase {
 
         $admin = get_admin();
         // Create editing teacher enrolled in course.
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         // Add some content to the content bank.
         $generator = $this->getDataGenerator()->get_plugin_generator('core_contentbank');
@@ -335,9 +335,9 @@ class browser_test extends \advanced_testcase {
 
         $admin = get_admin();
         // Create non-editing teacher enrolled in course1.
-        $teacher = $this->getDataGenerator()->create_and_enrol($course1, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course1, 'teacher');
          // Create editing teacher enrolled in course1.
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course1, 'editingteacher');
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course1, 'editingteacher');
 
         // Add some content to the content bank.
         $generator = $this->getDataGenerator()->get_plugin_generator('core_contentbank');

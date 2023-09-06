@@ -56,7 +56,7 @@ class grader_test extends \advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $grader = new grader($activity);
 
@@ -89,7 +89,7 @@ class grader_test extends \advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Force a user initial grade.
         $grader = new grader($activity);
@@ -205,8 +205,8 @@ class grader_test extends \advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
-        $user1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Force a user initial grade.
         $grader = new grader($activity);

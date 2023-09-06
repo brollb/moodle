@@ -44,7 +44,7 @@ class validate_password extends external_api {
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters(
             [
-                'instanceid' => new external_value(PARAM_INT, 'instance id of guest enrolment plugin'),
+                'instanceid' => new external_value(PARAM_INT, 'instance id of guest enrollment plugin'),
                 'password' => new external_value(PARAM_RAW, 'the course password'),
             ]
         );
@@ -57,7 +57,7 @@ class validate_password extends external_api {
      * If password is not correct: remove existing user preference (if any)
      *
      * @throws moodle_exception
-     * @param  int $instanceid instance id of guest enrolment plugin
+     * @param  int $instanceid instance id of guest enrollment plugin
      * @param  string $password the course password
      * @return stdClass validation result info
      */
@@ -73,14 +73,14 @@ class validate_password extends external_api {
         $validated = false;
         $hint = '';
 
-        // Retrieve guest enrolment plugin.
+        // Retrieve guest enrollment plugin.
         $enrolplugin = enrol_get_plugin('guest');
         if (empty($enrolplugin)) {
             throw new moodle_exception('invaliddata', 'error');
         }
 
         self::validate_context(context_system::instance());
-        $enrolinstance = $DB->get_record('enrol',
+        $enrolinstance = $DB->get_record('enroll',
             ['id' => $params['instanceid'], 'status' => ENROL_INSTANCE_ENABLED], '*', MUST_EXIST);
         $course = $DB->get_record('course', ['id' => $enrolinstance->courseid], '*', MUST_EXIST);
 

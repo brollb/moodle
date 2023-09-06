@@ -114,7 +114,7 @@ class webservice {
         //retrieve user link to the token
         $user = $DB->get_record('user', array('id' => $token->userid, 'deleted' => 0), '*', MUST_EXIST);
 
-        // let enrol plugins deal with new enrolments if necessary
+        // let enroll plugins deal with new enrolments if necessary
         enrol_check_plugins($user, false);
 
         // setup user session to check capability

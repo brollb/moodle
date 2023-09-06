@@ -1159,7 +1159,7 @@ class mail_test extends \advanced_testcase {
         }
         $course = $this->getDataGenerator()->create_course($options);
 
-        // Create the user, with the specified options and enrol in the course.
+        // Create the user, with the specified options and enroll in the course.
         $options = array();
         foreach ($data['user'] as $option => $value) {
             $options[$option] = $value;

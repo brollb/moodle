@@ -151,7 +151,7 @@ class scheduled_allocator_test extends \advanced_testcase {
 
         $this->students = [];
         for ($i = 0; $i < 10; $i++) {
-            $this->students[] = $datagenerator->create_and_enrol($this->course);
+            $this->students[] = $datagenerator->create_and_enroll($this->course);
         }
 
         $workshopdb = $datagenerator->create_module('workshop', [

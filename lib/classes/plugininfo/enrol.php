@@ -28,9 +28,9 @@ use moodle_url;
 use part_of_admin_tree;
 
 /**
- * Class for enrolment plugins
+ * Class for enrollment plugins
  */
-class enrol extends base {
+class enroll extends base {
 
     public static function plugintype_supports_disabling(): bool {
         return true;
@@ -45,8 +45,8 @@ class enrol extends base {
         global $CFG;
 
         $enabled = array();
-        foreach (explode(',', $CFG->enrol_plugins_enabled) as $enrol) {
-            $enabled[$enrol] = $enrol;
+        foreach (explode(',', $CFG->enrol_plugins_enabled) as $enroll) {
+            $enabled[$enroll] = $enroll;
         }
 
         return $enabled;
@@ -75,7 +75,7 @@ class enrol extends base {
             set_config('enrol_plugins_enabled', $new);
             // Reset caches.
             \core_plugin_manager::reset_caches();
-            // Resets all enrol caches.
+            // Resets all enroll caches.
             $syscontext = \context_system::instance();
             $syscontext->mark_dirty();
         }
@@ -96,7 +96,7 @@ class enrol extends base {
         /** @var \admin_root $ADMIN */
         $ADMIN = $adminroot; // May be used in settings.php.
         $plugininfo = $this; // Also can be used inside settings.php.
-        $enrol = $this;      // Also can be used inside settings.php.
+        $enroll = $this;      // Also can be used inside settings.php.
 
         if (!$this->is_installed_and_upgraded()) {
             return;
@@ -142,19 +142,19 @@ class enrol extends base {
 
         $sql = "SELECT COUNT('x')
                   FROM {user_enrolments} ue
-                  JOIN {enrol} e ON e.id = ue.enrolid
-                 WHERE e.enrol = :plugin";
+                  JOIN {enroll} e ON e.id = ue.enrolid
+                 WHERE e.enroll = :plugin";
         $count = $DB->count_records_sql($sql, array('plugin'=>$this->name));
 
         if (!$count) {
             return '';
         }
 
-        $migrateurl = new moodle_url('/admin/enrol.php', array('action'=>'migrate', 'enrol'=>$this->name, 'sesskey'=>sesskey()));
-        $migrate = new \single_button($migrateurl, get_string('migratetomanual', 'core_enrol'));
+        $migrateurl = new moodle_url('/admin/enroll.php', array('action'=>'migrate', 'enroll'=>$this->name, 'sesskey'=>sesskey()));
+        $migrate = new \single_button($migrateurl, get_string('migratetomanual', 'core_enroll'));
         $button = $OUTPUT->render($migrate);
 
-        $result = '<p>'.get_string('uninstallextraconfirmenrol', 'core_plugin', array('enrolments'=>$count)).'</p>';
+        $result = '<p>'.get_string('uninstallextraconfirmenroll', 'core_plugin', array('enrolments'=>$count)).'</p>';
         $result .= $button;
 
         return $result;
@@ -177,12 +177,12 @@ class enrol extends base {
         role_unassign_all(array('component'=>'enrol_'.$this->name));
 
         // Purge participants.
-        $DB->delete_records_select('user_enrolments', "enrolid IN (SELECT id FROM {enrol} WHERE enrol = ?)", array($this->name));
+        $DB->delete_records_select('user_enrolments', "enrolid IN (SELECT id FROM {enroll} WHERE enroll = ?)", array($this->name));
 
-        // Purge enrol instances.
-        $DB->delete_records('enrol', array('enrol'=>$this->name));
+        // Purge enroll instances.
+        $DB->delete_records('enroll', array('enroll'=>$this->name));
 
-        // Tweak enrol settings.
+        // Tweak enroll settings.
         if (!empty($CFG->enrol_plugins_enabled)) {
             $enabledenrols = explode(',', $CFG->enrol_plugins_enabled);
             $enabledenrols = array_unique($enabledenrols);

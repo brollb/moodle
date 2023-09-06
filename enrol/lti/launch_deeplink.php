@@ -76,14 +76,14 @@ if (empty($messagelaunch)) {
 $auth = get_auth_plugin('lti');
 $auth->complete_login(
     $messagelaunch->getLaunchData(),
-    new moodle_url('/enrol/lti/launch_deeplink.php', ['launchid' => $messagelaunch->getLaunchId()]),
+    new moodle_url('/enroll/lti/launch_deeplink.php', ['launchid' => $messagelaunch->getLaunchId()]),
     auth_plugin_lti::PROVISIONING_MODE_PROMPT_EXISTING_ONLY
 );
 
 require_login(null, false);
 global $USER, $CFG;
 $PAGE->set_context(context_system::instance());
-$url = new moodle_url('/enrol/lti/launch_deeplink.php');
+$url = new moodle_url('/enroll/lti/launch_deeplink.php');
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('popup');
 $PAGE->set_title(get_string('opentool', 'enrol_lti'));

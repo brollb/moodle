@@ -52,7 +52,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a chat.
         $chat = $this->getDataGenerator()->create_module('chat', array('course' => $course->id,
@@ -142,7 +142,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a chat.
         $chat = $this->getDataGenerator()->create_module('chat', array('course' => $course->id,
@@ -201,7 +201,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a chat.
         $chat = $this->getDataGenerator()->create_module('chat', array('course' => $course->id,
@@ -264,7 +264,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a chat.
         $chat = $this->getDataGenerator()->create_module('chat', array('course' => $course->id,
@@ -327,7 +327,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a chat.
         $chat = $this->getDataGenerator()->create_module('chat', array('course' => $course->id,
@@ -381,8 +381,8 @@ class lib_test extends \advanced_testcase {
         $this->setTimezone($timezone2);
 
         // Enrol 2 students with different timezones in the course.
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student', (object)['timezone' => $timezone1]);
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student', (object)['timezone' => $timezone2]);
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student', (object)['timezone' => $timezone1]);
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student', (object)['timezone' => $timezone2]);
 
         // Create a chat.
         $chat1 = $this->getDataGenerator()->create_module('chat', array('course' => $course->id,
@@ -676,7 +676,7 @@ class lib_test extends \advanced_testcase {
             array('completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS));
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('chat', $chat->id);
@@ -727,7 +727,7 @@ class lib_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = self::getDataGenerator()->create_course();
         $context = \context_course::instance($course->id);
-        $user = self::getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = self::getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $roleid = self::getDataGenerator()->create_role();
         self::getDataGenerator()->role_assign($roleid, $user->id, $context->id);
         assign_capability('moodle/calendar:manageentries', CAP_PROHIBIT, $roleid, $context, true);

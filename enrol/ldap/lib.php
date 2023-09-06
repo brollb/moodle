@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * LDAP enrolment plugin implementation.
+ * LDAP enrollment plugin implementation.
  *
- * This plugin synchronises enrolment and roles with a LDAP server.
+ * This plugin synchronises enrollment and roles with a LDAP server.
  *
  * @package    enrol_ldap
  * @author     Iñaki Arenaza - based on code by Martin Dougiamas, Martin Langhoff and others
@@ -104,14 +104,14 @@ class enrol_ldap_plugin extends enrol_plugin {
     }
 
     /**
-     * Is it possible to delete enrol instance via standard UI?
+     * Is it possible to delete enroll instance via standard UI?
      *
      * @param object $instance
      * @return bool
      */
     public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        if (!has_capability('enrol/ldap:manage', $context)) {
+        if (!has_capability('enroll/ldap:manage', $context)) {
             return false;
         }
 
@@ -128,14 +128,14 @@ class enrol_ldap_plugin extends enrol_plugin {
     }
 
     /**
-     * Is it possible to hide/show enrol instance via standard UI?
+     * Is it possible to hide/show enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/ldap:manage', $context);
+        return has_capability('enroll/ldap:manage', $context);
     }
 
     /**
@@ -185,7 +185,7 @@ class enrol_ldap_plugin extends enrol_plugin {
                      FROM {user} u
                      JOIN {role_assignments} ra ON (ra.userid = u.id AND ra.component = 'enrol_ldap' AND ra.roleid = :roleid)
                      JOIN {user_enrolments} ue ON (ue.userid = u.id AND ue.enrolid = ra.itemid)
-                     JOIN {enrol} e ON (e.id = ue.enrolid)
+                     JOIN {enroll} e ON (e.id = ue.enrolid)
                      JOIN {course} c ON (c.id = e.courseid)
                     WHERE u.deleted = 0 AND u.id = :userid";
             $params = array ('roleid'=>$role->id, 'userid'=>$user->id);
@@ -195,8 +195,8 @@ class enrol_ldap_plugin extends enrol_plugin {
         $ignorehidden = $this->get_config('ignorehiddencourses');
         $courseidnumber = $this->get_config('course_idnumber');
         foreach($roles as $role) {
-            foreach ($enrolments[$role->id]['ext'] as $enrol) {
-                $course_ext_id = $enrol[$courseidnumber][0];
+            foreach ($enrolments[$role->id]['ext'] as $enroll) {
+                $course_ext_id = $enroll[$courseidnumber][0];
                 if (empty($course_ext_id)) {
                     $trace->output(get_string('extcourseidinvalid', 'enrol_ldap'));
                     continue; // Next; skip this one!
@@ -207,7 +207,7 @@ class enrol_ldap_plugin extends enrol_plugin {
                 if (empty($course)) { // Course doesn't exist
                     if ($this->get_config('autocreate')) { // Autocreate
                         $trace->output(get_string('createcourseextid', 'enrol_ldap', array('courseextid'=>$course_ext_id)));
-                        if (!$newcourseid = $this->create_course($enrol, $trace)) {
+                        if (!$newcourseid = $this->create_course($enroll, $trace)) {
                             continue;
                         }
                         $course = $DB->get_record('course', array('id'=>$newcourseid));
@@ -217,11 +217,11 @@ class enrol_ldap_plugin extends enrol_plugin {
                     }
                 }
 
-                // Deal with enrolment in the moodle db
-                // Add necessary enrol instance if not present yet;
+                // Deal with enrollment in the moodle db
+                // Add necessary enroll instance if not present yet;
                 $sql = "SELECT c.id, c.visible, e.id as enrolid
                           FROM {course} c
-                          JOIN {enrol} e ON (e.courseid = c.id AND e.enrol = 'ldap')
+                          JOIN {enroll} e ON (e.courseid = c.id AND e.enroll = 'ldap')
                          WHERE c.id = :courseid";
                 $params = array('courseid'=>$course->id);
                 if (!($course_instance = $DB->get_record_sql($sql, $params, IGNORE_MULTIPLE))) {
@@ -231,7 +231,7 @@ class enrol_ldap_plugin extends enrol_plugin {
                     $course_instance->enrolid = $this->add_instance($course_instance);
                 }
 
-                if (!$instance = $DB->get_record('enrol', array('id'=>$course_instance->enrolid))) {
+                if (!$instance = $DB->get_record('enroll', array('id'=>$course_instance->enrolid))) {
                     continue; // Weird; skip this one.
                 }
 
@@ -242,11 +242,11 @@ class enrol_ldap_plugin extends enrol_plugin {
                 if (empty($enrolments[$role->id]['current'][$course->id])) {
                     // Enrol the user in the given course, with that role.
                     $this->enrol_user($instance, $user->id, $role->id);
-                    // Make sure we set the enrolment status to active. If the user wasn't
+                    // Make sure we set the enrollment status to active. If the user wasn't
                     // previously enrolled to the course, enrol_user() sets it. But if we
                     // configured the plugin to suspend the user enrolments _AND_ remove
-                    // the role assignments on external unenrol, then enrol_user() doesn't
-                    // set it back to active on external re-enrolment. So set it
+                    // the role assignments on external unenroll, then enrol_user() doesn't
+                    // set it back to active on external re-enrollment. So set it
                     // unconditionnally to cover both cases.
                     $DB->set_field('user_enrolments', 'status', ENROL_USER_ACTIVE, array('enrolid'=>$instance->id, 'userid'=>$user->id));
                     $trace->output(get_string('enroluser', 'enrol_ldap',
@@ -255,7 +255,7 @@ class enrol_ldap_plugin extends enrol_plugin {
                               'course_id'=>$course->id)));
                 } else {
                     if ($enrolments[$role->id]['current'][$course->id]->status == ENROL_USER_SUSPENDED) {
-                        // Reenable enrolment that was previously disabled. Enrolment refreshed
+                        // Reenable enrollment that was previously disabled. Enrolment refreshed
                         $DB->set_field('user_enrolments', 'status', ENROL_USER_ACTIVE, array('enrolid'=>$instance->id, 'userid'=>$user->id));
                         $trace->output(get_string('enroluserenable', 'enrol_ldap',
                             array('user_username'=> $user->username,
@@ -274,11 +274,11 @@ class enrol_ldap_plugin extends enrol_plugin {
             $transaction = $DB->start_delegated_transaction();
             foreach ($enrolments[$role->id]['current'] as $course) {
                 $context = context_course::instance($course->courseid);
-                $instance = $DB->get_record('enrol', array('id'=>$course->enrolid));
+                $instance = $DB->get_record('enroll', array('id'=>$course->enrolid));
                 switch ($this->get_config('unenrolaction')) {
                     case ENROL_EXT_REMOVED_UNENROL:
                         $this->unenrol_user($instance, $user->id);
-                        $trace->output(get_string('extremovedunenrol', 'enrol_ldap',
+                        $trace->output(get_string('extremovedunenroll', 'enrol_ldap',
                             array('user_username'=> $user->username,
                                   'course_shortname'=>$course->shortname,
                                   'course_id'=>$course->courseid)));
@@ -465,7 +465,7 @@ class enrol_ldap_plugin extends enrol_plugin {
                             $this->update_course($course_obj, $course, $trace);
                         }
 
-                        // Enrol & unenrol
+                        // Enrol & unenroll
 
                         // Pull the ldap membership into a nice array
                         // this is an odd array -- mix of hash and array --
@@ -519,7 +519,7 @@ class enrol_ldap_plugin extends enrol_plugin {
                                  FROM {user} u
                                  JOIN {role_assignments} ra ON (ra.userid = u.id AND ra.component = 'enrol_ldap' AND ra.roleid = :roleid)
                                  JOIN {user_enrolments} ue ON (ue.userid = u.id AND ue.enrolid = ra.itemid)
-                                 JOIN {enrol} e ON (e.id = ue.enrolid)
+                                 JOIN {enroll} e ON (e.id = ue.enrolid)
                                 WHERE u.deleted = 0 AND e.courseid = :courseid ";
                         $params = array('roleid'=>$role->id, 'courseid'=>$course_obj->id);
                         $context = context_course::instance($course_obj->id);
@@ -530,7 +530,7 @@ class enrol_ldap_plugin extends enrol_plugin {
                             unset($params2);
                         } else {
                             $shortname = format_string($course_obj->shortname, true, array('context' => $context));
-                            $trace->output(get_string('emptyenrolment', 'enrol_ldap',
+                            $trace->output(get_string('emptyenrollment', 'enrol_ldap',
                                          array('role_shortname'=> $role->shortname,
                                                'course_shortname' => $shortname)));
                         }
@@ -539,11 +539,11 @@ class enrol_ldap_plugin extends enrol_plugin {
                         if (!empty($todelete)) {
                             $transaction = $DB->start_delegated_transaction();
                             foreach ($todelete as $row) {
-                                $instance = $DB->get_record('enrol', array('id'=>$row->instanceid));
+                                $instance = $DB->get_record('enroll', array('id'=>$row->instanceid));
                                 switch ($this->get_config('unenrolaction')) {
                                 case ENROL_EXT_REMOVED_UNENROL:
                                     $this->unenrol_user($instance, $row->userid);
-                                    $trace->output(get_string('extremovedunenrol', 'enrol_ldap',
+                                    $trace->output(get_string('extremovedunenroll', 'enrol_ldap',
                                         array('user_username'=> $row->username,
                                               'course_shortname'=>$course_obj->shortname,
                                               'course_id'=>$course_obj->id)));
@@ -578,10 +578,10 @@ class enrol_ldap_plugin extends enrol_plugin {
                         // Insert current enrolments
                         // bad we can't do INSERT IGNORE with postgres...
 
-                        // Add necessary enrol instance if not present yet;
+                        // Add necessary enroll instance if not present yet;
                         $sql = "SELECT c.id, c.visible, e.id as enrolid
                                   FROM {course} c
-                                  JOIN {enrol} e ON (e.courseid = c.id AND e.enrol = 'ldap')
+                                  JOIN {enroll} e ON (e.courseid = c.id AND e.enroll = 'ldap')
                                  WHERE c.id = :courseid";
                         $params = array('courseid'=>$course_obj->id);
                         if (!($course_instance = $DB->get_record_sql($sql, $params, IGNORE_MULTIPLE))) {
@@ -591,7 +591,7 @@ class enrol_ldap_plugin extends enrol_plugin {
                             $course_instance->enrolid = $this->add_instance($course_instance);
                         }
 
-                        if (!$instance = $DB->get_record('enrol', array('id'=>$course_instance->enrolid))) {
+                        if (!$instance = $DB->get_record('enroll', array('id'=>$course_instance->enrolid))) {
                             continue; // Weird; skip this one.
                         }
 
@@ -610,18 +610,18 @@ class enrol_ldap_plugin extends enrol_plugin {
 
                             $sql= "SELECT ue.status
                                      FROM {user_enrolments} ue
-                                     JOIN {enrol} e ON (e.id = ue.enrolid AND e.enrol = 'ldap')
+                                     JOIN {enroll} e ON (e.id = ue.enrolid AND e.enroll = 'ldap')
                                     WHERE e.courseid = :courseid AND ue.userid = :userid";
                             $params = array('courseid'=>$course_obj->id, 'userid'=>$member->id);
-                            $userenrolment = $DB->get_record_sql($sql, $params, IGNORE_MULTIPLE);
+                            $userenrollment = $DB->get_record_sql($sql, $params, IGNORE_MULTIPLE);
 
-                            if (empty($userenrolment)) {
+                            if (empty($userenrollment)) {
                                 $this->enrol_user($instance, $member->id, $role->id);
-                                // Make sure we set the enrolment status to active. If the user wasn't
+                                // Make sure we set the enrollment status to active. If the user wasn't
                                 // previously enrolled to the course, enrol_user() sets it. But if we
                                 // configured the plugin to suspend the user enrolments _AND_ remove
-                                // the role assignments on external unenrol, then enrol_user() doesn't
-                                // set it back to active on external re-enrolment. So set it
+                                // the role assignments on external unenroll, then enrol_user() doesn't
+                                // set it back to active on external re-enrollment. So set it
                                 // unconditionally to cover both cases.
                                 $DB->set_field('user_enrolments', 'status', ENROL_USER_ACTIVE, array('enrolid'=>$instance->id, 'userid'=>$member->id));
                                 $trace->output(get_string('enroluser', 'enrol_ldap',
@@ -636,8 +636,8 @@ class enrol_ldap_plugin extends enrol_plugin {
                                     role_assign($role->id, $member->id, $context->id, 'enrol_ldap', $instance->id);
                                     $trace->output("Assign role to user '$member->username' in course '$course_obj->shortname ($course_obj->id)'");
                                 }
-                                if ($userenrolment->status == ENROL_USER_SUSPENDED) {
-                                    // Reenable enrolment that was previously disabled. Enrolment refreshed
+                                if ($userenrollment->status == ENROL_USER_SUSPENDED) {
+                                    // Reenable enrollment that was previously disabled. Enrolment refreshed
                                     $DB->set_field('user_enrolments', 'status', ENROL_USER_ACTIVE, array('enrolid'=>$instance->id, 'userid'=>$member->id));
                                     $trace->output(get_string('enroluserenable', 'enrol_ldap',
                                         array('user_username'=> $member->username,
@@ -1114,7 +1114,7 @@ class enrol_ldap_plugin extends enrol_plugin {
     }
 
     /**
-     * Automatic enrol sync executed during restore.
+     * Automatic enroll sync executed during restore.
      * Useful for automatic sync by course->idnumber or course category.
      * @param stdClass $course course record
      */
@@ -1135,18 +1135,18 @@ class enrol_ldap_plugin extends enrol_plugin {
      */
     public function restore_instance(restore_enrolments_structure_step $step, stdClass $data, $course, $oldid) {
         global $DB;
-        // There is only 1 ldap enrol instance per course.
-        if ($instances = $DB->get_records('enrol', array('courseid'=>$data->courseid, 'enrol'=>'ldap'), 'id')) {
+        // There is only 1 ldap enroll instance per course.
+        if ($instances = $DB->get_records('enroll', array('courseid'=>$data->courseid, 'enroll'=>'ldap'), 'id')) {
             $instance = reset($instances);
             $instanceid = $instance->id;
         } else {
             $instanceid = $this->add_instance($course, (array)$data);
         }
-        $step->set_mapping('enrol', $oldid, $instanceid);
+        $step->set_mapping('enroll', $oldid, $instanceid);
     }
 
     /**
-     * Restore user enrolment.
+     * Restore user enrollment.
      *
      * @param restore_enrolments_structure_step $step
      * @param stdClass $data
@@ -1154,7 +1154,7 @@ class enrol_ldap_plugin extends enrol_plugin {
      * @param int $oldinstancestatus
      * @param int $userid
      */
-    public function restore_user_enrolment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
+    public function restore_user_enrollment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
         global $DB;
 
         if ($this->get_config('unenrolaction') == ENROL_EXT_REMOVED_UNENROL) {
@@ -1190,7 +1190,7 @@ class enrol_ldap_plugin extends enrol_plugin {
 
         // Just restore every role.
         if ($DB->record_exists('user_enrolments', array('enrolid'=>$instance->id, 'userid'=>$userid))) {
-            role_assign($roleid, $userid, $contextid, 'enrol_'.$instance->enrol, $instance->id);
+            role_assign($roleid, $userid, $contextid, 'enrol_'.$instance->enroll, $instance->id);
         }
     }
 }

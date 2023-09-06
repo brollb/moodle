@@ -867,7 +867,7 @@ $capabilities = array(
         )
     ),
 
-    /* add, remove, hide enrol instances in courses */
+    /* add, remove, hide enroll instances in courses */
     'moodle/course:enrolconfig' => array(
 
         'riskbitmask' => RISK_PERSONAL,

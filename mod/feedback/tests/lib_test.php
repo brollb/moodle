@@ -127,7 +127,7 @@ class lib_test extends \advanced_testcase {
         // Create user.
         $student = self::getDataGenerator()->create_user();
 
-        // User enrolment.
+        // User enrollment.
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $this->getDataGenerator()->enrol_user($student->id, $course->id, $studentrole->id, 'manual');
 
@@ -587,7 +587,7 @@ class lib_test extends \advanced_testcase {
             array('completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS));
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('feedback', $feedback->id);
@@ -1148,7 +1148,7 @@ class lib_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = self::getDataGenerator()->create_course();
         $context = \context_course::instance($course->id);
-        $user = self::getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = self::getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $roleid = self::getDataGenerator()->create_role();
         self::getDataGenerator()->role_assign($roleid, $user->id, $context->id);
         assign_capability('moodle/calendar:manageentries', CAP_PROHIBIT, $roleid, $context, true);

@@ -55,7 +55,7 @@ class get_top_results_test extends \externallib_advanced_testcase {
         // Create an index of searchable things.
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(['fullname' => 'SearchTest course']);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $forum = $generator->create_module('forum', ['course' => $course->id]);
         $fgenerator = $generator->get_plugin_generator('mod_forum');
 

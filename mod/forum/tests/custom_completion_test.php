@@ -113,7 +113,7 @@ class custom_completion_test extends advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => COMPLETION_ENABLED]);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $forumgenerator = $this->getDataGenerator()->get_plugin_generator('mod_forum');
 

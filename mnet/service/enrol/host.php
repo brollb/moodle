@@ -23,21 +23,21 @@
  * hosts (session key required in such case).
  *
  * @package    mnetservice
- * @subpackage enrol
+ * @subpackage enroll
  * @copyright  2010 David Mudrak <david@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
-require_once($CFG->dirroot.'/mnet/service/enrol/locallib.php');
+require_once($CFG->dirroot.'/mnet/service/enroll/locallib.php');
 
 $hostid   = required_param('id', PARAM_INT); // remote host id
 $usecache = optional_param('usecache', true, PARAM_BOOL); // use cached list of courses
 
-admin_externalpage_setup('mnetenrol', '', array('id'=>$hostid, 'usecache'=>1),
-        new moodle_url('/mnet/service/enrol/host.php'));
-$service = mnetservice_enrol::get_instance();
+admin_externalpage_setup('mnetenroll', '', array('id'=>$hostid, 'usecache'=>1),
+        new moodle_url('/mnet/service/enroll/host.php'));
+$service = mnetservice_enroll::get_instance();
 
 if (!$service->is_available()) {
     echo $OUTPUT->box(get_string('mnetdisabled','mnet'), 'noticebox');
@@ -45,11 +45,11 @@ if (!$service->is_available()) {
     die();
 }
 
-// remote hosts that may publish remote enrolment service and we are subscribed to it
+// remote hosts that may publish remote enrollment service and we are subscribed to it
 $hosts = $service->get_remote_publishers();
 
 if (empty($hosts[$hostid])) {
-    throw new \moodle_exception('wearenotsubscribedtothishost', 'mnetservice_enrol');
+    throw new \moodle_exception('wearenotsubscribedtothishost', 'mnetservice_enroll');
 }
 $host = $hosts[$hostid];
 
@@ -59,17 +59,17 @@ if (!$usecache) {
 }
 $courses = $service->get_remote_courses($host->id, $usecache);
 if (is_string($courses)) {
-    throw new \moodle_exception('fetchingcourses', 'mnetservice_enrol', '', null, $service->format_error_message($courses));
+    throw new \moodle_exception('fetchingcourses', 'mnetservice_enroll', '', null, $service->format_error_message($courses));
 }
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('availablecourseson', 'mnetservice_enrol', s($host->hostname)));
+echo $OUTPUT->heading(get_string('availablecourseson', 'mnetservice_enroll', s($host->hostname)));
 if (empty($courses)) {
     $a = (object)array('hostname' => s($host->hostname), 'hosturl' => s($host->hosturl));
-    echo $OUTPUT->box(get_string('availablecoursesonnone','mnetservice_enrol', $a), 'noticebox');
+    echo $OUTPUT->box(get_string('availablecoursesonnone','mnetservice_enroll', $a), 'noticebox');
     if ($usecache) {
         echo $OUTPUT->single_button(new moodle_url($PAGE->url, array('usecache'=>0, 'sesskey'=>sesskey())),
-                                    get_string('refetch', 'mnetservice_enrol'), 'get');
+                                    get_string('refetch', 'mnetservice_enroll'), 'get');
     }
     echo $OUTPUT->footer();
     die();
@@ -97,9 +97,9 @@ foreach ($courses as $course) {
         $table->data[] = $row;
         $prevcat = $course->categoryid;
     }
-    $editbtn = $OUTPUT->single_button(new moodle_url('/mnet/service/enrol/course.php',
+    $editbtn = $OUTPUT->single_button(new moodle_url('/mnet/service/enroll/course.php',
                                       array('host'=>$host->id, 'course'=>$course->id, 'usecache'=>0, 'sesskey'=>sesskey())),
-                                      get_string('editenrolments', 'mnetservice_enrol'), 'get');
+                                      get_string('editenrolments', 'mnetservice_enroll'), 'get');
     $row = new html_table_row();
     $row->cells = array(
         s($course->shortname),
@@ -113,7 +113,7 @@ echo html_writer::table($table);
 
 if ($usecache) {
     echo $OUTPUT->single_button(new moodle_url($PAGE->url, array('usecache'=>0, 'sesskey'=>sesskey())),
-                                get_string('refetch', 'mnetservice_enrol'), 'get');
+                                get_string('refetch', 'mnetservice_enroll'), 'get');
 }
 
 echo $OUTPUT->footer();

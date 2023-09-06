@@ -128,7 +128,7 @@ abstract class externallib_advanced_testcase extends \externallib_advanced_testc
     }
 
     /**
-     * Create a course, assignment module instance, student and teacher and enrol them in
+     * Create a course, assignment module instance, student and teacher and enroll them in
      * the course.
      *
      * @param array $params parameters to be provided to the assignment module creation

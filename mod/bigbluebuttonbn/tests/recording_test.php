@@ -163,18 +163,18 @@ class recording_test extends \advanced_testcase {
         $plugingenerator = $this->getDataGenerator()->get_plugin_generator('mod_bigbluebuttonbn');
 
         $testcourse = $this->getDataGenerator()->create_course(['groupmodeforce' => true, 'groupmode' => VISIBLEGROUPS]);
-        $teacher = $this->getDataGenerator()->create_and_enrol($testcourse, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($testcourse, 'editingteacher');
 
         $group1 = $this->getDataGenerator()->create_group(['G1', 'courseid' => $testcourse->id]);
-        $student1 = $this->getDataGenerator()->create_and_enrol($testcourse);
+        $student1 = $this->getDataGenerator()->create_and_enroll($testcourse);
         $this->getDataGenerator()->create_group_member(['userid' => $student1, 'groupid' => $group1->id]);
 
         $group2 = $this->getDataGenerator()->create_group(['G2', 'courseid' => $testcourse->id]);
-        $student2 = $this->getDataGenerator()->create_and_enrol($testcourse);
+        $student2 = $this->getDataGenerator()->create_and_enroll($testcourse);
         $this->getDataGenerator()->create_group_member(['userid' => $student2, 'groupid' => $group2->id]);
 
         // No group.
-        $student3 = $this->getDataGenerator()->create_and_enrol($testcourse);
+        $student3 = $this->getDataGenerator()->create_and_enroll($testcourse);
 
         $activity = $plugingenerator->create_instance([
             'course' => $testcourse->id,

@@ -2695,7 +2695,7 @@ function get_login_url() {
  * $autologinguest is set and {@link $CFG}->autologinguests is set to 1 in which
  * case they are automatically logged in as guests.
  * If $courseid is given and the user is not enrolled in that course then the
- * user is redirected to the course enrolment page.
+ * user is redirected to the course enrollment page.
  * If $cm is given and the course module is hidden and the user is not a teacher
  * in the course then the user is redirected to the course home page.
  *
@@ -2762,7 +2762,7 @@ function require_login($courseorid = null, $autologinguest = true, $cm = null, $
     }
 
     // If this is an AJAX request and $setwantsurltome is true then we need to override it and set it to false.
-    // Otherwise the AJAX request URL will be set to $SESSION->wantsurl and events such as self enrolment in the future
+    // Otherwise the AJAX request URL will be set to $SESSION->wantsurl and events such as self enrollment in the future
     // risk leading the user back to the AJAX request URL.
     if ($setwantsurltome && defined('AJAX_SCRIPT') && AJAX_SCRIPT) {
         $setwantsurltome = false;
@@ -2998,30 +2998,30 @@ function require_login($courseorid = null, $autologinguest = true, $cm = null, $
             $access = true;
 
         } else if (is_viewing($coursecontext, $USER)) {
-            // Ok, no need to mess with enrol.
+            // Ok, no need to mess with enroll.
             $access = true;
 
         } else {
-            if (isset($USER->enrol['enrolled'][$course->id])) {
-                if ($USER->enrol['enrolled'][$course->id] > time()) {
+            if (isset($USER->enroll['enrolled'][$course->id])) {
+                if ($USER->enroll['enrolled'][$course->id] > time()) {
                     $access = true;
-                    if (isset($USER->enrol['tempguest'][$course->id])) {
-                        unset($USER->enrol['tempguest'][$course->id]);
+                    if (isset($USER->enroll['tempguest'][$course->id])) {
+                        unset($USER->enroll['tempguest'][$course->id]);
                         remove_temp_course_roles($coursecontext);
                     }
                 } else {
                     // Expired.
-                    unset($USER->enrol['enrolled'][$course->id]);
+                    unset($USER->enroll['enrolled'][$course->id]);
                 }
             }
-            if (isset($USER->enrol['tempguest'][$course->id])) {
-                if ($USER->enrol['tempguest'][$course->id] == 0) {
+            if (isset($USER->enroll['tempguest'][$course->id])) {
+                if ($USER->enroll['tempguest'][$course->id] == 0) {
                     $access = true;
-                } else if ($USER->enrol['tempguest'][$course->id] > time()) {
+                } else if ($USER->enroll['tempguest'][$course->id] > time()) {
                     $access = true;
                 } else {
                     // Expired.
-                    unset($USER->enrol['tempguest'][$course->id]);
+                    unset($USER->enroll['tempguest'][$course->id]);
                     remove_temp_course_roles($coursecontext);
                 }
             }
@@ -3034,25 +3034,25 @@ function require_login($courseorid = null, $autologinguest = true, $cm = null, $
                     if ($until == 0) {
                         $until = ENROL_MAX_TIMESTAMP;
                     }
-                    $USER->enrol['enrolled'][$course->id] = $until;
+                    $USER->enroll['enrolled'][$course->id] = $until;
                     $access = true;
 
                 } else if (core_course_category::can_view_course_info($course)) {
                     $params = array('courseid' => $course->id, 'status' => ENROL_INSTANCE_ENABLED);
-                    $instances = $DB->get_records('enrol', $params, 'sortorder, id ASC');
+                    $instances = $DB->get_records('enroll', $params, 'sortorder, id ASC');
                     $enrols = enrol_get_plugins(true);
-                    // First ask all enabled enrol instances in course if they want to auto enrol user.
+                    // First ask all enabled enroll instances in course if they want to auto enroll user.
                     foreach ($instances as $instance) {
-                        if (!isset($enrols[$instance->enrol])) {
+                        if (!isset($enrols[$instance->enroll])) {
                             continue;
                         }
-                        // Get a duration for the enrolment, a timestamp in the future, 0 (always) or false.
-                        $until = $enrols[$instance->enrol]->try_autoenrol($instance);
+                        // Get a duration for the enrollment, a timestamp in the future, 0 (always) or false.
+                        $until = $enrols[$instance->enroll]->try_autoenroll($instance);
                         if ($until !== false) {
                             if ($until == 0) {
                                 $until = ENROL_MAX_TIMESTAMP;
                             }
-                            $USER->enrol['enrolled'][$course->id] = $until;
+                            $USER->enroll['enrolled'][$course->id] = $until;
                             $access = true;
                             break;
                         }
@@ -3060,13 +3060,13 @@ function require_login($courseorid = null, $autologinguest = true, $cm = null, $
                     // If not enrolled yet try to gain temporary guest access.
                     if (!$access) {
                         foreach ($instances as $instance) {
-                            if (!isset($enrols[$instance->enrol])) {
+                            if (!isset($enrols[$instance->enroll])) {
                                 continue;
                             }
                             // Get a duration for the guest access, a timestamp in the future or false.
-                            $until = $enrols[$instance->enrol]->try_guestaccess($instance);
+                            $until = $enrols[$instance->enroll]->try_guestaccess($instance);
                             if ($until !== false and $until > time()) {
-                                $USER->enrol['tempguest'][$course->id] = $until;
+                                $USER->enroll['tempguest'][$course->id] = $until;
                                 $access = true;
                                 break;
                             }
@@ -3093,7 +3093,7 @@ function require_login($courseorid = null, $autologinguest = true, $cm = null, $
             if ($setwantsurltome) {
                 $SESSION->wantsurl = qualified_me();
             }
-            redirect($CFG->wwwroot .'/enrol/index.php?id='. $course->id);
+            redirect($CFG->wwwroot .'/enroll/index.php?id='. $course->id);
         }
     }
 
@@ -4115,10 +4115,10 @@ function delete_user(stdClass $user) {
     // Remove user tags.
     core_tag_tag::remove_all_item_tags('core', 'user', $user->id);
 
-    // Unconditionally unenrol from all courses.
+    // Unconditionally unenroll from all courses.
     enrol_user_delete($user);
 
-    // Unenrol from all roles in all contexts.
+    // Unenroll from all roles in all contexts.
     // This might be slow but it is really needed - modules might do some extra cleanup!
     role_unassign_all(array('userid' => $user->id));
 
@@ -4139,7 +4139,7 @@ function delete_user(stdClass $user) {
     // Remove from all groups.
     $DB->delete_records('groups_members', array('userid' => $user->id));
 
-    // Brute force unenrol from all courses.
+    // Brute force unenroll from all courses.
     $DB->delete_records('user_enrolments', array('userid' => $user->id));
 
     // Purge user preferences.
@@ -4889,7 +4889,7 @@ function get_complete_user_data($field, $value, $mnethostid = null, $throwexcept
     // Preload preference cache.
     check_user_preferences_loaded($user);
 
-    // Load course enrolment related stuff.
+    // Load course enrollment related stuff.
     $user->lastcourseaccess    = array(); // During last session.
     $user->currentcourseaccess = array(); // During current session.
     if ($lastaccesses = $DB->get_records('user_lastaccess', array('userid' => $user->id))) {
@@ -5098,7 +5098,7 @@ function delete_course($courseorid, $showfeedback = true) {
  * This function does not verify any permissions.
  *
  * Please note this function also deletes all user enrolments,
- * enrolment instances and role assignments by default.
+ * enrollment instances and role assignments by default.
  *
  * $options:
  *  - 'keep_roles_and_enrolments' - false by default
@@ -5280,7 +5280,7 @@ function remove_course_contents($courseid, $showfeedback = true, array $options 
     // Remove roles and enrolments by default.
     if (empty($options['keep_roles_and_enrolments'])) {
         // This hack is used in restore when deleting contents of existing course.
-        // During restore, we should remove only enrolment related data that the user performing the restore has a
+        // During restore, we should remove only enrollment related data that the user performing the restore has a
         // permission to remove.
         $userid = $options['userid'] ?? null;
         enrol_course_delete($course, $userid);
@@ -5363,7 +5363,7 @@ function remove_course_contents($courseid, $showfeedback = true, array $options 
     } else {
         // Hack alert!!!!
         // We can not drop all context stuff because it would bork enrolments and roles,
-        // there might be also files used by enrol plugins...
+        // there might be also files used by enroll plugins...
     }
 
     // Delete legacy files - just in case some files are still left there after conversion to new file api,
@@ -5557,13 +5557,13 @@ function reset_course_userdata($data) {
         $status[] = array('component' => $componentstr, 'item' => get_string('deletelocalroles', 'role'), 'error' => false);
     }
 
-    // First unenrol users - this cleans some of related user data too, such as forum subscriptions, tracking, etc.
+    // First unenroll users - this cleans some of related user data too, such as forum subscriptions, tracking, etc.
     $data->unenrolled = array();
     if (!empty($data->unenrol_users)) {
         $plugins = enrol_get_plugins(true);
         $instances = enrol_get_instances($data->courseid, true);
         foreach ($instances as $key => $instance) {
-            if (!isset($plugins[$instance->enrol])) {
+            if (!isset($plugins[$instance->enroll])) {
                 unset($instances[$key]);
                 continue;
             }
@@ -5574,7 +5574,7 @@ function reset_course_userdata($data) {
             if ($withroleid) {
                 $sql = "SELECT ue.*
                           FROM {user_enrolments} ue
-                          JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
+                          JOIN {enroll} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
                           JOIN {context} c ON (c.contextlevel = :courselevel AND c.instanceid = e.courseid)
                           JOIN {role_assignments} ra ON (ra.contextid = c.id AND ra.roleid = :roleid AND ra.userid = ue.userid)";
                 $params = array('courseid' => $data->courseid, 'roleid' => $withroleid, 'courselevel' => CONTEXT_COURSE);
@@ -5583,7 +5583,7 @@ function reset_course_userdata($data) {
                 // Without any role assigned at course context.
                 $sql = "SELECT ue.*
                           FROM {user_enrolments} ue
-                          JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
+                          JOIN {enroll} e ON (e.id = ue.enrolid AND e.courseid = :courseid)
                           JOIN {context} c ON (c.contextlevel = :courselevel AND c.instanceid = e.courseid)
                      LEFT JOIN {role_assignments} ra ON (ra.contextid = c.id AND ra.userid = ue.userid)
                          WHERE ra.id IS null";
@@ -5596,8 +5596,8 @@ function reset_course_userdata($data) {
                     continue;
                 }
                 $instance = $instances[$ue->enrolid];
-                $plugin = $plugins[$instance->enrol];
-                if (!$plugin->allow_unenrol($instance) and !$plugin->allow_unenrol_user($instance, $ue)) {
+                $plugin = $plugins[$instance->enroll];
+                if (!$plugin->allow_unenroll($instance) and !$plugin->allow_unenrol_user($instance, $ue)) {
                     continue;
                 }
 
@@ -5607,7 +5607,7 @@ function reset_course_userdata($data) {
 
                     unset($usersroles[$ue->userid][$withroleid]);
                 } else {
-                    // If we remove all roles or user has only one role, unenrol user from course.
+                    // If we remove all roles or user has only one role, unenroll user from course.
                     $plugin->unenrol_user($instance, $ue->userid);
                 }
                 $data->unenrolled[$ue->userid] = $ue->userid;
@@ -5618,7 +5618,7 @@ function reset_course_userdata($data) {
     if (!empty($data->unenrolled)) {
         $status[] = array(
             'component' => $componentstr,
-            'item' => get_string('unenrol', 'enrol').' ('.count($data->unenrolled).')',
+            'item' => get_string('unenroll', 'enroll').' ('.count($data->unenrolled).')',
             'error' => false
         );
     }
@@ -7394,7 +7394,7 @@ function get_string($identifier, $component = '', $a = null, $lazyload = false) 
             case 'block':
                 $component = 'block_'.$componentpath[1];
                 break;
-            case 'enrol':
+            case 'enroll':
                 $component = 'enrol_'.$componentpath[1];
                 break;
             case 'format':

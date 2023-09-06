@@ -17,12 +17,12 @@
 /**
  * Contains the form used to edit enrolments for a user.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2011 Sam Hemelryk
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use core_enrol\enrol_helper;
+use core_enroll\enrol_helper;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -39,24 +39,24 @@ class enrol_user_enrolment_form extends moodleform {
         $periodmenu = enrol_get_period_list();
         $duration = enrol_calculate_duration($ue->timestart, $ue->timeend);
 
-        $mform->addElement('static', 'enrolmentmethod', get_string('enrolmentmethod', 'enrol'), $instancename);
+        $mform->addElement('static', 'enrolmentmethod', get_string('enrolmentmethod', 'enroll'), $instancename);
 
-        $options = array(ENROL_USER_ACTIVE    => get_string('participationactive', 'enrol'),
-                         ENROL_USER_SUSPENDED => get_string('participationsuspended', 'enrol'));
+        $options = array(ENROL_USER_ACTIVE    => get_string('participationactive', 'enroll'),
+                         ENROL_USER_SUSPENDED => get_string('participationsuspended', 'enroll'));
         if (isset($options[$ue->status])) {
-            $mform->addElement('select', 'status', get_string('participationstatus', 'enrol'), $options);
+            $mform->addElement('select', 'status', get_string('participationstatus', 'enroll'), $options);
         }
 
-        $mform->addElement('date_time_selector', 'timestart', get_string('enroltimestart', 'enrol'), array('optional' => true));
+        $mform->addElement('date_time_selector', 'timestart', get_string('enroltimestart', 'enroll'), array('optional' => true));
 
-        $mform->addElement('select', 'duration', get_string('enrolperiod', 'enrol'), $periodmenu);
+        $mform->addElement('select', 'duration', get_string('enrolperiod', 'enroll'), $periodmenu);
         $mform->setDefault('duration', $duration);
         $mform->disabledIf('duration', 'timestart[enabled]', 'notchecked', 1);
         $mform->disabledIf('duration', 'timeend[enabled]', 'checked', 1);
 
-        $mform->addElement('date_time_selector', 'timeend', get_string('enroltimeend', 'enrol'), array('optional' => true));
+        $mform->addElement('date_time_selector', 'timeend', get_string('enroltimeend', 'enroll'), array('optional' => true));
 
-        $mform->addElement('static', 'timecreated', get_string('enroltimecreated', 'enrol'), userdate($ue->timecreated));
+        $mform->addElement('static', 'timecreated', get_string('enroltimecreated', 'enroll'), userdate($ue->timecreated));
 
         $mform->addElement('hidden', 'ue');
         $mform->setType('ue', PARAM_INT);
@@ -82,7 +82,7 @@ class enrol_user_enrolment_form extends moodleform {
 
         if (!empty($data['timestart']) and !empty($data['timeend'])) {
             if ($data['timestart'] >= $data['timeend']) {
-                $errors['timeend'] = get_string('enroltimeendinvalid', 'enrol');
+                $errors['timeend'] = get_string('enroltimeendinvalid', 'enroll');
             }
         }
 

@@ -34,17 +34,17 @@ namespace enrol_fee\payment;
 class service_provider implements \core_payment\local\callback\service_provider {
 
     /**
-     * Callback function that returns the enrolment cost and the accountid
-     * for the course that $instanceid enrolment instance belongs to.
+     * Callback function that returns the enrollment cost and the accountid
+     * for the course that $instanceid enrollment instance belongs to.
      *
      * @param string $paymentarea Payment area
-     * @param int $instanceid The enrolment instance id
+     * @param int $instanceid The enrollment instance id
      * @return \core_payment\local\entities\payable
      */
     public static function get_payable(string $paymentarea, int $instanceid): \core_payment\local\entities\payable {
         global $DB;
 
-        $instance = $DB->get_record('enrol', ['enrol' => 'fee', 'id' => $instanceid], '*', MUST_EXIST);
+        $instance = $DB->get_record('enroll', ['enroll' => 'fee', 'id' => $instanceid], '*', MUST_EXIST);
 
         return new \core_payment\local\entities\payable($instance->cost, $instance->currency, $instance->customint1);
     }
@@ -53,13 +53,13 @@ class service_provider implements \core_payment\local\callback\service_provider 
      * Callback function that returns the URL of the page the user should be redirected to in the case of a successful payment.
      *
      * @param string $paymentarea Payment area
-     * @param int $instanceid The enrolment instance id
+     * @param int $instanceid The enrollment instance id
      * @return \moodle_url
      */
     public static function get_success_url(string $paymentarea, int $instanceid): \moodle_url {
         global $DB;
 
-        $courseid = $DB->get_field('enrol', 'courseid', ['enrol' => 'fee', 'id' => $instanceid], MUST_EXIST);
+        $courseid = $DB->get_field('enroll', 'courseid', ['enroll' => 'fee', 'id' => $instanceid], MUST_EXIST);
 
         return new \moodle_url('/course/view.php', ['id' => $courseid]);
     }
@@ -68,7 +68,7 @@ class service_provider implements \core_payment\local\callback\service_provider 
      * Callback function that delivers what the user paid for to them.
      *
      * @param string $paymentarea
-     * @param int $instanceid The enrolment instance id
+     * @param int $instanceid The enrollment instance id
      * @param int $paymentid payment id as inserted into the 'payments' table, if needed for reference
      * @param int $userid The userid the order is going to deliver to
      * @return bool Whether successful or not
@@ -76,7 +76,7 @@ class service_provider implements \core_payment\local\callback\service_provider 
     public static function deliver_order(string $paymentarea, int $instanceid, int $paymentid, int $userid): bool {
         global $DB;
 
-        $instance = $DB->get_record('enrol', ['enrol' => 'fee', 'id' => $instanceid], '*', MUST_EXIST);
+        $instance = $DB->get_record('enroll', ['enroll' => 'fee', 'id' => $instanceid], '*', MUST_EXIST);
 
         $plugin = enrol_get_plugin('fee');
 

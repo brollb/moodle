@@ -401,20 +401,20 @@ abstract class grade_report {
         $selectedusers = $DB->get_records_sql($sql, $params);
 
         $count = 0;
-        // Check if user's enrolment is active and should be displayed.
+        // Check if user's enrollment is active and should be displayed.
         if (!empty($selectedusers)) {
             $coursecontext = $this->context->get_course_context(true);
 
-            $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-            $showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-            $showonlyactiveenrol = $showonlyactiveenrol || !has_capability('moodle/course:viewsuspendedusers', $coursecontext);
+            $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+            $showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
+            $showonlyactiveenroll = $showonlyactiveenroll || !has_capability('moodle/course:viewsuspendedusers', $coursecontext);
 
-            if ($showonlyactiveenrol) {
+            if ($showonlyactiveenroll) {
                 $useractiveenrolments = get_enrolled_users($coursecontext, '', 0, 'u.id',  null, 0, 0, true);
             }
 
             foreach ($selectedusers as $id => $value) {
-                if (!$showonlyactiveenrol || ($showonlyactiveenrol && array_key_exists($id, $useractiveenrolments))) {
+                if (!$showonlyactiveenroll || ($showonlyactiveenroll && array_key_exists($id, $useractiveenrolments))) {
                     $count++;
                 }
             }
@@ -837,12 +837,12 @@ abstract class grade_report {
         list($gradebookrolessql, $gradebookrolesparams) =
             $DB->get_in_or_equal(explode(',', $this->gradebookroles), SQL_PARAMS_NAMED, 'grbr0');
 
-        // Limit to users with an active enrolment.
-        $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-        $showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-        $showonlyactiveenrol = $showonlyactiveenrol ||
+        // Limit to users with an active enrollment.
+        $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+        $showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
+        $showonlyactiveenroll = $showonlyactiveenroll ||
             !has_capability('moodle/course:viewsuspendedusers', $this->context);
-        list($enrolledsql, $enrolledparams) = get_enrolled_sql($this->context, '', 0, $showonlyactiveenrol);
+        list($enrolledsql, $enrolledparams) = get_enrolled_sql($this->context, '', 0, $showonlyactiveenroll);
 
         $params = array_merge($this->groupwheresql_params, $gradebookrolesparams, $enrolledparams, $relatedctxparams);
         $params['courseid'] = $this->courseid;

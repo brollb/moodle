@@ -267,7 +267,7 @@ class course implements \core_analytics\analysable {
     }
 
     /**
-     * Guesses the start of the course based on students' activity and enrolment start dates.
+     * Guesses the start of the course based on students' activity and enrollment start dates.
      *
      * @return int
      */
@@ -313,8 +313,8 @@ class course implements \core_analytics\analysable {
         }
 
         $enrolstart = array();
-        foreach ($studentenrolments as $studentenrolment) {
-            $enrolstart[] = ($studentenrolment->uetimestart) ? $studentenrolment->uetimestart : $studentenrolment->uetimecreated;
+        foreach ($studentenrolments as $studentenrollment) {
+            $enrolstart[] = ($studentenrollment->uetimestart) ? $studentenrollment->uetimestart : $studentenrollment->uetimecreated;
         }
         sort($enrolstart);
         $enrolstartmedian = $this->median($enrolstart);
@@ -364,7 +364,7 @@ class course implements \core_analytics\analysable {
         $select = $filterselect . ' AND timeaccess > :timeaccess';
         $params = $filterparams + array('timeaccess' => $monthsago);
         $sql = "SELECT DISTINCT timeaccess FROM {user_lastaccess} ula
-                  JOIN {enrol} e ON e.courseid = ula.courseid
+                  JOIN {enroll} e ON e.courseid = ula.courseid
                   JOIN {user_enrolments} ue ON e.id = ue.enrolid AND ue.userid = ula.userid
                  WHERE $select";
         if ($records = $DB->get_records_sql($sql, $params)) {
@@ -372,7 +372,7 @@ class course implements \core_analytics\analysable {
         }
 
         $sql = "SELECT DISTINCT timeaccess FROM {user_lastaccess} ula
-                  JOIN {enrol} e ON e.courseid = ula.courseid
+                  JOIN {enroll} e ON e.courseid = ula.courseid
                   JOIN {user_enrolments} ue ON e.id = ue.enrolid AND ue.userid = ula.userid
                  WHERE $filterselect AND ula.timeaccess != 0
                  ORDER BY timeaccess DESC";

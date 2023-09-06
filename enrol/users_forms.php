@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Various enrol UI forms
+ * Various enroll UI forms
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -148,8 +148,8 @@ class enrol_users_filter_form extends moodleform {
         $mform->addElement('text', 'search', get_string('search'));
         $mform->setType('search', PARAM_RAW);
 
-        // Filter by enrolment plugin type.
-        $mform->addElement('select', 'ifilter', get_string('enrolmentinstances', 'enrol'),
+        // Filter by enrollment plugin type.
+        $mform->addElement('select', 'ifilter', get_string('enrolmentinstances', 'enroll'),
                 array(0 => get_string('all')) + (array)$manager->get_enrolment_instance_names());
 
         // Role select dropdown includes all roles, but using course-specific
@@ -167,7 +167,7 @@ class enrol_users_filter_form extends moodleform {
         // Filter by group.
         $allgroups = $manager->get_all_groups();
         $groupsmenu[0] = get_string('allparticipants');
-        $groupsmenu[-1] = get_string('nogroup', 'enrol');
+        $groupsmenu[-1] = get_string('nogroup', 'enroll');
         foreach($allgroups as $gid => $unused) {
             $groupsmenu[$gid] = $allgroups[$gid]->name;
         }

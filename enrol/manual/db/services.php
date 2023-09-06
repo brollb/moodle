@@ -25,22 +25,22 @@
 
 $functions = array(
 
-    // === enrol related functions ===
+    // === enroll related functions ===
     'enrol_manual_enrol_users' => array(
         'classname'   => 'enrol_manual_external',
         'methodname'  => 'enrol_users',
-        'classpath'   => 'enrol/manual/externallib.php',
-        'description' => 'Manual enrol users',
-        'capabilities'=> 'enrol/manual:enrol',
+        'classpath'   => 'enroll/manual/externallib.php',
+        'description' => 'Manual enroll users',
+        'capabilities'=> 'enroll/manual:enroll',
         'type'        => 'write',
     ),
 
     'enrol_manual_unenrol_users' => array(
         'classname'   => 'enrol_manual_external',
         'methodname'  => 'unenrol_users',
-        'classpath'   => 'enrol/manual/externallib.php',
-        'description' => 'Manual unenrol users',
-        'capabilities'=> 'enrol/manual:unenrol',
+        'classpath'   => 'enroll/manual/externallib.php',
+        'description' => 'Manual unenroll users',
+        'capabilities'=> 'enroll/manual:unenroll',
         'type'        => 'write',
     ),
 

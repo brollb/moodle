@@ -18,7 +18,7 @@
 /**
  * Course selector field.
  *
- * Allows auto-complete ajax searching for courses and can restrict by enrolment, permissions, viewhidden...
+ * Allows auto-complete ajax searching for courses and can restrict by enrollment, permissions, viewhidden...
  *
  * @package   core_form
  * @copyright 2015 Damyon Wiese <damyon@moodle.com>
@@ -31,7 +31,7 @@ require_once($CFG->libdir . '/form/autocomplete.php');
 /**
  * Form field type for choosing a course.
  *
- * Allows auto-complete ajax searching for courses and can restrict by enrolment, permissions, viewhidden...
+ * Allows auto-complete ajax searching for courses and can restrict by enrollment, permissions, viewhidden...
  *
  * @package   core_form
  * @copyright 2015 Damyon Wiese <damyon@moodle.com>

@@ -160,7 +160,7 @@ class sync_members_test extends \advanced_testcase {
         $this->enable_auth();
 
         // Enable enrol_lti.
-        $this->enable_enrol();
+        $this->enable_enroll();
 
         ob_start();
         $this->task->execute();
@@ -192,21 +192,21 @@ class sync_members_test extends \advanced_testcase {
     }
 
     /**
-     * Test for sync_members::should_sync_enrol().
+     * Test for sync_members::should_sync_enroll().
      */
-    public function test_should_sync_enrol() {
-        $this->assertTrue($this->task->should_sync_enrol(helper::MEMBER_SYNC_ENROL_AND_UNENROL));
-        $this->assertTrue($this->task->should_sync_enrol(helper::MEMBER_SYNC_ENROL_NEW));
-        $this->assertFalse($this->task->should_sync_enrol(helper::MEMBER_SYNC_UNENROL_MISSING));
+    public function test_should_sync_enroll() {
+        $this->assertTrue($this->task->should_sync_enroll(helper::MEMBER_SYNC_ENROL_AND_UNENROL));
+        $this->assertTrue($this->task->should_sync_enroll(helper::MEMBER_SYNC_ENROL_NEW));
+        $this->assertFalse($this->task->should_sync_enroll(helper::MEMBER_SYNC_UNENROL_MISSING));
     }
 
     /**
-     * Test for sync_members::should_sync_unenrol().
+     * Test for sync_members::should_sync_unenroll().
      */
-    public function test_should_sync_unenrol() {
-        $this->assertTrue($this->task->should_sync_unenrol(helper::MEMBER_SYNC_ENROL_AND_UNENROL));
-        $this->assertFalse($this->task->should_sync_unenrol(helper::MEMBER_SYNC_ENROL_NEW));
-        $this->assertTrue($this->task->should_sync_unenrol(helper::MEMBER_SYNC_UNENROL_MISSING));
+    public function test_should_sync_unenroll() {
+        $this->assertTrue($this->task->should_sync_unenroll(helper::MEMBER_SYNC_ENROL_AND_UNENROL));
+        $this->assertFalse($this->task->should_sync_unenroll(helper::MEMBER_SYNC_ENROL_NEW));
+        $this->assertTrue($this->task->should_sync_unenroll(helper::MEMBER_SYNC_UNENROL_MISSING));
     }
 
     /**
@@ -238,9 +238,9 @@ class sync_members_test extends \advanced_testcase {
     }
 
     /**
-     * Test for sync_members::sync_unenrol().
+     * Test for sync_members::sync_unenroll().
      */
-    public function test_sync_unenrol() {
+    public function test_sync_unenroll() {
         $tool = $this->tool;
         $task = $this->task;
 
@@ -251,7 +251,7 @@ class sync_members_test extends \advanced_testcase {
         for ($i = 0; $i < $unenrolcount; $i++) {
             array_pop($users);
         }
-        $this->assertEquals($unenrolcount, $task->sync_unenrol($tool, 'Consumer1Key', $users));
+        $this->assertEquals($unenrolcount, $task->sync_unenroll($tool, 'Consumer1Key', $users));
     }
 
     /**
@@ -268,7 +268,7 @@ class sync_members_test extends \advanced_testcase {
     /**
      * Enable enrol_lti plugin.
      */
-    protected function enable_enrol() {
+    protected function enable_enroll() {
         $enabled = enrol_get_plugins(true);
         $enabled['lti'] = true;
         $enabled = array_keys($enabled);
@@ -335,24 +335,24 @@ class dummy_sync_members_task extends sync_members {
     }
 
     /**
-     * Exposes sync_members::should_sync_unenrol()
+     * Exposes sync_members::should_sync_unenroll()
      *
      * @param int $syncmode The tool's membersyncmode.
      * @return bool
      */
-    public function should_sync_unenrol($syncmode) {
-        $shouldsync = parent::should_sync_unenrol($syncmode);
+    public function should_sync_unenroll($syncmode) {
+        $shouldsync = parent::should_sync_unenroll($syncmode);
         return $shouldsync;
     }
 
     /**
-     * Exposes sync_members::should_sync_enrol()
+     * Exposes sync_members::should_sync_enroll()
      *
      * @param int $syncmode The tool's membersyncmode.
      * @return bool
      */
-    public function should_sync_enrol($syncmode) {
-        $shouldsync = parent::should_sync_enrol($syncmode);
+    public function should_sync_enroll($syncmode) {
+        $shouldsync = parent::should_sync_enroll($syncmode);
         return $shouldsync;
     }
 
@@ -380,15 +380,15 @@ class dummy_sync_members_task extends sync_members {
     }
 
     /**
-     * Exposes sync_members::sync_unenrol()
+     * Exposes sync_members::sync_unenroll()
      *
      * @param \stdClass $tool
      * @param string $consumerkey
      * @param array $currentusers
      * @return int
      */
-    public function sync_unenrol(\stdClass $tool, string $consumerkey, array $currentusers) {
-        $count = parent::sync_unenrol($tool, $consumerkey, $currentusers);
+    public function sync_unenroll(\stdClass $tool, string $consumerkey, array $currentusers) {
+        $count = parent::sync_unenroll($tool, $consumerkey, $currentusers);
         return $count;
     }
 }

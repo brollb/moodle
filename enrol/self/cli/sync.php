@@ -43,14 +43,14 @@ if ($unrecognized) {
 
 if ($options['help']) {
     $help =
-        "Execute self course enrol updates.
+        "Execute self course enroll updates.
 
 Options:
 -v, --verbose         Print verbose progress information
 -h, --help            Print out this help
 
 Example:
-\$ sudo -u www-data /usr/bin/php enrol/self/cli/sync.php
+\$ sudo -u www-data /usr/bin/php enroll/self/cli/sync.php
 ";
 
     echo $help;

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Manual enrol plugin installation script
+ * Manual enroll plugin installation script
  *
  * @package    enrol_manual
  * @copyright  2010 Petr Skoda {@link http://skodak.org}

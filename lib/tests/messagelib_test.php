@@ -134,7 +134,7 @@ class messagelib_test extends \advanced_testcase {
         $assign = $this->getDataGenerator()->create_module('assign', array('course'=>$course->id));
         $modulecontext = \context_module::instance($assign->cmid);
 
-        // Create and enrol a teacher.
+        // Create and enroll a teacher.
         $teacherrole = $DB->get_record('role', array('shortname'=>'editingteacher'), '*', MUST_EXIST);
         $teacher = $this->getDataGenerator()->create_user();
         role_assign($teacherrole->id, $teacher->id, $coursecontext);
@@ -142,7 +142,7 @@ class messagelib_test extends \advanced_testcase {
         $enrolplugin->add_instance($course);
         $enrolinstances = enrol_get_instances($course->id, false);
         foreach ($enrolinstances as $enrolinstance) {
-            if ($enrolinstance->enrol === 'manual') {
+            if ($enrolinstance->enroll === 'manual') {
                 break;
             }
         }

@@ -112,7 +112,7 @@ class restore_root_task extends restore_task {
         $users->get_ui()->set_changeable($changeable);
         $this->add_setting($users);
 
-        // Restore enrolment methods.
+        // Restore enrollment methods.
         if ($changeable) {
             $options = [
                 backup::ENROL_NEVER     => get_string('rootsettingenrolments_never', 'backup'),

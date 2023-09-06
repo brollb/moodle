@@ -3528,7 +3528,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create the activity.
         $forum = $this->getDataGenerator()->create_module('forum', array('course' => $course->id,
@@ -3565,7 +3565,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create the activity.
         $forum = $this->getDataGenerator()->create_module('forum', array('course' => $course->id,
@@ -3667,7 +3667,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course(array('enablecompletion' => 1));
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create the activity.
         $forum = $this->getDataGenerator()->create_module('forum', array('course' => $course->id),
@@ -3751,7 +3751,7 @@ class lib_test extends \advanced_testcase {
         $this->assertNotEmpty($res->prevpageurl);
         $this->assertEmpty($res->nextpageurl);
 
-        // Create and enrol a user.
+        // Create and enroll a user.
         $student = self::getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $this->getDataGenerator()->enrol_user($student->id, $course1->id, $studentrole->id, 'manual');
@@ -4204,7 +4204,7 @@ class lib_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
-        $teacher = $generator->create_and_enrol($course, 'teacher');
+        $teacher = $generator->create_and_enroll($course, 'teacher');
 
         /** @var mod_forum_generator $forumgenerator */
         $forumgenerator = $generator->get_plugin_generator('mod_forum');
@@ -4246,7 +4246,7 @@ class lib_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
-        $student = $generator->create_and_enrol($course, 'student');
+        $student = $generator->create_and_enroll($course, 'student');
 
         /** @var mod_forum_generator $forumgenerator */
         $forumgenerator = $generator->get_plugin_generator('mod_forum');

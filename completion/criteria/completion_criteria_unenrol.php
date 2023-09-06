@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Course completion critieria - completion on unenrolment
+ * Course completion critieria - completion on unenrollment
  *
  * @package core_completion
  * @category completion
@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Course completion critieria - completion on unenrolment
+ * Course completion critieria - completion on unenrollment
  *
  * @package core_completion
  * @category completion
@@ -35,7 +35,7 @@ defined('MOODLE_INTERNAL') || die();
  * @author Aaron Barnes <aaronb@catalyst.net.nz>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class completion_criteria_unenrol extends completion_criteria {
+class completion_criteria_unenroll extends completion_criteria {
 
     /* @var int Criteria type constant [COMPLETION_CRITERIA_TYPE_UNENROL] */
     public $criteriatype = COMPLETION_CRITERIA_TYPE_UNENROL;
@@ -58,10 +58,10 @@ class completion_criteria_unenrol extends completion_criteria {
      * @param stdClass $data Form data
      */
     public function config_form_display(&$mform, $data = null) {
-        $mform->addElement('checkbox', 'criteria_unenrol', get_string('enable'));
+        $mform->addElement('checkbox', 'criteria_unenroll', get_string('enable'));
 
         if ($this->id) {
-            $mform->setDefault('criteria_unenrol', 1);
+            $mform->setDefault('criteria_unenroll', 1);
         }
     }
 
@@ -71,7 +71,7 @@ class completion_criteria_unenrol extends completion_criteria {
      * @param stdClass $data Form data
      */
     public function update_config(&$data) {
-        if (!empty($data->criteria_unenrol)) {
+        if (!empty($data->criteria_unenroll)) {
             $this->course = $data->id;
             $this->insert();
         }
@@ -85,7 +85,7 @@ class completion_criteria_unenrol extends completion_criteria {
      * @return bool
      */
     public function review($completion, $mark = true) {
-        // Check enrolment
+        // Check enrollment
         return false;
     }
 
@@ -95,7 +95,7 @@ class completion_criteria_unenrol extends completion_criteria {
      * @return string
      */
     public function get_title() {
-        return get_string('unenrol', 'enrol');
+        return get_string('unenroll', 'enroll');
     }
 
     /**
@@ -113,7 +113,7 @@ class completion_criteria_unenrol extends completion_criteria {
      * @return string
      */
     public function get_type_title() {
-        return get_string('unenrol', 'enrol');
+        return get_string('unenroll', 'enroll');
     }
 
     /**
@@ -125,8 +125,8 @@ class completion_criteria_unenrol extends completion_criteria {
      */
     public function get_details($completion) {
         $details = array();
-        $details['type'] = get_string('unenrolment', 'completion');
-        $details['criteria'] = get_string('unenrolment', 'completion');
+        $details['type'] = get_string('unenrollment', 'completion');
+        $details['criteria'] = get_string('unenrollment', 'completion');
         $details['requirement'] = get_string('unenrolingfromcourse', 'completion');
         $details['status'] = '';
         return $details;

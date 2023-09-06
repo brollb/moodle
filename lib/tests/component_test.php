@@ -308,7 +308,7 @@ class component_test extends advanced_testcase {
 
         // Other plugin types.
         $this->assertSame(array('auth', 'mnet'), core_component::normalize_component('auth_mnet'));
-        $this->assertSame(array('enrol', 'self'), core_component::normalize_component('enrol_self'));
+        $this->assertSame(array('enroll', 'self'), core_component::normalize_component('enrol_self'));
         $this->assertSame(array('block', 'html'), core_component::normalize_component('block_html'));
         $this->assertSame(array('block', 'mnet_hosts'), core_component::normalize_component('block_mnet_hosts'));
         $this->assertSame(array('local', 'amos'), core_component::normalize_component('local_amos'));
@@ -346,7 +346,7 @@ class component_test extends advanced_testcase {
 
         // Other plugin types.
         $this->assertSame(array('auth', 'mnet'), normalize_component('auth_mnet'));
-        $this->assertSame(array('enrol', 'self'), normalize_component('enrol_self'));
+        $this->assertSame(array('enroll', 'self'), normalize_component('enrol_self'));
         $this->assertSame(array('block', 'html'), normalize_component('block_html'));
         $this->assertSame(array('block', 'mnet_hosts'), normalize_component('block_mnet_hosts'));
         $this->assertSame(array('local', 'amos'), normalize_component('local_amos'));

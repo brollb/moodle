@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Meta course enrolment plugin.
+ * Meta course enrollment plugin.
  *
  * @package    enrol_meta
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -30,14 +30,14 @@ defined('MOODLE_INTERNAL') || die();
 define('ENROL_META_CREATE_GROUP', -1);
 
 /**
- * Meta course enrolment plugin.
+ * Meta course enrollment plugin.
  * @author Petr Skoda
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class enrol_meta_plugin extends enrol_plugin {
 
     /**
-     * Returns localised name of enrol instance
+     * Returns localised name of enroll instance
      *
      * @param stdClass $instance (null is accepted too)
      * @return string
@@ -46,10 +46,10 @@ class enrol_meta_plugin extends enrol_plugin {
         global $DB;
 
         if (empty($instance)) {
-            $enrol = $this->get_name();
-            return get_string('pluginname', 'enrol_'.$enrol);
+            $enroll = $this->get_name();
+            return get_string('pluginname', 'enrol_'.$enroll);
         } else if (empty($instance->name)) {
-            $enrol = $this->get_name();
+            $enroll = $this->get_name();
             $course = $DB->get_record('course', array('id'=>$instance->customint1));
             if ($course) {
                 $coursename = format_string(get_course_display_name_for_list($course));
@@ -57,7 +57,7 @@ class enrol_meta_plugin extends enrol_plugin {
                 // Use course id, if course is deleted.
                 $coursename = $instance->customint1;
             }
-            return get_string('pluginname', 'enrol_' . $enrol) . ' (' . $coursename . ')';
+            return get_string('pluginname', 'enrol_' . $enroll) . ' (' . $coursename . ')';
         } else {
             return format_string($instance->name);
         }
@@ -71,7 +71,7 @@ class enrol_meta_plugin extends enrol_plugin {
      */
     public function can_add_instance($courseid) {
         $context = context_course::instance($courseid, MUST_EXIST);
-        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enrol/meta:config', $context)) {
+        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enroll/meta:config', $context)) {
             return false;
         }
         // Multiple instances supported - multiple parent courses linked.
@@ -79,13 +79,13 @@ class enrol_meta_plugin extends enrol_plugin {
     }
 
     /**
-     * Does this plugin allow manual unenrolment of a specific user?
+     * Does this plugin allow manual unenrollment of a specific user?
      * Yes, but only if user suspended...
      *
-     * @param stdClass $instance course enrol instance
+     * @param stdClass $instance course enroll instance
      * @param stdClass $ue record from user_enrolments table
      *
-     * @return bool - true means user with 'enrol/xxx:unenrol' may unenrol this user, false means nobody may touch this user enrolment
+     * @return bool - true means user with 'enroll/xxx:unenroll' may unenroll this user, false means nobody may touch this user enrollment
      */
     public function allow_unenrol_user(stdClass $instance, stdClass $ue) {
         if ($ue->status == ENROL_USER_SUSPENDED) {
@@ -105,11 +105,11 @@ class enrol_meta_plugin extends enrol_plugin {
      */
     public function course_updated($inserted, $course, $data) {
         // Meta sync updates are slow, if enrolments get out of sync teacher will have to wait till next cron.
-        // We should probably add some sync button to the course enrol methods overview page.
+        // We should probably add some sync button to the course enroll methods overview page.
     }
 
     /**
-     * Add new instance of enrol plugin.
+     * Add new instance of enroll plugin.
      * @param object $course
      * @param array $fields instance fields
      * @return int id of last instance, null if can not be created
@@ -117,7 +117,7 @@ class enrol_meta_plugin extends enrol_plugin {
     public function add_instance($course, array $fields = null) {
         global $CFG;
 
-        require_once("$CFG->dirroot/enrol/meta/locallib.php");
+        require_once("$CFG->dirroot/enroll/meta/locallib.php");
 
         // Support creating multiple at once.
         if (isset($fields['customint1']) && is_array($fields['customint1'])) {
@@ -145,7 +145,7 @@ class enrol_meta_plugin extends enrol_plugin {
     }
 
     /**
-     * Update instance of enrol plugin.
+     * Update instance of enroll plugin.
      * @param stdClass $instance
      * @param stdClass $data modified instance fields
      * @return boolean
@@ -153,7 +153,7 @@ class enrol_meta_plugin extends enrol_plugin {
     public function update_instance($instance, $data) {
         global $CFG;
 
-        require_once("$CFG->dirroot/enrol/meta/locallib.php");
+        require_once("$CFG->dirroot/enroll/meta/locallib.php");
 
         if (!empty($data->customint2) && $data->customint2 == ENROL_META_CREATE_GROUP) {
             $context = context_course::instance($instance->courseid);
@@ -181,30 +181,30 @@ class enrol_meta_plugin extends enrol_plugin {
 
         parent::update_status($instance, $newstatus);
 
-        require_once("$CFG->dirroot/enrol/meta/locallib.php");
+        require_once("$CFG->dirroot/enroll/meta/locallib.php");
         enrol_meta_sync($instance->courseid);
     }
 
     /**
-     * Is it possible to delete enrol instance via standard UI?
+     * Is it possible to delete enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/meta:config', $context);
+        return has_capability('enroll/meta:config', $context);
     }
 
     /**
-     * Is it possible to hide/show enrol instance via standard UI?
+     * Is it possible to hide/show enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/meta:config', $context);
+        return has_capability('enroll/meta:config', $context);
     }
 
     /**
@@ -233,8 +233,8 @@ class enrol_meta_plugin extends enrol_plugin {
         } else {
             $where = '';
             $params = array();
-            $instanceparams = array('enrol' => 'meta', 'courseid' => $instance->courseid);
-            $existing = $DB->get_records('enrol', $instanceparams, '', 'customint1, id');
+            $instanceparams = array('enroll' => 'meta', 'courseid' => $instance->courseid);
+            $existing = $DB->get_records('enroll', $instanceparams, '', 'customint1, id');
         }
 
         // TODO: this has to be done via ajax or else it will fail very badly on large sites!
@@ -255,7 +255,7 @@ class enrol_meta_plugin extends enrol_plugin {
             if (!$c->visible and !has_capability('moodle/course:viewhiddencourses', $coursecontext)) {
                 continue;
             }
-            if (!has_capability('enrol/meta:selectaslinked', $coursecontext)) {
+            if (!has_capability('enroll/meta:selectaslinked', $coursecontext)) {
                 continue;
             }
             $courses[$c->id] = $coursecontext->get_context_name(false);
@@ -294,7 +294,7 @@ class enrol_meta_plugin extends enrol_plugin {
         global $DB;
 
         $groups = $this->get_group_options($coursecontext);
-        $existing = $DB->get_records('enrol', array('enrol' => 'meta', 'courseid' => $coursecontext->instanceid), '', 'customint1, id');
+        $existing = $DB->get_records('enroll', array('enroll' => 'meta', 'courseid' => $coursecontext->instanceid), '', 'customint1, id');
 
         $excludelist = array($coursecontext->instanceid);
         foreach ($existing as $existinginstance) {
@@ -302,7 +302,7 @@ class enrol_meta_plugin extends enrol_plugin {
         }
 
         $options = array(
-            'requiredcapabilities' => array('enrol/meta:selectaslinked'),
+            'requiredcapabilities' => array('enroll/meta:selectaslinked'),
             'multiple' => empty($instance->id),  // We only accept multiple values on creation.
             'exclude' => $excludelist
         );
@@ -340,15 +340,15 @@ class enrol_meta_plugin extends enrol_plugin {
                 // Cast NULL to 0 to avoid possible mess with the SQL.
                 $instanceid = $instance->id ?? 0;
 
-                $existssql = "enrol = :meta AND courseid = :currentcourseid AND id != :id AND customint1 {$coursesinsql}";
+                $existssql = "enroll = :meta AND courseid = :currentcourseid AND id != :id AND customint1 {$coursesinsql}";
                 $existsparams = [
                     'meta' => 'meta',
                     'currentcourseid' => $thiscourseid,
                     'id' => $instanceid
                 ];
                 $existsparams += $coursesinparams;
-                if ($DB->record_exists_select('enrol', $existssql, $existsparams)) {
-                    // We may leave right here as further checks do not make sense in case we have existing enrol records
+                if ($DB->record_exists_select('enroll', $existssql, $existsparams)) {
+                    // We may leave right here as further checks do not make sense in case we have existing enroll records
                     // with the parameters from above.
                     $errors['customint1'] = get_string('invalidcourseid', 'error');
                 } else {
@@ -357,9 +357,9 @@ class enrol_meta_plugin extends enrol_plugin {
                         if (!$coursesrecord->visible and !has_capability('moodle/course:viewhiddencourses', $coursecontext)) {
                             $errors['customint1'] = get_string('nopermissions', 'error',
                                 'moodle/course:viewhiddencourses');
-                        } else if (!has_capability('enrol/meta:selectaslinked', $coursecontext)) {
+                        } else if (!has_capability('enroll/meta:selectaslinked', $coursecontext)) {
                             $errors['customint1'] = get_string('nopermissions', 'error',
-                                'enrol/meta:selectaslinked');
+                                'enroll/meta:selectaslinked');
                         } else if ($coursesrecord->id == SITEID or $coursesrecord->id == $thiscourseid) {
                             $errors['customint1'] = get_string('invalidcourseid', 'error');
                         }
@@ -397,7 +397,7 @@ class enrol_meta_plugin extends enrol_plugin {
 
         if (!$step->get_task()->is_samesite()) {
             // No meta restore from other sites.
-            $step->set_mapping('enrol', $oldid, 0);
+            $step->set_mapping('enroll', $oldid, 0);
             return;
         }
 
@@ -406,25 +406,25 @@ class enrol_meta_plugin extends enrol_plugin {
         }
 
         if ($DB->record_exists('course', array('id' => $data->customint1))) {
-            $instance = $DB->get_record('enrol', array('roleid' => $data->roleid, 'customint1' => $data->customint1,
-                'courseid' => $course->id, 'enrol' => $this->get_name()));
+            $instance = $DB->get_record('enroll', array('roleid' => $data->roleid, 'customint1' => $data->customint1,
+                'courseid' => $course->id, 'enroll' => $this->get_name()));
             if ($instance) {
                 $instanceid = $instance->id;
             } else {
                 $instanceid = $this->add_instance($course, (array)$data);
             }
-            $step->set_mapping('enrol', $oldid, $instanceid);
+            $step->set_mapping('enroll', $oldid, $instanceid);
 
-            require_once("$CFG->dirroot/enrol/meta/locallib.php");
+            require_once("$CFG->dirroot/enroll/meta/locallib.php");
             enrol_meta_sync($data->customint1);
 
         } else {
-            $step->set_mapping('enrol', $oldid, 0);
+            $step->set_mapping('enroll', $oldid, 0);
         }
     }
 
     /**
-     * Restore user enrolment.
+     * Restore user enrollment.
      *
      * @param restore_enrolments_structure_step $step
      * @param stdClass $data
@@ -432,7 +432,7 @@ class enrol_meta_plugin extends enrol_plugin {
      * @param int $userid
      * @param int $oldinstancestatus
      */
-    public function restore_user_enrolment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
+    public function restore_user_enrollment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
         global $DB;
 
         if ($this->get_config('unenrolaction') != ENROL_EXT_REMOVED_SUSPENDNOROLES) {

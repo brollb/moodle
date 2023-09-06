@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for LDAP enrolment plugin.
+ * Capabilities for LDAP enrollment plugin.
  *
  * @package    enrol_ldap
  * @author     Iñaki Arenaza
@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    'enrol/ldap:manage' => array(
+    'enroll/ldap:manage' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(

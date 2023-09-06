@@ -651,16 +651,16 @@ class externallib_test extends externallib_advanced_testcase {
         $this->getDataGenerator()->enrol_user($student->id, $course1->id, $studentrole->id, 'manual');
         $this->getDataGenerator()->enrol_user($teacher->id, $course1->id, $teacherrole->id, 'manual');
 
-        // Execute real Moodle enrolment as we'll call unenrol() method on the instance later.
-        $enrol = enrol_get_plugin('manual');
+        // Execute real Moodle enrollment as we'll call unenroll() method on the instance later.
+        $enroll = enrol_get_plugin('manual');
         $enrolinstances = enrol_get_instances($course2->id, true);
         foreach ($enrolinstances as $courseenrolinstance) {
-            if ($courseenrolinstance->enrol == "manual") {
+            if ($courseenrolinstance->enroll == "manual") {
                 $instance2 = $courseenrolinstance;
                 break;
             }
         }
-        $enrol->enrol_user($instance2, $student->id, $studentrole->id);
+        $enroll->enrol_user($instance2, $student->id, $studentrole->id);
 
         $returndescription = mod_scorm_external::get_scorms_by_courses_returns();
 
@@ -787,8 +787,8 @@ class externallib_test extends externallib_advanced_testcase {
         $result = external_api::clean_returnvalue($returndescription, $result);
         $this->assertEquals($expectedscorms, $result['scorms']);
 
-        // Unenrol user from second course and alter expected scorms.
-        $enrol->unenrol_user($instance2, $student->id);
+        // Unenroll user from second course and alter expected scorms.
+        $enroll->unenrol_user($instance2, $student->id);
         array_shift($expectedscorms);
 
         // Call the external function without passing course id.

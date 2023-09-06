@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Fee enrolment plugin.
+ * Fee enrollment plugin.
  *
  * This plugin allows you to set up paid courses.
  *

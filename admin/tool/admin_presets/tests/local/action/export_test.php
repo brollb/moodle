@@ -120,7 +120,7 @@ class export_test extends \advanced_testcase {
 
             // Check plugins have been created with the expected values.
             $manager = \core_plugin_manager::instance();
-            $plugintype = 'enrol';
+            $plugintype = 'enroll';
             $plugins = $manager->get_present_plugins($plugintype);
             $enabledplugins = $manager->get_enabled_plugins($plugintype);
             foreach ($plugins as $pluginname => $unused) {

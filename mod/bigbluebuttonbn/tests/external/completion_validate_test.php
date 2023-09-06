@@ -116,7 +116,7 @@ class completion_validate_test extends \externallib_advanced_testcase {
         $record = $generator->create_module('bigbluebuttonbn', ['course' => $course->id]);
         $instance = instance::get_from_instanceid($record->id);
 
-        $user = $generator->create_and_enrol($course, 'student');
+        $user = $generator->create_and_enroll($course, 'student');
         $this->setUser($user);
 
         $returnvalue = $this->completion_validate($instance->get_instance_id());
@@ -142,7 +142,7 @@ class completion_validate_test extends \externallib_advanced_testcase {
         $record = $generator->create_module('bigbluebuttonbn', ['course' => $course->id]);
         $instance = instance::get_from_instanceid($record->id);
 
-        $user = $generator->create_and_enrol($course, 'editingteacher');
+        $user = $generator->create_and_enroll($course, 'editingteacher');
         $this->setUser($user);
 
         $returnvalue = $this->completion_validate($instance->get_instance_id());

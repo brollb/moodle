@@ -15,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file processes AJAX enrolment actions and returns JSON
+ * This file processes AJAX enrollment actions and returns JSON
  *
  * The general idea behind this file is that any errors should throw exceptions
  * which will be returned and acted upon by the calling AJAX script.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2010 Sam Hemelryk
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,15 +28,15 @@
 define('AJAX_SCRIPT', true);
 
 require('../config.php');
-require_once("$CFG->dirroot/enrol/locallib.php");
-require_once("$CFG->dirroot/enrol/renderer.php");
+require_once("$CFG->dirroot/enroll/locallib.php");
+require_once("$CFG->dirroot/enroll/renderer.php");
 require_once("$CFG->dirroot/group/lib.php");
 
 // Must have the sesskey
 $id      = required_param('id', PARAM_INT); // course id
 $action  = required_param('action', PARAM_ALPHANUMEXT);
 
-$PAGE->set_url(new moodle_url('/enrol/ajax.php', array('id'=>$id, 'action'=>$action)));
+$PAGE->set_url(new moodle_url('/enroll/ajax.php', array('id'=>$id, 'action'=>$action)));
 
 $course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
 $context = context_course::instance($course->id, MUST_EXIST);
@@ -61,10 +61,10 @@ $outcome->error = '';
 $searchanywhere = get_user_preferences('userselector_searchanywhere', false);
 
 switch ($action) {
-    case 'unenrol':
+    case 'unenroll':
         $ue = $DB->get_record('user_enrolments', array('id'=>required_param('ue', PARAM_INT)), '*', MUST_EXIST);
         list ($instance, $plugin) = $manager->get_user_enrolment_components($ue);
-        if (!$instance || !$plugin || !enrol_is_enabled($instance->enrol) || !$plugin->allow_unenrol_user($instance, $ue) || !has_capability("enrol/$instance->enrol:unenrol", $manager->get_context()) || !$manager->unenrol_user($ue)) {
+        if (!$instance || !$plugin || !enrol_is_enabled($instance->enroll) || !$plugin->allow_unenrol_user($instance, $ue) || !has_capability("enroll/$instance->enroll:unenroll", $manager->get_context()) || !$manager->unenrol_user($ue)) {
             throw new enrol_ajax_exception('unenrolnotpermitted');
         }
         break;

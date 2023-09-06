@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Fee enrolment plugin version specification.
+ * Fee enrollment plugin version specification.
  *
  * @package    enrol_fee
  * @copyright  2019 Shamim Rezaie <shamim@moodle.com>

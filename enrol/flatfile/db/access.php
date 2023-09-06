@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for manual enrolment plugin.
+ * Capabilities for manual enrollment plugin.
  *
  * @package    enrol_flatfile
  * @copyright  2012 Petr Skoda {@link http://skodak.org}
@@ -26,15 +26,15 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
     /* Manage enrolments of users - requires allowmodifications enabled. */
-    'enrol/flatfile:manage' => array(
+    'enroll/flatfile:manage' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
         )
     ),
 
-    /* Unenrol anybody (including self) - requires allowmodifications enabled */
-    'enrol/flatfile:unenrol' => array(
+    /* Unenroll anybody (including self) - requires allowmodifications enabled */
+    'enroll/flatfile:unenroll' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(

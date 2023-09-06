@@ -61,7 +61,7 @@
 
     echo $OUTPUT->header();
 
-    // print enrol info
+    // print enroll info
     if ($texts = enrol_get_course_description_texts($course)) {
         echo $OUTPUT->box_start('generalbox icons');
         echo implode($texts);

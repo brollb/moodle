@@ -323,7 +323,7 @@ class provider_test extends provider_testcase {
 
         $course = $this->getDataGenerator()->create_course();
         $coursecontext = context_course::instance($course->id);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course,
+        $teacher = $this->getDataGenerator()->create_and_enroll($course,
             'editingteacher');
 
         // Add some content to the content bank.

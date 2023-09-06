@@ -118,7 +118,7 @@ class generator_test extends \advanced_testcase {
         $this->assertCount(3, $plugins);
         // These are the plugins created in the generator. Check the results match them.
         $expectedplugins = [
-            'enrol' => [
+            'enroll' => [
                 'guest' => 0,
             ],
             'mod' => [

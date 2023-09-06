@@ -78,7 +78,7 @@ class completion_test extends \advanced_testcase {
 
         // Test hiding item since transitive dependency is not met.
         // Answering the first multichoice with 'y', should hide the second and therefor also the fourth.
-        $user1 = $this->getDataGenerator()->create_and_enrol($course);
+        $user1 = $this->getDataGenerator()->create_and_enroll($course);
         $completion = new mod_feedback_completion($feedback, $cm, $course,
             false, null, $user1->id);
 
@@ -101,7 +101,7 @@ class completion_test extends \advanced_testcase {
 
         // Test showing item since transitive dependency is met.
         // Answering the first multichoice with 'n' should hide the third multichoice.
-        $user2 = $this->getDataGenerator()->create_and_enrol($course);
+        $user2 = $this->getDataGenerator()->create_and_enroll($course);
         $completion2 = new mod_feedback_completion($feedback, $cm, $course,
             false, null, $user2->id);
 

@@ -32,7 +32,7 @@ class capabilities_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = self::getDataGenerator()->create_course(['enablecompletion' => 1]);
         $context = \context_course::instance($course->id);
-        $user = self::getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = self::getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $roleid = self::getDataGenerator()->create_role();
         self::getDataGenerator()->role_assign($roleid, $user->id, $context->id);
         assign_capability('moodle/calendar:manageentries', CAP_PROHIBIT, $roleid, $context, true);

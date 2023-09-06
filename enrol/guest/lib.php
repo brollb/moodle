@@ -36,15 +36,15 @@ defined('MOODLE_INTERNAL') || die();
 class enrol_guest_plugin extends enrol_plugin {
 
     /**
-     * Returns optional enrolment information icons.
+     * Returns optional enrollment information icons.
      *
-     * This is used in course list for quick overview of enrolment options.
+     * This is used in course list for quick overview of enrollment options.
      *
      * We are not using single instance parameter because sometimes
      * we might want to prevent icon repetition when multiple instances
      * of one type exist. One instance may also produce several icons.
      *
-     * @param array $instances all enrol instances of this type in one course
+     * @param array $instances all enroll instances of this type in one course
      * @return array of pix_icon
      */
     public function get_info_icons(array $instances) {
@@ -58,7 +58,7 @@ class enrol_guest_plugin extends enrol_plugin {
     }
 
     /**
-     * Enrol a user using a given enrolment instance.
+     * Enrol a user using a given enrollment instance.
      *
      * @param stdClass $instance
      * @param int $userid
@@ -74,13 +74,13 @@ class enrol_guest_plugin extends enrol_plugin {
     }
 
     /**
-     * Enrol a user from a given enrolment instance.
+     * Enrol a user from a given enrollment instance.
      *
      * @param stdClass $instance
      * @param int $userid
      */
     public function unenrol_user(stdClass $instance, $userid) {
-        // nothing to do, we never enrol here!
+        // nothing to do, we never enroll here!
         return;
     }
 
@@ -88,7 +88,7 @@ class enrol_guest_plugin extends enrol_plugin {
      * Attempt to automatically gain temporary guest access to course,
      * calling code has to make sure the plugin and instance are active.
      *
-     * @param stdClass $instance course enrol instance
+     * @param stdClass $instance course enroll instance
      * @return bool|int false means no guest access, integer means end of cached time
      */
     public function try_guestaccess(stdClass $instance) {
@@ -127,7 +127,7 @@ class enrol_guest_plugin extends enrol_plugin {
     }
 
     /**
-     * Returns true if the current user can add a new instance of enrolment plugin in course.
+     * Returns true if the current user can add a new instance of enrollment plugin in course.
      * @param int $courseid
      * @return boolean
      */
@@ -136,11 +136,11 @@ class enrol_guest_plugin extends enrol_plugin {
 
         $context = context_course::instance($courseid, MUST_EXIST);
 
-        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enrol/guest:config', $context)) {
+        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enroll/guest:config', $context)) {
             return false;
         }
 
-        if ($DB->record_exists('enrol', array('courseid'=>$courseid, 'enrol'=>'guest'))) {
+        if ($DB->record_exists('enroll', array('courseid'=>$courseid, 'enroll'=>'guest'))) {
             return false;
         }
 
@@ -148,7 +148,7 @@ class enrol_guest_plugin extends enrol_plugin {
     }
 
     /**
-     * Creates course enrol form, checks if form submitted
+     * Creates course enroll form, checks if form submitted
      * and enrols user if necessary. It can also redirect.
      *
      * @param stdClass $instance
@@ -161,12 +161,12 @@ class enrol_guest_plugin extends enrol_plugin {
             return null;
         }
 
-        if (isset($USER->enrol['tempguest'][$instance->courseid]) and $USER->enrol['tempguest'][$instance->courseid] > time()) {
+        if (isset($USER->enroll['tempguest'][$instance->courseid]) and $USER->enroll['tempguest'][$instance->courseid] > time()) {
             // no need to show the guest access when user can already enter course as guest
             return null;
         }
 
-        require_once("$CFG->dirroot/enrol/guest/locallib.php");
+        require_once("$CFG->dirroot/enroll/guest/locallib.php");
         $form = new enrol_guest_enrol_form(NULL, $instance);
         $instanceid = optional_param('instance', 0, PARAM_INT);
 
@@ -175,11 +175,11 @@ class enrol_guest_plugin extends enrol_plugin {
                 // add guest role
                 $context = context_course::instance($instance->courseid);
                 $USER->enrol_guest_passwords[$instance->id] = $data->guestpassword; // this is a hack, ideally we should not add stuff to $USER...
-                if (isset($USER->enrol['tempguest'][$instance->courseid])) {
+                if (isset($USER->enroll['tempguest'][$instance->courseid])) {
                     remove_temp_course_roles($context);
                 }
                 load_temp_course_role($context, $CFG->guestroleid);
-                $USER->enrol['tempguest'][$instance->courseid] = ENROL_MAX_TIMESTAMP;
+                $USER->enroll['tempguest'][$instance->courseid] = ENROL_MAX_TIMESTAMP;
 
                 // go to the originally requested page
                 if (!empty($SESSION->wantsurl)) {
@@ -222,13 +222,13 @@ class enrol_guest_plugin extends enrol_plugin {
                 }
                 $this->add_instance($course, $fields);
             } else {
-                if ($this->get_config('defaultenrol')) {
+                if ($this->get_config('defaultenroll')) {
                     $this->add_default_instance($course);
                 }
             }
 
         } else {
-            $instances = $DB->get_records('enrol', array('courseid'=>$course->id, 'enrol'=>'guest'));
+            $instances = $DB->get_records('enroll', array('courseid'=>$course->id, 'enroll'=>'guest'));
             foreach ($instances as $instance) {
                 $i = $instance->id;
 
@@ -243,7 +243,7 @@ class enrol_guest_plugin extends enrol_plugin {
                         }
                         $instance->password = $data->{'enrol_guest_password_'.$i};
                     }
-                    $DB->update_record('enrol', $instance);
+                    $DB->update_record('enroll', $instance);
                     \core\event\enrol_instance_updated::create_from_record($instance)->trigger();
 
                     if ($reset) {
@@ -256,7 +256,7 @@ class enrol_guest_plugin extends enrol_plugin {
     }
 
     /**
-     * Add new instance of enrol plugin.
+     * Add new instance of enroll plugin.
      * @param object $course
      * @param array instance fields
      * @return int id of new instance, null if can not be created
@@ -272,7 +272,7 @@ class enrol_guest_plugin extends enrol_plugin {
     }
 
     /**
-     * Add new instance of enrol plugin with default settings.
+     * Add new instance of enroll plugin with default settings.
      * @param object $course
      * @return int id of new instance
      */
@@ -297,34 +297,34 @@ class enrol_guest_plugin extends enrol_plugin {
     public function restore_instance(restore_enrolments_structure_step $step, stdClass $data, $course, $oldid) {
         global $DB;
 
-        if (!$DB->record_exists('enrol', array('courseid' => $data->courseid, 'enrol' => $this->get_name()))) {
+        if (!$DB->record_exists('enroll', array('courseid' => $data->courseid, 'enroll' => $this->get_name()))) {
             $this->add_instance($course, (array)$data);
         }
 
         // No need to set mapping, we do not restore users or roles here.
-        $step->set_mapping('enrol', $oldid, 0);
+        $step->set_mapping('enroll', $oldid, 0);
     }
 
     /**
-     * Is it possible to delete enrol instance via standard UI?
+     * Is it possible to delete enroll instance via standard UI?
      *
      * @param object $instance
      * @return bool
      */
     public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/guest:config', $context);
+        return has_capability('enroll/guest:config', $context);
     }
 
     /**
-     * Is it possible to hide/show enrol instance via standard UI?
+     * Is it possible to hide/show enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        if (!has_capability('enrol/guest:config', $context)) {
+        if (!has_capability('enroll/guest:config', $context)) {
             return false;
         }
 
@@ -360,10 +360,10 @@ class enrol_guest_plugin extends enrol_plugin {
     }
 
     /**
-     * Return information for enrolment instance containing list of parameters required
-     * for enrolment, name of enrolment plugin etc.
+     * Return information for enrollment instance containing list of parameters required
+     * for enrollment, name of enrollment plugin etc.
      *
-     * @param stdClass $instance enrolment instance
+     * @param stdClass $instance enrollment instance
      * @return stdClass instance info.
      * @since Moodle 3.1
      */
@@ -376,7 +376,7 @@ class enrol_guest_plugin extends enrol_plugin {
         $instanceinfo->name = $this->get_instance_name($instance);
         $instanceinfo->status = $instance->status == ENROL_INSTANCE_ENABLED;
 
-        // Specifics enrolment method parameters.
+        // Specifics enrollment method parameters.
         $instanceinfo->requiredparam = new stdClass();
         $instanceinfo->requiredparam->passwordrequired = !empty($instance->password);
 
@@ -490,7 +490,7 @@ class enrol_guest_plugin extends enrol_plugin {
     }
 
     /**
-     * Check if enrolment plugin is supported in csv course upload.
+     * Check if enrollment plugin is supported in csv course upload.
      *
      * @return bool
      */

@@ -75,12 +75,12 @@ class backup_course_task extends backup_task {
         // annotating some bits, tags and module restrictions
         $this->add_step(new backup_course_structure_step('course_info', 'course.xml'));
 
-        // Generate the enrolment file (conditionally, prevent it in any IMPORT/HUB operation)
+        // Generate the enrollment file (conditionally, prevent it in any IMPORT/HUB operation)
         if ($this->plan->get_mode() != backup::MODE_IMPORT && $this->plan->get_mode() != backup::MODE_HUB) {
             $this->add_step(new backup_enrolments_structure_step('course_enrolments', 'enrolments.xml'));
         }
 
-        // Annotate enrolment custom fields.
+        // Annotate enrollment custom fields.
         $this->add_step(new backup_enrolments_execution_step('annotate_enrol_custom_fields'));
 
         // Annotate all the groups and groupings belonging to the course. This can be optional.

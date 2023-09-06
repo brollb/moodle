@@ -1,6 +1,6 @@
-@enrol @enrol_lti
-Feature: Check that settings are adhered to when creating an enrolment plugin
-  In order to create an LTI enrolment instance
+@enroll @enrol_lti
+Feature: Check that settings are adhered to when creating an enrollment plugin
+  In order to create an LTI enrollment instance
   As an admin
   I need to ensure the site-wide settings are used
 
@@ -16,7 +16,7 @@ Feature: Check that settings are adhered to when creating an enrolment plugin
       | user | course | role |
       | teacher1 | C1 | editingteacher |
     And I log in as "admin"
-    And I navigate to "Plugins > Enrolments > Manage enrol plugins" in site administration
+    And I navigate to "Plugins > Enrolments > Manage enroll plugins" in site administration
     And I click on "Enable" "link" in the "Publish as LTI tool" "table_row"
     And I navigate to "Plugins > Enrolments > Publish as LTI tool" in site administration
     And I set the following fields to these values:
@@ -28,9 +28,9 @@ Feature: Check that settings are adhered to when creating an enrolment plugin
     And I press "Save changes"
     And I log out
 
-  Scenario: As an admin set site-wide settings for the enrolment plugin and ensure they are used
+  Scenario: As an admin set site-wide settings for the enrollment plugin and ensure they are used
     Given I log in as "teacher1"
-    And I am on the "Course 1" "enrolment methods" page
+    And I am on the "Course 1" "enrollment methods" page
     And I select "Publish as LTI tool" from the "Add method" singleselect
     When I expand all fieldsets
     Then the field "Email visibility" matches value "Visible to everyone"

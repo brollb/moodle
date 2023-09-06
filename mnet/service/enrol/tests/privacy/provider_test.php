@@ -15,18 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy test for the mnetservice_enrol implementation of the privacy API.
+ * Privacy test for the mnetservice_enroll implementation of the privacy API.
  *
- * @package    mnetservice_enrol
+ * @package    mnetservice_enroll
  * @category   test
  * @copyright  2018 Carlos Escobedo <carlos@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace mnetservice_enrol\privacy;
+namespace mnetservice_enroll\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mnetservice_enrol\privacy\provider;
+use mnetservice_enroll\privacy\provider;
 use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\request\writer;
 use core_privacy\local\request\transform;
@@ -34,7 +34,7 @@ use core_privacy\tests\provider_testcase;
 use core_privacy\local\request\approved_userlist;
 
 /**
- * Privacy test for the mnetservice_enrol.
+ * Privacy test for the mnetservice_enroll.
  *
  * @copyright  2018 Carlos Escobedo <carlos@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -44,8 +44,8 @@ class provider_test extends provider_testcase {
     /** @var stdClass the mnet host we are using to test. */
     protected $mnethost;
 
-    /** @var stdClass the mnet service enrolment to test. */
-    protected $enrolment;
+    /** @var stdClass the mnet service enrollment to test. */
+    protected $enrollment;
 
     /**
      * Test set up.
@@ -70,7 +70,7 @@ class provider_test extends provider_testcase {
         $user = $this->getDataGenerator()->create_user();
         $this->assertEmpty(provider::get_contexts_for_userid($user->id));
 
-        // Create a test MNet service enrol enrolments.
+        // Create a test MNet service enroll enrolments.
         $remotecourseid = 101;
         $this->insert_mnetservice_enrol_courses($remotecourseid);
         $this->insert_mnetservice_enrol_enrolments($user->id, $remotecourseid);
@@ -93,28 +93,28 @@ class provider_test extends provider_testcase {
         $user = $this->getDataGenerator()->create_user();
         $this->assertEmpty(provider::get_contexts_for_userid($user->id));
 
-        // Create a test MNet service enrol enrolments.
+        // Create a test MNet service enroll enrolments.
         $remotecourseid = 101;
         $this->insert_mnetservice_enrol_courses($remotecourseid);
         $this->insert_mnetservice_enrol_enrolments($user->id, $remotecourseid);
 
         $subcontexts = [
-            get_string('privacy:metadata:mnetservice_enrol_enrolments', 'mnetservice_enrol')
+            get_string('privacy:metadata:mnetservice_enrol_enrolments', 'mnetservice_enroll')
         ];
         $usercontext = \context_user::instance($user->id);
         $writer = writer::with_context($usercontext);
         $this->assertFalse($writer->has_any_data());
-        $approvedlist = new approved_contextlist($user, 'mnetservice_enrol', [$usercontext->id]);
+        $approvedlist = new approved_contextlist($user, 'mnetservice_enroll', [$usercontext->id]);
         provider::export_user_data($approvedlist);
         $data = (array)$writer->get_data($subcontexts);
         $this->assertCount(1, $data);
         $this->assertEquals($this->mnethost->name, reset($data)->host);
         $remotecoursename = $DB->get_field('mnetservice_enrol_courses', 'fullname',
-            array('remoteid' => $this->enrolment->remotecourseid));
+            array('remoteid' => $this->enrollment->remotecourseid));
         $this->assertEquals($remotecoursename, reset($data)->remotecourseid);
-        $this->assertEquals($this->enrolment->rolename, reset($data)->rolename);
-        $this->assertEquals($this->enrolment->enroltype, reset($data)->enroltype);
-        $this->assertEquals(transform::datetime($this->enrolment->enroltime), reset($data)->enroltime);
+        $this->assertEquals($this->enrollment->rolename, reset($data)->rolename);
+        $this->assertEquals($this->enrollment->enroltype, reset($data)->enroltype);
+        $this->assertEquals(transform::datetime($this->enrollment->enroltime), reset($data)->enroltime);
     }
 
     /**
@@ -129,7 +129,7 @@ class provider_test extends provider_testcase {
         $user3 = $this->getDataGenerator()->create_user();
         $this->assertEmpty(provider::get_contexts_for_userid($user->id));
 
-        // Create a test MNet service enrol enrolments.
+        // Create a test MNet service enroll enrolments.
         $remotecourseid = 101;
         $this->insert_mnetservice_enrol_courses($remotecourseid);
         $this->insert_mnetservice_enrol_enrolments($user->id, $remotecourseid);
@@ -181,7 +181,7 @@ class provider_test extends provider_testcase {
         $userenrolments = $DB->get_records('mnetservice_enrol_enrolments', array('userid' => $user->id));
         $this->assertCount(2, $userenrolments);
         // Delete everything for the first user.
-        $approvedlist = new approved_contextlist($user, 'mnetservice_enrol', [$usercontext->id]);
+        $approvedlist = new approved_contextlist($user, 'mnetservice_enroll', [$usercontext->id]);
         provider::delete_data_for_user($approvedlist);
         // Get all user enrolments match with user.
         $userenrolments = $DB->get_records('mnetservice_enrol_enrolments', ['userid' => $user->id]);
@@ -197,7 +197,7 @@ class provider_test extends provider_testcase {
     public function test_get_users_in_context() {
         $this->resetAfterTest();
 
-        $component = 'mnetservice_enrol';
+        $component = 'mnetservice_enroll';
 
         // Create a user.
         $user = $this->getDataGenerator()->create_user();
@@ -210,7 +210,7 @@ class provider_test extends provider_testcase {
         provider::get_users_in_context($userlist);
         $this->assertCount(0, $userlist);
 
-        // Create a test MNet service enrol enrolments.
+        // Create a test MNet service enroll enrolments.
         $remotecourseid = 101;
         $this->insert_mnetservice_enrol_courses($remotecourseid);
         $this->insert_mnetservice_enrol_enrolments($user->id, $remotecourseid);
@@ -235,7 +235,7 @@ class provider_test extends provider_testcase {
     public function test_delete_data_for_users() {
         $this->resetAfterTest();
 
-        $component = 'mnetservice_enrol';
+        $component = 'mnetservice_enroll';
 
         // Create user1.
         $user1 = $this->getDataGenerator()->create_user();
@@ -244,7 +244,7 @@ class provider_test extends provider_testcase {
         $user2 = $this->getDataGenerator()->create_user();
         $usercontext2 = \context_user::instance($user2->id);
 
-        // Create a test MNet service enrol enrolments.
+        // Create a test MNet service enroll enrolments.
         $remotecourseid = 101;
         $this->insert_mnetservice_enrol_courses($remotecourseid);
         $this->insert_mnetservice_enrol_enrolments($user1->id, $remotecourseid);
@@ -294,7 +294,7 @@ class provider_test extends provider_testcase {
     }
 
     /**
-     * Help function to create a simulation of MNet service enrol.
+     * Help function to create a simulation of MNet service enroll.
      * Create a Dummy Enrol into mnetservice_enrol_enrolments.
      *
      * @param  int $userid  Userid.
@@ -303,19 +303,19 @@ class provider_test extends provider_testcase {
     protected function insert_mnetservice_enrol_enrolments($userid, $remotecourseid) {
         global $DB;
 
-        // Create a test MNet service enrol enrolments.
-        $this->enrolment                  = new \stdClass();
-        $this->enrolment->hostid          = $this->mnethost->id;
-        $this->enrolment->userid          = $userid;
-        $this->enrolment->remotecourseid  = $remotecourseid;
-        $this->enrolment->rolename        = 'student';
-        $this->enrolment->enroltime       = time();
-        $this->enrolment->enroltype       = 'mnet';
-        $DB->insert_record('mnetservice_enrol_enrolments', $this->enrolment);
+        // Create a test MNet service enroll enrolments.
+        $this->enrollment                  = new \stdClass();
+        $this->enrollment->hostid          = $this->mnethost->id;
+        $this->enrollment->userid          = $userid;
+        $this->enrollment->remotecourseid  = $remotecourseid;
+        $this->enrollment->rolename        = 'student';
+        $this->enrollment->enroltime       = time();
+        $this->enrollment->enroltype       = 'mnet';
+        $DB->insert_record('mnetservice_enrol_enrolments', $this->enrollment);
     }
 
     /**
-     * Help function to create a simualtion of MNet service enrol.
+     * Help function to create a simualtion of MNet service enroll.
      * Create a Dummy Course into mnetservice_enrol_courses.
      * Important: The real course is on the host.
      *

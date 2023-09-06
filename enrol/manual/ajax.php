@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file processes AJAX enrolment actions and returns JSON for the manual enrolments plugin
+ * This file processes AJAX enrollment actions and returns JSON for the manual enrolments plugin
  *
  * The general idea behind this file is that any errors should throw exceptions
  * which will be returned and acted upon by the calling AJAX script.
@@ -28,16 +28,16 @@
 define('AJAX_SCRIPT', true);
 
 require('../../config.php');
-require_once($CFG->dirroot.'/enrol/locallib.php');
+require_once($CFG->dirroot.'/enroll/locallib.php');
 require_once($CFG->dirroot.'/group/lib.php');
-require_once($CFG->dirroot.'/enrol/manual/locallib.php');
+require_once($CFG->dirroot.'/enroll/manual/locallib.php');
 require_once($CFG->dirroot.'/cohort/lib.php');
-require_once($CFG->dirroot . '/enrol/manual/classes/enrol_users_form.php');
+require_once($CFG->dirroot . '/enroll/manual/classes/enrol_users_form.php');
 
 $id      = required_param('id', PARAM_INT); // Course id.
 $action  = required_param('action', PARAM_ALPHANUMEXT);
 
-$PAGE->set_url(new moodle_url('/enrol/ajax.php', array('id'=>$id, 'action'=>$action)));
+$PAGE->set_url(new moodle_url('/enroll/ajax.php', array('id'=>$id, 'action'=>$action)));
 
 $course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
 $context = context_course::instance($course->id, MUST_EXIST);
@@ -63,7 +63,7 @@ $outcome->count = 0;
 $searchanywhere = get_user_preferences('userselector_searchanywhere', false);
 
 switch ($action) {
-    case 'enrol':
+    case 'enroll':
         $enrolid = required_param('enrolid', PARAM_INT);
         $cohorts = $users = [];
 
@@ -157,11 +157,11 @@ switch ($action) {
             throw new enrol_ajax_exception('invalidenrolinstance');
         }
         $instance = $instances[$enrolid];
-        if (!isset($plugins[$instance->enrol])) {
+        if (!isset($plugins[$instance->enroll])) {
             throw new enrol_ajax_exception('enrolnotpermitted');
         }
-        $plugin = $plugins[$instance->enrol];
-        if ($plugin->allow_enrol($instance) && has_capability('enrol/'.$plugin->get_name().':enrol', $context)) {
+        $plugin = $plugins[$instance->enroll];
+        if ($plugin->allow_enroll($instance) && has_capability('enroll/'.$plugin->get_name().':enroll', $context)) {
             foreach ($users as $user) {
                 $plugin->enrol_user($instance, $user->id, $roleid, $timestart, $timeend, null, $recovergrades);
             }

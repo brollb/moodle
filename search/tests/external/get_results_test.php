@@ -58,8 +58,8 @@ class get_results_test extends \externallib_advanced_testcase {
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(['fullname' => 'SearchTest course']);
         $anothercourse = $generator->create_course(['fullname' => 'Another']);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $studentothercourse = $this->getDataGenerator()->create_and_enrol($anothercourse, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $studentothercourse = $this->getDataGenerator()->create_and_enroll($anothercourse, 'student');
         $page = $generator->create_module('page', ['course' => $course->id, 'name' => 'SearchTest page']);
         $forum = $generator->create_module('forum', ['course' => $course->id]);
 

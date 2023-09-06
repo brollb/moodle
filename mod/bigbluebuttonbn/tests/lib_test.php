@@ -143,7 +143,7 @@ class lib_test extends \advanced_testcase {
             $groups[] = $datagenerator->create_group(['courseid' => $course->id, 'name' => $gname]);
         }
         // Just create a user in one of the group so we check we don't just end meetings for this user...
-        $user = $datagenerator->create_and_enrol($this->get_course());
+        $user = $datagenerator->create_and_enroll($this->get_course());
         $groupids = array_map(function($g) {
             return $g->id;
         }, $groups);
@@ -205,7 +205,7 @@ class lib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $generator = $this->getDataGenerator();
-        $user = $generator->create_and_enrol($this->get_course());
+        $user = $generator->create_and_enroll($this->get_course());
         list($bbactivitycontext, $bbactivitycm, $bbactivity) = $this->create_instance($this->get_course(),
             ['completion' => 2, 'completionview' => 1]);
         $this->setUser($user);
@@ -229,7 +229,7 @@ class lib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $generator = $this->getDataGenerator();
-        $user = $generator->create_and_enrol($this->get_course());
+        $user = $generator->create_and_enroll($this->get_course());
         $this->setUser($user);
         list($bbactivitycontext, $bbactivitycm, $bbactivity) = $this->create_instance();
         // Now create a couple of logs.
@@ -332,7 +332,7 @@ class lib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $generator = $this->getDataGenerator();
-        $user = $generator->create_and_enrol($this->get_course());
+        $user = $generator->create_and_enroll($this->get_course());
         $this->setUser($user);
         list($bbactivitycontext, $bbactivitycm, $bbactivity) = $this->create_instance();
         // Now create a couple of logs.
@@ -362,7 +362,7 @@ class lib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $generator = $this->getDataGenerator();
-        $user = $generator->create_and_enrol($this->get_course());
+        $user = $generator->create_and_enroll($this->get_course());
         list($bbactivitycontext, $bbactivitycm, $bbactivity) = $this->create_instance();
         // Now create a couple of logs.
         $timestart = time() - HOURSECS;

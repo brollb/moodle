@@ -1,4 +1,4 @@
-@enrol @enrol_lti
+@enroll @enrol_lti
 Feature: Check that the page listing the shared external tools is functioning as expected
   In order to edit an external tool
   As a teacher
@@ -18,14 +18,14 @@ Feature: Check that the page listing the shared external tools is functioning as
       | activity | name                 | intro                    | course | idnumber  | section |
       | assign   | Test assignment name | Submit your online text  | C1     | assign1   | 1       |
     And I log in as "admin"
-    And I navigate to "Plugins > Enrolments > Manage enrol plugins" in site administration
+    And I navigate to "Plugins > Enrolments > Manage enroll plugins" in site administration
     And I click on "Enable" "link" in the "Publish as LTI tool" "table_row"
     And I log out
 
   Scenario: I want to edit an external tool
     Given I log in as "teacher1"
     And I turn editing mode on
-    And I am on the "Course 1" "enrolment methods" page
+    And I am on the "Course 1" "enrollment methods" page
     And I select "Publish as LTI tool" from the "Add method" singleselect
     And I set the following fields to these values:
       | Custom instance name | Assignment - LTI |

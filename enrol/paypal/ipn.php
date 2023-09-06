@@ -19,7 +19,7 @@
  *
  * This script waits for Payment notification from PayPal,
  * then double checks that data by sending it back to PayPal.
- * If PayPal verifies this then it sets up the enrolment for that
+ * If PayPal verifies this then it sets up the enrollment for that
  * user.
  *
  * @package    enrol_paypal
@@ -98,7 +98,7 @@ $context = context_course::instance($course->id, MUST_EXIST);
 
 $PAGE->set_context($context);
 
-$plugin_instance = $DB->get_record("enrol", array("id" => $data->instanceid, "enrol" => "paypal", "status" => 0), "*", MUST_EXIST);
+$plugin_instance = $DB->get_record("enroll", array("id" => $data->instanceid, "enroll" => "paypal", "status" => 0), "*", MUST_EXIST);
 $plugin = enrol_get_plugin('paypal');
 
 /// Open a connection back to PayPal to validate the data
@@ -128,7 +128,7 @@ if (strlen($result) > 0) {
 
         // check the payment_status and payment_reason
 
-        // If status is not completed or pending then unenrol the student if already enrolled
+        // If status is not completed or pending then unenroll the student if already enrolled
         // and notify admin
 
         if ($data->payment_status != "Completed" and $data->payment_status != "Pending") {
@@ -155,7 +155,7 @@ if (strlen($result) > 0) {
             $eventdata->courseid          = empty($data->courseid) ? SITEID : $data->courseid;
             $eventdata->modulename        = 'moodle';
             $eventdata->component         = 'enrol_paypal';
-            $eventdata->name              = 'paypal_enrolment';
+            $eventdata->name              = 'paypal_enrollment';
             $eventdata->userfrom          = get_admin();
             $eventdata->userto            = $user;
             $eventdata->subject           = "Moodle: PayPal payment";
@@ -219,7 +219,7 @@ if (strlen($result) > 0) {
             $cost = (float) $plugin_instance->cost;
         }
 
-        // Use the same rounding of floats as on the enrol form.
+        // Use the same rounding of floats as on the enroll form.
         $cost = format_float($cost, 2, false);
 
         if ($data->payment_gross < $cost) {
@@ -269,10 +269,10 @@ if (strlen($result) > 0) {
             $eventdata->courseid          = $course->id;
             $eventdata->modulename        = 'moodle';
             $eventdata->component         = 'enrol_paypal';
-            $eventdata->name              = 'paypal_enrolment';
+            $eventdata->name              = 'paypal_enrollment';
             $eventdata->userfrom          = empty($teacher) ? core_user::get_noreply_user() : $teacher;
             $eventdata->userto            = $user;
-            $eventdata->subject           = get_string("enrolmentnew", 'enrol', $shortname);
+            $eventdata->subject           = get_string("enrolmentnew", 'enroll', $shortname);
             $eventdata->fullmessage       = get_string('welcometocoursetext', '', $a);
             $eventdata->fullmessageformat = FORMAT_PLAIN;
             $eventdata->fullmessagehtml   = '';
@@ -289,11 +289,11 @@ if (strlen($result) > 0) {
             $eventdata->courseid          = $course->id;
             $eventdata->modulename        = 'moodle';
             $eventdata->component         = 'enrol_paypal';
-            $eventdata->name              = 'paypal_enrolment';
+            $eventdata->name              = 'paypal_enrollment';
             $eventdata->userfrom          = $user;
             $eventdata->userto            = $teacher;
-            $eventdata->subject           = get_string("enrolmentnew", 'enrol', $shortname);
-            $eventdata->fullmessage       = get_string('enrolmentnewuser', 'enrol', $a);
+            $eventdata->subject           = get_string("enrolmentnew", 'enroll', $shortname);
+            $eventdata->fullmessage       = get_string('enrolmentnewuser', 'enroll', $a);
             $eventdata->fullmessageformat = FORMAT_PLAIN;
             $eventdata->fullmessagehtml   = '';
             $eventdata->smallmessage      = '';
@@ -309,11 +309,11 @@ if (strlen($result) > 0) {
                 $eventdata->courseid          = $course->id;
                 $eventdata->modulename        = 'moodle';
                 $eventdata->component         = 'enrol_paypal';
-                $eventdata->name              = 'paypal_enrolment';
+                $eventdata->name              = 'paypal_enrollment';
                 $eventdata->userfrom          = $user;
                 $eventdata->userto            = $admin;
-                $eventdata->subject           = get_string("enrolmentnew", 'enrol', $shortname);
-                $eventdata->fullmessage       = get_string('enrolmentnewuser', 'enrol', $a);
+                $eventdata->subject           = get_string("enrolmentnew", 'enroll', $shortname);
+                $eventdata->fullmessage       = get_string('enrolmentnewuser', 'enroll', $a);
                 $eventdata->fullmessageformat = FORMAT_PLAIN;
                 $eventdata->fullmessagehtml   = '';
                 $eventdata->smallmessage      = '';

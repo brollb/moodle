@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Meta enrol external functions and service definitions.
+ * Meta enroll external functions and service definitions.
  *
  * @package    enrol_meta
  * @copyright  2021 WKS KV Bildung
@@ -28,8 +28,8 @@ $functions = [
     'enrol_meta_add_instances' => [
         'classname' => \enrol_meta\external\add_instances::class,
         'methodname' => 'execute',
-        'description' => 'Add meta enrolment instances',
-        'capabilities' => 'enrol/meta:config',
+        'description' => 'Add meta enrollment instances',
+        'capabilities' => 'enroll/meta:config',
         'type' => 'write',
         'ajax' => true,
         'loginrequired' => true,
@@ -37,8 +37,8 @@ $functions = [
     'enrol_meta_delete_instances' => [
         'classname' => \enrol_meta\external\delete_instances::class,
         'methodname' => 'execute',
-        'description' => 'Delete meta enrolment instances',
-        'capabilities' => 'enrol/meta:config',
+        'description' => 'Delete meta enrollment instances',
+        'capabilities' => 'enroll/meta:config',
         'type' => 'write',
         'ajax' => true,
         'loginrequired' => true,

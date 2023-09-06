@@ -12,14 +12,14 @@ Information provided here is intended especially for developers.
 * The following report entity columns have been deprecated, with replacements as follows:
   - `comment:context` => `context:name`
   - `comment:contexturl` => `context:link`
-  - `enrolment:method` => `enrol:name` (plus enrolment formatter `enrolment_name` method)
-  - 'enrolment:role` => `role:name`
+  - `enrollment:method` => `enroll:name` (plus enrollment formatter `enrolment_name` method)
+  - 'enrollment:role` => `role:name`
   - `file:context` => `context:name`
   - `file:contexturl` => `context:link`
   - `instance:context` (tag) => `context:name`
   - `instance:contexturl` (tag) => `context:link`
 * The following report entity filters/conditions have been deprecated, with replacements as follows:
-  - `enrolment:method` => `enrol:plugin`
+  - `enrollment:method` => `enroll:plugin`
 * The `local/audience/form` template outer region has renamed some of it's `data-` attributes (relevant for any themes that
   have overridden this template):
   - `data-instanceid` => `data-audience-id`

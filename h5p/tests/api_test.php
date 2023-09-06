@@ -463,8 +463,8 @@ class api_test extends \advanced_testcase {
 
         // Create some users.
         $this->setAdminUser();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $users = [
             'admin' => $USER,
             'teacher' => $teacher,

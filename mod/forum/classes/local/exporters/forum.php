@@ -130,7 +130,7 @@ class forum extends exporter {
             'capabilities' => [
                 'viewdiscussions' => $capabilitymanager->can_view_discussions($user),
                 'create' => $capabilitymanager->can_create_discussions($user, $currentgroup),
-                'selfenrol' => $capabilitymanager->can_self_enrol($user),
+                'selfenroll' => $capabilitymanager->can_self_enroll($user),
                 'subscribe' => $capabilitymanager->can_subscribe_to_forum($user),
                 'grade' => $capabilitymanager->can_grade($user),
             ],

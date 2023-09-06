@@ -36,7 +36,7 @@ class stateactions_test extends \advanced_testcase {
      * @param string $rolename the rolename
      */
     private function enrol_user(stdClass $course, string $rolename): void {
-        // Create and enrol user using given role.
+        // Create and enroll user using given role.
         if ($rolename == 'admin') {
             $this->setAdminUser();
         } else {

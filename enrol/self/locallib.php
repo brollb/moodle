@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Self enrol plugin implementation.
+ * Self enroll plugin implementation.
  *
  * @package    enrol_self
  * @copyright  2010 Petr Skoda  {@link http://skodak.org}
@@ -25,13 +25,13 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/formslib.php");
-require_once($CFG->dirroot . '/enrol/locallib.php');
+require_once($CFG->dirroot . '/enroll/locallib.php');
 
 /**
- * Check if the given password match a group enrolment key in the specified course.
+ * Check if the given password match a group enrollment key in the specified course.
  *
  * @param  int $courseid            course id
- * @param  string $enrolpassword    enrolment password
+ * @param  string $enrolpassword    enrollment password
  * @return bool                     True if match
  * @since  Moodle 3.0
  */
@@ -78,13 +78,13 @@ class enrol_self_enrol_form extends moodleform {
         $mform->addElement('header', 'selfheader', $heading);
 
         if ($instance->password) {
-            // Change the id of self enrolment key input as there can be multiple self enrolment methods.
+            // Change the id of self enrollment key input as there can be multiple self enrollment methods.
             $mform->addElement('password', 'enrolpassword', get_string('password', 'enrol_self'),
                     array('id' => 'enrolpassword_'.$instance->id));
             $context = context_course::instance($this->instance->courseid);
             $userfieldsapi = \core_user\fields::for_userpic();
             $ufields = $userfieldsapi->get_sql('u', false, '', '', false)->selects;
-            $keyholders = get_users_by_capability($context, 'enrol/self:holdkey', $ufields);
+            $keyholders = get_users_by_capability($context, 'enroll/self:holdkey', $ufields);
             $keyholdercount = 0;
             foreach ($keyholders as $keyholder) {
                 $keyholdercount++;
@@ -132,7 +132,7 @@ class enrol_self_enrol_form extends moodleform {
         if ($instance->password) {
             if ($data['enrolpassword'] !== $instance->password) {
                 if ($instance->customint1) {
-                    // Check group enrolment key.
+                    // Check group enrollment key.
                     if (!enrol_self_check_group_enrolment_key($instance->courseid, $data['enrolpassword'])) {
                         // We can not hint because there are probably multiple passwords.
                         $errors['enrolpassword'] = get_string('passwordinvalid', 'enrol_self');

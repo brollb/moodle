@@ -124,9 +124,9 @@ if (has_capability('moodle/grade:viewall', $context)) {
         $userid = null;
     }
 
-    $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-    $showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-    $showonlyactiveenrol = $showonlyactiveenrol || !has_capability('moodle/course:viewsuspendedusers', $context);
+    $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+    $showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
+    $showonlyactiveenroll = $showonlyactiveenroll || !has_capability('moodle/course:viewsuspendedusers', $context);
 
     if ($userview == GRADE_REPORT_USER_VIEW_USER) {
         $viewasuser = true;
@@ -135,7 +135,7 @@ if (has_capability('moodle/grade:viewall', $context)) {
     }
 
     $gui = new graded_users_iterator($course, null, $currentgroup);
-    $gui->require_active_enrolment($showonlyactiveenrol);
+    $gui->require_active_enrollment($showonlyactiveenroll);
     $gui->init();
 
     if (is_null($userid)) { // Zero state.

@@ -81,7 +81,7 @@ class report_test extends \advanced_testcase {
         $q = $questiongenerator->create_question('essay', 'plain', ['category' => $cat->id]);
         quiz_add_quiz_question($q->id, $quiz, 0 , 10);
 
-        // Create some students and enrol them in the course.
+        // Create some students and enroll them in the course.
         $student1 = $generator->create_user();
         $student2 = $generator->create_user();
         $student3 = $generator->create_user();
@@ -90,10 +90,10 @@ class report_test extends \advanced_testcase {
         $generator->enrol_user($student3->id, $course->id);
         // This line is not really necessary for the test asserts below,
         // but what it does is add an extra user row returned by
-        // get_enrolled_with_capabilities_join because of a second enrolment.
+        // get_enrolled_with_capabilities_join because of a second enrollment.
         // The extra row returned used to make $table->query_db complain
         // about duplicate records. So this is really a test that an extra
-        // student enrolment does not cause duplicate records in this query.
+        // student enrollment does not cause duplicate records in this query.
         $generator->enrol_user($student2->id, $course->id, null, 'self');
 
         // Also create a user who should not appear in the reports,
@@ -300,7 +300,7 @@ class report_test extends \advanced_testcase {
         $q = $questiongenerator->create_question('essay', 'plain', ['category' => $cat->id]);
         quiz_add_quiz_question($q->id, $quiz, 0 , 10);
 
-        // Create student and enrol them in the course.
+        // Create student and enroll them in the course.
         // Note: we create two enrolments, to test the problem reported in MDL-67942.
         $student = $generator->create_user();
         $generator->enrol_user($student->id, $course->id);

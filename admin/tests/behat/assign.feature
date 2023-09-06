@@ -38,7 +38,7 @@ Feature: Staff can assign user roles
     And I should see "User One" in the "#removeselect" "css_element"
 
   @javascript
-  Scenario: Unenrol at system level using custom field search
+  Scenario: Unenroll at system level using custom field search
     Given the following "role assigns" exist:
       | user  | role    | contextlevel | reference |
       | user1 | manager | System       |           |
@@ -66,7 +66,7 @@ Feature: Staff can assign user roles
     And I should see "User One" in the "#removeselect" "css_element"
 
   @javascript
-  Scenario: Unenrol at activity level using custom field search
+  Scenario: Unenroll at activity level using custom field search
     Given the following "role assigns" exist:
       | user  | role           | contextlevel    | reference |
       | user1 | editingteacher | Activity module | page1     |

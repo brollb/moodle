@@ -133,17 +133,17 @@ class provider implements
 
         $futureenrolments = $DB->get_recordset_sql($sql, $params);
         $enrolmentdata = [];
-        foreach ($futureenrolments as $futureenrolment) {
-            // It's possible to have more than one future enrolment per course.
-            $futureenrolment->timestart = transform::datetime($futureenrolment->timestart);
-            $futureenrolment->timeend = transform::datetime($futureenrolment->timeend);
-            $futureenrolment->timemodified = transform::datetime($futureenrolment->timemodified);
-            $enrolmentdata[$futureenrolment->courseid][] = $futureenrolment;
+        foreach ($futureenrolments as $futureenrollment) {
+            // It's possible to have more than one future enrollment per course.
+            $futureenrollment->timestart = transform::datetime($futureenrollment->timestart);
+            $futureenrollment->timeend = transform::datetime($futureenrollment->timeend);
+            $futureenrollment->timemodified = transform::datetime($futureenrollment->timemodified);
+            $enrolmentdata[$futureenrollment->courseid][] = $futureenrollment;
         }
         $futureenrolments->close();
 
         // And finally, write out the data to the relevant course contexts.
-        $subcontext = \core_enrol\privacy\provider::get_subcontext([get_string('pluginname', 'enrol_flatfile')]);
+        $subcontext = \core_enroll\privacy\provider::get_subcontext([get_string('pluginname', 'enrol_flatfile')]);
         foreach ($enrolmentdata as $courseid => $enrolments) {
             $data = (object) [
                 'pendingenrolments' => $enrolments,

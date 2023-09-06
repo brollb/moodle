@@ -118,8 +118,8 @@ class component_gradeitem_test extends advanced_testcase {
 
         $forum = $this->get_forum_instance();
         $course = $forum->get_course_record();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course);
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course);
 
         $this->setUser($teacher);
 
@@ -171,8 +171,8 @@ class component_gradeitem_test extends advanced_testcase {
 
         $forum = $this->get_forum_instance();
         $course = $forum->get_course_record();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course);
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course);
 
         $this->setUser($teacher);
 
@@ -226,8 +226,8 @@ class component_gradeitem_test extends advanced_testcase {
             'grade_forum' => $gradeforum,
         ]);
         $course = $forum->get_course_record();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course);
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course);
 
         $this->setUser($teacher);
 

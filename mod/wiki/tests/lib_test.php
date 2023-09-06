@@ -710,7 +710,7 @@ class lib_test extends \advanced_testcase {
         $this->assertNotEmpty($res->prevpageurl);
         $this->assertEmpty($res->nextpageurl);
 
-        // Create and enrol a user.
+        // Create and enroll a user.
         $student = self::getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $this->getDataGenerator()->enrol_user($student->id, $course1->id, $studentrole->id, 'manual');
@@ -803,7 +803,7 @@ class lib_test extends \advanced_testcase {
         // Create the activity.
         $course = $this->getDataGenerator()->create_course();
         $wiki = $this->getDataGenerator()->create_module('wiki', array('course' => $course->id));
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a calendar event.
         $event = $this->create_action_event($course->id, $wiki->id,
@@ -874,9 +874,9 @@ class lib_test extends \advanced_testcase {
         $wiki = $this->getDataGenerator()->create_module('wiki', array('course' => $course->id),
                 array('completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS));
 
-        // Create 2 students and enrol them into the course.
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        // Create 2 students and enroll them into the course.
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('wiki', $wiki->id);

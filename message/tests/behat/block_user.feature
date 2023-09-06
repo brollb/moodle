@@ -52,9 +52,9 @@ Feature: To be able to block users that we are able to or to see a message if we
     And I log in as "admin"
     And I am on "Course 1" course homepage
     And I navigate to course participants
-    And I click on "Unenrol" "icon" in the "student2" "table_row"
-    And I click on "Unenrol" "button" in the "Unenrol" "dialogue"
-    And I enrol "Student 2" user as "Teacher"
+    And I click on "Unenroll" "icon" in the "student2" "table_row"
+    And I click on "Unenroll" "button" in the "Unenroll" "dialogue"
+    And I enroll "Student 2" user as "Teacher"
     And I log out
     And I log in as "student2"
     And I select "Student 1" user in messaging

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handles synchronising grades for the enrolment LTI.
+ * Handles synchronising grades for the enrollment LTI.
  *
  * @package    enrol_lti
  * @copyright  2016 Mark Nelson <markn@moodle.com>
@@ -25,7 +25,7 @@
 namespace enrol_lti\task;
 
 /**
- * Task for synchronising grades for the enrolment LTI.
+ * Task for synchronising grades for the enrollment LTI.
  *
  * @package    enrol_lti
  * @copyright  2016 Mark Nelson <markn@moodle.com>
@@ -50,8 +50,8 @@ class sync_grades extends \core\task\scheduled_task {
     public function execute() {
         global $DB, $CFG;
 
-        require_once($CFG->dirroot . '/enrol/lti/ims-blti/OAuth.php');
-        require_once($CFG->dirroot . '/enrol/lti/ims-blti/OAuthBody.php');
+        require_once($CFG->dirroot . '/enroll/lti/ims-blti/OAuth.php');
+        require_once($CFG->dirroot . '/enroll/lti/ims-blti/OAuthBody.php');
         require_once($CFG->dirroot . '/lib/completionlib.php');
         require_once($CFG->libdir . '/gradelib.php');
         require_once($CFG->dirroot . '/grade/querylib.php');
@@ -62,7 +62,7 @@ class sync_grades extends \core\task\scheduled_task {
             return true;
         }
 
-        // Check if the enrolment plugin is disabled - isn't really necessary as the task should not run if
+        // Check if the enrollment plugin is disabled - isn't really necessary as the task should not run if
         // the plugin is disabled, but there is no harm in making sure core hasn't done something wrong.
         if (!enrol_is_enabled('lti')) {
             mtrace('Skipping task - ' . get_string('enrolisdisabled', 'enrol_lti'));

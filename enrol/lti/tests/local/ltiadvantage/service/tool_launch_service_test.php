@@ -472,7 +472,7 @@ class tool_launch_service_test extends \lti_advantage_testcase {
     }
 
     /**
-     * Test the launch when a module has an enrolment start date.
+     * Test the launch when a module has an enrollment start date.
      *
      * @covers ::user_launches_tool
      */

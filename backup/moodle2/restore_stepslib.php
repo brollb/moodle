@@ -1366,15 +1366,15 @@ class restore_groups_members_structure_step extends restore_structure_step {
                     groups_add_member($data->groupid, $data->userid);
 
                 } else if ((strpos($data->component, 'enrol_') === 0)) {
-                    // Deal with enrolment groups - ignore the component and just find out the instance via new id,
-                    // it is possible that enrolment was restored using different plugin type.
+                    // Deal with enrollment groups - ignore the component and just find out the instance via new id,
+                    // it is possible that enrollment was restored using different plugin type.
                     if (!isset($this->plugins)) {
                         $this->plugins = enrol_get_plugins(true);
                     }
-                    if ($enrolid = $this->get_mappingid('enrol', $data->itemid)) {
-                        if ($instance = $DB->get_record('enrol', array('id'=>$enrolid))) {
-                            if (isset($this->plugins[$instance->enrol])) {
-                                $this->plugins[$instance->enrol]->restore_group_member($instance, $data->groupid, $data->userid);
+                    if ($enrolid = $this->get_mappingid('enroll', $data->itemid)) {
+                        if ($instance = $DB->get_record('enroll', array('id'=>$enrolid))) {
+                            if (isset($this->plugins[$instance->enroll])) {
+                                $this->plugins[$instance->enroll]->restore_group_member($instance, $data->groupid, $data->userid);
                             }
                         }
                     }
@@ -1947,7 +1947,7 @@ class restore_course_structure_step extends restore_structure_step {
         if (empty($CFG->enablecompletion)) {
             // Completion is disabled globally.
             $data->enablecompletion = 0;
-            $data->completionstartonenrol = 0;
+            $data->completionstartonenroll = 0;
             $data->completionnotify = 0;
             $data->showcompletionconditions = null;
         } else {
@@ -2169,15 +2169,15 @@ class restore_ras_and_caps_structure_step extends restore_structure_step {
             role_assign($newroleid, $newuserid, $contextid);
 
         } else if ((strpos($data->component, 'enrol_') === 0)) {
-            // Deal with enrolment roles - ignore the component and just find out the instance via new id,
-            // it is possible that enrolment was restored using different plugin type.
+            // Deal with enrollment roles - ignore the component and just find out the instance via new id,
+            // it is possible that enrollment was restored using different plugin type.
             if (!isset($this->plugins)) {
                 $this->plugins = enrol_get_plugins(true);
             }
-            if ($enrolid = $this->get_mappingid('enrol', $data->itemid)) {
-                if ($instance = $DB->get_record('enrol', array('id'=>$enrolid))) {
-                    if (isset($this->plugins[$instance->enrol])) {
-                        $this->plugins[$instance->enrol]->restore_role_assignment($instance, $newroleid, $newuserid, $contextid);
+            if ($enrolid = $this->get_mappingid('enroll', $data->itemid)) {
+                if ($instance = $DB->get_record('enroll', array('id'=>$enrolid))) {
+                    if (isset($this->plugins[$instance->enroll])) {
+                        $this->plugins[$instance->enroll]->restore_role_assignment($instance, $newroleid, $newuserid, $contextid);
                     }
                 }
             }
@@ -2231,7 +2231,7 @@ class restore_ras_and_caps_structure_step extends restore_structure_step {
 }
 
 /**
- * If no instances yet add default enrol methods the same way as when creating new course in UI.
+ * If no instances yet add default enroll methods the same way as when creating new course in UI.
  */
 class restore_default_enrolments_step extends restore_execution_step {
 
@@ -2244,19 +2244,19 @@ class restore_default_enrolments_step extends restore_execution_step {
         }
 
         $course = $DB->get_record('course', array('id'=>$this->get_courseid()), '*', MUST_EXIST);
-        // Return any existing course enrolment instances.
+        // Return any existing course enrollment instances.
         $enrolinstances = enrol_get_instances($course->id, false);
 
         if ($enrolinstances) {
             // Something already added instances.
-            // Get the existing enrolment methods in the course.
+            // Get the existing enrollment methods in the course.
             $enrolmethods = array_map(function($enrolinstance) {
-                return $enrolinstance->enrol;
+                return $enrolinstance->enroll;
             }, $enrolinstances);
 
             $plugins = enrol_get_plugins(true);
             foreach ($plugins as $pluginname => $plugin) {
-                // Make sure all default enrolment methods exist in the course.
+                // Make sure all default enrollment methods exist in the course.
                 if (!in_array($pluginname, $enrolmethods)) {
                     $plugin->course_updated(true, $course, null);
                 }
@@ -2271,7 +2271,7 @@ class restore_default_enrolments_step extends restore_execution_step {
 }
 
 /**
- * This structure steps restores the enrol plugins and their underlying
+ * This structure steps restores the enroll plugins and their underlying
  * enrolments, performing all the mappings and/or movements required
  */
 class restore_enrolments_structure_step extends restore_structure_step {
@@ -2310,18 +2310,18 @@ class restore_enrolments_structure_step extends restore_structure_step {
         $userinfo = $this->get_setting_value('users');
 
         $paths = [];
-        $paths[] = $enrol = new restore_path_element('enrol', '/enrolments/enrols/enrol');
+        $paths[] = $enroll = new restore_path_element('enroll', '/enrolments/enrols/enroll');
         if ($userinfo) {
-            $paths[] = new restore_path_element('enrolment', '/enrolments/enrols/enrol/user_enrolments/enrolment');
+            $paths[] = new restore_path_element('enrollment', '/enrolments/enrols/enroll/user_enrolments/enrollment');
         }
-        // Attach local plugin stucture to enrol element.
-        $this->add_plugin_structure('enrol', $enrol);
+        // Attach local plugin stucture to enroll element.
+        $this->add_plugin_structure('enroll', $enroll);
 
         return $paths;
     }
 
     /**
-     * Create enrolment instances.
+     * Create enrollment instances.
      *
      * This has to be called after creation of roles
      * and before adding of role assignments.
@@ -2329,7 +2329,7 @@ class restore_enrolments_structure_step extends restore_structure_step {
      * @param mixed $data
      * @return void
      */
-    public function process_enrol($data) {
+    public function process_enroll($data) {
         global $DB;
 
         $data = (object)$data;
@@ -2339,7 +2339,7 @@ class restore_enrolments_structure_step extends restore_structure_step {
         $this->originalstatus[$oldid] = $data->status;
 
         if (!$courserec = $DB->get_record('course', array('id' => $this->get_courseid()))) {
-            $this->set_mapping('enrol', $oldid, 0);
+            $this->set_mapping('enroll', $oldid, 0);
             return;
         }
 
@@ -2371,25 +2371,25 @@ class restore_enrolments_structure_step extends restore_structure_step {
             // Restore enrolments as manual enrolments.
             unset($data->sortorder); // Remove useless sortorder from <2.4 backups.
             if (!enrol_is_enabled('manual')) {
-                $this->set_mapping('enrol', $oldid, 0);
+                $this->set_mapping('enroll', $oldid, 0);
                 return;
             }
-            if ($instances = $DB->get_records('enrol', array('courseid'=>$data->courseid, 'enrol'=>'manual'), 'id')) {
+            if ($instances = $DB->get_records('enroll', array('courseid'=>$data->courseid, 'enroll'=>'manual'), 'id')) {
                 $instance = reset($instances);
-                $this->set_mapping('enrol', $oldid, $instance->id);
+                $this->set_mapping('enroll', $oldid, $instance->id);
             } else {
-                if ($data->enrol === 'manual') {
+                if ($data->enroll === 'manual') {
                     $instanceid = $this->plugins['manual']->add_instance($courserec, (array)$data);
                 } else {
                     $instanceid = $this->plugins['manual']->add_default_instance($courserec);
                 }
-                $this->set_mapping('enrol', $oldid, $instanceid);
+                $this->set_mapping('enroll', $oldid, $instanceid);
             }
 
         } else {
-            if (!enrol_is_enabled($data->enrol) or !isset($this->plugins[$data->enrol])) {
-                $this->set_mapping('enrol', $oldid, 0);
-                $message = "Enrol plugin '$data->enrol' data can not be restored because it is not enabled, consider restoring without enrolment methods";
+            if (!enrol_is_enabled($data->enroll) or !isset($this->plugins[$data->enroll])) {
+                $this->set_mapping('enroll', $oldid, 0);
+                $message = "Enrol plugin '$data->enroll' data can not be restored because it is not enabled, consider restoring without enrollment methods";
                 $this->log($message, backup::LOG_WARNING);
                 return;
             }
@@ -2401,14 +2401,14 @@ class restore_enrolments_structure_step extends restore_structure_step {
                 unset($data->sortorder);
             }
             // Note: plugin is responsible for setting up the mapping, it may also decide to migrate to different type.
-            $this->plugins[$data->enrol]->restore_instance($this, $data, $courserec, $oldid);
+            $this->plugins[$data->enroll]->restore_instance($this, $data, $courserec, $oldid);
         }
     }
 
     /**
      * Create user enrolments.
      *
-     * This has to be called after creation of enrolment instances
+     * This has to be called after creation of enrollment instances
      * and before adding of role assignments.
      *
      * Roles are assigned in restore_ras_and_caps_structure_step::process_assignment() processing afterwards.
@@ -2416,7 +2416,7 @@ class restore_enrolments_structure_step extends restore_structure_step {
      * @param mixed $data
      * @return void
      */
-    public function process_enrolment($data) {
+    public function process_enrollment($data) {
         global $DB;
 
         if (!isset($this->plugins)) {
@@ -2426,17 +2426,17 @@ class restore_enrolments_structure_step extends restore_structure_step {
         $data = (object)$data;
 
         // Process only if parent instance have been mapped.
-        if ($enrolid = $this->get_new_parentid('enrol')) {
+        if ($enrolid = $this->get_new_parentid('enroll')) {
             $oldinstancestatus = ENROL_INSTANCE_ENABLED;
-            $oldenrolid = $this->get_old_parentid('enrol');
+            $oldenrolid = $this->get_old_parentid('enroll');
             if (isset($this->originalstatus[$oldenrolid])) {
                 $oldinstancestatus = $this->originalstatus[$oldenrolid];
             }
-            if ($instance = $DB->get_record('enrol', array('id'=>$enrolid))) {
+            if ($instance = $DB->get_record('enroll', array('id'=>$enrolid))) {
                 // And only if user is a mapped one.
                 if ($userid = $this->get_mappingid('user', $data->userid)) {
-                    if (isset($this->plugins[$instance->enrol])) {
-                        $this->plugins[$instance->enrol]->restore_user_enrolment($this, $data, $instance, $userid, $oldinstancestatus);
+                    if (isset($this->plugins[$instance->enroll])) {
+                        $this->plugins[$instance->enroll]->restore_user_enrollment($this, $data, $instance, $userid, $oldinstancestatus);
                     }
                 }
             }
@@ -2465,11 +2465,11 @@ class restore_fix_restorer_access_step extends restore_execution_step {
         $context = context_course::instance($courseid);
 
         if (is_enrolled($context, $userid, 'moodle/course:update', true) or is_viewing($context, $userid, 'moodle/course:update')) {
-            // Current user may access the course (admin, category manager or restored teacher enrolment usually)
+            // Current user may access the course (admin, category manager or restored teacher enrollment usually)
             return;
         }
 
-        // Try to add role only - we do not need enrolment if user has moodle/course:view or is already enrolled
+        // Try to add role only - we do not need enrollment if user has moodle/course:view or is already enrolled
         role_assign($CFG->restorernewroleid, $userid, $context);
 
         if (is_enrolled($context, $userid, 'moodle/course:update', true) or is_viewing($context, $userid, 'moodle/course:update')) {
@@ -2477,21 +2477,21 @@ class restore_fix_restorer_access_step extends restore_execution_step {
             return;
         }
 
-        // The last chance is to create manual enrol if it does not exist and and try to enrol the current user,
+        // The last chance is to create manual enroll if it does not exist and and try to enroll the current user,
         // hopefully admin selected suitable $CFG->restorernewroleid ...
         if (!enrol_is_enabled('manual')) {
             return;
         }
-        if (!$enrol = enrol_get_plugin('manual')) {
+        if (!$enroll = enrol_get_plugin('manual')) {
             return;
         }
-        if (!$DB->record_exists('enrol', array('enrol'=>'manual', 'courseid'=>$courseid))) {
+        if (!$DB->record_exists('enroll', array('enroll'=>'manual', 'courseid'=>$courseid))) {
             $course = $DB->get_record('course', array('id'=>$courseid), '*', MUST_EXIST);
-            $fields = array('status'=>ENROL_INSTANCE_ENABLED, 'enrolperiod'=>$enrol->get_config('enrolperiod', 0), 'roleid'=>$enrol->get_config('roleid', 0));
-            $enrol->add_instance($course, $fields);
+            $fields = array('status'=>ENROL_INSTANCE_ENABLED, 'enrolperiod'=>$enroll->get_config('enrolperiod', 0), 'roleid'=>$enroll->get_config('roleid', 0));
+            $enroll->add_instance($course, $fields);
         }
 
-        enrol_try_internal_enrol($courseid, $userid);
+        enrol_try_internal_enroll($courseid, $userid);
     }
 }
 

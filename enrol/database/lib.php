@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Database enrolment plugin.
+ * Database enrollment plugin.
  *
- * This plugin synchronises enrolment and roles with external database table.
+ * This plugin synchronises enrollment and roles with external database table.
  *
  * @package    enrol_database
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -27,20 +27,20 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Database enrolment plugin implementation.
+ * Database enrollment plugin implementation.
  * @author  Petr Skoda - based on code by Martin Dougiamas, Martin Langhoff and others
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class enrol_database_plugin extends enrol_plugin {
     /**
-     * Is it possible to delete enrol instance via standard UI?
+     * Is it possible to delete enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        if (!has_capability('enrol/database:config', $context)) {
+        if (!has_capability('enroll/database:config', $context)) {
             return false;
         }
         if (!enrol_is_enabled('database')) {
@@ -55,24 +55,24 @@ class enrol_database_plugin extends enrol_plugin {
     }
 
     /**
-     * Is it possible to hide/show enrol instance via standard UI?
+     * Is it possible to hide/show enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/database:config', $context);
+        return has_capability('enroll/database:config', $context);
     }
 
     /**
-     * Does this plugin allow manual unenrolment of a specific user?
+     * Does this plugin allow manual unenrollment of a specific user?
      * Yes, but only if user suspended...
      *
-     * @param stdClass $instance course enrol instance
+     * @param stdClass $instance course enroll instance
      * @param stdClass $ue record from user_enrolments table
      *
-     * @return bool - true means user with 'enrol/xxx:unenrol' may unenrol this user, false means nobody may touch this user enrolment
+     * @return bool - true means user with 'enroll/xxx:unenroll' may unenroll this user, false means nobody may touch this user enrollment
      */
     public function allow_unenrol_user(stdClass $instance, stdClass $ue) {
         if ($ue->status == ENROL_USER_SUSPENDED) {
@@ -181,13 +181,13 @@ class enrol_database_plugin extends enrol_plugin {
                         $enrols[$course->id][$roleid] = $roleid;
                     }
 
-                    if ($instance = $DB->get_record('enrol', array('courseid'=>$course->id, 'enrol'=>'database'), '*', IGNORE_MULTIPLE)) {
+                    if ($instance = $DB->get_record('enroll', array('courseid'=>$course->id, 'enroll'=>'database'), '*', IGNORE_MULTIPLE)) {
                         $instances[$course->id] = $instance;
                         continue;
                     }
 
                     $enrolid = $this->add_instance($course);
-                    $instances[$course->id] = $DB->get_record('enrol', array('id'=>$enrolid));
+                    $instances[$course->id] = $DB->get_record('enroll', array('id'=>$enrolid));
                 }
             }
             $rs->Close();
@@ -208,9 +208,9 @@ class enrol_database_plugin extends enrol_plugin {
 
             if (isset($enrols[$courseid])) {
                 if ($e = $DB->get_record('user_enrolments', array('userid' => $user->id, 'enrolid' => $instance->id))) {
-                    // Reenable enrolment when previously disable enrolment refreshed.
+                    // Reenable enrollment when previously disable enrollment refreshed.
                     if ($e->status == ENROL_USER_SUSPENDED) {
-                        $this->update_user_enrol($instance, $user->id, ENROL_USER_ACTIVE);
+                        $this->update_user_enroll($instance, $user->id, ENROL_USER_ACTIVE);
                     }
                 } else {
                     $roleid = reset($enrols[$courseid]);
@@ -239,13 +239,13 @@ class enrol_database_plugin extends enrol_plugin {
             }
         }
 
-        // Unenrol as necessary.
+        // Unenroll as necessary.
         $sql = "SELECT e.*, c.visible AS cvisible, ue.status AS ustatus
-                  FROM {enrol} e
+                  FROM {enroll} e
                   JOIN {course} c ON c.id = e.courseid
                   JOIN {role_assignments} ra ON ra.itemid = e.id
              LEFT JOIN {user_enrolments} ue ON ue.enrolid = e.id AND ue.userid = ra.userid
-                 WHERE ra.userid = :userid AND e.enrol = 'database'";
+                 WHERE ra.userid = :userid AND e.enroll = 'database'";
         $rs = $DB->get_recordset_sql($sql, array('userid' => $user->id));
         foreach ($rs as $instance) {
             if (!$instance->cvisible and $ignorehidden) {
@@ -272,7 +272,7 @@ class enrol_database_plugin extends enrol_plugin {
             } else if ($unenrolaction == ENROL_EXT_REMOVED_SUSPEND or $unenrolaction == ENROL_EXT_REMOVED_SUSPENDNOROLES) {
                 // Suspend users.
                 if ($instance->ustatus != ENROL_USER_SUSPENDED) {
-                    $this->update_user_enrol($instance, $user->id, ENROL_USER_SUSPENDED);
+                    $this->update_user_enroll($instance, $user->id, ENROL_USER_SUSPENDED);
                 }
                 if ($unenrolaction == ENROL_EXT_REMOVED_SUSPENDNOROLES) {
                     if (!empty($roleassigns[$instance->courseid])) {
@@ -298,15 +298,15 @@ class enrol_database_plugin extends enrol_plugin {
 
         // We do not create courses here intentionally because it requires full sync and is slow.
         if (!$this->get_config('dbtype') or !$this->get_config('remoteenroltable') or !$this->get_config('remotecoursefield') or !$this->get_config('remoteuserfield')) {
-            $trace->output('User enrolment synchronisation skipped.');
+            $trace->output('User enrollment synchronisation skipped.');
             $trace->finished();
             return 0;
         }
 
-        $trace->output('Starting user enrolment synchronisation...');
+        $trace->output('Starting user enrollment synchronisation...');
 
         if (!$extdb = $this->db_init()) {
-            $trace->output('Error while communicating with external enrolment database');
+            $trace->output('Error while communicating with external enrollment database');
             $trace->finished();
             return 1;
         }
@@ -347,7 +347,7 @@ class enrol_database_plugin extends enrol_plugin {
         if ($onecourse) {
             $sql = "SELECT c.id, c.visible, c.$localcoursefield AS mapping, c.shortname, e.id AS enrolid
                       FROM {course} c
-                 LEFT JOIN {enrol} e ON (e.courseid = c.id AND e.enrol = 'database')
+                 LEFT JOIN {enroll} e ON (e.courseid = c.id AND e.enroll = 'database')
                      WHERE c.id = :id";
             if (!$course = $DB->get_record_sql($sql, array('id'=>$onecourse))) {
                 // Course does not exist, nothing to sync.
@@ -362,8 +362,8 @@ class enrol_database_plugin extends enrol_plugin {
             }
             $existing = array($course->mapping=>$course);
 
-            // Feel free to unenrol everybody, no safety tricks here.
-            $preventfullunenrol = false;
+            // Feel free to unenroll everybody, no safety tricks here.
+            $preventfullunenroll = false;
             // Course being restored are always hidden, we have to ignore the setting here.
             $ignorehidden = false;
 
@@ -385,20 +385,20 @@ class enrol_database_plugin extends enrol_plugin {
                 }
                 $rs->Close();
             } else {
-                $trace->output('Error reading data from the external enrolment table');
+                $trace->output('Error reading data from the external enrollment table');
                 $extdb->Close();
                 return 2;
             }
-            $preventfullunenrol = empty($externalcourses);
-            if ($preventfullunenrol and $unenrolaction == ENROL_EXT_REMOVED_UNENROL) {
-                $trace->output('Preventing unenrolment of all current users, because it might result in major data loss, there has to be at least one record in external enrol table, sorry.', 1);
+            $preventfullunenroll = empty($externalcourses);
+            if ($preventfullunenroll and $unenrolaction == ENROL_EXT_REMOVED_UNENROL) {
+                $trace->output('Preventing unenrollment of all current users, because it might result in major data loss, there has to be at least one record in external enroll table, sorry.', 1);
             }
 
-            // First find all existing courses with enrol instance.
+            // First find all existing courses with enroll instance.
             $existing = array();
             $sql = "SELECT c.id, c.visible, c.$localcoursefield AS mapping, e.id AS enrolid, c.shortname
                       FROM {course} c
-                      JOIN {enrol} e ON (e.courseid = c.id AND e.enrol = 'database')";
+                      JOIN {enroll} e ON (e.courseid = c.id AND e.enroll = 'database')";
             $rs = $DB->get_recordset_sql($sql); // Watch out for idnumber duplicates.
             foreach ($rs as $course) {
                 if (empty($course->mapping)) {
@@ -409,7 +409,7 @@ class enrol_database_plugin extends enrol_plugin {
             }
             $rs->close();
 
-            // Add necessary enrol instances that are not present yet.
+            // Add necessary enroll instances that are not present yet.
             $params = array();
             $localnotempty = "";
             if ($localcoursefield !== 'id') {
@@ -418,7 +418,7 @@ class enrol_database_plugin extends enrol_plugin {
             }
             $sql = "SELECT c.id, c.visible, c.$localcoursefield AS mapping, c.shortname
                       FROM {course} c
-                 LEFT JOIN {enrol} e ON (e.courseid = c.id AND e.enrol = 'database')
+                 LEFT JOIN {enroll} e ON (e.courseid = c.id AND e.enroll = 'database')
                      WHERE e.id IS NULL $localnotempty";
             $rs = $DB->get_recordset_sql($sql, $params);
             foreach ($rs as $course) {
@@ -460,7 +460,7 @@ class enrol_database_plugin extends enrol_plugin {
             if ($ignorehidden and !$course->visible) {
                 continue;
             }
-            if (!$instance = $DB->get_record('enrol', array('id'=>$course->enrolid))) {
+            if (!$instance = $DB->get_record('enroll', array('id'=>$course->enrolid))) {
                 continue; // Weird!
             }
             $context = context_course::instance($course->id);
@@ -555,9 +555,9 @@ class enrol_database_plugin extends enrol_plugin {
                     }
                 }
 
-                // Reenable enrolment when previously disable enrolment refreshed.
+                // Reenable enrollment when previously disable enrollment refreshed.
                 if ($currentstatus[$userid] == ENROL_USER_SUSPENDED) {
-                    $this->update_user_enrol($instance, $userid, ENROL_USER_ACTIVE);
+                    $this->update_user_enroll($instance, $userid, ENROL_USER_ACTIVE);
                     $trace->output("unsuspending: $userid ==> $course->shortname", 1);
                 }
             }
@@ -586,14 +586,14 @@ class enrol_database_plugin extends enrol_plugin {
 
             foreach ($currentroles as $userid => $userroles) {
                 // These are roles that exist only in Moodle, not the external database
-                // so make sure the unenrol actions will handle them by setting status.
+                // so make sure the unenroll actions will handle them by setting status.
                 $currentstatus += array($userid => ENROL_USER_ACTIVE);
             }
 
             // Deal with enrolments removed from external table.
             if ($unenrolaction == ENROL_EXT_REMOVED_UNENROL) {
-                if (!$preventfullunenrol) {
-                    // Unenrol.
+                if (!$preventfullunenroll) {
+                    // Unenroll.
                     foreach ($currentstatus as $userid => $status) {
                         if (isset($requestedenrols[$userid])) {
                             continue;
@@ -613,7 +613,7 @@ class enrol_database_plugin extends enrol_plugin {
                         continue;
                     }
                     if ($status != ENROL_USER_SUSPENDED) {
-                        $this->update_user_enrol($instance, $userid, ENROL_USER_SUSPENDED);
+                        $this->update_user_enroll($instance, $userid, ENROL_USER_SUSPENDED);
                         $trace->output("suspending: $userid ==> $course->shortname", 1);
                     }
                     if ($unenrolaction == ENROL_EXT_REMOVED_SUSPENDNOROLES) {
@@ -632,7 +632,7 @@ class enrol_database_plugin extends enrol_plugin {
         // Close db connection.
         $extdb->Close();
 
-        $trace->output('...user enrolment synchronisation finished.');
+        $trace->output('...user enrollment synchronisation finished.');
         $trace->finished();
 
         return 0;
@@ -664,7 +664,7 @@ class enrol_database_plugin extends enrol_plugin {
         raise_memory_limit(MEMORY_HUGE);
 
         if (!$extdb = $this->db_init()) {
-            $trace->output('Error while communicating with external enrolment database');
+            $trace->output('Error while communicating with external enrollment database');
             $trace->finished();
             return 1;
         }
@@ -919,7 +919,7 @@ class enrol_database_plugin extends enrol_plugin {
     }
 
     /**
-     * Automatic enrol sync executed during restore.
+     * Automatic enroll sync executed during restore.
      * @param stdClass $course course record
      */
     public function restore_sync_course($course) {
@@ -938,16 +938,16 @@ class enrol_database_plugin extends enrol_plugin {
     public function restore_instance(restore_enrolments_structure_step $step, stdClass $data, $course, $oldid) {
         global $DB;
 
-        if ($instance = $DB->get_record('enrol', array('courseid'=>$course->id, 'enrol'=>$this->get_name()))) {
+        if ($instance = $DB->get_record('enroll', array('courseid'=>$course->id, 'enroll'=>$this->get_name()))) {
             $instanceid = $instance->id;
         } else {
             $instanceid = $this->add_instance($course);
         }
-        $step->set_mapping('enrol', $oldid, $instanceid);
+        $step->set_mapping('enroll', $oldid, $instanceid);
     }
 
     /**
-     * Restore user enrolment.
+     * Restore user enrollment.
      *
      * @param restore_enrolments_structure_step $step
      * @param stdClass $data
@@ -955,7 +955,7 @@ class enrol_database_plugin extends enrol_plugin {
      * @param int $oldinstancestatus
      * @param int $userid
      */
-    public function restore_user_enrolment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
+    public function restore_user_enrollment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
         global $DB;
 
         if ($this->get_config('unenrolaction') == ENROL_EXT_REMOVED_UNENROL) {
@@ -999,7 +999,7 @@ class enrol_database_plugin extends enrol_plugin {
         $coursetable = $this->get_config('newcoursetable');
 
         if (empty($enroltable)) {
-            echo $OUTPUT->notification('External enrolment table not specified.', 'notifyproblem');
+            echo $OUTPUT->notification('External enrollment table not specified.', 'notifyproblem');
         }
 
         if (empty($coursetable)) {
@@ -1035,17 +1035,17 @@ class enrol_database_plugin extends enrol_plugin {
             $rs = $adodb->Execute("SELECT *
                                      FROM $enroltable");
             if (!$rs) {
-                echo $OUTPUT->notification('Can not read external enrol table.', 'notifyproblem');
+                echo $OUTPUT->notification('Can not read external enroll table.', 'notifyproblem');
 
             } else if ($rs->EOF) {
-                echo $OUTPUT->notification('External enrol table is empty.', 'notifyproblem');
+                echo $OUTPUT->notification('External enroll table is empty.', 'notifyproblem');
                 $rs->Close();
 
             } else {
                 $fields_obj = $rs->FetchObj();
                 $columns = array_keys((array)$fields_obj);
 
-                echo $OUTPUT->notification('External enrolment table contains following columns:<br />'.implode(', ', $columns), 'notifysuccess');
+                echo $OUTPUT->notification('External enrollment table contains following columns:<br />'.implode(', ', $columns), 'notifysuccess');
                 $rs->Close();
             }
         }

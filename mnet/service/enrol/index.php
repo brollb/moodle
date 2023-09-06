@@ -16,23 +16,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Displays the list of remote peers we can enrol our users to
+ * Displays the list of remote peers we can enroll our users to
  *
  * @package    mnetservice
- * @subpackage enrol
+ * @subpackage enroll
  * @copyright  2010 David Mudrak <david@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
-require_once($CFG->dirroot.'/mnet/service/enrol/locallib.php');
+require_once($CFG->dirroot.'/mnet/service/enroll/locallib.php');
 
-admin_externalpage_setup('mnetenrol');
-$service = mnetservice_enrol::get_instance();
+admin_externalpage_setup('mnetenroll');
+$service = mnetservice_enroll::get_instance();
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading_with_help(get_string('clientname', 'mnetservice_enrol'), 'clientname', 'mnetservice_enrol');
+echo $OUTPUT->heading_with_help(get_string('clientname', 'mnetservice_enroll'), 'clientname', 'mnetservice_enroll');
 
 if (!$service->is_available()) {
     echo $OUTPUT->box(get_string('mnetdisabled','mnet'), 'noticebox');
@@ -44,15 +44,15 @@ $roamingusers = get_users_by_capability(context_system::instance(), 'moodle/site
 if (empty($roamingusers)) {
     $capname = get_string('site:mnetlogintoremote', 'role');
     $url = new moodle_url('/admin/roles/manage.php');
-    echo notice(get_string('noroamingusers', 'mnetservice_enrol', $capname), $url);
+    echo notice(get_string('noroamingusers', 'mnetservice_enroll', $capname), $url);
 }
 unset($roamingusers);
 
-// remote hosts that may publish remote enrolment service and we are subscribed to it
+// remote hosts that may publish remote enrollment service and we are subscribed to it
 $hosts = $service->get_remote_publishers();
 
 if (empty($hosts)) {
-    echo $OUTPUT->box(get_string('nopublishers', 'mnetservice_enrol'), 'noticebox');
+    echo $OUTPUT->box(get_string('nopublishers', 'mnetservice_enroll'), 'noticebox');
     echo $OUTPUT->footer();
     die();
 }
@@ -60,15 +60,15 @@ if (empty($hosts)) {
 $table = new html_table();
 $table->attributes['class'] = 'generaltable remotehosts';
 $table->head = array(
-    get_string('hostappname', 'mnetservice_enrol'),
-    get_string('hostname', 'mnetservice_enrol'),
-    get_string('hosturl', 'mnetservice_enrol'),
+    get_string('hostappname', 'mnetservice_enroll'),
+    get_string('hostname', 'mnetservice_enroll'),
+    get_string('hosturl', 'mnetservice_enroll'),
     get_string('action')
 );
 foreach ($hosts as $host) {
     $hostlink = html_writer::link(new moodle_url($host->hosturl), s($host->hosturl));
-    $editbtn  = $OUTPUT->single_button(new moodle_url('/mnet/service/enrol/host.php', array('id'=>$host->id)),
-                                       get_string('editenrolments', 'mnetservice_enrol'), 'get');
+    $editbtn  = $OUTPUT->single_button(new moodle_url('/mnet/service/enroll/host.php', array('id'=>$host->id)),
+                                       get_string('editenrolments', 'mnetservice_enroll'), 'get');
     $table->data[] = array(s($host->appname), s($host->hostname), $hostlink, $editbtn);
 }
 echo html_writer::table($table);

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Displays enrolment LTI instances.
+ * Displays enrollment LTI instances.
  *
  * @package    enrol_lti
  * @copyright  2016 Mark Nelson <markn@moodle.com>
@@ -31,7 +31,7 @@ global $CFG;
 require_once($CFG->libdir . '/tablelib.php');
 
 /**
- * Handles displaying enrolment LTI instances.
+ * Handles displaying enrollment LTI instances.
  *
  * @package    enrol_lti
  * @copyright  2016 Mark Nelson <markn@moodle.com>
@@ -176,14 +176,14 @@ class manage_table extends \table_sql {
         $instance = new \stdClass();
         $instance->id = $tool->enrolid;
         $instance->courseid = $tool->courseid;
-        $instance->enrol = 'lti';
+        $instance->enroll = 'lti';
         $instance->status = $tool->status;
 
         $strdelete = get_string('delete');
         $strenable = get_string('enable');
         $strdisable = get_string('disable');
 
-        $url = new \moodle_url('/enrol/lti/index.php',
+        $url = new \moodle_url('/enroll/lti/index.php',
             array('sesskey' => sesskey(), 'courseid' => $this->courseid, 'legacy' => 1));
 
         if ($this->ltiplugin->can_delete_instance($instance)) {
@@ -208,12 +208,12 @@ class manage_table extends \table_sql {
             $linkparams = array(
                 'courseid' => $instance->courseid,
                 'id' => $instance->id,
-                'type' => $instance->enrol,
+                'type' => $instance->enroll,
                 'legacy' => 1,
-                'returnurl' => new \moodle_url('/enrol/lti/index.php',
+                'returnurl' => new \moodle_url('/enroll/lti/index.php',
                     array('courseid' => $this->courseid, 'legacy' => 1))
             );
-            $editlink = new \moodle_url("/enrol/editinstance.php", $linkparams);
+            $editlink = new \moodle_url("/enroll/editinstance.php", $linkparams);
             $buttons[] = $OUTPUT->action_icon($editlink, new \pix_icon('t/edit', get_string('edit'), 'core',
                 array('class' => 'iconsmall')));
         }
@@ -255,7 +255,7 @@ class manage_table extends \table_sql {
     }
 
     /**
-     * Get a warning icon, with tooltip, describing enrolment instances sharing activities which have been deleted.
+     * Get a warning icon, with tooltip, describing enrollment instances sharing activities which have been deleted.
      *
      * @param \stdClass $tool the tool instance record.
      * @return string the HTML for the name column.

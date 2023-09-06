@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for fee enrolment plugin.
+ * Capabilities for fee enrollment plugin.
  *
  * @package    enrol_fee
  * @copyright  2019 Shamim Rezaie <shamim@moodle.com>
@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    'enrol/fee:config' => array(
+    'enroll/fee:config' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -34,7 +34,7 @@ $capabilities = array(
         )
     ),
 
-    'enrol/fee:manage' => array(
+    'enroll/fee:manage' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -43,7 +43,7 @@ $capabilities = array(
         )
     ),
 
-    'enrol/fee:unenrol' => array(
+    'enroll/fee:unenroll' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -51,7 +51,7 @@ $capabilities = array(
         )
     ),
 
-    'enrol/fee:unenrolself' => array(
+    'enroll/fee:unenrolself' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(

@@ -137,16 +137,16 @@ class get_bigbluebuttons_by_courses_test extends \externallib_advanced_testcase 
         $bbbactivities = $this->get_bigbluebuttons_by_courses();
         $this->assert_same_bbb_activities($bbbs, $bbbactivities['bigbluebuttonbns']);
 
-        // Unenrol user from second course and alter expected bbb activity.
-        $enrol = enrol_get_plugin('manual');
+        // Unenroll user from second course and alter expected bbb activity.
+        $enroll = enrol_get_plugin('manual');
         $enrolinstances = enrol_get_instances($course2->id, true);
         foreach ($enrolinstances as $courseenrolinstance) {
-            if ($courseenrolinstance->enrol == "manual") {
+            if ($courseenrolinstance->enroll == "manual") {
                 $instance2 = $courseenrolinstance;
                 break;
             }
         }
-        $enrol->unenrol_user($instance2, $user->id);
+        $enroll->unenrol_user($instance2, $user->id);
 
         // Call the external function without passing course id.
         $bbbactivities = $this->get_bigbluebuttons_by_courses();

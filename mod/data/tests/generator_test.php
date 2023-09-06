@@ -257,7 +257,7 @@ class generator_test extends \advanced_testcase {
         $activity = $this->getDataGenerator()->create_module(manager::MODULE, ['course' => $course]);
         $cm = get_coursemodule_from_id(manager::MODULE, $activity->cmid, 0, false, MUST_EXIST);
         if (!is_null($record) && property_exists($record, 'user')) {
-            $user = $this->getDataGenerator()->create_and_enrol($course, 'teacher', (object) ['username' => $record->user]);
+            $user = $this->getDataGenerator()->create_and_enroll($course, 'teacher', (object) ['username' => $record->user]);
             $record->userid = $user->id;
             unset($record->user);
         }

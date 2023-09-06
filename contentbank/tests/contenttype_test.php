@@ -485,7 +485,7 @@ class contenttype_test extends \advanced_testcase {
 
         // Create course and teacher user.
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $coursecontext = \context_course::instance($course->id);
         $contenttype = new contenttype($coursecontext);
 
@@ -558,8 +558,8 @@ class contenttype_test extends \advanced_testcase {
         // Create course and teacher user.
         $teacherroleid = $DB->get_field('role', 'id', ['shortname' => 'editingteacher']);
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $manager = $this->getDataGenerator()->create_and_enrol($course, 'manager');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $manager = $this->getDataGenerator()->create_and_enroll($course, 'manager');
         $coursecontext = \context_course::instance($course->id);
 
         $contenttype = new contenttype($coursecontext);

@@ -16,7 +16,7 @@
 
 namespace enrol_cohort;
 
-use core\plugininfo\enrol;
+use core\plugininfo\enroll;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -81,28 +81,28 @@ class lib_test extends \advanced_testcase {
     }
 
     /**
-     * Test for getting user enrolment actions.
+     * Test for getting user enrollment actions.
      */
     public function test_get_user_enrolment_actions() {
         global $CFG, $PAGE;
         $this->resetAfterTest();
 
         // Set page URL to prevent debugging messages.
-        $PAGE->set_url('/enrol/editinstance.php');
+        $PAGE->set_url('/enroll/editinstance.php');
 
         $pluginname = 'cohort';
 
-        // Only enable the cohort enrol plugin.
+        // Only enable the cohort enroll plugin.
         $CFG->enrol_plugins_enabled = $pluginname;
 
         $generator = $this->getDataGenerator();
 
-        // Get the enrol plugin.
+        // Get the enroll plugin.
         $plugin = enrol_get_plugin($pluginname);
 
         // Create a course.
         $course = $generator->create_course();
-        // Enable this enrol plugin for the course.
+        // Enable this enroll plugin for the course.
         $plugin->add_instance($course);
 
         // Create a student.
@@ -110,9 +110,9 @@ class lib_test extends \advanced_testcase {
         // Enrol the student to the course.
         $generator->enrol_user($student->id, $course->id, 'student', $pluginname);
 
-        // Teachers don't have enrol/cohort:unenrol capability by default. Login as admin for simplicity.
+        // Teachers don't have enroll/cohort:unenroll capability by default. Login as admin for simplicity.
         $this->setAdminUser();
-        require_once($CFG->dirroot . '/enrol/locallib.php');
+        require_once($CFG->dirroot . '/enroll/locallib.php');
         $manager = new \course_enrolment_manager($PAGE, $course);
 
         $userenrolments = $manager->get_user_enrolments($student->id);
@@ -120,7 +120,7 @@ class lib_test extends \advanced_testcase {
 
         $ue = reset($userenrolments);
         $actions = $plugin->get_user_enrolment_actions($manager, $ue);
-        // Cohort-sync has no enrol actions for active students.
+        // Cohort-sync has no enroll actions for active students.
         $this->assertCount(0, $actions);
 
         // Enrol actions for a suspended student.
@@ -128,7 +128,7 @@ class lib_test extends \advanced_testcase {
         $ue->status = ENROL_USER_SUSPENDED;
 
         $actions = $plugin->get_user_enrolment_actions($manager, $ue);
-        // Cohort-sync has enrol actions for suspended students -- unenrol.
+        // Cohort-sync has enroll actions for suspended students -- unenroll.
         $this->assertCount(1, $actions);
     }
 
@@ -179,7 +179,7 @@ class lib_test extends \advanced_testcase {
         // Run the sync again.
         enrol_cohort_sync($trace, $course->id);
 
-        $enrolid = $DB->get_field('enrol', 'id', ['enrol' => 'cohort', 'customint1' => $cohort->id]);
+        $enrolid = $DB->get_field('enroll', 'id', ['enroll' => 'cohort', 'customint1' => $cohort->id]);
         $ue = $DB->get_record('user_enrolments', ['enrolid' => $enrolid, 'userid' => $user1->id]);
 
         // Check user is suspended.
@@ -316,7 +316,7 @@ class lib_test extends \advanced_testcase {
         $cohort1 = $this->getDataGenerator()->create_cohort(['contextid' => \context_coursecat::instance($cat1->id)->id]);
         $cohort2 = $this->getDataGenerator()->create_cohort(['contextid' => \context_coursecat::instance($cat2->id)->id]);
 
-        enrol::enable_plugin('cohort', false);
+        enroll::enable_plugin('cohort', false);
 
         $cohortplugin = enrol_get_plugin('cohort');
 
@@ -326,7 +326,7 @@ class lib_test extends \advanced_testcase {
         $this->assertArrayHasKey('plugindisabled', $errors);
         $this->assertArrayHasKey('missingmandatoryfields', $errors);
 
-        enrol::enable_plugin('cohort', true);
+        enroll::enable_plugin('cohort', true);
 
         // Unknown cohort name.
         $enrolmentdata['cohortname'] = 'test';

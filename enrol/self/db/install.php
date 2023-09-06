@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Self enrol plugin installation script
+ * Self enroll plugin installation script
  *
  * @package    enrol_self
  * @copyright  2010 Petr Skoda {@link http://skodak.org}

@@ -35,16 +35,16 @@ Feature: Verify that all form fields values can be get and set
     And I am on the "Course 1" "reset" page logged in as admin
     # Select (multi-select) - Checking "the select box should contain".
     And I expand all fieldsets
-    And the "Unenrol users" select box should contain "No roles"
-    And the "Unenrol users" select box should contain "Student"
-    And the "Unenrol users" select box should contain "Non-editing teacher"
-    And the "Unenrol users" select box should contain "Teacher"
-    And the "Unenrol users" select box should contain "Manager"
-    And the "Unenrol users" select box should contain "No roles, Student, Non-editing teacher, Teacher, Manager"
-    And the "Unenrol users" select box should contain "Manager, Teacher, Non-editing teacher, Student, No roles"
-    And the "Unenrol users" select box should not contain "President"
-    And the "Unenrol users" select box should not contain "Baker"
-    And the "Unenrol users" select box should not contain "President, Baker"
+    And the "Unenroll users" select box should contain "No roles"
+    And the "Unenroll users" select box should contain "Student"
+    And the "Unenroll users" select box should contain "Non-editing teacher"
+    And the "Unenroll users" select box should contain "Teacher"
+    And the "Unenroll users" select box should contain "Manager"
+    And the "Unenroll users" select box should contain "No roles, Student, Non-editing teacher, Teacher, Manager"
+    And the "Unenroll users" select box should contain "Manager, Teacher, Non-editing teacher, Student, No roles"
+    And the "Unenroll users" select box should not contain "President"
+    And the "Unenroll users" select box should not contain "Baker"
+    And the "Unenroll users" select box should not contain "President, Baker"
     And I am on "Course 1" course homepage with editing mode on
     And I am on the "Test this one" "wiki activity" page
     And I press "Create page"

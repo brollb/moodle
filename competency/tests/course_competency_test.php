@@ -108,8 +108,8 @@ class course_competency_test extends \advanced_testcase {
         $this->assertCount(1, $courses);
         $this->assertArrayHasKey($c2->id, $courses);
 
-        // Check for the user with plugin enabled, but enrolment instance disabled.
-        $flatfileinstance = $DB->get_record('enrol', array('id' => $flatfileinstanceid));
+        // Check for the user with plugin enabled, but enrollment instance disabled.
+        $flatfileinstance = $DB->get_record('enroll', array('id' => $flatfileinstanceid));
         $flatfileplugin->update_status($flatfileinstance, ENROL_INSTANCE_DISABLED);
         $courses = course_competency::get_courses_with_competency_and_user($comp1->get('id'), $u4->id);
         $this->assertCount(0, $courses);

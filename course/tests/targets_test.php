@@ -149,7 +149,7 @@ class targets_test extends \advanced_testcase {
     }
 
     /**
-     * Provides enrolment params for the {@link self::test_core_target_course_completion_samples()} method.
+     * Provides enrollment params for the {@link self::test_core_target_course_completion_samples()} method.
      *
      * @return array
      */
@@ -200,7 +200,7 @@ class targets_test extends \advanced_testcase {
     }
 
     /**
-     * Provides enrolment params for the {@link self::test_core_target_course_completion_samples()} method.
+     * Provides enrollment params for the {@link self::test_core_target_course_completion_samples()} method.
      *
      * @return array
      */
@@ -208,105 +208,105 @@ class targets_test extends \advanced_testcase {
         $now = time();
 
         return [
-            'enrol-after-end' => [
+            'enroll-after-end' => [
                 'starttime' => $now,
                 'endtime' => $now + WEEKSECS,
                 'timestart' => $now + (WEEKSECS * 2),
                 'timeend' => $now + (WEEKSECS * 3),
                 'nullcalculation' => true,
             ],
-            'enrol-before-start' => [
+            'enroll-before-start' => [
                 'starttime' => $now + (WEEKSECS * 2),
                 'endtime' => $now + (WEEKSECS * 3),
                 'timestart' => $now,
                 'timeend' => $now + WEEKSECS,
                 'nullcalculation' => true,
             ],
-            'enrol-active-exact-match' => [
+            'enroll-active-exact-match' => [
                 'starttime' => $now,
                 'endtime' => $now + (WEEKSECS * 1),
                 'timestart' => $now,
                 'timeend' => $now + (WEEKSECS * 1),
                 'nullcalculation' => false,
             ],
-            'enrol-active' => [
+            'enroll-active' => [
                 'starttime' => $now + WEEKSECS,
                 'endtime' => $now + (WEEKSECS * 2),
                 'timestart' => $now,
                 'timeend' => $now + (WEEKSECS * 3),
                 'nullcalculation' => false,
             ],
-            'enrol-during-analysis-active-just-for-a-while' => [
+            'enroll-during-analysis-active-just-for-a-while' => [
                 'starttime' => $now,
                 'endtime' => $now + (WEEKSECS * 10),
                 'timestart' => $now + WEEKSECS,
                 'timeend' => $now + (WEEKSECS * 2),
                 'nullcalculation' => true,
             ],
-            'enrol-during-analysis-mostly-active' => [
+            'enroll-during-analysis-mostly-active' => [
                 'starttime' => $now,
                 'endtime' => $now + (WEEKSECS * 20),
                 'timestart' => $now + WEEKSECS,
                 'timeend' => $now + (WEEKSECS * 19),
                 'nullcalculation' => false,
             ],
-            'enrol-partly-active-starts-before' => [
+            'enroll-partly-active-starts-before' => [
                 'starttime' => $now + WEEKSECS,
                 'endtime' => $now + (WEEKSECS * 10),
                 'timestart' => $now,
                 'timeend' => $now + (WEEKSECS * 2),
                 'nullcalculation' => true,
             ],
-            'enrol-mostly-active-starts-before' => [
+            'enroll-mostly-active-starts-before' => [
                 'starttime' => $now + WEEKSECS,
                 'endtime' => $now + (WEEKSECS * 10),
                 'timestart' => $now,
                 'timeend' => $now + (WEEKSECS * 9),
                 'nullcalculation' => false,
             ],
-            'enrol-partly-active-ends-afterwards' => [
+            'enroll-partly-active-ends-afterwards' => [
                 'starttime' => $now,
                 'endtime' => $now + (WEEKSECS * 10),
                 'timestart' => $now + (WEEKSECS * 9),
                 'timeend' => $now + (WEEKSECS * 11),
                 'nullcalculation' => true,
             ],
-            'enrol-mostly-active-ends-afterwards' => [
+            'enroll-mostly-active-ends-afterwards' => [
                 'starttime' => $now,
                 'endtime' => $now + (WEEKSECS * 10),
                 'timestart' => $now + WEEKSECS,
                 'timeend' => $now + (WEEKSECS * 11),
                 'nullcalculation' => false,
             ],
-            'enrol-partly-active-no-enrolment-end' => [
+            'enroll-partly-active-no-enrollment-end' => [
                 'starttime' => $now,
                 'endtime' => $now + (WEEKSECS * 10),
                 'timestart' => $now + (WEEKSECS * 9),
                 'timeend' => false,
                 'nullcalculation' => true,
             ],
-            'enrol-mostly-active-no-enrolment-end-false' => [
+            'enroll-mostly-active-no-enrollment-end-false' => [
                 'starttime' => $now,
                 'endtime' => $now + (WEEKSECS * 10),
                 'timestart' => $now + WEEKSECS,
                 'timeend' => false,
                 'nullcalculation' => false,
             ],
-            'enrol-mostly-active-no-enrolment-end-zero' => [
+            'enroll-mostly-active-no-enrollment-end-zero' => [
                 'starttime' => $now,
                 'endtime' => $now + (WEEKSECS * 10),
                 'timestart' => $now + WEEKSECS,
                 'timeend' => 0,
                 'nullcalculation' => false,
             ],
-            'enrol-no-enrolment-start-false' => [
+            'enroll-no-enrollment-start-false' => [
                 'starttime' => $now,
                 'endtime' => $now + (WEEKSECS * 10),
                 'timestart' => false,
                 'timeend' => $now + (WEEKSECS * 9),
                 'nullcalculation' => false,
             ],
-            'enrol-no-enrolment-start-zero' => [
+            'enroll-no-enrollment-start-zero' => [
                 'starttime' => $now,
                 'endtime' => $now + (WEEKSECS * 10),
                 'timestart' => 0,

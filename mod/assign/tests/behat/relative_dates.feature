@@ -44,7 +44,7 @@ I should be able to create an assignment with a due date relative to the course 
       | username | firstname  | lastname  | email                 |
       | student1 | Student    | 1         | student1@example.com  |
     And the following "course enrolments" exist:
-    # User's enrolment starts from 5 Jan 2021.
+    # User's enrollment starts from 5 Jan 2021.
       | user      | course  | role    | timestart   |
       | student1  | C1      | student | 1609804800  |
     And the following "activities" exist:

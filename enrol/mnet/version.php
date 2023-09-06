@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * MNet enrolment plugin version specification.
+ * MNet enrollment plugin version specification.
  *
  * @package    enrol_mnet
  * @copyright  2010 David Mudrak <david@moodle.com>

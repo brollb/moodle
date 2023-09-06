@@ -121,7 +121,7 @@ class generator_test extends \advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->assertEquals(0, $DB->count_records('h5pactivity_attempts'));
         $this->assertEquals(0, $DB->count_records('h5pactivity_attempts_results'));
@@ -320,7 +320,7 @@ class generator_test extends \advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->expectException(\coding_exception::class);
 

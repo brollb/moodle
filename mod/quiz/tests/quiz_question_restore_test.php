@@ -445,7 +445,7 @@ class quiz_question_restore_test extends \advanced_testcase {
         $course1 = $this->getDataGenerator()->create_course();
         $course2 = $this->getDataGenerator()->create_course();
 
-        $user1 = $this->getDataGenerator()->create_and_enrol($course1, 'editingteacher');
+        $user1 = $this->getDataGenerator()->create_and_enroll($course1, 'editingteacher');
         $this->getDataGenerator()->enrol_user($user1->id, $course2->id, 'editingteacher');
 
         // Make a quiz.

@@ -1,6 +1,6 @@
 @tool @tool_uploadcourse @_file_upload
 Feature: An admin can create courses with cohort enrolments using a CSV file
-  In order to create courses using a CSV file with cohort enrolment
+  In order to create courses using a CSV file with cohort enrollment
   As an admin
   I need to be able to upload a CSV file and navigate through the import process
 
@@ -26,7 +26,7 @@ Feature: An admin can create courses with cohort enrolments using a CSV file
     And I set the field "Update mode" to "Update with CSV data only"
 
   @javascript
-  Scenario: Upload cohort enrolment if plugin is disabled
+  Scenario: Upload cohort enrollment if plugin is disabled
     Given the following config values are set as admin:
       | enrol_plugins_enabled | manual,guest,self |
     And I upload "admin/tool/uploadcourse/tests/fixtures/enrolment_cohort.csv" file to "File" filemanager
@@ -46,11 +46,11 @@ Feature: An admin can create courses with cohort enrolments using a CSV file
     And I should see "Courses created: 2"
     And I should see "Courses updated: 0"
     And I should see "Courses errors: 3"
-    And I am on the "Course 1" "enrolment methods" page
+    And I am on the "Course 1" "enrollment methods" page
     Then I should not see "Cohort sync (Cohort 3 - Student)"
-    And I am on the "Course 2" "enrolment methods" page
+    And I am on the "Course 2" "enrollment methods" page
     And I should not see "Cohort sync (Cohort 4 - Student)"
-    And I am on the "Course 3" "enrolment methods" page
+    And I am on the "Course 3" "enrollment methods" page
     And I should see "Cohort sync (Cohort 5 - Student)"
     And I click on "Edit" "link" in the "Cohort 5" "table_row"
     And the field "Add to group" matches value "None"
@@ -73,13 +73,13 @@ Feature: An admin can create courses with cohort enrolments using a CSV file
     And I click on "Upload courses" "button"
     And I should see "Courses created: 2"
     And I should see "Courses errors: 0"
-    And I am on the "Course 2" "enrolment methods" page
+    And I am on the "Course 2" "enrollment methods" page
     And I should see "Cohort sync (Cohort 2 - Student)"
     And I click on "Edit" "link" in the "Cohort 2" "table_row"
     And the field "Add to group" matches value "Cohort 2 cohort"
     And I am on the "Course 2" "groups" page
     And I should see "Cohort 2 cohort"
-    And I am on the "Course 3" "enrolment methods" page
+    And I am on the "Course 3" "enrollment methods" page
     And I should see "Cohort sync (Cohort 1 - Student)"
     And I click on "Edit" "link" in the "Cohort 1" "table_row"
     And the field "Add to group" matches value "None"
@@ -97,7 +97,7 @@ Feature: An admin can create courses with cohort enrolments using a CSV file
     And I should see "Error, invalid group notexist"
     And I should see "Courses updated: 1"
     And I should see "Courses errors: 1"
-    And I am on the "Course 1" "enrolment methods" page
+    And I am on the "Course 1" "enrollment methods" page
     Then I should see "Cohort sync (Cohort 1 - Student)"
     And I click on "Edit" "link" in the "Cohort 1" "table_row"
     And the field "Add to group" matches value "group1"

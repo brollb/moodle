@@ -52,7 +52,7 @@ class comments_test extends core_reportbuilder_testcase {
         $generator = $this->getDataGenerator()->get_plugin_generator('core_comment');
 
         // Our first user will create a single comment.
-        $userone = $this->getDataGenerator()->create_and_enrol($course, 'student', ['firstname' => 'Zoe']);
+        $userone = $this->getDataGenerator()->create_and_enroll($course, 'student', ['firstname' => 'Zoe']);
         $this->setUser($userone);
         $useronecomment = $generator->create_comment([
             'context' => $coursecontext,
@@ -61,7 +61,7 @@ class comments_test extends core_reportbuilder_testcase {
         ])->add('Cool');
 
         // Our second user will create a couple of comments.
-        $usertwo = $this->getDataGenerator()->create_and_enrol($course, 'student', ['firstname' => 'Amy']);
+        $usertwo = $this->getDataGenerator()->create_and_enroll($course, 'student', ['firstname' => 'Amy']);
         $this->setUser($usertwo);
         $usertwocommentfirst = $generator->create_comment([
             'context' => $coursecontext,

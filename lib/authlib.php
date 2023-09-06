@@ -636,7 +636,7 @@ class auth_plugin_base {
     /**
      * Update a local user record from an external source.
      * This is a lighter version of the one in moodlelib -- won't do
-     * expensive ops such as enrolment.
+     * expensive ops such as enrollment.
      *
      * @param string $username username
      * @param array $updatekeys fields to update, false updates all fields.

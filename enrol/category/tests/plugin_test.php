@@ -17,7 +17,7 @@
 namespace enrol_category;
 
 /**
- * Category enrolment sync functional test.
+ * Category enrollment sync functional test.
  *
  * @package    enrol_category
  * @category   phpunit
@@ -43,13 +43,13 @@ class plugin_test extends \advanced_testcase {
     protected function enable_role_sync($roleid) {
         $syscontext = \context_system::instance();
 
-        assign_capability('enrol/category:synchronised', CAP_ALLOW, $roleid, $syscontext, true);
+        assign_capability('enroll/category:synchronised', CAP_ALLOW, $roleid, $syscontext, true);
     }
 
     protected function disable_role_sync($roleid) {
         $syscontext = \context_system::instance();
 
-        unassign_capability('enrol/category:synchronised', $roleid, $syscontext);
+        unassign_capability('enroll/category:synchronised', $roleid, $syscontext);
     }
 
     /**
@@ -68,25 +68,25 @@ class plugin_test extends \advanced_testcase {
         $this->enable_plugin();
         $this->assertTrue(enrol_is_enabled('category'));
 
-        $roles = get_roles_with_capability('enrol/category:synchronised', CAP_ALLOW, $syscontext);
+        $roles = get_roles_with_capability('enroll/category:synchronised', CAP_ALLOW, $syscontext);
         $this->assertEmpty($roles);
 
         $studentrole = $DB->get_record('role', array('shortname'=>'student'));
         $this->assertNotEmpty($studentrole);
 
         $this->enable_role_sync($studentrole->id);
-        $roles = get_roles_with_capability('enrol/category:synchronised', CAP_ALLOW, $syscontext);
+        $roles = get_roles_with_capability('enroll/category:synchronised', CAP_ALLOW, $syscontext);
         $this->assertEquals(1, count($roles));
         $this->assertEquals($studentrole, reset($roles));
 
         $this->disable_role_sync($studentrole->id);
-        $roles = get_roles_with_capability('enrol/category:synchronised', CAP_ALLOW, $syscontext);
+        $roles = get_roles_with_capability('enroll/category:synchronised', CAP_ALLOW, $syscontext);
         $this->assertEmpty($roles);
     }
 
     public function test_handler_sync() {
         global $DB, $CFG;
-        require_once($CFG->dirroot.'/enrol/category/locallib.php');
+        require_once($CFG->dirroot.'/enroll/category/locallib.php');
 
         $this->resetAfterTest();
 
@@ -159,7 +159,7 @@ class plugin_test extends \advanced_testcase {
 
     public function test_sync_course() {
         global $DB, $CFG;
-        require_once($CFG->dirroot.'/enrol/category/locallib.php');
+        require_once($CFG->dirroot.'/enroll/category/locallib.php');
 
         $this->resetAfterTest();
 
@@ -241,19 +241,19 @@ class plugin_test extends \advanced_testcase {
         $this->assertEquals(1, $DB->count_records('user_enrolments', array()));
         $this->assertTrue(is_enrolled(\context_course::instance($course1->id), $user4->id));
 
-        $this->assertEquals(1, $DB->count_records('enrol', array('enrol'=>'category')));
+        $this->assertEquals(1, $DB->count_records('enroll', array('enroll'=>'category')));
         $this->disable_role_sync($teacherrole->id);
         enrol_category_sync_course($course1);
         enrol_category_sync_course($course2);
         enrol_category_sync_course($course3);
         enrol_category_sync_course($course4);
         $this->assertEquals(0, $DB->count_records('user_enrolments', array()));
-        $this->assertEquals(0, $DB->count_records('enrol', array('enrol'=>'category')));
+        $this->assertEquals(0, $DB->count_records('enroll', array('enroll'=>'category')));
     }
 
     public function test_sync_full() {
         global $DB, $CFG;
-        require_once($CFG->dirroot.'/enrol/category/locallib.php');
+        require_once($CFG->dirroot.'/enroll/category/locallib.php');
 
         $this->resetAfterTest();
 
@@ -343,6 +343,6 @@ class plugin_test extends \advanced_testcase {
         $this->assertSame(0, $result);
         $this->assertEquals(0, $DB->count_records('role_assignments', array()));
         $this->assertEquals(0, $DB->count_records('user_enrolments', array()));
-        $this->assertEquals(0, $DB->count_records('enrol', array('enrol'=>'category')));
+        $this->assertEquals(0, $DB->count_records('enroll', array('enroll'=>'category')));
     }
 }

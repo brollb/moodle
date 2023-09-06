@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * This function checks if a private key has been generated for this enrolment instance.
+ * This function checks if a private key has been generated for this enrollment instance.
  *
  * If the key does not exist it generates a new one. If the openssl
  * extension is not installed or configured properly it returns a warning message.

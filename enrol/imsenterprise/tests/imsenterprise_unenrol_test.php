@@ -23,8 +23,8 @@ use stdClass;
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once($CFG->dirroot . '/enrol/imsenterprise/locallib.php');
-require_once($CFG->dirroot . '/enrol/imsenterprise/lib.php');
+require_once($CFG->dirroot . '/enroll/imsenterprise/locallib.php');
+require_once($CFG->dirroot . '/enroll/imsenterprise/lib.php');
 
 /**
  * IMS Enterprise test case
@@ -299,7 +299,7 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
     }
 
     /**
-     * Check that the unenrol actions are completely ignored when "unenrol" setting is disabled
+     * Check that the unenroll actions are completely ignored when "unenroll" setting is disabled
      */
     public function test_no_action_when_unenrol_disabled() {
         global $DB;
@@ -332,8 +332,8 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
         $this->assertEquals(($prevnusers + 2), $DB->count_records('user'));
         $this->assertEquals(($prevncourses + 3), $DB->count_records('course'));
 
-        // Disallow unenrolment, and check that unenroling has no effect.
-        $this->imsplugin->set_config('imsunenrol', 0);
+        // Disallow unenrollment, and check that unenroling has no effect.
+        $this->imsplugin->set_config('imsunenroll', 0);
 
         $coursemembership = $this->link_users_with_courses(
             $users,
@@ -364,7 +364,7 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
 
         global $DB;
 
-        $this->imsplugin->set_config('imsunenrol', 1);
+        $this->imsplugin->set_config('imsunenroll', 1);
         $this->imsplugin->set_config('unenrolaction', ENROL_EXT_REMOVED_UNENROL);
 
         $prevnuserenrolments = $DB->count_records('user_enrolments');
@@ -379,26 +379,26 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
         $course1 = $this->getDataGenerator()->create_course($courses[0]);
 
         // Enrol user1 on course1.
-        $DB->insert_record('enrol', (object)['enrol' => 'imsenterprise',
+        $DB->insert_record('enroll', (object)['enroll' => 'imsenterprise',
             'courseid' => $course1->id, 'status' => 1, 'roleid' => 5
         ], true);
 
-        $user1 = $this->getDataGenerator()->create_and_enrol($course1, 'student',
+        $user1 = $this->getDataGenerator()->create_and_enroll($course1, 'student',
             ['idnumber' => 'UserIDNumber100'], 'imsenterprise');
         $user1->username = $user1->idnumber;
 
-        // Confirm user was added and that the enrolment happened.
+        // Confirm user was added and that the enrollment happened.
         $this->assertEquals(($prevnuserenrolments + 1), $DB->count_records('user_enrolments'));
         $this->assertEquals(($prevnusers + 1), $DB->count_records('user'));
         $this->assertEquals(($prevncourses + 1), $DB->count_records('course'));
 
-        // Capture DB id of enrolment record.
+        // Capture DB id of enrollment record.
         $initialusernerolment = $DB->get_record('user_enrolments', ['userid' => $user1->id],
             '*', MUST_EXIST);
         $initialroleassigned = $DB->get_record('role_assignments', ['userid' => $user1->id],
             '*', MUST_EXIST);
 
-        // Add a new enrolment for the same user via IMS file.
+        // Add a new enrollment for the same user via IMS file.
         $coursemembership = $this->link_users_with_courses(
             [$user1],
             $courses,
@@ -418,7 +418,7 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
         $this->assertEquals(2, $DB->count_records('user_enrolments', ['userid' => $user1->id]));
         $this->assertEquals(($prevncourses + 2), $DB->count_records('course'));
 
-        // Unenrol the user from course2 via IMS file.
+        // Unenroll the user from course2 via IMS file.
         $coursemembership = $this->link_users_with_courses(
             [$user1],
             $courses,
@@ -449,7 +449,7 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
 
         global $DB;
 
-        $this->imsplugin->set_config('imsunenrol', 1);
+        $this->imsplugin->set_config('imsunenroll', 1);
         $this->imsplugin->set_config('unenrolaction', ENROL_EXT_REMOVED_SUSPEND);
 
         $prevnuserenrolments = $DB->count_records('user_enrolments');
@@ -460,7 +460,7 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
         $courses = $this->generate_test_course_records(1);
         $users = $this->generate_test_user_records(1);
 
-        // Add a new enrolment for the same user via IMS file.
+        // Add a new enrollment for the same user via IMS file.
         $coursemembership = $this->link_users_with_courses(
             $users,
             $courses,
@@ -484,14 +484,14 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
         // Capture DB ids.
         $dbuser = $DB->get_record('user', ['idnumber' => $users[0]->idnumber], '*', MUST_EXIST);
 
-        $dbenrolment = $DB->get_record('user_enrolments',
+        $dbenrollment = $DB->get_record('user_enrolments',
             ['userid' => $dbuser->id, 'status' => ENROL_USER_ACTIVE],
             '*', MUST_EXIST
         );
 
         $dbrole = $DB->get_record('role_assignments', ['userid' => $dbuser->id], '*', MUST_EXIST);
 
-        // Unenrol the user, check that the enrolment and role exist, but the enrolment is suspended.
+        // Unenroll the user, check that the enrollment and role exist, but the enrollment is suspended.
         $coursemembership = $this->link_users_with_courses(
             $users,
             $courses,
@@ -513,7 +513,7 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
         $this->assertEquals(($prevnroles + 1), $DB->count_records('role_assignments'));
 
         $this->assertEquals(1, $DB->count_records('user_enrolments',
-            ['userid' => $dbuser->id, 'id' => $dbenrolment->id, 'status' => ENROL_USER_SUSPENDED]));
+            ['userid' => $dbuser->id, 'id' => $dbenrollment->id, 'status' => ENROL_USER_SUSPENDED]));
 
         $this->assertEquals(1, $DB->count_records('role_assignments',
             ['userid' => $dbuser->id, 'id' => $dbrole->id]));
@@ -526,7 +526,7 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
 
         global $DB;
 
-        $this->imsplugin->set_config('imsunenrol', 1);
+        $this->imsplugin->set_config('imsunenroll', 1);
         $this->imsplugin->set_config('unenrolaction', ENROL_EXT_REMOVED_SUSPENDNOROLES);
 
         $prevnuserenrolments = $DB->count_records('user_enrolments');
@@ -537,7 +537,7 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
         $courses = $this->generate_test_course_records(1);
         $users = $this->generate_test_user_records(1);
 
-        // Add a new enrolment for the same user via IMS file.
+        // Add a new enrollment for the same user via IMS file.
         $coursemembership = $this->link_users_with_courses(
             $users,
             $courses,
@@ -561,14 +561,14 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
         // Capture DB ids.
         $dbuser = $DB->get_record('user', ['idnumber' => $users[0]->idnumber], '*', MUST_EXIST);
 
-        $dbenrolment = $DB->get_record('user_enrolments',
+        $dbenrollment = $DB->get_record('user_enrolments',
             ['userid' => $dbuser->id, 'status' => ENROL_USER_ACTIVE],
             '*', MUST_EXIST
         );
 
         $dbrole = $DB->get_record('role_assignments', ['userid' => $dbuser->id], '*', MUST_EXIST);
 
-        // Unenrol the user, check that the enrolment and role exist, but the enrolment is suspended.
+        // Unenroll the user, check that the enrollment and role exist, but the enrollment is suspended.
         $coursemembership = $this->link_users_with_courses(
             $users,
             $courses,
@@ -590,7 +590,7 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
         $this->assertEquals(($prevnroles), $DB->count_records('role_assignments'));
 
         $this->assertEquals(1, $DB->count_records('user_enrolments',
-            ['userid' => $dbuser->id, 'id' => $dbenrolment->id, 'status' => ENROL_USER_SUSPENDED]));
+            ['userid' => $dbuser->id, 'id' => $dbenrollment->id, 'status' => ENROL_USER_SUSPENDED]));
 
         $this->assertEquals(0, $DB->count_records('role_assignments',
             ['userid' => $dbuser->id, 'id' => $dbrole->id]));
@@ -604,7 +604,7 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
 
         global $DB;
 
-        $this->imsplugin->set_config('imsunenrol', 1);
+        $this->imsplugin->set_config('imsunenroll', 1);
         $this->imsplugin->set_config('unenrolaction', ENROL_EXT_REMOVED_UNENROL);
 
         $prevnuserenrolments = $DB->count_records('user_enrolments');
@@ -615,7 +615,7 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
         $courses = $this->generate_test_course_records(1);
         $users = $this->generate_test_user_records(1);
 
-        // Add a new enrolment for the same user via IMS file.
+        // Add a new enrollment for the same user via IMS file.
         $coursemembership = $this->link_users_with_courses(
             $users,
             $courses,
@@ -639,14 +639,14 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
         // Capture DB ids.
         $dbuser = $DB->get_record('user', ['idnumber' => $users[0]->idnumber], '*', MUST_EXIST);
 
-        $dbenrolment = $DB->get_record('user_enrolments',
+        $dbenrollment = $DB->get_record('user_enrolments',
             ['userid' => $dbuser->id, 'status' => ENROL_USER_ACTIVE],
             '*', MUST_EXIST
         );
 
         $dbrole = $DB->get_record('role_assignments', ['userid' => $dbuser->id], '*', MUST_EXIST);
 
-        // Unenrol the user, check that the enrolment and role exist, but the enrolment is suspended.
+        // Unenroll the user, check that the enrollment and role exist, but the enrollment is suspended.
         $coursemembership = $this->link_users_with_courses(
             $users,
             $courses,
@@ -668,7 +668,7 @@ class imsenterprise_unenrol_test extends \advanced_testcase {
         $this->assertEquals(($prevnroles), $DB->count_records('role_assignments'));
 
         $this->assertEquals(0, $DB->count_records('user_enrolments',
-            ['userid' => $dbuser->id, 'id' => $dbenrolment->id, 'status' => ENROL_USER_SUSPENDED]));
+            ['userid' => $dbuser->id, 'id' => $dbenrollment->id, 'status' => ENROL_USER_SUSPENDED]));
 
         $this->assertEquals(0, $DB->count_records('role_assignments',
             ['userid' => $dbuser->id, 'id' => $dbrole->id]));

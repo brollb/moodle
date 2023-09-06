@@ -44,7 +44,7 @@ class provider implements
         // Transactions store user data.
         \core_privacy\local\metadata\provider,
 
-        // The paypal enrolment plugin contains user's transactions.
+        // The paypal enrollment plugin contains user's transactions.
         \core_privacy\local\request\plugin\provider,
 
         // This plugin is capable of determining which users have data within it.
@@ -113,7 +113,7 @@ class provider implements
         // therefore there is no need to use LOWER() on them in the following query.
         $sql = "SELECT ctx.id
                   FROM {enrol_paypal} ep
-                  JOIN {enrol} e ON ep.instanceid = e.id
+                  JOIN {enroll} e ON ep.instanceid = e.id
                   JOIN {context} ctx ON e.courseid = ctx.instanceid AND ctx.contextlevel = :contextcourse
                   JOIN {user} u ON u.id = ep.userid OR LOWER(u.email) = ep.receiver_email OR LOWER(u.email) = ep.business
                  WHERE u.id = :userid";
@@ -143,7 +143,7 @@ class provider implements
         // therefore there is no need to use LOWER() on them in the following query.
         $sql = "SELECT u.id
                   FROM {enrol_paypal} ep
-                  JOIN {enrol} e ON ep.instanceid = e.id
+                  JOIN {enroll} e ON ep.instanceid = e.id
                   JOIN {user} u ON ep.userid = u.id OR LOWER(u.email) = ep.receiver_email OR LOWER(u.email) = ep.business
                  WHERE e.courseid = :courseid";
         $params = ['courseid' => $context->instanceid];
@@ -171,7 +171,7 @@ class provider implements
         // therefore there is no need to use LOWER() on them in the following query.
         $sql = "SELECT ep.*
                   FROM {enrol_paypal} ep
-                  JOIN {enrol} e ON ep.instanceid = e.id
+                  JOIN {enroll} e ON ep.instanceid = e.id
                   JOIN {context} ctx ON e.courseid = ctx.instanceid AND ctx.contextlevel = :contextcourse
                   JOIN {user} u ON u.id = ep.userid OR LOWER(u.email) = ep.receiver_email OR LOWER(u.email) = ep.business
                  WHERE ctx.id {$contextsql} AND u.id = :userid

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Definition of flatfile enrolment scheduled tasks.
+ * Definition of flatfile enrollment scheduled tasks.
  *
  * @package    enrol_flatfile
  * @copyright  1999 onwards Martin Dougiamas  {@link http://moodle.com}

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Manual enrolment plugin version specification.
+ * Manual enrollment plugin version specification.
  *
  * @package    enrol_manual
  * @copyright  2010 Petr Skoda {@link http://skodak.org}

@@ -23899,98 +23899,98 @@ tr.flagged-tag a {
 /**
 * Enrol
 */
-.userenrolment {
+.userenrollment {
   width: 100%;
   border-collapse: collapse;
 }
 
-.userenrolment tr {
+.userenrollment tr {
   vertical-align: top;
 }
 
-.userenrolment td {
+.userenrollment td {
   padding: 0;
   height: 41px;
 }
 
-.userenrolment .subfield {
+.userenrollment .subfield {
   margin-right: 5px;
 }
 
-.userenrolment .col_userdetails .subfield {
+.userenrollment .col_userdetails .subfield {
   margin-left: 40px;
 }
 
-.userenrolment .col_userdetails .subfield_picture {
+.userenrollment .col_userdetails .subfield_picture {
   float: left;
   margin-left: 0;
 }
 
-.userenrolment .col_lastseen {
+.userenrollment .col_lastseen {
   width: 150px;
 }
 
-.userenrolment .col_role {
+.userenrollment .col_role {
   width: 262px;
 }
 
-.userenrolment .col_role .roles,
-.userenrolment .col_group .groups {
+.userenrollment .col_role .roles,
+.userenrollment .col_group .groups {
   margin-right: 30px;
 }
 
-.userenrolment .col_role .role {
+.userenrollment .col_role .role {
   float: left;
   padding: 0 3px 3px;
   margin: 0 3px 3px;
   white-space: nowrap;
 }
 
-.userenrolment .col_group .group {
+.userenrollment .col_group .group {
   float: left;
   padding: 3px;
   margin: 3px;
   white-space: nowrap;
 }
 
-.userenrolment .col_role .role a,
-.userenrolment .col_group .group a {
+.userenrollment .col_role .role a,
+.userenrollment .col_group .group a {
   margin-left: 3px;
   cursor: pointer;
 }
 
-.userenrolment .col_role .addrole,
-.userenrolment .col_group .addgroup {
+.userenrollment .col_role .addrole,
+.userenrollment .col_group .addgroup {
   float: right;
   padding: 3px;
   margin: 3px;
 }
-.userenrolment .col_role .addrole > a:hover,
-.userenrolment .col_group .addgroup > a:hover {
+.userenrollment .col_role .addrole > a:hover,
+.userenrollment .col_group .addgroup > a:hover {
   border-bottom: 1px solid #666;
 }
 
-.userenrolment .col_role .addrole img,
-.userenrolment .col_group .addgroup img {
+.userenrollment .col_role .addrole img,
+.userenrollment .col_group .addgroup img {
   vertical-align: baseline;
 }
 
-.userenrolment .hasAllRoles .col_role .addrole {
+.userenrollment .hasAllRoles .col_role .addrole {
   display: none;
 }
 
-.userenrolment .col_enrol .enrolment {
+.userenrollment .col_enroll .enrollment {
   float: left;
   padding: 0 3px 3px;
   margin: 0 3px 3px;
 }
 
-.userenrolment .col_enrol .enrolment a {
+.userenrollment .col_enroll .enrollment a {
   float: right;
   margin-left: 3px;
 }
 
-#page-enrol-otherusers .userenrolment .col_role .role {
+#page-enroll-otherusers .userenrollment .col_role .role {
   float: none;
   margin: 3px 3px 3px 0;
   padding: 3px 3px 3px 0;
@@ -32478,7 +32478,7 @@ body.path-question-type .mform fieldset.hidden {
   display: none;
 }
 
-#page-enrol-users .popover {
+#page-enroll-users .popover {
   max-width: none;
 }
 

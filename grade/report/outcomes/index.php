@@ -51,10 +51,10 @@ $report_info = array();
 $outcomes = grade_outcome::fetch_all_available($courseid);
 
 // Will exclude grades of suspended users if required.
-$defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-$showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-$showonlyactiveenrol = $showonlyactiveenrol || !has_capability('moodle/course:viewsuspendedusers', $context);
-if ($showonlyactiveenrol) {
+$defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+$showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
+$showonlyactiveenroll = $showonlyactiveenroll || !has_capability('moodle/course:viewsuspendedusers', $context);
+if ($showonlyactiveenroll) {
     $suspendedusers = get_suspended_userids($context);
 }
 
@@ -68,7 +68,7 @@ foreach ($outcomes as $outcomeid => $outcome) {
         foreach ($report_info[$outcomeid]['items'] as $itemid => $item) {
             $params = array();
             $hidesuspendedsql = '';
-            if ($showonlyactiveenrol && !empty($suspendedusers)) {
+            if ($showonlyactiveenroll && !empty($suspendedusers)) {
                 list($notinusers, $params) = $DB->get_in_or_equal($suspendedusers, SQL_PARAMS_QM, null, false);
                 $hidesuspendedsql = ' AND userid ' . $notinusers;
             }

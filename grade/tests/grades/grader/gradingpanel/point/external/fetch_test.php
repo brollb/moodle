@@ -72,8 +72,8 @@ class fetch_test extends advanced_testcase {
             'grade_forum' => -1,
         ]);
         $course = $forum->get_course_record();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->setUser($teacher);
 
         $gradeitem = component_gradeitem::instance('mod_forum', $forum->get_context(), 'forum');
@@ -94,8 +94,8 @@ class fetch_test extends advanced_testcase {
             'grade_forum' => 5,
         ]);
         $course = $forum->get_course_record();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->setUser($teacher);
 
         $gradeitem = component_gradeitem::instance('mod_forum', $forum->get_context(), 'forum');
@@ -145,8 +145,8 @@ class fetch_test extends advanced_testcase {
             'grade_forum' => 5,
         ]);
         $course = $forum->get_course_record();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->execute_and_assert_fetch($forum, $teacher, $teacher, $student);
     }
@@ -162,9 +162,9 @@ class fetch_test extends advanced_testcase {
             'grade_forum' => 5,
         ]);
         $course = $forum->get_course_record();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $evilstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $evilstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->expectException(\required_capability_exception::class);
         $this->execute_and_assert_fetch($forum, $evilstudent, $teacher, $student);
@@ -181,8 +181,8 @@ class fetch_test extends advanced_testcase {
             'grade_forum' => 5,
         ]);
         $course = $forum->get_course_record();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->execute_and_assert_fetch($forum, $student, $teacher, $student);
     }

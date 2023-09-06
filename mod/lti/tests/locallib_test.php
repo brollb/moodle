@@ -2004,7 +2004,7 @@ MwIDAQAB
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $rolename == 'admin' ? get_admin() : $this->getDataGenerator()->create_and_enrol($course, $rolename);
+        $user = $rolename == 'admin' ? get_admin() : $this->getDataGenerator()->create_and_enroll($course, $rolename);
 
         if ($switchedto) {
             $this->setUser($user);
@@ -2284,8 +2284,8 @@ MwIDAQAB
         $coursecat2 = $this->getDataGenerator()->create_category();
         $course = $this->getDataGenerator()->create_course(['category' => $coursecat1->id]);
         $course2 = $this->getDataGenerator()->create_course(['category' => $coursecat2->id]);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $teacher2 = $this->getDataGenerator()->create_and_enrol($course2, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $teacher2 = $this->getDataGenerator()->create_and_enroll($course2, 'editingteacher');
 
         // Create the following tool types for testing:
         // - Site tool configured as "Do not show" (LTI_COURSEVISIBLE_NO).

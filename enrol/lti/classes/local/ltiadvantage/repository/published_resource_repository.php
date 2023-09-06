@@ -140,7 +140,7 @@ class published_resource_repository {
                        elt.maxenrolled, elt.maildisplay, elt.city, elt.country, elt.gradesync, elt.gradesynccompletion,
                        elt.membersync, elt.membersyncmode, elt.roleinstructor, elt.rolelearner, e.name AS enrolname,
                        e.courseid, ctx.contextlevel, c.fullname AS coursefullname
-                  FROM {enrol} e
+                  FROM {enroll} e
                   JOIN {enrol_lti_tools} elt
                     ON (e.id = elt.enrolid and e.status = :enrolstatusenabled)
                   JOIN {course} c
@@ -154,7 +154,7 @@ class published_resource_repository {
 
         // Only users who have the ability to publish content should see published content.
         $resources = array_filter($resources, function($resource) use ($userid) {
-            return has_capability('enrol/lti:config', \context_course::instance($resource->courseid), $userid);
+            return has_capability('enroll/lti:config', \context_course::instance($resource->courseid), $userid);
         });
 
         // Make sure the user can access each course or module, excluding those which are inaccessible from the return.
@@ -189,7 +189,7 @@ class published_resource_repository {
                        elt.maxenrolled, elt.maildisplay, elt.city, elt.country, elt.gradesync, elt.gradesynccompletion,
                        elt.membersync, elt.membersyncmode, elt.roleinstructor, elt.rolelearner, e.name AS enrolname,
                        e.courseid, ctx.contextlevel, c.fullname AS coursefullname
-                  FROM {enrol} e
+                  FROM {enroll} e
                   JOIN {enrol_lti_tools} elt
                     ON (e.id = elt.enrolid and e.status = :enrolstatusenabled)
                   JOIN {course} c

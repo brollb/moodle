@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Category enrolment plugin.
+ * Category enrollment plugin.
  *
  * @package    enrol_category
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -26,14 +26,14 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * category enrolment plugin implementation.
+ * category enrollment plugin implementation.
  * @author  Petr Skoda
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class enrol_category_plugin extends enrol_plugin {
 
    /**
-     * Is it possible to delete enrol instance via standard UI?
+     * Is it possible to delete enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
@@ -42,7 +42,7 @@ class enrol_category_plugin extends enrol_plugin {
         global $DB;
 
         $context = context_course::instance($instance->courseid);
-        if (!has_capability('enrol/category:config', $context)) {
+        if (!has_capability('enroll/category:config', $context)) {
             return false;
         }
 
@@ -54,18 +54,18 @@ class enrol_category_plugin extends enrol_plugin {
     }
 
     /**
-     * Is it possible to hide/show enrol instance via standard UI?
+     * Is it possible to hide/show enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/category:config', $context);
+        return has_capability('enroll/category:config', $context);
     }
 
     /**
-     * Returns link to page which may be used to add new instance of enrolment plugin in course.
+     * Returns link to page which may be used to add new instance of enrollment plugin in course.
      * @param int $courseid
      * @return moodle_url page url
      */
@@ -90,18 +90,18 @@ class enrol_category_plugin extends enrol_plugin {
         }
 
         // Sync category enrols.
-        require_once("$CFG->dirroot/enrol/category/locallib.php");
+        require_once("$CFG->dirroot/enroll/category/locallib.php");
         enrol_category_sync_course($course);
     }
 
     /**
-     * Automatic enrol sync executed during restore.
+     * Automatic enroll sync executed during restore.
      * Useful for automatic sync by course->idnumber or course category.
      * @param stdClass $course course record
      */
     public function restore_sync_course($course) {
         global $CFG;
-        require_once("$CFG->dirroot/enrol/category/locallib.php");
+        require_once("$CFG->dirroot/enroll/category/locallib.php");
         enrol_category_sync_course($course);
     }
 }

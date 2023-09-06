@@ -21,7 +21,7 @@ use core_external\external_value;
 use core_external\external_warnings;
 
 /**
- * Self enrolment external functions.
+ * Self enrollment external functions.
  *
  * @package   enrol_self
  * @copyright 2012 Rajesh Taneja <rajesh@moodle.com>
@@ -37,14 +37,14 @@ class enrol_self_external extends external_api {
      */
     public static function get_instance_info_parameters() {
         return new external_function_parameters([
-            'instanceid' => new external_value(PARAM_INT, 'instance id of self enrolment plugin.'),
+            'instanceid' => new external_value(PARAM_INT, 'instance id of self enrollment plugin.'),
         ]);
     }
 
     /**
-     * Return self-enrolment instance information.
+     * Return self-enrollment instance information.
      *
-     * @param int $instanceid instance id of self enrolment plugin.
+     * @param int $instanceid instance id of self enrollment plugin.
      * @return array instance information.
      * @throws moodle_exception
      */
@@ -55,7 +55,7 @@ class enrol_self_external extends external_api {
 
         $params = self::validate_parameters(self::get_instance_info_parameters(), array('instanceid' => $instanceid));
 
-        // Retrieve self enrolment plugin.
+        // Retrieve self enrollment plugin.
         $enrolplugin = enrol_get_plugin('self');
         if (empty($enrolplugin)) {
             throw new moodle_exception('invaliddata', 'error');
@@ -63,7 +63,7 @@ class enrol_self_external extends external_api {
 
         self::validate_context(context_system::instance());
 
-        $enrolinstance = $DB->get_record('enrol', array('id' => $params['instanceid']), '*', MUST_EXIST);
+        $enrolinstance = $DB->get_record('enroll', array('id' => $params['instanceid']), '*', MUST_EXIST);
         $course = $DB->get_record('course', array('id' => $enrolinstance->courseid), '*', MUST_EXIST);
         if (!core_course_category::can_view_course_info($course) && !can_access_course($course)) {
             throw new moodle_exception('coursehidden');
@@ -86,12 +86,12 @@ class enrol_self_external extends external_api {
     public static function get_instance_info_returns() {
         return new external_single_structure(
             array(
-                'id' => new external_value(PARAM_INT, 'id of course enrolment instance'),
+                'id' => new external_value(PARAM_INT, 'id of course enrollment instance'),
                 'courseid' => new external_value(PARAM_INT, 'id of course'),
-                'type' => new external_value(PARAM_PLUGIN, 'type of enrolment plugin'),
-                'name' => new external_value(PARAM_RAW, 'name of enrolment plugin'),
-                'status' => new external_value(PARAM_RAW, 'status of enrolment plugin'),
-                'enrolpassword' => new external_value(PARAM_RAW, 'password required for enrolment', VALUE_OPTIONAL),
+                'type' => new external_value(PARAM_PLUGIN, 'type of enrollment plugin'),
+                'name' => new external_value(PARAM_RAW, 'name of enrollment plugin'),
+                'status' => new external_value(PARAM_RAW, 'status of enrollment plugin'),
+                'enrolpassword' => new external_value(PARAM_RAW, 'password required for enrollment', VALUE_OPTIONAL),
             )
         );
     }
@@ -107,17 +107,17 @@ class enrol_self_external extends external_api {
             array(
                 'courseid' => new external_value(PARAM_INT, 'Id of the course'),
                 'password' => new external_value(PARAM_RAW, 'Enrolment key', VALUE_DEFAULT, ''),
-                'instanceid' => new external_value(PARAM_INT, 'Instance id of self enrolment plugin.', VALUE_DEFAULT, 0)
+                'instanceid' => new external_value(PARAM_INT, 'Instance id of self enrollment plugin.', VALUE_DEFAULT, 0)
             )
         );
     }
 
     /**
-     * Self enrol the current user in the given course.
+     * Self enroll the current user in the given course.
      *
      * @param int $courseid id of course
-     * @param string $password enrolment key
-     * @param int $instanceid instance id of self enrolment plugin
+     * @param string $password enrollment key
+     * @param int $instanceid instance id of self enrollment plugin
      * @return array of warnings and status result
      * @since Moodle 3.0
      * @throws moodle_exception
@@ -144,17 +144,17 @@ class enrol_self_external extends external_api {
             throw new moodle_exception('coursehidden');
         }
 
-        // Retrieve the self enrolment plugin.
-        $enrol = enrol_get_plugin('self');
-        if (empty($enrol)) {
-            throw new moodle_exception('canntenrol', 'enrol_self');
+        // Retrieve the self enrollment plugin.
+        $enroll = enrol_get_plugin('self');
+        if (empty($enroll)) {
+            throw new moodle_exception('canntenroll', 'enrol_self');
         }
 
-        // We can expect multiple self-enrolment instances.
+        // We can expect multiple self-enrollment instances.
         $instances = array();
         $enrolinstances = enrol_get_instances($course->id, true);
         foreach ($enrolinstances as $courseenrolinstance) {
-            if ($courseenrolinstance->enrol == "self") {
+            if ($courseenrolinstance->enroll == "self") {
                 // Instance specified.
                 if (!empty($params['instanceid'])) {
                     if ($courseenrolinstance->id == $params['instanceid']) {
@@ -168,19 +168,19 @@ class enrol_self_external extends external_api {
             }
         }
         if (empty($instances)) {
-            throw new moodle_exception('canntenrol', 'enrol_self');
+            throw new moodle_exception('canntenroll', 'enrol_self');
         }
 
-        // Try to enrol the user in the instance/s.
+        // Try to enroll the user in the instance/s.
         $enrolled = false;
         foreach ($instances as $instance) {
-            $enrolstatus = $enrol->can_self_enrol($instance);
+            $enrolstatus = $enroll->can_self_enroll($instance);
             if ($enrolstatus === true) {
                 if ($instance->password and $params['password'] !== $instance->password) {
 
-                    // Check if we are using group enrolment keys.
+                    // Check if we are using group enrollment keys.
                     if ($instance->customint1) {
-                        require_once($CFG->dirroot . "/enrol/self/locallib.php");
+                        require_once($CFG->dirroot . "/enroll/self/locallib.php");
 
                         if (!enrol_self_check_group_enrolment_key($course->id, $params['password'])) {
                             $warnings[] = array(
@@ -192,7 +192,7 @@ class enrol_self_external extends external_api {
                             continue;
                         }
                     } else {
-                        if ($enrol->get_config('showhint')) {
+                        if ($enroll->get_config('showhint')) {
                             $hint = core_text::substr($instance->password, 0, 1);
                             $warnings[] = array(
                                 'item' => 'instance',
@@ -213,9 +213,9 @@ class enrol_self_external extends external_api {
                     }
                 }
 
-                // Do the enrolment.
+                // Do the enrollment.
                 $data = array('enrolpassword' => $params['password']);
-                $enrol->enrol_self($instance, (object) $data);
+                $enroll->enrol_self($instance, (object) $data);
                 $enrolled = true;
                 break;
             } else {

@@ -2527,7 +2527,7 @@ function update_course($data, $editoroptions = NULL) {
     // Save any custom role names.
     save_local_role_names($course->id, $data);
 
-    // update enrol settings
+    // update enroll settings
     enrol_course_updated(false, $course, $data);
 
     // Update course tags.
@@ -2561,7 +2561,7 @@ function update_course($data, $editoroptions = NULL) {
  * This is intended for statistics purposes during the site registration. Only visible courses are taken into account.
  * Front page enrolments are excluded.
  *
- * @param bool $onlyactive Consider only active enrolments in enabled plugins and obey the enrolment time restrictions.
+ * @param bool $onlyactive Consider only active enrolments in enabled plugins and obey the enrollment time restrictions.
  * @param int $lastloginsince If specified, count only users who logged in after this timestamp.
  * @return float
  */
@@ -2572,7 +2572,7 @@ function average_number_of_participants(bool $onlyactive = false, int $lastlogin
 
     $sql = "SELECT DISTINCT ue.userid, e.courseid
               FROM {user_enrolments} ue
-              JOIN {enrol} e ON e.id = ue.enrolid
+              JOIN {enroll} e ON e.id = ue.enrolid
               JOIN {course} c ON c.id = e.courseid ";
 
     if ($onlyactive || $lastloginsince) {
@@ -2964,16 +2964,16 @@ class course_request {
         $course = create_course($data);
         $context = context_course::instance($course->id, MUST_EXIST);
 
-        // add enrol instances
-        if (!$DB->record_exists('enrol', array('courseid'=>$course->id, 'enrol'=>'manual'))) {
+        // add enroll instances
+        if (!$DB->record_exists('enroll', array('courseid'=>$course->id, 'enroll'=>'manual'))) {
             if ($manual = enrol_get_plugin('manual')) {
                 $manual->add_default_instance($course);
             }
         }
 
-        // enrol the requester as teacher if necessary
+        // enroll the requester as teacher if necessary
         if (!empty($CFG->creatornewroleid) and !is_viewing($context, $user, 'moodle/role:assign') and !is_enrolled($context, $user, 'moodle/role:assign')) {
-            enrol_try_internal_enrol($course->id, $user->id, $CFG->creatornewroleid);
+            enrol_try_internal_enroll($course->id, $user->id, $CFG->creatornewroleid);
         }
 
         $this->delete();
@@ -4878,15 +4878,15 @@ function course_get_recent_courses(int $userid = null, int $limit = 0, int $offs
               JOIN {user_lastaccess} ul
                    ON ul.courseid = c.id
             $favsql
-         LEFT JOIN {enrol} eg ON eg.courseid = c.id AND eg.status = :statusenrolg AND eg.enrol = :guestenrol
+         LEFT JOIN {enroll} eg ON eg.courseid = c.id AND eg.status = :statusenrolg AND eg.enroll = :guestenroll
              WHERE ul.userid = :userid
                AND c.visible = :visible
                AND (eg.id IS NOT NULL
                     OR EXISTS (SELECT e.id
-                             FROM {enrol} e
+                             FROM {enroll} e
                              JOIN {user_enrolments} ue ON ue.enrolid = e.id
                             WHERE e.courseid = c.id
-                              AND e.status = :statusenrol
+                              AND e.status = :statusenroll
                               AND ue.status = :status
                               AND ue.userid = :userid2
                               AND ue.timestart < :now1
@@ -4896,7 +4896,7 @@ function course_get_recent_courses(int $userid = null, int $limit = 0, int $offs
 
     $now = round(time(), -2); // Improves db caching.
     $params = ['userid' => $userid, 'contextlevel' => CONTEXT_COURSE, 'visible' => 1, 'status' => ENROL_USER_ACTIVE,
-               'statusenrol' => ENROL_INSTANCE_ENABLED, 'guestenrol' => 'guest', 'now1' => $now, 'now2' => $now,
+               'statusenroll' => ENROL_INSTANCE_ENABLED, 'guestenroll' => 'guest', 'now1' => $now, 'now2' => $now,
                'userid2' => $userid, 'statusenrolg' => ENROL_INSTANCE_ENABLED] + $favparams;
 
     $recentcourses = $DB->get_records_sql($sql, $params, $offset, $limit);
@@ -4985,37 +4985,37 @@ function course_get_course_dates_for_user_ids(stdClass $course, array $userids):
 
     if (!empty($uncacheduserids)) {
         // Load the enrolments for any users we haven't seen yet. Set the "onlyactive" param
-        // to false because it filters out users with enrolment start times in the future which
+        // to false because it filters out users with enrollment start times in the future which
         // we don't want.
         $enrolments = enrol_get_course_users($course->id, false, $uncacheduserids);
 
         foreach ($uncacheduserids as $userid) {
-            // Find the user enrolment that has the earliest start date.
-            $enrolment = array_reduce(array_values($enrolments), function($carry, $enrolment) use ($userid) {
-                // Only consider enrolments for this user if the user enrolment is active and the
-                // enrolment method is enabled.
+            // Find the user enrollment that has the earliest start date.
+            $enrollment = array_reduce(array_values($enrolments), function($carry, $enrollment) use ($userid) {
+                // Only consider enrolments for this user if the user enrollment is active and the
+                // enrollment method is enabled.
                 if (
-                    $enrolment->uestatus == ENROL_USER_ACTIVE &&
-                    $enrolment->estatus == ENROL_INSTANCE_ENABLED &&
-                    $enrolment->id == $userid
+                    $enrollment->uestatus == ENROL_USER_ACTIVE &&
+                    $enrollment->estatus == ENROL_INSTANCE_ENABLED &&
+                    $enrollment->id == $userid
                 ) {
                     if (is_null($carry)) {
-                        // Haven't found an enrolment yet for this user so use the one we just found.
-                        $carry = $enrolment;
+                        // Haven't found an enrollment yet for this user so use the one we just found.
+                        $carry = $enrollment;
                     } else {
-                        // We've already found an enrolment for this user so let's use which ever one
+                        // We've already found an enrollment for this user so let's use which ever one
                         // has the earliest start time.
-                        $carry = $carry->uetimestart < $enrolment->uetimestart ? $carry : $enrolment;
+                        $carry = $carry->uetimestart < $enrollment->uetimestart ? $carry : $enrollment;
                     }
                 }
 
                 return $carry;
             }, null);
 
-            if ($enrolment) {
+            if ($enrollment) {
                 // The course is in relative dates mode so we calculate the student's start
-                // date based on their enrolment start date.
-                $start = $course->startdate > $enrolment->uetimestart ? $course->startdate : $enrolment->uetimestart;
+                // date based on their enrollment start date.
+                $start = $course->startdate > $enrollment->uetimestart ? $course->startdate : $enrollment->uetimestart;
                 $startoffset = $start - $course->startdate;
             } else {
                 // The user is not enrolled in the course so default back to the course start date.
@@ -5047,7 +5047,7 @@ function course_get_course_dates_for_user_ids(stdClass $course, array $userids):
  *
  * If the user is not enrolled in the course then the course start date will be returned.
  *
- * If we have a course which starts on 1563244000. If a user's enrolment starts on 1563244693
+ * If we have a course which starts on 1563244000. If a user's enrollment starts on 1563244693
  * then the return would be:
  * [
  *      'start' => 1563244693,

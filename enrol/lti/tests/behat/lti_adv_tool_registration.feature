@@ -1,11 +1,11 @@
-@enrol @enrol_lti
+@enroll @enrol_lti
 Feature: Register a platform with the tool
   In order to share and consume a Moodle resource or activity over LTI Advantage
   As an admin
   I need to be able to manage platform registrations in the tool
 
   Background:
-    Given I enable "lti" "enrol" plugin
+    Given I enable "lti" "enroll" plugin
 
   Scenario: An admin can register a platform with the tool
     Given I log in as "admin"
@@ -193,11 +193,11 @@ Feature: Register a platform with the tool
     And I navigate to "Plugins > Enrolments > Publish as LTI tool > Tool registration" in site administration
     When I click on "View platform details" "link" in the "My test platform" "table_row"
     And I follow "Tool details"
-    And the "value" attribute of "Registration URL" "field" should contain "enrol/lti/register.php"
-    And the "value" attribute of "Tool URL" "field" should contain "enrol/lti/launch.php"
-    And the "value" attribute of "Initiate login URL" "field" should contain "enrol/lti/login.php"
-    And the "value" attribute of "JWKS URL" "field" should contain "enrol/lti/jwks.php"
-    And the "value" attribute of "Deep linking URL" "field" should contain "enrol/lti/launch_deeplink.php"
+    And the "value" attribute of "Registration URL" "field" should contain "enroll/lti/register.php"
+    And the "value" attribute of "Tool URL" "field" should contain "enroll/lti/launch.php"
+    And the "value" attribute of "Initiate login URL" "field" should contain "enroll/lti/login.php"
+    And the "value" attribute of "JWKS URL" "field" should contain "enroll/lti/jwks.php"
+    And the "value" attribute of "Deep linking URL" "field" should contain "enroll/lti/launch_deeplink.php"
     And "Copy to clipboard" "button" should exist in the "Registration URL" "table_row"
     And "Copy to clipboard" "button" should exist in the "Tool URL" "table_row"
     And "Copy to clipboard" "button" should exist in the "Initiate login URL" "table_row"

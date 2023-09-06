@@ -105,7 +105,7 @@ class general_action_bar_test extends advanced_testcase {
             $this->setAdminUser();
         } else {
             // Enrol user to the course.
-            $user = $this->getDataGenerator()->create_and_enrol($course, $userrole);
+            $user = $this->getDataGenerator()->create_and_enroll($course, $userrole);
             $this->setUser($user);
         }
 

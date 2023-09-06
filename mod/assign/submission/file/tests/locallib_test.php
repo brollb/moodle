@@ -52,7 +52,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, [
                 'assignsubmission_file_enabled' => 1,
                 'assignsubmission_file_maxfiles' => 12,
@@ -81,7 +81,7 @@ class locallib_test extends \advanced_testcase {
     public function test_submission_is_empty_directory_only() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, [
                 'assignsubmission_file_enabled' => 1,
                 'assignsubmission_file_maxfiles' => 12,
@@ -114,7 +114,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, [
                 'assignsubmission_file_enabled' => 1,
                 'assignsubmission_file_maxfiles' => 12,
@@ -142,7 +142,7 @@ class locallib_test extends \advanced_testcase {
     public function test_new_submission_empty_directory_only() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, [
                 'assignsubmission_file_enabled' => 1,
                 'assignsubmission_file_maxfiles' => 12,

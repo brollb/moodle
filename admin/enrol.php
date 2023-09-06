@@ -18,7 +18,7 @@
  * Enrol config manipulation script.
  *
  * @package    core
- * @subpackage enrol
+ * @subpackage enroll
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,10 +29,10 @@ require_once('../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 
 $action  = required_param('action', PARAM_ALPHANUMEXT);
-$enrol   = required_param('enrol', PARAM_PLUGIN);
+$enroll   = required_param('enroll', PARAM_PLUGIN);
 $confirm = optional_param('confirm', 0, PARAM_BOOL);
 
-$PAGE->set_url('/admin/enrol.php');
+$PAGE->set_url('/admin/enroll.php');
 $PAGE->set_context(context_system::instance());
 
 require_admin();
@@ -45,55 +45,55 @@ $return = new moodle_url('/admin/settings.php', array('section'=>'manageenrols')
 
 switch ($action) {
     case 'disable':
-        $class = \core_plugin_manager::resolve_plugininfo_class('enrol');
-        $class::enable_plugin($enrol, false);
+        $class = \core_plugin_manager::resolve_plugininfo_class('enroll');
+        $class::enable_plugin($enroll, false);
         break;
 
     case 'enable':
-        if (!isset($all[$enrol])) {
+        if (!isset($all[$enroll])) {
             break;
         }
-        $class = \core_plugin_manager::resolve_plugininfo_class('enrol');
-        $class::enable_plugin($enrol, true);
+        $class = \core_plugin_manager::resolve_plugininfo_class('enroll');
+        $class::enable_plugin($enroll, true);
         break;
 
     case 'up':
-        if (!isset($enabled[$enrol])) {
+        if (!isset($enabled[$enroll])) {
             break;
         }
         $enabled = array_keys($enabled);
         $enabled = array_flip($enabled);
-        $current = $enabled[$enrol];
+        $current = $enabled[$enroll];
         if ($current == 0) {
             break; //already at the top
         }
         $enabled = array_flip($enabled);
         $enabled[$current] = $enabled[$current - 1];
-        $enabled[$current - 1] = $enrol;
+        $enabled[$current - 1] = $enroll;
         set_config('enrol_plugins_enabled', implode(',', $enabled));
         break;
 
     case 'down':
-        if (!isset($enabled[$enrol])) {
+        if (!isset($enabled[$enroll])) {
             break;
         }
         $enabled = array_keys($enabled);
         $enabled = array_flip($enabled);
-        $current = $enabled[$enrol];
+        $current = $enabled[$enroll];
         if ($current == count($enabled) - 1) {
             break; //already at the end
         }
         $enabled = array_flip($enabled);
         $enabled[$current] = $enabled[$current + 1];
-        $enabled[$current + 1] = $enrol;
+        $enabled[$current + 1] = $enroll;
         set_config('enrol_plugins_enabled', implode(',', $enabled));
         break;
 
     case 'migrate':
-        if (get_string_manager()->string_exists('pluginname', 'enrol_'.$enrol)) {
-            $strplugin = get_string('pluginname', 'enrol_'.$enrol);
+        if (get_string_manager()->string_exists('pluginname', 'enrol_'.$enroll)) {
+            $strplugin = get_string('pluginname', 'enrol_'.$enroll);
         } else {
-            $strplugin = $enrol;
+            $strplugin = $enroll;
         }
 
         $PAGE->set_title($strplugin);
@@ -103,17 +103,17 @@ switch ($action) {
         core_php_time_limit::raise();
 
         // Disable plugin to prevent concurrent cron execution.
-        unset($enabled[$enrol]);
+        unset($enabled[$enroll]);
         set_config('enrol_plugins_enabled', implode(',', array_keys($enabled)));
 
-        echo $OUTPUT->heading(get_string('uninstallmigrating', 'enrol', 'enrol_'.$enrol));
+        echo $OUTPUT->heading(get_string('uninstallmigrating', 'enroll', 'enrol_'.$enroll));
 
-        require_once("$CFG->dirroot/enrol/manual/locallib.php");
-        enrol_manual_migrate_plugin_enrolments($enrol);
+        require_once("$CFG->dirroot/enroll/manual/locallib.php");
+        enrol_manual_migrate_plugin_enrolments($enroll);
 
         echo $OUTPUT->notification(get_string('success'), 'notifysuccess');
 
-        if (!$return = core_plugin_manager::instance()->get_uninstall_url('enrol_'.$enrol, 'manage')) {
+        if (!$return = core_plugin_manager::instance()->get_uninstall_url('enrol_'.$enroll, 'manage')) {
             $return = new moodle_url('/admin/plugins.php');
         }
         echo $OUTPUT->continue_button($return);

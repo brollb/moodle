@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * IMS Enterprise enrol plugin implementation.
+ * IMS Enterprise enroll plugin implementation.
  *
  * @package    enrol_imsenterprise
  * @copyright  2010 Eugene Venter

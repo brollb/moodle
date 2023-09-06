@@ -405,12 +405,12 @@ class grade_report_grader extends grade_report {
 
         // Check the status of showing only active enrolments.
         $coursecontext = $this->context->get_course_context(true);
-        $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-        $showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-        $showonlyactiveenrol = $showonlyactiveenrol || !has_capability('moodle/course:viewsuspendedusers', $coursecontext);
+        $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+        $showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
+        $showonlyactiveenroll = $showonlyactiveenroll || !has_capability('moodle/course:viewsuspendedusers', $coursecontext);
 
         // Limit to users with an active enrollment.
-        list($enrolledsql, $enrolledparams) = get_enrolled_sql($this->context, '', 0, $showonlyactiveenrol);
+        list($enrolledsql, $enrolledparams) = get_enrolled_sql($this->context, '', 0, $showonlyactiveenroll);
 
         // Fields we need from the user table.
         $userfieldsapi = \core_user\fields::for_identity($this->context)->with_userpic();
@@ -482,14 +482,14 @@ class grade_report_grader extends grade_report {
 
             // First flag everyone as not suspended.
             foreach ($this->users as $user) {
-                $this->users[$user->id]->suspendedenrolment = false;
+                $this->users[$user->id]->suspendedenrollment = false;
             }
 
             // If we want to mix both suspended and not suspended users, let's find out who is suspended.
-            if (!$showonlyactiveenrol) {
+            if (!$showonlyactiveenroll) {
                 $sql = "SELECT ue.userid
                           FROM {user_enrolments} ue
-                          JOIN {enrol} e ON e.id = ue.enrolid
+                          JOIN {enroll} e ON e.id = ue.enrolid
                          WHERE ue.userid $usql
                                AND ue.status = :uestatus
                                AND e.status = :estatus
@@ -503,7 +503,7 @@ class grade_report_grader extends grade_report {
                 $useractiveenrolments = $DB->get_records_sql($sql, $params);
 
                 foreach ($this->users as $user) {
-                    $this->users[$user->id]->suspendedenrolment = !array_key_exists($user->id, $useractiveenrolments);
+                    $this->users[$user->id]->suspendedenrollment = !array_key_exists($user->id, $useractiveenrolments);
                 }
             }
         }
@@ -718,7 +718,7 @@ class grade_report_grader extends grade_report {
                 ['class' => 'username']
             );
 
-            if (!empty($user->suspendedenrolment)) {
+            if (!empty($user->suspendedenrollment)) {
                 $usercell->attributes['class'] .= ' usersuspended';
 
                 //may be lots of suspended users so only get the string once
@@ -1475,10 +1475,10 @@ class grade_report_grader extends grade_report {
 
             // Limit to users with an active enrollment.
             $coursecontext = $this->context->get_course_context(true);
-            $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-            $showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-            $showonlyactiveenrol = $showonlyactiveenrol || !has_capability('moodle/course:viewsuspendedusers', $coursecontext);
-            list($enrolledsql, $enrolledparams) = get_enrolled_sql($this->context, '', 0, $showonlyactiveenrol);
+            $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+            $showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
+            $showonlyactiveenroll = $showonlyactiveenroll || !has_capability('moodle/course:viewsuspendedusers', $coursecontext);
+            list($enrolledsql, $enrolledparams) = get_enrolled_sql($this->context, '', 0, $showonlyactiveenroll);
 
             // We want to query both the current context and parent contexts.
             list($relatedctxsql, $relatedctxparams) = $DB->get_in_or_equal($this->context->get_parent_context_ids(true), SQL_PARAMS_NAMED, 'relatedctx');

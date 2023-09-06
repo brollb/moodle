@@ -16,5 +16,5 @@ Apply these commits on top of the upstream clone.
 7. Update the dependency note in lib/php-jwt/readme_moodle.txt, recording the version of php-jwt lib/lti1p3 depends on, if needed.
 8. Check the upstream library's release notes and UPGRADES.md for any backwards incompatible changes to names, etc.
 Moodle's calling code may require updates if changes are breaking -  so check this and make any changes if needed.
-9. Run all unit tests in enrol/lti and auth/lti.
+9. Run all unit tests in enroll/lti and auth/lti.
 10. Regression test Moodle-to-Moodle LTI using LTI Advantage (not legacy) using the relevant MDLQA tests as a guide.

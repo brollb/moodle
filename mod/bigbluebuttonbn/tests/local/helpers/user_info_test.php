@@ -42,7 +42,7 @@ class user_info_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $generator = $this->getDataGenerator();
-        $user = $generator->create_and_enrol($this->get_course());
+        $user = $generator->create_and_enroll($this->get_course());
         list($bbactivitycontext, $bbactivitycm, $bbactivity) = $this->create_instance();
         $this->setUser($user);
 
@@ -68,7 +68,7 @@ class user_info_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $generator = $this->getDataGenerator();
-        $user = $generator->create_and_enrol($this->get_course());
+        $user = $generator->create_and_enroll($this->get_course());
         list($bbactivitycontext, $bbactivitycm, $bbactivity) = $this->create_instance();
         $this->setUser($user);
 
@@ -94,7 +94,7 @@ class user_info_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $generator = $this->getDataGenerator();
-        $user = $generator->create_and_enrol($this->get_course());
+        $user = $generator->create_and_enroll($this->get_course());
         list($bbactivitycontext, $bbactivitycm, $bbactivity) = $this->create_instance(
             null,
             ['completion' => 2, 'completionview' => 1]);

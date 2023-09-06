@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Manual enrolment tests.
+ * Manual enrollment tests.
  *
  * @package    enrol_manual
  * @category   phpunit
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Manual enrolment tests.
+ * Manual enrollment tests.
  *
  * @package    enrol_manual
  * @category   phpunit
@@ -40,11 +40,11 @@ defined('MOODLE_INTERNAL') || die();
  */
 class lib_test extends \advanced_testcase {
     /**
-     * Test enrol migration function used when uninstalling enrol plugins.
+     * Test enroll migration function used when uninstalling enroll plugins.
      */
     public function test_migrate_plugin_enrolments() {
         global $DB, $CFG;
-        require_once($CFG->dirroot.'/enrol/manual/locallib.php');
+        require_once($CFG->dirroot.'/enroll/manual/locallib.php');
 
         $this->resetAfterTest();
 
@@ -76,22 +76,22 @@ class lib_test extends \advanced_testcase {
 
         // We expect manual, self and guest instances to be created by default.
 
-        $this->assertEquals(5, $DB->count_records('enrol', array('enrol'=>'manual')));
-        $this->assertEquals(5, $DB->count_records('enrol', array('enrol'=>'self')));
-        $this->assertEquals(5, $DB->count_records('enrol', array('enrol'=>'guest')));
-        $this->assertEquals(15, $DB->count_records('enrol', array()));
+        $this->assertEquals(5, $DB->count_records('enroll', array('enroll'=>'manual')));
+        $this->assertEquals(5, $DB->count_records('enroll', array('enroll'=>'self')));
+        $this->assertEquals(5, $DB->count_records('enroll', array('enroll'=>'guest')));
+        $this->assertEquals(15, $DB->count_records('enroll', array()));
 
         $this->assertEquals(0, $DB->count_records('user_enrolments', array()));
 
         // Enrol some users to manual instances.
 
-        $maninstance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $DB->set_field('enrol', 'status', ENROL_INSTANCE_DISABLED, array('id'=>$maninstance1->id));
-        $maninstance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $maninstance2 = $DB->get_record('enrol', array('courseid'=>$course2->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $DB->delete_records('enrol', array('courseid'=>$course3->id, 'enrol'=>'manual'));
-        $DB->delete_records('enrol', array('courseid'=>$course4->id, 'enrol'=>'manual'));
-        $DB->delete_records('enrol', array('courseid'=>$course5->id, 'enrol'=>'manual'));
+        $maninstance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $DB->set_field('enroll', 'status', ENROL_INSTANCE_DISABLED, array('id'=>$maninstance1->id));
+        $maninstance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $maninstance2 = $DB->get_record('enroll', array('courseid'=>$course2->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $DB->delete_records('enroll', array('courseid'=>$course3->id, 'enroll'=>'manual'));
+        $DB->delete_records('enroll', array('courseid'=>$course4->id, 'enroll'=>'manual'));
+        $DB->delete_records('enroll', array('courseid'=>$course5->id, 'enroll'=>'manual'));
 
         $manplugin->enrol_user($maninstance1, $user1->id, $studentrole->id);
         $manplugin->enrol_user($maninstance1, $user2->id, $studentrole->id);
@@ -100,16 +100,16 @@ class lib_test extends \advanced_testcase {
 
         $this->assertEquals(4, $DB->count_records('user_enrolments', array()));
 
-        // Set up some bogus enrol plugin instances and enrolments.
+        // Set up some bogus enroll plugin instances and enrolments.
 
-        $xxxinstance1 = $DB->insert_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'xxx', 'status'=>ENROL_INSTANCE_ENABLED));
-        $xxxinstance1 = $DB->get_record('enrol', array('id'=>$xxxinstance1));
-        $xxxinstance3 = $DB->insert_record('enrol', array('courseid'=>$course3->id, 'enrol'=>'xxx', 'status'=>ENROL_INSTANCE_DISABLED));
-        $xxxinstance3 = $DB->get_record('enrol', array('id'=>$xxxinstance3));
-        $xxxinstance4 = $DB->insert_record('enrol', array('courseid'=>$course4->id, 'enrol'=>'xxx', 'status'=>ENROL_INSTANCE_ENABLED));
-        $xxxinstance4 = $DB->get_record('enrol', array('id'=>$xxxinstance4));
-        $xxxinstance4b = $DB->insert_record('enrol', array('courseid'=>$course4->id, 'enrol'=>'xxx', 'status'=>ENROL_INSTANCE_DISABLED));
-        $xxxinstance4b = $DB->get_record('enrol', array('id'=>$xxxinstance4b));
+        $xxxinstance1 = $DB->insert_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'xxx', 'status'=>ENROL_INSTANCE_ENABLED));
+        $xxxinstance1 = $DB->get_record('enroll', array('id'=>$xxxinstance1));
+        $xxxinstance3 = $DB->insert_record('enroll', array('courseid'=>$course3->id, 'enroll'=>'xxx', 'status'=>ENROL_INSTANCE_DISABLED));
+        $xxxinstance3 = $DB->get_record('enroll', array('id'=>$xxxinstance3));
+        $xxxinstance4 = $DB->insert_record('enroll', array('courseid'=>$course4->id, 'enroll'=>'xxx', 'status'=>ENROL_INSTANCE_ENABLED));
+        $xxxinstance4 = $DB->get_record('enroll', array('id'=>$xxxinstance4));
+        $xxxinstance4b = $DB->insert_record('enroll', array('courseid'=>$course4->id, 'enroll'=>'xxx', 'status'=>ENROL_INSTANCE_DISABLED));
+        $xxxinstance4b = $DB->get_record('enroll', array('id'=>$xxxinstance4b));
 
 
         $DB->insert_record('user_enrolments', array('enrolid'=>$xxxinstance1->id, 'userid'=>$user1->id, 'status'=>ENROL_USER_SUSPENDED));
@@ -145,9 +145,9 @@ class lib_test extends \advanced_testcase {
 
         // Verify results.
 
-        $this->assertEquals(1, $DB->count_records('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual')));
-        $this->assertEquals(1, $DB->count_records('enrol', array('courseid'=>$course1->id, 'enrol'=>'xxx')));
-        $maninstance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $this->assertEquals(1, $DB->count_records('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual')));
+        $this->assertEquals(1, $DB->count_records('enroll', array('courseid'=>$course1->id, 'enroll'=>'xxx')));
+        $maninstance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
         $this->assertEquals(ENROL_INSTANCE_DISABLED, $maninstance1->status);
         $this->assertTrue($DB->record_exists('user_enrolments', array('enrolid'=>$maninstance1->id, 'userid'=>$user1->id, 'status'=>ENROL_USER_ACTIVE)));
         $this->assertTrue($DB->record_exists('user_enrolments', array('enrolid'=>$maninstance1->id, 'userid'=>$user2->id, 'status'=>ENROL_USER_ACTIVE)));
@@ -163,15 +163,15 @@ class lib_test extends \advanced_testcase {
         $this->assertEquals(5, $DB->count_records('role_assignments', array('contextid'=>$context1->id)));
 
 
-        $this->assertEquals(1, $DB->count_records('enrol', array('courseid'=>$course2->id, 'enrol'=>'manual')));
-        $this->assertEquals(0, $DB->count_records('enrol', array('courseid'=>$course2->id, 'enrol'=>'xxx')));
-        $maninstance2 = $DB->get_record('enrol', array('courseid'=>$course2->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $this->assertEquals(1, $DB->count_records('enroll', array('courseid'=>$course2->id, 'enroll'=>'manual')));
+        $this->assertEquals(0, $DB->count_records('enroll', array('courseid'=>$course2->id, 'enroll'=>'xxx')));
+        $maninstance2 = $DB->get_record('enroll', array('courseid'=>$course2->id, 'enroll'=>'manual'), '*', MUST_EXIST);
         $this->assertEquals(ENROL_INSTANCE_ENABLED, $maninstance2->status);
 
 
-        $this->assertEquals(1, $DB->count_records('enrol', array('courseid'=>$course3->id, 'enrol'=>'manual')));
-        $this->assertEquals(1, $DB->count_records('enrol', array('courseid'=>$course3->id, 'enrol'=>'xxx')));
-        $maninstance3 = $DB->get_record('enrol', array('courseid'=>$course3->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $this->assertEquals(1, $DB->count_records('enroll', array('courseid'=>$course3->id, 'enroll'=>'manual')));
+        $this->assertEquals(1, $DB->count_records('enroll', array('courseid'=>$course3->id, 'enroll'=>'xxx')));
+        $maninstance3 = $DB->get_record('enroll', array('courseid'=>$course3->id, 'enroll'=>'manual'), '*', MUST_EXIST);
         $this->assertEquals(ENROL_INSTANCE_DISABLED, $maninstance3->status);
         $this->assertTrue($DB->record_exists('user_enrolments', array('enrolid'=>$maninstance3->id, 'userid'=>$user1->id, 'status'=>ENROL_USER_ACTIVE)));
         $this->assertTrue($DB->record_exists('user_enrolments', array('enrolid'=>$maninstance3->id, 'userid'=>$user2->id, 'status'=>ENROL_USER_SUSPENDED)));
@@ -181,9 +181,9 @@ class lib_test extends \advanced_testcase {
         $this->assertEquals(1, $DB->count_records('role_assignments', array('contextid'=>$context3->id)));
 
 
-        $this->assertEquals(1, $DB->count_records('enrol', array('courseid'=>$course4->id, 'enrol'=>'manual')));
-        $this->assertEquals(2, $DB->count_records('enrol', array('courseid'=>$course4->id, 'enrol'=>'xxx')));
-        $maninstance4 = $DB->get_record('enrol', array('courseid'=>$course4->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $this->assertEquals(1, $DB->count_records('enroll', array('courseid'=>$course4->id, 'enroll'=>'manual')));
+        $this->assertEquals(2, $DB->count_records('enroll', array('courseid'=>$course4->id, 'enroll'=>'xxx')));
+        $maninstance4 = $DB->get_record('enroll', array('courseid'=>$course4->id, 'enroll'=>'manual'), '*', MUST_EXIST);
         $this->assertEquals(ENROL_INSTANCE_ENABLED, $maninstance4->status);
         $this->assertTrue($DB->record_exists('user_enrolments', array('enrolid'=>$maninstance4->id, 'userid'=>$user1->id, 'status'=>ENROL_USER_ACTIVE)));
         $this->assertTrue($DB->record_exists('user_enrolments', array('enrolid'=>$maninstance4->id, 'userid'=>$user2->id, 'status'=>ENROL_USER_ACTIVE)));
@@ -198,8 +198,8 @@ class lib_test extends \advanced_testcase {
         $this->assertEquals(4, $DB->count_records('role_assignments', array('contextid'=>$context4->id)));
 
 
-        $this->assertEquals(0, $DB->count_records('enrol', array('courseid'=>$course5->id, 'enrol'=>'manual')));
-        $this->assertEquals(0, $DB->count_records('enrol', array('courseid'=>$course5->id, 'enrol'=>'xxx')));
+        $this->assertEquals(0, $DB->count_records('enroll', array('courseid'=>$course5->id, 'enroll'=>'manual')));
+        $this->assertEquals(0, $DB->count_records('enroll', array('courseid'=>$course5->id, 'enroll'=>'xxx')));
 
         // Make sure wrong params do not produce errors or notices.
 
@@ -239,12 +239,12 @@ class lib_test extends \advanced_testcase {
         $context2 = \context_course::instance($course2->id);
         $context3 = \context_course::instance($course3->id);
 
-        $this->assertEquals(3, $DB->count_records('enrol', array('enrol'=>'manual')));
-        $instance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $this->assertEquals(3, $DB->count_records('enroll', array('enroll'=>'manual')));
+        $instance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
         $this->assertEquals($studentrole->id, $instance1->roleid);
-        $instance2 = $DB->get_record('enrol', array('courseid'=>$course2->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $instance2 = $DB->get_record('enroll', array('courseid'=>$course2->id, 'enroll'=>'manual'), '*', MUST_EXIST);
         $this->assertEquals($studentrole->id, $instance2->roleid);
-        $instance3 = $DB->get_record('enrol', array('courseid'=>$course3->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $instance3 = $DB->get_record('enroll', array('courseid'=>$course3->id, 'enroll'=>'manual'), '*', MUST_EXIST);
         $this->assertEquals($studentrole->id, $instance3->roleid);
 
         $this->assertEquals(0, $DB->count_records('user_enrolments'));
@@ -313,8 +313,8 @@ class lib_test extends \advanced_testcase {
         $manualplugin->set_config('expiredaction', ENROL_EXT_REMOVED_SUSPEND);
         $manualplugin->enrol_user($instance1, $user3->id, $studentrole->id, 0, $now-60);
         $manualplugin->enrol_user($instance3, $user3->id, $teacherrole->id, 0, $now-60*60);
-        $maninstance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $maninstance2 = $DB->get_record('enrol', array('courseid'=>$course3->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $maninstance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $maninstance2 = $DB->get_record('enroll', array('courseid'=>$course3->id, 'enroll'=>'manual'), '*', MUST_EXIST);
 
         $this->assertEquals(6, $DB->count_records('user_enrolments'));
         $this->assertEquals(7, $DB->count_records('role_assignments'));
@@ -372,31 +372,31 @@ class lib_test extends \advanced_testcase {
         $course3 = $this->getDataGenerator()->create_course(array('fullname'=>'xcourse3'));
         $course4 = $this->getDataGenerator()->create_course(array('fullname'=>'xcourse4'));
 
-        $this->assertEquals(4, $DB->count_records('enrol', array('enrol'=>'manual')));
+        $this->assertEquals(4, $DB->count_records('enroll', array('enroll'=>'manual')));
 
-        $instance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $instance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
         $instance1->expirythreshold = 60*60*24*4;
         $instance1->expirynotify    = 1;
         $instance1->notifyall       = 1;
-        $DB->update_record('enrol', $instance1);
+        $DB->update_record('enroll', $instance1);
 
-        $instance2 = $DB->get_record('enrol', array('courseid'=>$course2->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $instance2 = $DB->get_record('enroll', array('courseid'=>$course2->id, 'enroll'=>'manual'), '*', MUST_EXIST);
         $instance2->expirythreshold = 60*60*24*1;
         $instance2->expirynotify    = 1;
         $instance2->notifyall       = 1;
-        $DB->update_record('enrol', $instance2);
+        $DB->update_record('enroll', $instance2);
 
-        $instance3 = $DB->get_record('enrol', array('courseid'=>$course3->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $instance3 = $DB->get_record('enroll', array('courseid'=>$course3->id, 'enroll'=>'manual'), '*', MUST_EXIST);
         $instance3->expirythreshold = 60*60*24*1;
         $instance3->expirynotify    = 1;
         $instance3->notifyall       = 0;
-        $DB->update_record('enrol', $instance3);
+        $DB->update_record('enroll', $instance3);
 
-        $instance4 = $DB->get_record('enrol', array('courseid'=>$course4->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $instance4 = $DB->get_record('enroll', array('courseid'=>$course4->id, 'enroll'=>'manual'), '*', MUST_EXIST);
         $instance4->expirythreshold = 60*60*24*1;
         $instance4->expirynotify    = 0;
         $instance4->notifyall       = 0;
-        $DB->update_record('enrol', $instance4);
+        $DB->update_record('enroll', $instance4);
 
         $manualplugin->enrol_user($instance1, $user1->id, $editingteacherrole->id, 0, $now + 60*60*24*1, ENROL_USER_SUSPENDED); // Suspended users are not notified.
         $manualplugin->enrol_user($instance1, $user2->id, $studentrole->id, 0, $now + 60*60*24*5);                       // Above threshold are not notified.
@@ -499,28 +499,28 @@ class lib_test extends \advanced_testcase {
     }
 
     /**
-     * Test for getting user enrolment actions.
+     * Test for getting user enrollment actions.
      */
     public function test_get_user_enrolment_actions() {
         global $CFG, $PAGE;
         $this->resetAfterTest();
 
         // Set page URL to prevent debugging messages.
-        $PAGE->set_url('/enrol/editinstance.php');
+        $PAGE->set_url('/enroll/editinstance.php');
 
         $pluginname = 'manual';
 
-        // Only enable the manual enrol plugin.
+        // Only enable the manual enroll plugin.
         $CFG->enrol_plugins_enabled = $pluginname;
 
         $generator = $this->getDataGenerator();
 
-        // Get the enrol plugin.
+        // Get the enroll plugin.
         $plugin = enrol_get_plugin($pluginname);
 
         // Create a course.
         $course = $generator->create_course();
-        // Enable this enrol plugin for the course.
+        // Enable this enroll plugin for the course.
         $plugin->add_instance($course);
 
         // Create a teacher.
@@ -534,19 +534,19 @@ class lib_test extends \advanced_testcase {
 
         // Login as the teacher.
         $this->setUser($teacher);
-        require_once($CFG->dirroot . '/enrol/locallib.php');
+        require_once($CFG->dirroot . '/enroll/locallib.php');
         $manager = new course_enrolment_manager($PAGE, $course);
         $userenrolments = $manager->get_user_enrolments($student->id);
         $this->assertCount(1, $userenrolments);
 
         $ue = reset($userenrolments);
         $actions = $plugin->get_user_enrolment_actions($manager, $ue);
-        // Manual enrol has 2 enrol actions -- edit and unenrol.
+        // Manual enroll has 2 enroll actions -- edit and unenroll.
         $this->assertCount(2, $actions);
     }
 
     /**
-     * Test how the default enrolment instance inherits its settings from the global plugin settings.
+     * Test how the default enrollment instance inherits its settings from the global plugin settings.
      *
      * @dataProvider default_enrolment_instance_data_provider
      * @param stdClass $expectation
@@ -571,8 +571,8 @@ class lib_test extends \advanced_testcase {
         // When creating a course.
         $course = $generator->create_course();
 
-        // Then the default manual enrolment instance being created is properly configured.
-        $enrolinstance = $DB->get_record('enrol', ['courseid' => $course->id, 'enrol' => 'manual']);
+        // Then the default manual enrollment instance being created is properly configured.
+        $enrolinstance = $DB->get_record('enroll', ['courseid' => $course->id, 'enroll' => 'manual']);
         $this->assertEquals($expectation->status, $enrolinstance->status);
         $this->assertEquals($expectation->roleid, $enrolinstance->roleid);
         $this->assertEquals($expectation->enrolperiod, $enrolinstance->enrolperiod);
@@ -649,7 +649,7 @@ class lib_test extends \advanced_testcase {
     }
 
     /**
-     * Tests an enrolment instance is updated properly.
+     * Tests an enrollment instance is updated properly.
      *
      * @covers \enrol_manual::update_instance
      * @dataProvider update_enrolment_instance_data_provider
@@ -675,18 +675,18 @@ class lib_test extends \advanced_testcase {
         $plugin->set_config('expirynotify', 1);
         $plugin->set_config('expirythreshold', 2 * DAYSECS);
 
-        // And a course is created with the default enrolment instance.
+        // And a course is created with the default enrollment instance.
         $course = $generator->create_course();
 
-        // When the enrolment instance is being updated.
-        $enrolinstance = $DB->get_record('enrol', ['courseid' => $course->id, 'enrol' => 'manual']);
+        // When the enrollment instance is being updated.
+        $enrolinstance = $DB->get_record('enroll', ['courseid' => $course->id, 'enroll' => 'manual']);
         $successfullyupdated = $plugin->update_instance($enrolinstance, $updatedata);
 
         // Then the update is successful.
         $this->assertTrue($successfullyupdated);
 
-        // And the updated enrolment instance contains the expected values.
-        $enrolinstance = $DB->get_record('enrol', ['id' => $enrolinstance->id]);
+        // And the updated enrollment instance contains the expected values.
+        $enrolinstance = $DB->get_record('enroll', ['id' => $enrolinstance->id]);
         $this->assertEquals($expectation->status, $enrolinstance->status);
         $this->assertEquals($expectation->roleid, $enrolinstance->roleid);
         $this->assertEquals($expectation->enrolperiod, $enrolinstance->enrolperiod);

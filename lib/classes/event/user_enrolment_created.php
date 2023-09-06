@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * User enrolment created event.
+ * User enrollment created event.
  *
  * @package    core
  * @copyright  2013 Rajesh Taneja <rajesh@moodle.com>
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @property-read array $other {
  *      Extra information about event.
  *
- *      - string enrol: name of enrolment instance.
+ *      - string enroll: name of enrollment instance.
  * }
  *
  * @package    core
@@ -56,7 +56,7 @@ class user_enrolment_created extends base {
      * @return string
      */
     public static function get_name() {
-        return get_string('eventuserenrolmentcreated', 'core_enrol');
+        return get_string('eventuserenrolmentcreated', 'core_enroll');
     }
 
     /**
@@ -65,8 +65,8 @@ class user_enrolment_created extends base {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' enrolled the user with id '$this->relateduserid' using the enrolment method " .
-            "'{$this->other['enrol']}' in the course with id '$this->courseid'.";
+        return "The user with id '$this->userid' enrolled the user with id '$this->relateduserid' using the enrollment method " .
+            "'{$this->other['enroll']}' in the course with id '$this->courseid'.";
     }
 
     /**
@@ -91,8 +91,8 @@ class user_enrolment_created extends base {
             throw new \coding_exception('The \'relateduserid\' must be set.');
         }
 
-        if (!isset($this->other['enrol'])) {
-            throw new \coding_exception('The \'enrol\' value must be set in other.');
+        if (!isset($this->other['enroll'])) {
+            throw new \coding_exception('The \'enroll\' value must be set in other.');
         }
     }
 

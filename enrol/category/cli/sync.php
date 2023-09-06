@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * CLI sync for full category enrol synchronisation.
+ * CLI sync for full category enroll synchronisation.
  *
  * Sample execution:
- * $ sudo -u www-data /usr/bin/php /var/www/moodle/enrol/category/cli/sync.php
+ * $ sudo -u www-data /usr/bin/php /var/www/moodle/enroll/category/cli/sync.php
  *
  * Notes:
  *   - it is required to use the web server account when executing PHP CLI scripts
@@ -33,7 +33,7 @@
 define('CLI_SCRIPT', true);
 
 require(__DIR__.'/../../../config.php');
-require_once("$CFG->dirroot/enrol/category/locallib.php");
+require_once("$CFG->dirroot/enroll/category/locallib.php");
 require_once("$CFG->libdir/clilib.php");
 
 // Now get cli options.
@@ -46,14 +46,14 @@ if ($unrecognized) {
 
 if ($options['help']) {
     $help =
-        "Execute course category enrolment sync.
+        "Execute course category enrollment sync.
 
 Options:
 -v, --verbose         Print verbose progress information
 -h, --help            Print out this help
 
 Example:
-\$ sudo -u www-data /usr/bin/php enrol/category/cli/sync.php
+\$ sudo -u www-data /usr/bin/php enroll/category/cli/sync.php
 ";
     echo $help;
     die;

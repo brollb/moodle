@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * IMS Enterprise file enrolment plugin.
+ * IMS Enterprise file enrollment plugin.
  *
  * This plugin lets the user specify an IMS Enterprise file to be processed.
  * The IMS Enterprise file is mainly parsed on a regular cron,
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/group/lib.php');
 
 /**
- * IMS Enterprise file enrolment plugin.
+ * IMS Enterprise file enrollment plugin.
  *
  * @copyright  2010 Eugene Venter
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -102,7 +102,7 @@ class enrol_imsenterprise_plugin extends enrol_plugin {
         $prevpath = $this->get_config('prev_path');
 
         if (empty($imsfilelocation)) {
-            $filename = "$CFG->dataroot/1/imsenterprise-enrol.xml";  // Default location.
+            $filename = "$CFG->dataroot/1/imsenterprise-enroll.xml";  // Default location.
         } else {
             $filename = $imsfilelocation;
         }
@@ -120,7 +120,7 @@ class enrol_imsenterprise_plugin extends enrol_plugin {
             $starttime = time();
 
             $this->log_line('----------------------------------------------------------------------');
-            $this->log_line("IMS Enterprise enrol cron process launched at " . userdate(time()));
+            $this->log_line("IMS Enterprise enroll cron process launched at " . userdate(time()));
             $this->log_line('Found file '.$filename);
             $this->xmlcache = '';
 
@@ -206,7 +206,7 @@ class enrol_imsenterprise_plugin extends enrol_plugin {
 
         if (!empty($mailadmins) && $fileisnew) {
             $timeelapsed = isset($timeelapsed) ? $timeelapsed : 0;
-            $msg = "An IMS enrolment has been carried out within Moodle.\nTime taken: $timeelapsed seconds.\n\n";
+            $msg = "An IMS enrollment has been carried out within Moodle.\nTime taken: $timeelapsed seconds.\n\n";
             if (!empty($logtolocation)) {
                 if ($this->logfp) {
                     $msg .= "Log data has been written to:\n";
@@ -225,10 +225,10 @@ class enrol_imsenterprise_plugin extends enrol_plugin {
             $eventdata->courseid          = SITEID;
             $eventdata->modulename        = 'moodle';
             $eventdata->component         = 'enrol_imsenterprise';
-            $eventdata->name              = 'imsenterprise_enrolment';
+            $eventdata->name              = 'imsenterprise_enrollment';
             $eventdata->userfrom          = get_admin();
             $eventdata->userto            = get_admin();
-            $eventdata->subject           = "Moodle IMS Enterprise enrolment notification";
+            $eventdata->subject           = "Moodle IMS Enterprise enrollment notification";
             $eventdata->fullmessage       = $msg;
             $eventdata->fullmessageformat = FORMAT_PLAIN;
             $eventdata->fullmessagehtml   = '';
@@ -652,7 +652,7 @@ class enrol_imsenterprise_plugin extends enrol_plugin {
 
                 $matches = array();
                 if (preg_match('{<role\b.*?<status>(.+?)</status>.*?</role>}is', $mmatch[1], $matches)) {
-                    // 1 means active, 0 means inactive - treat this as enrol vs unenrol.
+                    // 1 means active, 0 means inactive - treat this as enroll vs unenroll.
                     $member->status = trim($matches[1]);
                 }
 
@@ -674,12 +674,12 @@ class enrol_imsenterprise_plugin extends enrol_plugin {
                 if (preg_match('{<role\b.*?<extension>.*?<cohort>(.+?)</cohort>.*?</extension>.*?</role>}is',
                         $mmatch[1], $matches)) {
                     $member->groupname = trim($matches[1]);
-                    // The actual processing (ensuring a group record exists, etc) occurs below, in the enrol-a-student clause.
+                    // The actual processing (ensuring a group record exists, etc) occurs below, in the enroll-a-student clause.
                 }
 
                 // Add or remove this student or teacher to the course...
                 $memberstoreobj->userid = $DB->get_field('user', 'id', array('idnumber' => $member->idnumber));
-                $memberstoreobj->enrol = 'imsenterprise';
+                $memberstoreobj->enroll = 'imsenterprise';
                 $memberstoreobj->course = $ship->courseid;
                 $memberstoreobj->time = time();
                 $memberstoreobj->timemodified = time();
@@ -699,12 +699,12 @@ class enrol_imsenterprise_plugin extends enrol_plugin {
                     if (intval($member->status) == 1) {
                         // Enrol the member.
 
-                        $einstance = $DB->get_record('enrol',
-                            array('courseid' => $courseobj->id, 'enrol' => $memberstoreobj->enrol));
+                        $einstance = $DB->get_record('enroll',
+                            array('courseid' => $courseobj->id, 'enroll' => $memberstoreobj->enroll));
                         if (empty($einstance)) {
-                            // Only add an enrol instance to the course if non-existent.
+                            // Only add an enroll instance to the course if non-existent.
                             $enrolid = $this->add_instance($courseobj);
-                            $einstance = $DB->get_record('enrol', array('id' => $enrolid));
+                            $einstance = $DB->get_record('enroll', array('id' => $enrolid));
                         }
 
                         $this->enrol_user($einstance, $memberstoreobj->userid, $moodleroleid, $timeframe->begin, $timeframe->end);
@@ -745,28 +745,28 @@ class enrol_imsenterprise_plugin extends enrol_plugin {
                             }
                         }
 
-                    } else if ($this->get_config('imsunenrol')) {
-                        // Unenrol member.
+                    } else if ($this->get_config('imsunenroll')) {
+                        // Unenroll member.
                         $unenrolsetting = $this->get_config('unenrolaction');
 
-                        $einstances = $DB->get_records('enrol',
-                            array('enrol' => $memberstoreobj->enrol, 'courseid' => $courseobj->id));
+                        $einstances = $DB->get_records('enroll',
+                            array('enroll' => $memberstoreobj->enroll, 'courseid' => $courseobj->id));
 
                         switch ($unenrolsetting) {
                             case ENROL_EXT_REMOVED_SUSPEND:
                             case ENROL_EXT_REMOVED_SUSPENDNOROLES: {
                                 foreach ($einstances as $einstance) {
-                                    $this->update_user_enrol($einstance, $memberstoreobj->userid,
+                                    $this->update_user_enroll($einstance, $memberstoreobj->userid,
                                     ENROL_USER_SUSPENDED, $timeframe->begin, $timeframe->end);
 
-                                    $this->log_line("Suspending user enrolment for $member->idnumber in " .
+                                    $this->log_line("Suspending user enrollment for $member->idnumber in " .
                                     " course $ship->coursecode ");
 
                                     if (intval($unenrolsetting) === intval(ENROL_EXT_REMOVED_SUSPENDNOROLES)) {
                                         if (!$context =
                                             context_course::instance($courseobj->id, IGNORE_MISSING)) {
 
-                                            $this->log_line("Unable to process IMS unenrolment request " .
+                                            $this->log_line("Unable to process IMS unenrollment request " .
                                                 " because course context not found. User: " .
                                                 "#$memberstoreobj->userid ($member->idnumber) , " .
                                                 " course: $memberstoreobj->course");
@@ -791,20 +791,20 @@ class enrol_imsenterprise_plugin extends enrol_plugin {
                             case ENROL_EXT_REMOVED_UNENROL: {
                                 foreach ($einstances as $einstance) {
                                     $this->unenrol_user($einstance, $memberstoreobj->userid);
-                                    $this->log_line("Removing user enrolment record for $member->idnumber " .
+                                    $this->log_line("Removing user enrollment record for $member->idnumber " .
                                         " in course $ship->coursecode ");
                                 }
                             }
                             break;
 
                             case ENROL_EXT_REMOVED_KEEP: {
-                                $this->log_line("Processed KEEP IMS unenrol instruction (i.e. do nothing)");
+                                $this->log_line("Processed KEEP IMS unenroll instruction (i.e. do nothing)");
                             }
                             break;
 
                             default:
-                                $this->log_line("Unable to process IMS unenrolment request because " .
-                                    " the value set for plugin parameter, unenrol action, is not recognised. " .
+                                $this->log_line("Unable to process IMS unenrollment request because " .
+                                    " the value set for plugin parameter, unenroll action, is not recognised. " .
                                     " User: #$memberstoreobj->userid ($member->idnumber) " .
                                     " , course: $memberstoreobj->course");
                                 break;
@@ -817,7 +817,7 @@ class enrol_imsenterprise_plugin extends enrol_plugin {
             }
             $this->log_line("Added $memberstally users to course $ship->coursecode");
             if ($membersuntally > 0) {
-                $this->log_line("Processed $membersuntally unenrol instructions for course $ship->coursecode");
+                $this->log_line("Processed $membersuntally unenroll instructions for course $ship->coursecode");
             }
         }
 
@@ -1018,25 +1018,25 @@ class enrol_imsenterprise_plugin extends enrol_plugin {
     }
 
     /**
-     * Is it possible to delete enrol instance via standard UI?
+     * Is it possible to delete enroll instance via standard UI?
      *
      * @param object $instance
      * @return bool
      */
     public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/imsenterprise:config', $context);
+        return has_capability('enroll/imsenterprise:config', $context);
     }
 
     /**
-     * Is it possible to hide/show enrol instance via standard UI?
+     * Is it possible to hide/show enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/imsenterprise:config', $context);
+        return has_capability('enroll/imsenterprise:config', $context);
     }
 }
 

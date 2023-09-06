@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Meta enrolment plugin settings and presets.
+ * Meta enrollment plugin settings and presets.
  *
  * @package    enrol_meta
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -36,11 +36,11 @@ if ($ADMIN->fulltree) {
         $settings->add(new admin_setting_configcheckbox('enrol_meta/syncall', get_string('syncall', 'enrol_meta'), get_string('syncall_desc', 'enrol_meta'), 1));
 
         $options = array(
-            ENROL_EXT_REMOVED_UNENROL        => get_string('extremovedunenrol', 'core_enrol'),
-            ENROL_EXT_REMOVED_SUSPEND        => get_string('extremovedsuspend', 'core_enrol'),
-            ENROL_EXT_REMOVED_SUSPENDNOROLES => get_string('extremovedsuspendnoroles', 'core_enrol'),
+            ENROL_EXT_REMOVED_UNENROL        => get_string('extremovedunenroll', 'core_enroll'),
+            ENROL_EXT_REMOVED_SUSPEND        => get_string('extremovedsuspend', 'core_enroll'),
+            ENROL_EXT_REMOVED_SUSPENDNOROLES => get_string('extremovedsuspendnoroles', 'core_enroll'),
         );
-        $settings->add(new admin_setting_configselect('enrol_meta/unenrolaction', get_string('extremovedaction', 'enrol'), get_string('extremovedaction_help', 'enrol'), ENROL_EXT_REMOVED_SUSPENDNOROLES, $options));
+        $settings->add(new admin_setting_configselect('enrol_meta/unenrolaction', get_string('extremovedaction', 'enroll'), get_string('extremovedaction_help', 'enroll'), ENROL_EXT_REMOVED_SUSPENDNOROLES, $options));
 
         $sortoptions = array(
             'sortorder' => new lang_string('sort_sortorder', 'admin'),

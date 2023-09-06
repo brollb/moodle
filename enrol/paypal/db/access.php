@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for paypal enrolment plugin.
+ * Capabilities for paypal enrollment plugin.
  *
  * @package    enrol_paypal
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    'enrol/paypal:config' => array(
+    'enroll/paypal:config' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -34,7 +34,7 @@ $capabilities = array(
         )
     ),
 
-    'enrol/paypal:manage' => array(
+    'enroll/paypal:manage' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -43,7 +43,7 @@ $capabilities = array(
         )
     ),
 
-    'enrol/paypal:unenrol' => array(
+    'enroll/paypal:unenroll' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -51,7 +51,7 @@ $capabilities = array(
         )
     ),
 
-    'enrol/paypal:unenrolself' => array(
+    'enroll/paypal:unenrolself' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(

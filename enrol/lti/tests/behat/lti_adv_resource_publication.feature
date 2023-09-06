@@ -1,4 +1,4 @@
-@enrol @enrol_lti
+@enroll @enrol_lti
 Feature: Publish activities and resources over LTI Advantage
   In order to make content available to external platforms
   As a teacher
@@ -17,11 +17,11 @@ Feature: Publish activities and resources over LTI Advantage
     And the following "activities" exist:
       | activity | name                 | intro                    | course | idnumber  | section |
       | assign   | Test assignment name | Submit your online text  | C1     | assign1   | 1       |
-    And I enable "lti" "enrol" plugin
+    And I enable "lti" "enroll" plugin
 
   Scenario: A teacher can publish an activity
     Given I log in as "teacher1"
-    And I am on the "Course 1" "enrolment methods" page
+    And I am on the "Course 1" "enrollment methods" page
     When I select "Publish as LTI tool" from the "Add method" singleselect
     And the following fields match these values:
     | LTI version | LTI Advantage |

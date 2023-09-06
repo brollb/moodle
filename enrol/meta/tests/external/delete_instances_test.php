@@ -91,7 +91,7 @@ class delete_instances_test extends \externallib_advanced_testcase {
 
         // Add rights for metacourse.
         $metacontext = \context_course::instance($metacourse->id);
-        $roleid = $this->assignUserCapability('enrol/meta:config', $metacontext->id);
+        $roleid = $this->assignUserCapability('enroll/meta:config', $metacontext->id);
         $this->assignUserCapability('moodle/course:view', $metacontext->id, $roleid);
         $this->assignUserCapability('moodle/course:enrolconfig', $metacontext->id, $roleid);
 
@@ -116,8 +116,8 @@ class delete_instances_test extends \externallib_advanced_testcase {
         $enrolplugin->add_instance($metacourse, $fields);
 
         // Sanity check.
-        $enrolrecords = $DB->count_records('enrol',
-            ['enrol' => 'meta', 'courseid' => $metacourse->id, 'customint1' => $course->id]);
+        $enrolrecords = $DB->count_records('enroll',
+            ['enroll' => 'meta', 'courseid' => $metacourse->id, 'customint1' => $course->id]);
         $this->assertEquals(1, $enrolrecords);
 
         // Delete instance.
@@ -128,8 +128,8 @@ class delete_instances_test extends \externallib_advanced_testcase {
         $this->assertEquals($result[0]['status'], 1);
 
         // Check instance was deleted.
-        $enrolrecords = $DB->count_records('enrol',
-            ['enrol' => 'meta', 'courseid' => $result[0]['metacourseid'], 'customint1' => $result[0]['courseid']]);
+        $enrolrecords = $DB->count_records('enroll',
+            ['enroll' => 'meta', 'courseid' => $result[0]['metacourseid'], 'customint1' => $result[0]['courseid']]);
         $this->assertEquals(0, $enrolrecords);
 
         // Delete same instance.

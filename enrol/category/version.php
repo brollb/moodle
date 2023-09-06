@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Category enrolment plugin version specification.
+ * Category enrollment plugin version specification.
  *
  * @package    enrol_category
  * @copyright  2010 Petr Skoda {@link http://skodak.org}

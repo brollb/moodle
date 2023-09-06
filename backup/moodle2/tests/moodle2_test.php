@@ -558,9 +558,9 @@ class moodle2_test extends \advanced_testcase {
     }
 
     /**
-     * Help function for enrolment methods backup/restore tests:
+     * Help function for enrollment methods backup/restore tests:
      *
-     * - Creates a course ($course), adds self-enrolment method and a user
+     * - Creates a course ($course), adds self-enrollment method and a user
      * - Makes a backup
      * - Creates a target course (if requested) ($newcourseid)
      * - Initialises restore controller for this backup file ($rc)
@@ -581,9 +581,9 @@ class moodle2_test extends \advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
 
-        // Enable instance of self-enrolment plugin (it should already be present) and enrol a student with it.
+        // Enable instance of self-enrollment plugin (it should already be present) and enroll a student with it.
         $selfplugin = enrol_get_plugin('self');
-        $selfinstance = $DB->get_record('enrol', array('courseid' => $course->id, 'enrol' => 'self'));
+        $selfinstance = $DB->get_record('enroll', array('courseid' => $course->id, 'enroll' => 'self'));
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $selfplugin->update_status($selfinstance, ENROL_INSTANCE_ENABLED);
         $selfplugin->enrol_user($selfinstance, $user->id, $studentrole->id);
@@ -646,14 +646,14 @@ class moodle2_test extends \advanced_testcase {
     }
 
     /**
-     * Backup a course with enrolment methods and restore it without user data and without enrolment methods
+     * Backup a course with enrollment methods and restore it without user data and without enrollment methods
      */
     public function test_restore_without_users_without_enrolments() {
         global $DB;
 
         list($course, $newcourseid, $rc) = $this->prepare_for_enrolments_test(backup::TARGET_NEW_COURSE);
 
-        // Ensure enrolment methods will not be restored without capability.
+        // Ensure enrollment methods will not be restored without capability.
         $this->assertEquals(backup::ENROL_NEVER, $rc->get_plan()->get_setting('enrolments')->get_value());
         $this->assertEquals(false, $rc->get_plan()->get_setting('users')->get_value());
 
@@ -661,17 +661,17 @@ class moodle2_test extends \advanced_testcase {
         $rc->execute_plan();
         $rc->destroy();
 
-        // Self-enrolment method was not enabled, users were not restored.
-        $this->assertEmpty($DB->count_records('enrol', ['enrol' => 'self', 'courseid' => $newcourseid,
+        // Self-enrollment method was not enabled, users were not restored.
+        $this->assertEmpty($DB->count_records('enroll', ['enroll' => 'self', 'courseid' => $newcourseid,
             'status' => ENROL_INSTANCE_ENABLED]));
-        $sql = "select ue.id, ue.userid, e.enrol from {user_enrolments} ue
-          join {enrol} e on ue.enrolid = e.id WHERE e.courseid = ?";
+        $sql = "select ue.id, ue.userid, e.enroll from {user_enrolments} ue
+          join {enroll} e on ue.enrolid = e.id WHERE e.courseid = ?";
         $enrolments = $DB->get_records_sql($sql, [$newcourseid]);
         $this->assertEmpty($enrolments);
     }
 
     /**
-     * Backup a course with enrolment methods and restore it without user data with enrolment methods
+     * Backup a course with enrollment methods and restore it without user data with enrollment methods
      */
     public function test_restore_without_users_with_enrolments() {
         global $DB;
@@ -679,29 +679,29 @@ class moodle2_test extends \advanced_testcase {
         list($course, $newcourseid, $rc) = $this->prepare_for_enrolments_test(backup::TARGET_NEW_COURSE,
             ['moodle/course:enrolconfig']);
 
-        // Ensure enrolment methods will be restored.
+        // Ensure enrollment methods will be restored.
         $this->assertEquals(backup::ENROL_NEVER, $rc->get_plan()->get_setting('enrolments')->get_value());
         $this->assertEquals(false, $rc->get_plan()->get_setting('users')->get_value());
-        // Set "Include enrolment methods" to "Always" so they can be restored without users.
+        // Set "Include enrollment methods" to "Always" so they can be restored without users.
         $rc->get_plan()->get_setting('enrolments')->set_value(backup::ENROL_ALWAYS);
 
         $this->assertTrue($rc->execute_precheck());
         $rc->execute_plan();
         $rc->destroy();
 
-        // Self-enrolment method was restored (it is enabled), users were not restored.
-        $enrol = $DB->get_records('enrol', ['enrol' => 'self', 'courseid' => $newcourseid,
+        // Self-enrollment method was restored (it is enabled), users were not restored.
+        $enroll = $DB->get_records('enroll', ['enroll' => 'self', 'courseid' => $newcourseid,
             'status' => ENROL_INSTANCE_ENABLED]);
-        $this->assertNotEmpty($enrol);
+        $this->assertNotEmpty($enroll);
 
-        $sql = "select ue.id, ue.userid, e.enrol from {user_enrolments} ue
-            join {enrol} e on ue.enrolid = e.id WHERE e.courseid = ?";
+        $sql = "select ue.id, ue.userid, e.enroll from {user_enrolments} ue
+            join {enroll} e on ue.enrolid = e.id WHERE e.courseid = ?";
         $enrolments = $DB->get_records_sql($sql, [$newcourseid]);
         $this->assertEmpty($enrolments);
     }
 
     /**
-     * Backup a course with enrolment methods and restore it with user data and without enrolment methods
+     * Backup a course with enrollment methods and restore it with user data and without enrollment methods
      */
     public function test_restore_with_users_without_enrolments() {
         global $DB;
@@ -709,7 +709,7 @@ class moodle2_test extends \advanced_testcase {
         list($course, $newcourseid, $rc) = $this->prepare_for_enrolments_test(backup::TARGET_NEW_COURSE,
             ['moodle/backup:userinfo', 'moodle/restore:userinfo']);
 
-        // Ensure enrolment methods will not be restored without capability.
+        // Ensure enrollment methods will not be restored without capability.
         $this->assertEquals(backup::ENROL_NEVER, $rc->get_plan()->get_setting('enrolments')->get_value());
         $this->assertEquals(true, $rc->get_plan()->get_setting('users')->get_value());
 
@@ -720,16 +720,16 @@ class moodle2_test extends \advanced_testcase {
         $rc->destroy();
         $qwerty = 0;
 
-        // Self-enrolment method was not restored, student was restored as manual enrolment.
-        $this->assertEmpty($DB->count_records('enrol', ['enrol' => 'self', 'courseid' => $newcourseid,
+        // Self-enrollment method was not restored, student was restored as manual enrollment.
+        $this->assertEmpty($DB->count_records('enroll', ['enroll' => 'self', 'courseid' => $newcourseid,
             'status' => ENROL_INSTANCE_ENABLED]));
 
-        $enrol = $DB->get_record('enrol', ['enrol' => 'manual', 'courseid' => $newcourseid]);
-        $this->assertEquals(1, $DB->count_records('user_enrolments', ['enrolid' => $enrol->id]));
+        $enroll = $DB->get_record('enroll', ['enroll' => 'manual', 'courseid' => $newcourseid]);
+        $this->assertEquals(1, $DB->count_records('user_enrolments', ['enrolid' => $enroll->id]));
     }
 
     /**
-     * Backup a course with enrolment methods and restore it with user data with enrolment methods
+     * Backup a course with enrollment methods and restore it with user data with enrollment methods
      */
     public function test_restore_with_users_with_enrolments() {
         global $DB;
@@ -737,7 +737,7 @@ class moodle2_test extends \advanced_testcase {
         list($course, $newcourseid, $rc) = $this->prepare_for_enrolments_test(backup::TARGET_NEW_COURSE,
             ['moodle/backup:userinfo', 'moodle/restore:userinfo', 'moodle/course:enrolconfig']);
 
-        // Ensure enrolment methods will be restored.
+        // Ensure enrollment methods will be restored.
         $this->assertEquals(backup::ENROL_WITHUSERS, $rc->get_plan()->get_setting('enrolments')->get_value());
         $this->assertEquals(true, $rc->get_plan()->get_setting('users')->get_value());
 
@@ -745,21 +745,21 @@ class moodle2_test extends \advanced_testcase {
         $rc->execute_plan();
         $rc->destroy();
 
-        // Self-enrolment method was restored (it is enabled), student was restored.
-        $enrol = $DB->get_records('enrol', ['enrol' => 'self', 'courseid' => $newcourseid,
+        // Self-enrollment method was restored (it is enabled), student was restored.
+        $enroll = $DB->get_records('enroll', ['enroll' => 'self', 'courseid' => $newcourseid,
             'status' => ENROL_INSTANCE_ENABLED]);
-        $this->assertNotEmpty($enrol);
+        $this->assertNotEmpty($enroll);
 
-        $sql = "select ue.id, ue.userid, e.enrol from {user_enrolments} ue
-            join {enrol} e on ue.enrolid = e.id WHERE e.courseid = ?";
+        $sql = "select ue.id, ue.userid, e.enroll from {user_enrolments} ue
+            join {enroll} e on ue.enrolid = e.id WHERE e.courseid = ?";
         $enrolments = $DB->get_records_sql($sql, [$newcourseid]);
         $this->assertEquals(1, count($enrolments));
-        $enrolment = reset($enrolments);
-        $this->assertEquals('self', $enrolment->enrol);
+        $enrollment = reset($enrolments);
+        $this->assertEquals('self', $enrollment->enroll);
     }
 
     /**
-     * Backup a course with enrolment methods and restore it with user data with enrolment methods merging into another course
+     * Backup a course with enrollment methods and restore it with user data with enrollment methods merging into another course
      */
     public function test_restore_with_users_with_enrolments_merging() {
         global $DB;
@@ -767,7 +767,7 @@ class moodle2_test extends \advanced_testcase {
         list($course, $newcourseid, $rc) = $this->prepare_for_enrolments_test(backup::TARGET_EXISTING_ADDING,
             ['moodle/backup:userinfo', 'moodle/restore:userinfo', 'moodle/course:enrolconfig']);
 
-        // Ensure enrolment methods will be restored.
+        // Ensure enrollment methods will be restored.
         $this->assertEquals(backup::ENROL_WITHUSERS, $rc->get_plan()->get_setting('enrolments')->get_value());
         $this->assertEquals(true, $rc->get_plan()->get_setting('users')->get_value());
 
@@ -775,21 +775,21 @@ class moodle2_test extends \advanced_testcase {
         $rc->execute_plan();
         $rc->destroy();
 
-        // User was restored with self-enrolment method.
-        $enrol = $DB->get_records('enrol', ['enrol' => 'self', 'courseid' => $newcourseid,
+        // User was restored with self-enrollment method.
+        $enroll = $DB->get_records('enroll', ['enroll' => 'self', 'courseid' => $newcourseid,
             'status' => ENROL_INSTANCE_ENABLED]);
-        $this->assertNotEmpty($enrol);
+        $this->assertNotEmpty($enroll);
 
-        $sql = "select ue.id, ue.userid, e.enrol from {user_enrolments} ue
-            join {enrol} e on ue.enrolid = e.id WHERE e.courseid = ?";
+        $sql = "select ue.id, ue.userid, e.enroll from {user_enrolments} ue
+            join {enroll} e on ue.enrolid = e.id WHERE e.courseid = ?";
         $enrolments = $DB->get_records_sql($sql, [$newcourseid]);
         $this->assertEquals(1, count($enrolments));
-        $enrolment = reset($enrolments);
-        $this->assertEquals('self', $enrolment->enrol);
+        $enrollment = reset($enrolments);
+        $this->assertEquals('self', $enrollment->enroll);
     }
 
     /**
-     * Backup a course with enrolment methods and restore it with user data with enrolment methods into another course deleting it's contents
+     * Backup a course with enrollment methods and restore it with user data with enrollment methods into another course deleting it's contents
      */
     public function test_restore_with_users_with_enrolments_deleting() {
         global $DB;
@@ -797,7 +797,7 @@ class moodle2_test extends \advanced_testcase {
         list($course, $newcourseid, $rc) = $this->prepare_for_enrolments_test(backup::TARGET_EXISTING_DELETING,
             ['moodle/backup:userinfo', 'moodle/restore:userinfo', 'moodle/course:enrolconfig']);
 
-        // Ensure enrolment methods will be restored.
+        // Ensure enrollment methods will be restored.
         $this->assertEquals(backup::ENROL_WITHUSERS, $rc->get_plan()->get_setting('enrolments')->get_value());
         $this->assertEquals(true, $rc->get_plan()->get_setting('users')->get_value());
 
@@ -805,17 +805,17 @@ class moodle2_test extends \advanced_testcase {
         $rc->execute_plan();
         $rc->destroy();
 
-        // Self-enrolment method was restored (it is enabled), student was restored.
-        $enrol = $DB->get_records('enrol', ['enrol' => 'self', 'courseid' => $newcourseid,
+        // Self-enrollment method was restored (it is enabled), student was restored.
+        $enroll = $DB->get_records('enroll', ['enroll' => 'self', 'courseid' => $newcourseid,
             'status' => ENROL_INSTANCE_ENABLED]);
-        $this->assertNotEmpty($enrol);
+        $this->assertNotEmpty($enroll);
 
-        $sql = "select ue.id, ue.userid, e.enrol from {user_enrolments} ue
-            join {enrol} e on ue.enrolid = e.id WHERE e.courseid = ?";
+        $sql = "select ue.id, ue.userid, e.enroll from {user_enrolments} ue
+            join {enroll} e on ue.enrolid = e.id WHERE e.courseid = ?";
         $enrolments = $DB->get_records_sql($sql, [$newcourseid]);
         $this->assertEquals(1, count($enrolments));
-        $enrolment = reset($enrolments);
-        $this->assertEquals('self', $enrolment->enrol);
+        $enrollment = reset($enrolments);
+        $this->assertEquals('self', $enrollment->enroll);
     }
 
     /**
@@ -1115,7 +1115,7 @@ class moodle2_test extends \advanced_testcase {
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
         $this->setUser($user);
 

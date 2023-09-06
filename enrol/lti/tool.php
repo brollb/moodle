@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../../config.php');
 $toolid = required_param('id', PARAM_INT);
 
 $PAGE->set_context(context_system::instance());
-$url = new moodle_url('/enrol/lti/tool.php');
+$url = new moodle_url('/enroll/lti/tool.php');
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('popup');
 $PAGE->set_title(get_string('opentool', 'enrol_lti'));
@@ -41,19 +41,19 @@ if (!is_enabled_auth('lti')) {
     exit();
 }
 
-// Check if the enrolment plugin is disabled.
+// Check if the enrollment plugin is disabled.
 if (!enrol_is_enabled('lti')) {
     throw new \moodle_exception('enrolisdisabled', 'enrol_lti');
     exit();
 }
 
-// Check if the enrolment instance is disabled.
+// Check if the enrollment instance is disabled.
 if ($tool->status != ENROL_INSTANCE_ENABLED) {
     throw new \moodle_exception('enrolisdisabled', 'enrol_lti');
     exit();
 }
 
-// Check if the enrolment instance has been upgraded to a newer LTI version.
+// Check if the enrollment instance has been upgraded to a newer LTI version.
 if ($tool->ltiversion != 'LTI-1p0/LTI-2p0') {
     throw new \moodle_exception('enrolltiversionincorrect', 'enrol_lti');
     exit();

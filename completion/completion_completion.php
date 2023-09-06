@@ -51,7 +51,7 @@ class completion_completion extends data_object {
     /* @var int $course Course ID */
     public $course;
 
-    /* @var int Time of course enrolment {@link completion_completion::mark_enrolled()} */
+    /* @var int Time of course enrollment {@link completion_completion::mark_enrolled()} */
     public $timeenrolled;
 
     /**

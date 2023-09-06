@@ -1,4 +1,4 @@
-@core @core_enrol
+@core @core_enroll
 Feature: Test role visibility for the participants page
   In order to control access
   As an admin

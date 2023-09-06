@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace core_enrol\reportbuilder\local\entities;
+namespace core_enroll\reportbuilder\local\entities;
 
 use enrol_plugin;
 use lang_string;
@@ -27,11 +27,11 @@ use core_reportbuilder\local\report\{column, filter};
 /**
  * Enrolment method entity
  *
- * @package     core_enrol
+ * @package     core_enroll
  * @copyright   2023 Paul Holden <paulh@moodle.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class enrol extends base {
+class enroll extends base {
 
     /**
      * Database tables that this entity uses and their default aliases
@@ -40,7 +40,7 @@ class enrol extends base {
      */
     protected function get_default_table_aliases(): array {
         return [
-            'enrol' => 'e',
+            'enroll' => 'e',
         ];
     }
 
@@ -50,7 +50,7 @@ class enrol extends base {
      * @return lang_string
      */
     protected function get_default_entity_title(): lang_string {
-        return new lang_string('enrolmentmethod', 'core_enrol');
+        return new lang_string('enrolmentmethod', 'core_enroll');
     }
 
     /**
@@ -83,7 +83,7 @@ class enrol extends base {
     protected function get_all_columns(): array {
         global $DB;
 
-        $enrolalias = $this->get_table_alias('enrol');
+        $enrolalias = $this->get_table_alias('enroll');
 
         // Plugin column.
         $columns[] = (new column(
@@ -93,10 +93,10 @@ class enrol extends base {
         ))
             ->add_joins($this->get_joins())
             ->set_type(column::TYPE_TEXT)
-            ->add_fields("{$enrolalias}.enrol")
+            ->add_fields("{$enrolalias}.enroll")
             ->set_is_sortable(true)
-            ->set_callback(static function(?string $enrol): string {
-                if ($enrol === null || !$plugin = enrol_get_plugin($enrol)) {
+            ->set_callback(static function(?string $enroll): string {
+                if ($enroll === null || !$plugin = enrol_get_plugin($enroll)) {
                     return '';
                 }
 
@@ -111,11 +111,11 @@ class enrol extends base {
         ))
             ->add_joins($this->get_joins())
             ->set_type(column::TYPE_TEXT)
-            ->add_fields("{$enrolalias}.enrol, {$enrolalias}.name, {$enrolalias}.courseid, " .
+            ->add_fields("{$enrolalias}.enroll, {$enrolalias}.name, {$enrolalias}.courseid, " .
                 "{$enrolalias}.roleid, {$enrolalias}.customint1")
             ->set_is_sortable(true)
-            ->set_callback(static function(?string $enrol, stdClass $instance): string {
-                if ($enrol === null || !$plugin = enrol_get_plugin($enrol)) {
+            ->set_callback(static function(?string $enroll, stdClass $instance): string {
+                if ($enroll === null || !$plugin = enrol_get_plugin($enroll)) {
                     return '';
                 }
 
@@ -138,7 +138,7 @@ class enrol extends base {
         // Period column.
         $columns[] = (new column(
             'period',
-            new lang_string('enrolperiod', 'core_enrol'),
+            new lang_string('enrolperiod', 'core_enroll'),
             $this->get_entity_name()
         ))
             ->add_joins($this->get_joins())
@@ -156,7 +156,7 @@ class enrol extends base {
         // Start date column.
         $columns[] = (new column(
             'startdate',
-            new lang_string('enroltimestart', 'core_enrol'),
+            new lang_string('enroltimestart', 'core_enroll'),
             $this->get_entity_name()
         ))
             ->add_joins($this->get_joins())
@@ -168,7 +168,7 @@ class enrol extends base {
         // End date column.
         $columns[] = (new column(
             'enddate',
-            new lang_string('enroltimeend', 'core_enrol'),
+            new lang_string('enroltimeend', 'core_enroll'),
             $this->get_entity_name()
         ))
             ->add_joins($this->get_joins())
@@ -188,7 +188,7 @@ class enrol extends base {
     protected function get_all_filters(): array {
         global $DB;
 
-        $enrolalias = $this->get_table_alias('enrol');
+        $enrolalias = $this->get_table_alias('enroll');
 
         // Plugin filter.
         $filters[] = (new filter(
@@ -196,7 +196,7 @@ class enrol extends base {
             'plugin',
             new lang_string('plugin'),
             $this->get_entity_name(),
-            "{$enrolalias}.enrol"
+            "{$enrolalias}.enroll"
         ))
             ->add_joins($this->get_joins())
             ->set_options_callback(static function(): array {
@@ -209,7 +209,7 @@ class enrol extends base {
         $filters[] = (new filter(
             text::class,
             'customname',
-            new lang_string('custominstancename', 'core_enrol'),
+            new lang_string('custominstancename', 'core_enroll'),
             $this->get_entity_name(),
             "{$enrolalias}.name"
         ))
@@ -229,7 +229,7 @@ class enrol extends base {
         $filters[] = (new filter(
             duration::class,
             'period',
-            new lang_string('enrolperiod', 'core_enrol'),
+            new lang_string('enrolperiod', 'core_enroll'),
             $this->get_entity_name(),
             "{$enrolalias}.enrolperiod"
         ))
@@ -239,7 +239,7 @@ class enrol extends base {
         $filters[] = (new filter(
             date::class,
             'startdate',
-            new lang_string('enroltimestart', 'core_enrol'),
+            new lang_string('enroltimestart', 'core_enroll'),
             $this->get_entity_name(),
             "{$enrolalias}.enrolstartdate"
         ))
@@ -249,7 +249,7 @@ class enrol extends base {
         $filters[] = (new filter(
             date::class,
             'enddate',
-            new lang_string('enroltimeend', 'core_enrol'),
+            new lang_string('enroltimeend', 'core_enroll'),
             $this->get_entity_name(),
             "{$enrolalias}.enrolenddate"
         ))

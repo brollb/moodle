@@ -123,12 +123,12 @@ class course_dropout extends course_enrolments {
             return null;
         }
 
-        $userenrol = $this->retrieve('user_enrolments', $sampleid);
+        $userenroll = $this->retrieve('user_enrolments', $sampleid);
 
         // We use completion as a success metric only when it is enabled.
         $completion = new \completion_info($course->get_course_data());
         if ($completion->is_enabled() && $completion->has_criteria()) {
-            $ccompletion = new \completion_completion(array('userid' => $userenrol->userid, 'course' => $course->get_id()));
+            $ccompletion = new \completion_completion(array('userid' => $userenroll->userid, 'course' => $course->get_id()));
             if ($ccompletion->is_complete()) {
                 return 0;
             } else {
@@ -144,7 +144,7 @@ class course_dropout extends course_enrolments {
         $courseduration = $course->get_end() - $course->get_start();
         $limit = intval($course->get_end() - ($courseduration / 4));
         $select = "courseid = :courseid AND userid = :userid AND timecreated > :limit";
-        $params = array('userid' => $userenrol->userid, 'courseid' => $course->get_id(), 'limit' => $limit);
+        $params = array('userid' => $userenroll->userid, 'courseid' => $course->get_id(), 'limit' => $limit);
         $nlogs = $logstore->get_events_select_count($select, $params);
         if ($nlogs == 0) {
             return 1;

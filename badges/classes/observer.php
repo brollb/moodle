@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local stuff for category enrolment plugin.
+ * Local stuff for category enrollment plugin.
  *
  * @package    core_badges
  * @copyright  2013 Rajesh Taneja <rajesh@moodle.com>

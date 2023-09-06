@@ -17,7 +17,7 @@
 /**
  * Handles LTI 1.3 resource link launches.
  *
- * See enrol/lti/launch_deeplink.php for deep linking launches.
+ * See enroll/lti/launch_deeplink.php for deep linking launches.
  *
  * There are 2 pathways through this page:
  * 1. When first making a resource linking launch from the platform. The launch data is cached at this point, pending user
@@ -103,14 +103,14 @@ $provisioningmode = message_helper::is_instructor_launch($launchdata) ? $resourc
 $auth = get_auth_plugin('lti');
 $auth->complete_login(
     $messagelaunch->getLaunchData(),
-    new moodle_url('/enrol/lti/launch.php', ['launchid' => $messagelaunch->getLaunchId()]),
+    new moodle_url('/enroll/lti/launch.php', ['launchid' => $messagelaunch->getLaunchId()]),
     $provisioningmode,
     $legacyconsumersecrets ?? []
 );
 
 global $USER, $CFG, $PAGE;
 // Page URL must be set before the require_login check, so that things like policies can redirect back with the launchid.
-$PAGE->set_url(new moodle_url('/enrol/lti/launch.php'), ['launchid' => $messagelaunch->getLaunchId()]);
+$PAGE->set_url(new moodle_url('/enroll/lti/launch.php'), ['launchid' => $messagelaunch->getLaunchId()]);
 
 require_login(null, false);
 $PAGE->set_context(context_system::instance());

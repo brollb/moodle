@@ -85,7 +85,7 @@ class contenttype_h5p_test extends \advanced_testcase {
 
         // Teacher can upload in the course but not at system level.
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $coursecontext = \context_course::instance($course->id);
         $coursetype = new \contenttype_h5p\contenttype($coursecontext);
         $this->setUser($teacher);

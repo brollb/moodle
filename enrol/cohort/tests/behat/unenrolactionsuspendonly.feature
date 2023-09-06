@@ -1,5 +1,5 @@
-@enrol @enrol_cohort
-Feature: Unenrol action to disable course enrolment
+@enroll @enrol_cohort
+Feature: Unenroll action to disable course enrollment
 
   Background:
     Given the following "users" exist:
@@ -26,9 +26,9 @@ Feature: Unenrol action to disable course enrolment
       | teacher001 | C001   | editingteacher | ##1 month ago## |
 
   @javascript @skip_chrome_zerosize
-  Scenario: Removing the user from the cohort will suspend the enrolment but keep the role
+  Scenario: Removing the user from the cohort will suspend the enrollment but keep the role
     When I log in as "teacher001"
-    And I am on the "Course 001" "enrolment methods" page
+    And I am on the "Course 001" "enrollment methods" page
     And I select "Cohort sync" from the "Add method" singleselect
     And I open the autocomplete suggestions list
     Then "System cohort" "autocomplete_suggestions" should exist
@@ -42,7 +42,7 @@ Feature: Unenrol action to disable course enrolment
     And I log out
     When I log in as "admin"
     Then I navigate to "Plugins > Enrolments > Cohort sync" in site administration
-    And I select "Disable course enrolment" from the "External unenrol action" singleselect
+    And I select "Disable course enrollment" from the "External unenroll action" singleselect
     And I press "Save changes"
     And I navigate to "Users > Accounts > Cohorts" in site administration
     When I press "Assign" action in the "System cohort" report row
@@ -58,9 +58,9 @@ Feature: Unenrol action to disable course enrolment
     And I should see "Active" in the "Student 004" "table_row"
 
   @javascript @skip_chrome_zerosize
-  Scenario: Deleting non-empty cohort will suspend the enrolment but keep the role
+  Scenario: Deleting non-empty cohort will suspend the enrollment but keep the role
     When I log in as "teacher001"
-    And I am on the "Course 001" "enrolment methods" page
+    And I am on the "Course 001" "enrollment methods" page
     And I select "Cohort sync" from the "Add method" singleselect
     And I open the autocomplete suggestions list
     Then "System cohort" "autocomplete_suggestions" should exist
@@ -74,7 +74,7 @@ Feature: Unenrol action to disable course enrolment
     And I log out
     When I log in as "admin"
     Then I navigate to "Plugins > Enrolments > Cohort sync" in site administration
-    And I select "Disable course enrolment" from the "External unenrol action" singleselect
+    And I select "Disable course enrollment" from the "External unenroll action" singleselect
     And I press "Save changes"
     And I navigate to "Users > Accounts > Cohorts" in site administration
     When I press "Delete" action in the "System cohort" report row

@@ -56,9 +56,9 @@ class provider implements
         global $DB;
 
         $sql = "SELECT ctx.id
-                  FROM {enrol} e
+                  FROM {enroll} e
                   JOIN {context} ctx ON (e.courseid = ctx.instanceid AND ctx.contextlevel = :contextcourse)
-                 WHERE e.id = :enrolid AND e.enrol = :enrolname";
+                 WHERE e.id = :enrolid AND e.enroll = :enrolname";
         $params = [
             'contextcourse' => CONTEXT_COURSE,
             'enrolid' => $itemid,
@@ -75,7 +75,7 @@ class provider implements
         if ($context instanceof \context_course) {
             $sql = "SELECT p.userid
                       FROM {payments} p
-                      JOIN {enrol} e ON (p.component = :component AND p.itemid = e.id)
+                      JOIN {enroll} e ON (p.component = :component AND p.itemid = e.id)
                      WHERE e.courseid = :courseid";
             $params = [
                 'component' => 'enrol_fee',
@@ -83,10 +83,10 @@ class provider implements
             ];
             $userlist->add_from_sql('userid', $sql, $params);
         } else if ($context instanceof \context_system) {
-            // If context is system, then the enrolment belongs to a deleted enrolment.
+            // If context is system, then the enrollment belongs to a deleted enrollment.
             $sql = "SELECT p.userid
                       FROM {payments} p
-                 LEFT JOIN {enrol} e ON p.itemid = e.id
+                 LEFT JOIN {enroll} e ON p.itemid = e.id
                      WHERE p.component = :component AND e.id IS NULL";
             $params = [
                 'component' => 'enrol_fee',
@@ -110,7 +110,7 @@ class provider implements
             if (!$context instanceof \context_course) {
                 continue;
             }
-            $feeplugins = $DB->get_records('enrol', ['courseid' => $context->instanceid, 'enrol' => 'fee']);
+            $feeplugins = $DB->get_records('enroll', ['courseid' => $context->instanceid, 'enroll' => 'fee']);
 
             foreach ($feeplugins as $feeplugin) {
                 \core_payment\privacy\provider::export_payment_data_for_user_in_context(
@@ -128,7 +128,7 @@ class provider implements
             // Orphaned payments.
             $sql = "SELECT p.*
                       FROM {payments} p
-                 LEFT JOIN {enrol} e ON p.itemid = e.id
+                 LEFT JOIN {enroll} e ON p.itemid = e.id
                      WHERE p.userid = :userid AND p.component = :component AND e.id IS NULL";
             $params = [
                 'component' => 'enrol_fee',
@@ -159,7 +159,7 @@ class provider implements
         if ($context instanceof \context_course) {
             $sql = "SELECT p.id
                       FROM {payments} p
-                      JOIN {enrol} e ON (p.component = :component AND p.itemid = e.id)
+                      JOIN {enroll} e ON (p.component = :component AND p.itemid = e.id)
                      WHERE e.courseid = :courseid";
             $params = [
                 'component' => 'enrol_fee',
@@ -168,10 +168,10 @@ class provider implements
 
             \core_payment\privacy\provider::delete_data_for_payment_sql($sql, $params);
         } else if ($context instanceof \context_system) {
-            // If context is system, then the enrolment belongs to a deleted enrolment.
+            // If context is system, then the enrollment belongs to a deleted enrollment.
             $sql = "SELECT p.id
                       FROM {payments} p
-                 LEFT JOIN {enrol} e ON p.itemid = e.id
+                 LEFT JOIN {enroll} e ON p.itemid = e.id
                      WHERE p.component = :component AND e.id IS NULL";
             $params = [
                 'component' => 'enrol_fee',
@@ -206,7 +206,7 @@ class provider implements
 
         $sql = "SELECT p.id
                   FROM {payments} p
-                  JOIN {enrol} e ON (p.component = :component AND p.itemid = e.id)
+                  JOIN {enroll} e ON (p.component = :component AND p.itemid = e.id)
                  WHERE p.userid = :userid AND e.courseid $insql";
         $params = $inparams + [
             'component' => 'enrol_fee',
@@ -219,7 +219,7 @@ class provider implements
             // Orphaned payments.
             $sql = "SELECT p.id
                       FROM {payments} p
-                 LEFT JOIN {enrol} e ON p.itemid = e.id
+                 LEFT JOIN {enroll} e ON p.itemid = e.id
                      WHERE p.component = :component AND p.userid = :userid AND e.id IS NULL";
             $params = [
                 'component' => 'enrol_fee',
@@ -244,7 +244,7 @@ class provider implements
             [$usersql, $userparams] = $DB->get_in_or_equal($userlist->get_userids(), SQL_PARAMS_NAMED);
             $sql = "SELECT p.id
                       FROM {payments} p
-                      JOIN {enrol} e ON (p.component = :component AND p.itemid = e.id)
+                      JOIN {enroll} e ON (p.component = :component AND p.itemid = e.id)
                      WHERE e.courseid = :courseid AND p.userid $usersql";
             $params = $userparams + [
                 'component' => 'enrol_fee',
@@ -257,7 +257,7 @@ class provider implements
             [$usersql, $userparams] = $DB->get_in_or_equal($userlist->get_userids(), SQL_PARAMS_NAMED);
             $sql = "SELECT p.id
                       FROM {payments} p
-                 LEFT JOIN {enrol} e ON p.itemid = e.id
+                 LEFT JOIN {enroll} e ON p.itemid = e.id
                      WHERE p.component = :component AND p.userid $usersql AND e.id IS NULL";
             $params = $userparams + [
                 'component' => 'enrol_fee',

@@ -77,7 +77,7 @@ Feature: Restricting access to course lists
     And I should not see "Humanities"
     And I should not see "Other category"
     And I follow "English Y2"
-    And I should see "You cannot enrol yourself in this course."
+    And I should see "You cannot enroll yourself in this course."
     And I log out
 
   Scenario: Browse courses as a user who has access to several but not all categories
@@ -100,13 +100,13 @@ Feature: Restricting access to course lists
     And the "Course categories" select box should contain "English category"
     And the "Course categories" select box should not contain "Other category"
     And I follow "Biology Y1"
-    And I should see "You cannot enrol yourself in this course."
+    And I should see "You cannot enroll yourself in this course."
     And I log out
 
   @javascript
-  Scenario: Browse courses as a user who has a disabled enrolment in them
+  Scenario: Browse courses as a user who has a disabled enrollment in them
     Given the following "course enrolments" exist:
       | user  | course | role    | status |
       | usere | ENG1   | student | 1      |
     When I am on the "ENG1" course page logged in as usere
-    Then I should see "You cannot enrol yourself in this course."
+    Then I should see "You cannot enroll yourself in this course."

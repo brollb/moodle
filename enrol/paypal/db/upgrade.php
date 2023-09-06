@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file keeps track of upgrades to the paypal enrolment plugin
+ * This file keeps track of upgrades to the paypal enrollment plugin
  *
  * @package    enrol_paypal
  * @copyright  2010 Eugene Venter

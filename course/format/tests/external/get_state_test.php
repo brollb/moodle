@@ -91,7 +91,7 @@ class get_state_test extends \externallib_advanced_testcase {
             set_section_visible($course->id, $section, 0);
         }
 
-        // Create and enrol user.
+        // Create and enroll user.
         $isadmin = ($role == 'admin');
         $canedit = $isadmin || ($role == 'editingteacher');
         if ($isadmin) {

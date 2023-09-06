@@ -82,7 +82,7 @@ class feedback_test extends \advanced_testcase {
     public function test_comments_quick_list() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $this->setUser($teacher);
 
@@ -106,8 +106,8 @@ class feedback_test extends \advanced_testcase {
     public function test_page_editor() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, [
                 'assignsubmission_onlinetext_enabled' => 1,
                 'assignsubmission_file_enabled' => 1,
@@ -206,8 +206,8 @@ class feedback_test extends \advanced_testcase {
         $this->require_ghostscript();
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, [
                 'assignsubmission_onlinetext_enabled' => 1,
                 'assignsubmission_file_enabled' => 1,
@@ -347,7 +347,7 @@ class feedback_test extends \advanced_testcase {
         \core\cron::setup_user();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assignopts = [
             'assignsubmission_file_enabled' => 1,
             'assignsubmission_file_maxfiles' => 1,
@@ -398,8 +398,8 @@ class feedback_test extends \advanced_testcase {
     public function test_is_feedback_modified() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, [
                 'assignsubmission_onlinetext_enabled' => 1,
                 'assignsubmission_file_enabled' => 1,
@@ -531,7 +531,7 @@ class feedback_test extends \advanced_testcase {
     public function test_submission_file_overridden() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, [
             'assignsubmission_onlinetext_enabled' => 1,
             'assignsubmission_file_enabled' => 1,
@@ -590,7 +590,7 @@ class feedback_test extends \advanced_testcase {
         \core\cron::setup_user();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assignopts = [
             'assignsubmission_file_enabled' => 1,
             'assignsubmission_file_maxfiles' => 1,

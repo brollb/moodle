@@ -1,5 +1,5 @@
-@enrol @enrol_guest
-Feature: Guest users can auto-enrol themself in courses where guest access is allowed
+@enroll @enrol_guest
+Feature: Guest users can auto-enroll themself in courses where guest access is allowed
   In order to access courses contents
   As a guest
   I need to access courses as a guest
@@ -20,7 +20,7 @@ Feature: Guest users can auto-enrol themself in courses where guest access is al
       | course                        | C1                     |
       | idnumber                      | 0001                   |
       | name                          | Test forum name        |
-    And I am on the "Course 1" "enrolment methods" page logged in as teacher1
+    And I am on the "Course 1" "enrollment methods" page logged in as teacher1
 
   Scenario: Allow guest access without password
     Given I click on "Edit" "link" in the "Guest access" "table_row"

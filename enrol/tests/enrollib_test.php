@@ -17,7 +17,7 @@
 /**
  * Test non-plugin enrollib parts.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @category   phpunit
  * @copyright  2012 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -77,12 +77,12 @@ class enrollib_test extends advanced_testcase {
             'category' => $category2->id,
         ));
 
-        $maninstance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $DB->set_field('enrol', 'status', ENROL_INSTANCE_DISABLED, array('id'=>$maninstance1->id));
-        $maninstance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $maninstance2 = $DB->get_record('enrol', array('courseid'=>$course2->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $maninstance3 = $DB->get_record('enrol', array('courseid'=>$course3->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $maninstance4 = $DB->get_record('enrol', array('courseid'=>$course4->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $maninstance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $DB->set_field('enroll', 'status', ENROL_INSTANCE_DISABLED, array('id'=>$maninstance1->id));
+        $maninstance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $maninstance2 = $DB->get_record('enroll', array('courseid'=>$course2->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $maninstance3 = $DB->get_record('enroll', array('courseid'=>$course3->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $maninstance4 = $DB->get_record('enroll', array('courseid'=>$course4->id, 'enroll'=>'manual'), '*', MUST_EXIST);
 
         $manual = enrol_get_plugin('manual');
         $this->assertNotEmpty($manual);
@@ -230,7 +230,7 @@ class enrollib_test extends advanced_testcase {
 
     /**
      * Test enrol_course_delete() without passing a user id. When a value for user id is not present, the method
-     * should delete all enrolment related data in the course.
+     * should delete all enrollment related data in the course.
      */
     public function test_enrol_course_delete_without_userid() {
         global $DB;
@@ -247,23 +247,23 @@ class enrollib_test extends advanced_testcase {
         $studentrole = $DB->get_record('role', ['shortname' => 'student']);
 
         $manual = enrol_get_plugin('manual');
-        $manualinstance = $DB->get_record('enrol', ['courseid' => $course->id, 'enrol' => 'manual'], '*', MUST_EXIST);
-        // Enrol user1 as a student in the course using manual enrolment.
+        $manualinstance = $DB->get_record('enroll', ['courseid' => $course->id, 'enroll' => 'manual'], '*', MUST_EXIST);
+        // Enrol user1 as a student in the course using manual enrollment.
         $manual->enrol_user($manualinstance, $user1->id, $studentrole->id);
 
         $self = enrol_get_plugin('self');
-        $selfinstance = $DB->get_record('enrol', ['courseid' => $course->id, 'enrol' => 'self'], '*', MUST_EXIST);
+        $selfinstance = $DB->get_record('enroll', ['courseid' => $course->id, 'enroll' => 'self'], '*', MUST_EXIST);
         $self->update_status($selfinstance, ENROL_INSTANCE_ENABLED);
-        // Enrol user2 as a student in the course using self enrolment.
+        // Enrol user2 as a student in the course using self enrollment.
         $self->enrol_user($selfinstance, $user2->id, $studentrole->id);
 
-        // Delete all enrolment related records in the course.
+        // Delete all enrollment related records in the course.
         enrol_course_delete($course);
 
-        // The course enrolment of user1 should not exists.
-        $user1enrolment = $DB->get_record('user_enrolments',
+        // The course enrollment of user1 should not exists.
+        $user1enrollment = $DB->get_record('user_enrolments',
             ['enrolid' => $manualinstance->id, 'userid' => $user1->id]);
-        $this->assertFalse($user1enrolment);
+        $this->assertFalse($user1enrollment);
 
         // The role assignment of user1 should not exists.
         $user1roleassignment = $DB->get_record('role_assignments',
@@ -271,17 +271,17 @@ class enrollib_test extends advanced_testcase {
         );
         $this->assertFalse($user1roleassignment);
 
-        // The course enrolment of user2 should not exists.
-        $user2enrolment = $DB->get_record('user_enrolments',
+        // The course enrollment of user2 should not exists.
+        $user2enrollment = $DB->get_record('user_enrolments',
             ['enrolid' => $selfinstance->id, 'userid' => $user2->id]);
-        $this->assertFalse($user2enrolment);
+        $this->assertFalse($user2enrollment);
 
         // The role assignment of user2 should not exists.
         $user2roleassignment = $DB->get_record('role_assignments',
             ['roleid' => $studentrole->id, 'userid'=> $user2->id, 'contextid' => $coursecontext->id]);
         $this->assertFalse($user2roleassignment);
 
-        // All existing course enrolment instances should not exists.
+        // All existing course enrollment instances should not exists.
         $enrolmentinstances = enrol_get_instances($course->id, false);
         $this->assertCount(0, $enrolmentinstances);
     }
@@ -289,7 +289,7 @@ class enrollib_test extends advanced_testcase {
     /**
      * Test enrol_course_delete() when user id is present.
      * When a value for user id is present, the method should make sure the user has the proper capability to
-     * un-enrol users before removing the enrolment data. If the capabilities are missing the data should not be removed.
+     * un-enroll users before removing the enrollment data. If the capabilities are missing the data should not be removed.
      *
      * @dataProvider enrol_course_delete_with_userid_provider
      * @param array $excludedcapabilities The capabilities that should be excluded from the user's role
@@ -311,20 +311,20 @@ class enrollib_test extends advanced_testcase {
         $editingteacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
 
         $manual = enrol_get_plugin('manual');
-        $manualinstance = $DB->get_record('enrol', ['courseid' => $course->id, 'enrol' => 'manual'],
+        $manualinstance = $DB->get_record('enroll', ['courseid' => $course->id, 'enroll' => 'manual'],
             '*', MUST_EXIST);
-        // Enrol user1 as a student in the course using manual enrolment.
+        // Enrol user1 as a student in the course using manual enrollment.
         $manual->enrol_user($manualinstance, $user1->id, $studentrole->id);
-        // Enrol user3 as an editing teacher in the course using manual enrolment.
+        // Enrol user3 as an editing teacher in the course using manual enrollment.
         // By default, the editing teacher role has the capability to un-enroll users which have been enrolled using
-        // the existing enrolment methods.
+        // the existing enrollment methods.
         $manual->enrol_user($manualinstance, $user3->id, $editingteacherrole->id);
 
         $self = enrol_get_plugin('self');
-        $selfinstance = $DB->get_record('enrol', ['courseid' => $course->id, 'enrol' => 'self'],
+        $selfinstance = $DB->get_record('enroll', ['courseid' => $course->id, 'enroll' => 'self'],
             '*', MUST_EXIST);
         $self->update_status($selfinstance, ENROL_INSTANCE_ENABLED);
-        // Enrol user2 as a student in the course using self enrolment.
+        // Enrol user2 as a student in the course using self enrollment.
         $self->enrol_user($selfinstance, $user2->id, $studentrole->id);
 
         foreach($excludedcapabilities as $capability) {
@@ -332,46 +332,46 @@ class enrollib_test extends advanced_testcase {
             unassign_capability($capability, $editingteacherrole->id);
         }
 
-        // Delete only enrolment related records in the course where user3 has the required capability.
+        // Delete only enrollment related records in the course where user3 has the required capability.
         enrol_course_delete($course, $user3->id);
 
-        // Check the existence of the course enrolment of user1.
+        // Check the existence of the course enrollment of user1.
         $user1enrolmentexists = (bool) $DB->count_records('user_enrolments',
             ['enrolid' => $manualinstance->id, 'userid' => $user1->id]);
-        $this->assertEquals($expected['User 1 course enrolment exists'], $user1enrolmentexists);
+        $this->assertEquals($expected['User 1 course enrollment exists'], $user1enrolmentexists);
 
         // Check the existence of the role assignment of user1 in the course.
         $user1roleassignmentexists = (bool) $DB->count_records('role_assignments',
             ['roleid' => $studentrole->id, 'userid' => $user1->id, 'contextid' => $coursecontext->id]);
         $this->assertEquals($expected['User 1 role assignment exists'], $user1roleassignmentexists);
 
-        // Check the existence of the course enrolment of user2.
+        // Check the existence of the course enrollment of user2.
         $user2enrolmentexists = (bool) $DB->count_records('user_enrolments',
             ['enrolid' => $selfinstance->id, 'userid' => $user2->id]);
-        $this->assertEquals($expected['User 2 course enrolment exists'], $user2enrolmentexists);
+        $this->assertEquals($expected['User 2 course enrollment exists'], $user2enrolmentexists);
 
         // Check the existence of the role assignment of user2 in the course.
         $user2roleassignmentexists = (bool) $DB->count_records('role_assignments',
             ['roleid' => $studentrole->id, 'userid' => $user2->id, 'contextid' => $coursecontext->id]);
         $this->assertEquals($expected['User 2 role assignment exists'], $user2roleassignmentexists);
 
-        // Check the existence of the course enrolment of user3.
+        // Check the existence of the course enrollment of user3.
         $user3enrolmentexists = (bool) $DB->count_records('user_enrolments',
             ['enrolid' => $manualinstance->id, 'userid' => $user3->id]);
-        $this->assertEquals($expected['User 3 course enrolment exists'], $user3enrolmentexists);
+        $this->assertEquals($expected['User 3 course enrollment exists'], $user3enrolmentexists);
 
         // Check the existence of the role assignment of user3 in the course.
         $user3roleassignmentexists = (bool) $DB->count_records('role_assignments',
             ['roleid' => $editingteacherrole->id, 'userid' => $user3->id, 'contextid' => $coursecontext->id]);
         $this->assertEquals($expected['User 3 role assignment exists'], $user3roleassignmentexists);
 
-        // Check the existence of the manual enrolment instance in the course.
-        $manualinstance = (bool) $DB->count_records('enrol', ['enrol' => 'manual', 'courseid' => $course->id]);
-        $this->assertEquals($expected['Manual course enrolment instance exists'], $manualinstance);
+        // Check the existence of the manual enrollment instance in the course.
+        $manualinstance = (bool) $DB->count_records('enroll', ['enroll' => 'manual', 'courseid' => $course->id]);
+        $this->assertEquals($expected['Manual course enrollment instance exists'], $manualinstance);
 
-        // Check existence of the self enrolment instance in the course.
-        $selfinstance = (bool) $DB->count_records('enrol', ['enrol' => 'self', 'courseid' => $course->id]);
-        $this->assertEquals($expected['Self course enrolment instance exists'], $selfinstance);
+        // Check existence of the self enrollment instance in the course.
+        $selfinstance = (bool) $DB->count_records('enroll', ['enroll' => 'self', 'courseid' => $course->id]);
+        $this->assertEquals($expected['Self course enrollment instance exists'], $selfinstance);
     }
 
     /**
@@ -381,59 +381,59 @@ class enrollib_test extends advanced_testcase {
      */
     public function enrol_course_delete_with_userid_provider() {
         return [
-            'The teacher can un-enrol users in a course' =>
+            'The teacher can un-enroll users in a course' =>
                 [
                     'excludedcapabilities' => [],
                     'results' => [
-                        // Whether certain enrolment related data still exists in the course after the deletion.
-                        // When the user has the capabilities to un-enrol users and the enrolment plugins allow manual
-                        // unenerolment than all course enrolment data should be removed.
-                        'Manual course enrolment instance exists' => false,
-                        'Self course enrolment instance exists' => false,
-                        'User 1 course enrolment exists' => false,
+                        // Whether certain enrollment related data still exists in the course after the deletion.
+                        // When the user has the capabilities to un-enroll users and the enrollment plugins allow manual
+                        // unenerolment than all course enrollment data should be removed.
+                        'Manual course enrollment instance exists' => false,
+                        'Self course enrollment instance exists' => false,
+                        'User 1 course enrollment exists' => false,
                         'User 1 role assignment exists' => false,
-                        'User 2 course enrolment exists' => false,
+                        'User 2 course enrollment exists' => false,
                         'User 2 role assignment exists' => false,
-                        'User 3 course enrolment exists' => false,
+                        'User 3 course enrollment exists' => false,
                         'User 3 role assignment exists' => false
                     ],
                 ],
-            'The teacher cannot un-enrol self enrolled users'  =>
+            'The teacher cannot un-enroll self enrolled users'  =>
                 [
                     'excludedcapabilities' => [
                         // Exclude the following capabilities for the editing teacher.
-                        'enrol/self:unenrol'
+                        'enroll/self:unenroll'
                     ],
                     'results' => [
-                        // When the user does not have the capabilities to un-enrol self enrolled users, the data
-                        // related to this enrolment method should not be removed. Everything else should be removed.
-                        'Manual course enrolment instance exists' => false,
-                        'Self course enrolment instance exists' => true,
-                        'User 1 course enrolment exists' => false,
+                        // When the user does not have the capabilities to un-enroll self enrolled users, the data
+                        // related to this enrollment method should not be removed. Everything else should be removed.
+                        'Manual course enrollment instance exists' => false,
+                        'Self course enrollment instance exists' => true,
+                        'User 1 course enrollment exists' => false,
                         'User 1 role assignment exists' => false,
-                        'User 2 course enrolment exists' => true,
+                        'User 2 course enrollment exists' => true,
                         'User 2 role assignment exists' => true,
-                        'User 3 course enrolment exists' => false,
+                        'User 3 course enrollment exists' => false,
                         'User 3 role assignment exists' => false
                     ],
                 ],
-            'The teacher cannot un-enrol self and manually enrolled users' =>
+            'The teacher cannot un-enroll self and manually enrolled users' =>
                 [
                     'excludedcapabilities' => [
                         // Exclude the following capabilities for the editing teacher.
-                        'enrol/manual:unenrol',
-                        'enrol/self:unenrol'
+                        'enroll/manual:unenroll',
+                        'enroll/self:unenroll'
                     ],
                     'results' => [
-                        // When the user does not have the capabilities to un-enrol self and manually enrolled users,
-                        // the data related to these enrolment methods should not be removed.
-                        'Manual course enrolment instance exists' => true,
-                        'Self course enrolment instance exists' => true,
-                        'User 1 course enrolment exists' => true,
+                        // When the user does not have the capabilities to un-enroll self and manually enrolled users,
+                        // the data related to these enrollment methods should not be removed.
+                        'Manual course enrollment instance exists' => true,
+                        'Self course enrollment instance exists' => true,
+                        'User 1 course enrollment exists' => true,
                         'User 1 role assignment exists' => true,
-                        'User 2 course enrolment exists' => true,
+                        'User 2 course enrollment exists' => true,
                         'User 2 role assignment exists' => true,
-                        'User 3 course enrolment exists' => true,
+                        'User 3 course enrollment exists' => true,
                         'User 3 role assignment exists' => true
                     ],
                 ],
@@ -466,12 +466,12 @@ class enrollib_test extends advanced_testcase {
         $course3 = $this->getDataGenerator()->create_course(array('category'=>$category2->id, 'visible'=>0));
         $course4 = $this->getDataGenerator()->create_course(array('category'=>$category2->id));
 
-        $maninstance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $DB->set_field('enrol', 'status', ENROL_INSTANCE_DISABLED, array('id'=>$maninstance1->id));
-        $maninstance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $maninstance2 = $DB->get_record('enrol', array('courseid'=>$course2->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $maninstance3 = $DB->get_record('enrol', array('courseid'=>$course3->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $maninstance4 = $DB->get_record('enrol', array('courseid'=>$course4->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $maninstance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $DB->set_field('enroll', 'status', ENROL_INSTANCE_DISABLED, array('id'=>$maninstance1->id));
+        $maninstance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $maninstance2 = $DB->get_record('enroll', array('courseid'=>$course2->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $maninstance3 = $DB->get_record('enroll', array('courseid'=>$course3->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $maninstance4 = $DB->get_record('enroll', array('courseid'=>$course4->id, 'enroll'=>'manual'), '*', MUST_EXIST);
 
         $manual = enrol_get_plugin('manual');
         $this->assertNotEmpty($manual);
@@ -572,7 +572,7 @@ class enrollib_test extends advanced_testcase {
     public function test_enrol_get_shared_courses_different_methods() {
         global $DB, $CFG;
 
-        require_once($CFG->dirroot . '/enrol/self/externallib.php');
+        require_once($CFG->dirroot . '/enroll/self/externallib.php');
 
         $this->resetAfterTest();
 
@@ -582,8 +582,8 @@ class enrollib_test extends advanced_testcase {
 
         $course1 = $this->getDataGenerator()->create_course();
 
-        // Enrol user1 and user2 in course1 with a different enrolment methode.
-        // Add self enrolment method for course1.
+        // Enrol user1 and user2 in course1 with a different enrollment methode.
+        // Add self enrollment method for course1.
         $selfplugin = enrol_get_plugin('self');
         $this->assertNotEmpty($selfplugin);
 
@@ -595,10 +595,10 @@ class enrollib_test extends advanced_testcase {
                                                                  'customint6' => 1,
                                                                  'roleid' => $studentrole->id));
 
-        $instance1 = $DB->get_record('enrol', array('id' => $instance1id), '*', MUST_EXIST);
+        $instance1 = $DB->get_record('enroll', array('id' => $instance1id), '*', MUST_EXIST);
 
         self::setUser($user2);
-        // Self enrol me (user2).
+        // Self enroll me (user2).
         $result = enrol_self_external::enrol_user($course1->id);
 
         // Enrol user1 manually.
@@ -626,7 +626,7 @@ class enrollib_test extends advanced_testcase {
     }
 
     /**
-     * Test user enrolment created event.
+     * Test user enrollment created event.
      */
     public function test_user_enrolment_created_event() {
         global $DB;
@@ -640,7 +640,7 @@ class enrollib_test extends advanced_testcase {
 
         $course1 = $this->getDataGenerator()->create_course();
 
-        $maninstance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $maninstance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
 
         $manual = enrol_get_plugin('manual');
         $this->assertNotEmpty($manual);
@@ -672,17 +672,17 @@ class enrollib_test extends advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $student = $DB->get_record('role', array('shortname' => 'student'));
 
-        $enrol = $DB->get_record('enrol', array('courseid' => $course->id, 'enrol' => 'manual'), '*', MUST_EXIST);
+        $enroll = $DB->get_record('enroll', array('courseid' => $course->id, 'enroll' => 'manual'), '*', MUST_EXIST);
 
         // Enrol user.
-        $manualplugin->enrol_user($enrol, $user->id, $student->id);
+        $manualplugin->enrol_user($enroll, $user->id, $student->id);
 
-        // Get the user enrolment information, used to validate legacy event data.
+        // Get the user enrollment information, used to validate legacy event data.
         $dbuserenrolled = $DB->get_record('user_enrolments', array('userid' => $user->id));
 
-        // Unenrol user and capture event.
+        // Unenroll user and capture event.
         $sink = $this->redirectEvents();
-        $manualplugin->unenrol_user($enrol, $user->id);
+        $manualplugin->unenrol_user($enroll, $user->id);
         $events = $sink->get_events();
         $sink->close();
         $event = array_pop($events);
@@ -706,7 +706,7 @@ class enrollib_test extends advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
 
-        // Creating enrol instance.
+        // Creating enroll instance.
         $sink = $this->redirectEvents();
         $instanceid = $selfplugin->add_instance($course, array('status' => ENROL_INSTANCE_ENABLED,
                                                                 'name' => 'Test instance 1',
@@ -719,11 +719,11 @@ class enrollib_test extends advanced_testcase {
         $event = array_pop($events);
         $this->assertInstanceOf('\core\event\enrol_instance_created', $event);
         $this->assertEquals(context_course::instance($course->id), $event->get_context());
-        $this->assertEquals('self', $event->other['enrol']);
+        $this->assertEquals('self', $event->other['enroll']);
         $this->assertEventContextNotUsed($event);
 
-        // Updating enrol instance.
-        $instance = $DB->get_record('enrol', array('id' => $instanceid));
+        // Updating enroll instance.
+        $instance = $DB->get_record('enroll', array('id' => $instanceid));
         $sink = $this->redirectEvents();
         $selfplugin->update_status($instance, ENROL_INSTANCE_DISABLED);
 
@@ -734,11 +734,11 @@ class enrollib_test extends advanced_testcase {
         $event = array_pop($events);
         $this->assertInstanceOf('\core\event\enrol_instance_updated', $event);
         $this->assertEquals(context_course::instance($course->id), $event->get_context());
-        $this->assertEquals('self', $event->other['enrol']);
+        $this->assertEquals('self', $event->other['enroll']);
         $this->assertEventContextNotUsed($event);
 
-        // Deleting enrol instance.
-        $instance = $DB->get_record('enrol', array('id' => $instanceid));
+        // Deleting enroll instance.
+        $instance = $DB->get_record('enroll', array('id' => $instanceid));
         $sink = $this->redirectEvents();
         $selfplugin->delete_instance($instance);
 
@@ -749,7 +749,7 @@ class enrollib_test extends advanced_testcase {
         $event = array_pop($events);
         $this->assertInstanceOf('\core\event\enrol_instance_deleted', $event);
         $this->assertEquals(context_course::instance($course->id), $event->get_context());
-        $this->assertEquals('self', $event->other['enrol']);
+        $this->assertEquals('self', $event->other['enroll']);
         $this->assertEventContextNotUsed($event);
     }
 
@@ -773,7 +773,7 @@ class enrollib_test extends advanced_testcase {
         $instanceid = null;
         $instances = enrol_get_instances($course->id, true);
         foreach ($instances as $inst) {
-            if ($inst->enrol == 'manual') {
+            if ($inst->enroll == 'manual') {
                 $instanceid = (int)$inst->id;
                 break;
             }
@@ -786,7 +786,7 @@ class enrollib_test extends advanced_testcase {
         }
         $this->assertNotNull($instanceid);
 
-        $instance = $DB->get_record('enrol', ['id' => $instanceid], '*', MUST_EXIST);
+        $instance = $DB->get_record('enroll', ['id' => $instanceid], '*', MUST_EXIST);
         $manualplugin->enrol_user($instance, $user->id, $studentroleid, 0, 0, ENROL_USER_ACTIVE);
         $userenrolorig = (int)$DB->get_field(
             'user_enrolments',
@@ -796,7 +796,7 @@ class enrollib_test extends advanced_testcase {
         );
         $this->waitForSecond();
         $this->waitForSecond();
-        $manualplugin->update_user_enrol($instance, $user->id, ENROL_USER_SUSPENDED);
+        $manualplugin->update_user_enroll($instance, $user->id, ENROL_USER_SUSPENDED);
         $userenrolpost = (int)$DB->get_field(
             'user_enrolments',
             'timemodified',
@@ -1062,7 +1062,7 @@ class enrollib_test extends advanced_testcase {
         $timeend = $timeendoffset === null ? 0 : $time + $timeendoffset;
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student', null, 'manual', $timestart, $timeend);
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student', null, 'manual', $timestart, $timeend);
         $this->setUser($user);
 
         $courses = enrol_get_my_courses();
@@ -1102,7 +1102,7 @@ class enrollib_test extends advanced_testcase {
         $manualinstance = reset($instances);
 
         $manualplugin = enrol_get_plugin('manual');
-        $manualplugin->update_user_enrol($manualinstance, $user1->id, ENROL_USER_SUSPENDED);
+        $manualplugin->update_user_enroll($manualinstance, $user1->id, ENROL_USER_SUSPENDED);
         $this->assertCount(2, enrol_get_course_users($course1->id, false));
         $this->assertCount(1, enrol_get_course_users($course1->id, true));
     }
@@ -1125,22 +1125,22 @@ class enrollib_test extends advanced_testcase {
 
         $studentrole = $DB->get_record('role', ['shortname' => 'student']);
 
-        // Add each user to the manual enrolment instance.
+        // Add each user to the manual enrollment instance.
         $manual = enrol_get_plugin('manual');
 
-        $manualinstance = $DB->get_record('enrol', ['courseid' => $course->id, 'enrol' => 'manual'], '*', MUST_EXIST);
+        $manualinstance = $DB->get_record('enroll', ['courseid' => $course->id, 'enroll' => 'manual'], '*', MUST_EXIST);
 
         $manual->enrol_user($manualinstance, $user1->id, $studentrole->id);
         $manual->enrol_user($manualinstance, $user2->id, $studentrole->id);
 
         $this->assertEquals(2, count_enrolled_users($context));
 
-        // Create a self enrolment instance, enrol first user only.
+        // Create a self enrollment instance, enroll first user only.
         $self = enrol_get_plugin('self');
 
         $selfid = $self->add_instance($course,
             ['status' => ENROL_INSTANCE_ENABLED, 'name' => 'Self', 'customint6' => 1, 'roleid' => $studentrole->id]);
-        $selfinstance = $DB->get_record('enrol', ['id' => $selfid], '*', MUST_EXIST);
+        $selfinstance = $DB->get_record('enroll', ['id' => $selfid], '*', MUST_EXIST);
 
         $self->enrol_user($selfinstance, $user1->id, $studentrole->id);
 
@@ -1255,9 +1255,9 @@ class enrollib_test extends advanced_testcase {
      * Test the get_enrolled_courses_by_timeline_classification function.
      *
      * @dataProvider get_enrol_get_my_courses_sort_by_last_access_test_cases()
-     * @param array $enrolledcoursesdata Courses to create and enrol the user in
-     * @param array $unenrolledcoursesdata Courses to create nut not enrol the user in
-     * @param string $sort Sort string for the enrol function
+     * @param array $enrolledcoursesdata Courses to create and enroll the user in
+     * @param array $unenrolledcoursesdata Courses to create nut not enroll the user in
+     * @param string $sort Sort string for the enroll function
      * @param int $limit Maximum number of results
      * @param int $offset Offset the courses result set by this amount
      * @param array $expectedcourses Expected courses in result
@@ -1352,27 +1352,27 @@ class enrollib_test extends advanced_testcase {
         $manual = enrol_get_plugin('manual');
         $this->assertNotEmpty($manual);
 
-        $enrol = $DB->get_record('enrol', array('courseid' => $course->id, 'enrol' => 'manual'), '*', MUST_EXIST);
+        $enroll = $DB->get_record('enroll', array('courseid' => $course->id, 'enroll' => 'manual'), '*', MUST_EXIST);
 
         // Test without enrolments.
         $this->assertEmpty(enrol_get_course_users_roles($course->id));
 
         // Test with 1 user, 1 role.
-        $manual->enrol_user($enrol, $user1->id, $roles['student']);
+        $manual->enrol_user($enroll, $user1->id, $roles['student']);
         $return = enrol_get_course_users_roles($course->id);
         $this->assertArrayHasKey($user1->id, $return);
         $this->assertArrayHasKey($roles['student'], $return[$user1->id]);
         $this->assertArrayNotHasKey($roles['teacher'], $return[$user1->id]);
 
         // Test with 1 user, 2 role.
-        $manual->enrol_user($enrol, $user1->id, $roles['teacher']);
+        $manual->enrol_user($enroll, $user1->id, $roles['teacher']);
         $return = enrol_get_course_users_roles($course->id);
         $this->assertArrayHasKey($user1->id, $return);
         $this->assertArrayHasKey($roles['student'], $return[$user1->id]);
         $this->assertArrayHasKey($roles['teacher'], $return[$user1->id]);
 
         // Test with another user, 1 role.
-        $manual->enrol_user($enrol, $user2->id, $roles['student']);
+        $manual->enrol_user($enroll, $user2->id, $roles['student']);
         $return = enrol_get_course_users_roles($course->id);
         $this->assertArrayHasKey($user1->id, $return);
         $this->assertArrayHasKey($roles['student'], $return[$user1->id]);
@@ -1430,8 +1430,8 @@ class enrollib_test extends advanced_testcase {
             assign_capability($capability, CAP_PROHIBIT, $roleid, $context);
         }
 
-        // Check if we must enrol or not.
-        $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        // Check if we must enroll or not.
+        $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         $join = get_enrolled_with_capabilities_join($context, '', $capability);
 
@@ -1587,50 +1587,50 @@ class enrollib_test extends advanced_testcase {
         $cohort1 = $this->getDataGenerator()->create_cohort();
         $cohort2 = $this->getDataGenerator()->create_cohort();
 
-        // New enrolments are allowed and enrolment instance is enabled.
-        $instance = $DB->get_record('enrol', ['courseid' => $course->id, 'enrol' => 'self'], '*', MUST_EXIST);
+        // New enrolments are allowed and enrollment instance is enabled.
+        $instance = $DB->get_record('enroll', ['courseid' => $course->id, 'enroll' => 'self'], '*', MUST_EXIST);
         $instance->customint6 = 1;
-        $DB->update_record('enrol', $instance);
+        $DB->update_record('enroll', $instance);
         $selfplugin->update_status($instance, ENROL_INSTANCE_ENABLED);
         $this->setUser($user1);
         $this->assertTrue(enrol_selfenrol_available($course->id));
         $this->setGuestUser();
         $this->assertTrue(enrol_selfenrol_available($course->id));
 
-        $canntenrolerror = get_string('canntenrol', 'enrol_self');
+        $canntenrolerror = get_string('canntenroll', 'enrol_self');
 
-        // New enrolments are not allowed, but enrolment instance is enabled.
+        // New enrolments are not allowed, but enrollment instance is enabled.
         $instance->customint6 = 0;
-        $DB->update_record('enrol', $instance);
+        $DB->update_record('enroll', $instance);
         $this->setUser($user1);
         $this->assertFalse(enrol_selfenrol_available($course->id));
         $this->setGuestUser();
         $this->assertFalse(enrol_selfenrol_available($course->id));
 
-        // New enrolments are allowed, but enrolment instance is disabled.
+        // New enrolments are allowed, but enrollment instance is disabled.
         $instance->customint6 = 1;
-        $DB->update_record('enrol', $instance);
+        $DB->update_record('enroll', $instance);
         $selfplugin->update_status($instance, ENROL_INSTANCE_DISABLED);
         $this->setUser($user1);
         $this->assertFalse(enrol_selfenrol_available($course->id));
         $this->setGuestUser();
         $this->assertFalse(enrol_selfenrol_available($course->id));
 
-        // New enrolments are not allowed and enrolment instance is disabled.
+        // New enrolments are not allowed and enrollment instance is disabled.
         $instance->customint6 = 0;
-        $DB->update_record('enrol', $instance);
+        $DB->update_record('enroll', $instance);
         $this->setUser($user1);
         $this->assertFalse(enrol_selfenrol_available($course->id));
         $this->setGuestUser();
         $this->assertFalse(enrol_selfenrol_available($course->id));
 
-        // Enable enrolment instance for the rest of the tests.
+        // Enable enrollment instance for the rest of the tests.
         $selfplugin->update_status($instance, ENROL_INSTANCE_ENABLED);
 
         // Enrol start date is in future.
         $instance->customint6 = 1;
         $instance->enrolstartdate = time() + 60;
-        $DB->update_record('enrol', $instance);
+        $DB->update_record('enroll', $instance);
         $error = get_string('canntenrolearly', 'enrol_self', userdate($instance->enrolstartdate));
         $this->setUser($user1);
         $this->assertFalse(enrol_selfenrol_available($course->id));
@@ -1639,7 +1639,7 @@ class enrollib_test extends advanced_testcase {
 
         // Enrol start date is in past.
         $instance->enrolstartdate = time() - 60;
-        $DB->update_record('enrol', $instance);
+        $DB->update_record('enroll', $instance);
         $this->setUser($user1);
         $this->assertTrue(enrol_selfenrol_available($course->id));
         $this->setGuestUser();
@@ -1648,7 +1648,7 @@ class enrollib_test extends advanced_testcase {
         // Enrol end date is in future.
         $instance->enrolstartdate = 0;
         $instance->enrolenddate = time() + 60;
-        $DB->update_record('enrol', $instance);
+        $DB->update_record('enroll', $instance);
         $this->setUser($user1);
         $this->assertTrue(enrol_selfenrol_available($course->id));
         $this->setGuestUser();
@@ -1656,7 +1656,7 @@ class enrollib_test extends advanced_testcase {
 
         // Enrol end date is in past.
         $instance->enrolenddate = time() - 60;
-        $DB->update_record('enrol', $instance);
+        $DB->update_record('enroll', $instance);
         $error = get_string('canntenrollate', 'enrol_self', userdate($instance->enrolenddate));
         $this->setUser($user1);
         $this->assertFalse(enrol_selfenrol_available($course->id));
@@ -1666,7 +1666,7 @@ class enrollib_test extends advanced_testcase {
         // Maximum enrolments reached.
         $instance->customint3 = 1;
         $instance->enrolenddate = 0;
-        $DB->update_record('enrol', $instance);
+        $DB->update_record('enroll', $instance);
         $selfplugin->enrol_user($instance, $user2->id, $studentrole->id);
         $error = get_string('maxenrolledreached', 'enrol_self');
         $this->setUser($user1);
@@ -1676,7 +1676,7 @@ class enrollib_test extends advanced_testcase {
 
         // Maximum enrolments not reached.
         $instance->customint3 = 3;
-        $DB->update_record('enrol', $instance);
+        $DB->update_record('enroll', $instance);
         $this->setUser($user1);
         $this->assertTrue(enrol_selfenrol_available($course->id));
         $this->setGuestUser();
@@ -1687,7 +1687,7 @@ class enrollib_test extends advanced_testcase {
 
         // Cohort test.
         $instance->customint5 = $cohort1->id;
-        $DB->update_record('enrol', $instance);
+        $DB->update_record('enroll', $instance);
         $error = get_string('cohortnonmemberinfo', 'enrol_self', $cohort1->name);
         $this->setUser($user1);
         $this->assertFalse(enrol_selfenrol_available($course->id));

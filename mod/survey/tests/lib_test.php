@@ -204,8 +204,8 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $survey = $this->getDataGenerator()->create_module('survey', array('course' => $course->id));
 
-        // Create a student and enrol into the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        // Create a student and enroll into the course.
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a calendar event.
         $event = $this->create_action_event($course->id, $survey->id,
@@ -304,9 +304,9 @@ class lib_test extends \advanced_testcase {
         $survey = $this->getDataGenerator()->create_module('survey', array('course' => $course->id),
             array('completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS));
 
-        // Create 2 students and enrol them into the course.
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        // Create 2 students and enroll them into the course.
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('survey', $survey->id);

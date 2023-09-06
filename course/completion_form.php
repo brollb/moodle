@@ -168,7 +168,7 @@ class course_completion_form extends moodleform {
         $criteria = new completion_criteria_date($params);
         $criteria->config_form_display($mform);
 
-        // Completion after enrolment duration
+        // Completion after enrollment duration
         $label = get_string('coursecompletioncondition', 'core_completion', get_string('enrolmentduration', 'core_completion'));
         $mform->addElement('header', 'duration', $label);
         // Expand the condition section if it is currently enabled.
@@ -179,15 +179,15 @@ class course_completion_form extends moodleform {
         $criteria = new completion_criteria_duration($params);
         $criteria->config_form_display($mform);
 
-        // Completion on unenrolment
-        $label = get_string('coursecompletioncondition', 'core_completion', get_string('unenrolment', 'core_completion'));
-        $mform->addElement('header', 'unenrolment', $label);
+        // Completion on unenrollment
+        $label = get_string('coursecompletioncondition', 'core_completion', get_string('unenrollment', 'core_completion'));
+        $mform->addElement('header', 'unenrollment', $label);
         // Expand the condition section if it is currently enabled.
         $current = $completion->get_criteria(COMPLETION_CRITERIA_TYPE_UNENROL);
         if (!empty($current)) {
-            $mform->setExpanded('unenrolment');
+            $mform->setExpanded('unenrollment');
         }
-        $criteria = new completion_criteria_unenrol($params);
+        $criteria = new completion_criteria_unenroll($params);
         $criteria->config_form_display($mform);
 
         // Completion on course grade

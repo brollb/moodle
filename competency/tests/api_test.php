@@ -2494,7 +2494,7 @@ class api_test extends \advanced_testcase {
         $settings->create();
         $coursecontext = \context_course::instance($course->id);
 
-        // Create a student and enrol into the course.
+        // Create a student and enroll into the course.
         $student = $dg->create_user();
         $studentarch = get_archetype_roles('student');
         $studentrole = array_shift($studentarch);

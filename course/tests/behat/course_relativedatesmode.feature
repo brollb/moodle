@@ -1,8 +1,8 @@
 @core @core_course
-Feature: Courses can be set up to display dates relative to the user's enrolment date
+Feature: Courses can be set up to display dates relative to the user's enrollment date
   As a course creator
   In order for me to set up courses
-  I need to be able to set up courses to display dates relative to the user's enrolment date
+  I need to be able to set up courses to display dates relative to the user's enrollment date
 
   @javascript
   Scenario: Create a course with relative dates feature disabled

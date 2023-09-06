@@ -76,7 +76,7 @@ class calendar_information_test extends \advanced_testcase {
      * And I should see no other courses.
      * And I should see no categories.
      */
-    public function test_site_visibility_no_enrolment() {
+    public function test_site_visibility_no_enrollment() {
         $this->resetAfterTest();
         list ($courses, $categories) = $this->mock_structure();
 
@@ -273,7 +273,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in a single course.
+     * Given a user has an enrollment in a single course.
      * And I ask for the site information.
      * Then I should see the site.
      * And I should see the course I am enrolled in.
@@ -309,7 +309,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in a single course.
+     * Given a user has an enrollment in a single course.
      * And I ask for the course information.
      * Then I should see the site.
      * And I should see that course.
@@ -355,7 +355,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in a single course.
+     * Given a user has an enrollment in a single course.
      * And I ask for the category information for the category my course is in.
      * Then I should see that category.
      * And I should see the category parents.
@@ -396,7 +396,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in a single course.
+     * Given a user has an enrollment in a single course.
      * And I ask for the category information for the parent of the category my course is in.
      * Then I should see that category.
      * And I should see the category parents.
@@ -440,7 +440,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in a single course.
+     * Given a user has an enrollment in a single course.
      * And I ask for the category information for the sibling of the category my course is in.
      * Then I should see that category.
      * And I should see the category parents.
@@ -480,7 +480,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in a single course.
+     * Given a user has an enrollment in a single course.
      * And I ask for the category information for a different category to the one my course is in.
      * Then I should see that category.
      * And I should see the category parents.
@@ -519,7 +519,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in two courses in the same category.
+     * Given a user has an enrollment in two courses in the same category.
      * And I ask for the site information.
      * Then I should see the site.
      * And I should see the course I am enrolled in.
@@ -555,7 +555,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in two courses in the same category.
+     * Given a user has an enrollment in two courses in the same category.
      * And I ask for the course information.
      * Then I should see the site.
      * And I should see that course.
@@ -601,7 +601,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in two courses in the same category.
+     * Given a user has an enrollment in two courses in the same category.
      * And I ask for the course information of the second course.
      * Then I should see the site.
      * And I should see that course.
@@ -648,7 +648,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in two courses in the same category.
+     * Given a user has an enrollment in two courses in the same category.
      * And I ask for the category information.
      * Then I should see the site.
      * And I should see that course.
@@ -684,7 +684,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in two courses in the same category.
+     * Given a user has an enrollment in two courses in the same category.
      * And I ask for the categoy information of a different course.
      * Then I should see the site.
      * And I should see that course.
@@ -718,7 +718,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in two courses in the separate category.
+     * Given a user has an enrollment in two courses in the separate category.
      * And I ask for the site informatino.
      * Then I should see the site.
      * And I should see both course.
@@ -755,7 +755,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in two courses in the separate category.
+     * Given a user has an enrollment in two courses in the separate category.
      * And I ask for the course information for one of those courses.
      * Then I should see the site.
      * And I should see one of the courses.
@@ -802,7 +802,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in two courses in the separate category.
+     * Given a user has an enrollment in two courses in the separate category.
      * And I ask for the course information for the second of those courses.
      * Then I should see the site.
      * And I should see one of the courses.
@@ -850,7 +850,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in two courses in separate categories.
+     * Given a user has an enrollment in two courses in separate categories.
      * And I ask for the category information.
      * Then I should see the site.
      * And I should see one of the courses.
@@ -891,7 +891,7 @@ class calendar_information_test extends \advanced_testcase {
     }
 
     /**
-     * Given a user has an enrolment in two courses in the separate category.
+     * Given a user has an enrollment in two courses in the separate category.
      * And I ask for the category information of a different category.
      * Then I should see the site.
      * And I should see one of the courses.

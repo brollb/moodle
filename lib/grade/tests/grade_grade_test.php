@@ -646,7 +646,7 @@ class grade_grade_test extends \grade_base_testcase {
 
         // Create the data we need for the tests.
         $course1 = $generator->create_course();
-        $user1 = $generator->create_and_enrol($course1, 'student');
+        $user1 = $generator->create_and_enroll($course1, 'student');
         $assignment2 = $generator->create_module('assign', ['course' => $course1->id]);
 
         // Create a category item.

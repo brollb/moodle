@@ -96,7 +96,7 @@ class section_test extends \advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course(['numsections' => 1, 'format' => $format]);
 
-        // Create and enrol user.
+        // Create and enroll user.
         $user = $this->getDataGenerator()->create_user();
         $this->getDataGenerator()->enrol_user(
             $user->id,

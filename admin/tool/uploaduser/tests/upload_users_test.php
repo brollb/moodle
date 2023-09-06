@@ -43,10 +43,10 @@ class upload_users_test extends advanced_testcase {
     }
 
     /**
-     * Test upload users, enrol and role assignation
+     * Test upload users, enroll and role assignation
      * @covers \tool_uploadusers::process
      */
-    public function test_user_can_upload_with_course_enrolment(): void {
+    public function test_user_can_upload_with_course_enrollment(): void {
 
         $this->resetAfterTest();
         set_config('passwordpolicy', 0);
@@ -68,10 +68,10 @@ class upload_users_test extends advanced_testcase {
         assign_capability('moodle/site:uploadusers', CAP_ALLOW, $uploadroleid, $systemcontext->id);
         $this->getDataGenerator()->role_assign($uploadroleid, $user->id, $systemcontext->id);
 
-        // Create role with some of allowed capabilities to enrol users, and assign this role to user.
-        $enrolroleid = create_role('enrol role', 'enrolrole', '');
+        // Create role with some of allowed capabilities to enroll users, and assign this role to user.
+        $enrolroleid = create_role('enroll role', 'enrolrole', '');
         set_role_contextlevels($enrolroleid, [CONTEXT_COURSECAT]);
-        assign_capability('enrol/manual:enrol', CAP_ALLOW, $enrolroleid, $coursecatcontext->id);
+        assign_capability('enroll/manual:enroll', CAP_ALLOW, $enrolroleid, $coursecatcontext->id);
         assign_capability('moodle/course:enrolreview', CAP_ALLOW, $enrolroleid, $coursecatcontext->id);
         assign_capability('moodle/role:assign', CAP_ALLOW, $enrolroleid, $coursecatcontext->id);
         $this->getDataGenerator()->role_assign($enrolroleid, $user->id, $coursecatcontext->id);
@@ -96,7 +96,7 @@ EOF;
         $this->assertStringContainsString('Enrolled in "course01" as "student"', $output);
         $this->assertStringContainsString('Unknown role "teacher"', $output);
 
-        // Check user creation, enrolment and role assignation.
+        // Check user creation, enrollment and role assignation.
         $this->assertEquals(1, count_enrolled_users($coursecontext));
 
         $usersasstudent = get_role_users($studentrole->id, $coursecontext);
@@ -105,7 +105,7 @@ EOF;
     }
 
     /**
-     * Test upload users, enrol and assign default role from manual enrol plugin.
+     * Test upload users, enroll and assign default role from manual enroll plugin.
      * @covers \tool_uploadusers::process
      */
     public function test_user_can_upload_with_course_enrolment_default_role(): void {
@@ -134,10 +134,10 @@ EOF;
         assign_capability('moodle/site:uploadusers', CAP_ALLOW, $uploadroleid, $systemcontext->id);
         $this->getDataGenerator()->role_assign($uploadroleid, $user->id, $systemcontext->id);
 
-        // Create role with some of allowed capabilities to enrol users, and assign this role to user.
-        $enrolroleid = create_role('enrol role', 'enrolrole', '');
+        // Create role with some of allowed capabilities to enroll users, and assign this role to user.
+        $enrolroleid = create_role('enroll role', 'enrolrole', '');
         set_role_contextlevels($enrolroleid, [CONTEXT_COURSECAT]);
-        assign_capability('enrol/manual:enrol', CAP_ALLOW, $enrolroleid, $coursecatcontext->id);
+        assign_capability('enroll/manual:enroll', CAP_ALLOW, $enrolroleid, $coursecatcontext->id);
         assign_capability('moodle/course:enrolreview', CAP_ALLOW, $enrolroleid, $coursecatcontext->id);
         assign_capability('moodle/role:assign', CAP_ALLOW, $enrolroleid, $coursecatcontext->id);
         $this->getDataGenerator()->role_assign($enrolroleid, $user->id, $coursecatcontext->id);
@@ -163,16 +163,16 @@ EOF;
         // This $user cannot assign teacher role.
         $this->assertStringContainsString('Unknown role "teacher"', $output);
 
-        // Check user creation, enrolment and role assignation.
+        // Check user creation, enrollment and role assignation.
         $this->assertEquals(1, count_enrolled_users($course1context));
-        // This $user cannot enrol anyone as teacher.
+        // This $user cannot enroll anyone as teacher.
         $this->assertEquals(0, count_enrolled_users($course2context));
 
-        // Test user is enrolled as default-manual-enrol-plugin role.
+        // Test user is enrolled as default-manual-enroll-plugin role.
         $manualenrolinstance = new stdClass;
         $enrolinstances = enrol_get_instances($course1->id, true);
         foreach ($enrolinstances as $courseenrolinstance) {
-            if ($courseenrolinstance->enrol === 'manual') {
+            if ($courseenrolinstance->enroll === 'manual') {
                 $manualenrolinstance = $courseenrolinstance;
                 break;
             }

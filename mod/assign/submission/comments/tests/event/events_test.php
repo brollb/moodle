@@ -53,8 +53,8 @@ class events_test extends \advanced_testcase {
     public function test_comment_created() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course);
 
@@ -95,8 +95,8 @@ class events_test extends \advanced_testcase {
     public function test_comment_deleted() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course);
 

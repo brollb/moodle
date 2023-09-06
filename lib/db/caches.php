@@ -148,14 +148,14 @@ $definitions = array(
         'staticacceleration' => true,
     ),
 
-    // Cache the course categories where the user has any enrolment and all categories that this user can manage.
+    // Cache the course categories where the user has any enrollment and all categories that this user can manage.
     'calendar_categories' => array(
         'mode' => cache_store::MODE_SESSION,
         'simplekeys' => true,
         'simpledata' => true,
         'invalidationevents' => array(
             'changesincoursecat',
-            'changesincategoryenrolment',
+            'changesincategoryenrollment',
         ),
         'ttl' => 900,
     ),
@@ -552,7 +552,7 @@ $definitions = array(
         'simpledata' => true,
         'invalidationevents' => [
             'changesincoursecat',
-            'changesincategoryenrolment',
+            'changesincategoryenrollment',
         ],
     ],
 
@@ -563,7 +563,7 @@ $definitions = array(
         'simpledata' => true,
         'invalidationevents' => [
             'changesincoursecat',
-            'changesincategoryenrolment',
+            'changesincategoryenrollment',
             'changesincourse',
         ],
     ],

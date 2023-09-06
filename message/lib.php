@@ -216,7 +216,7 @@ function message_search_users($courseids, $searchtext, $sort='', $exceptions='')
         $params = array_merge($params, $contextparams);
 
         // Everyone who has a role assignment in this course or higher.
-        // TODO: add enabled enrolment join here (skodak)
+        // TODO: add enabled enrollment join here (skodak)
         $users = $DB->get_records_sql("SELECT DISTINCT $ufields, mc.id as contactlistid, mub.id as userblockedid
                                          FROM {user} u
                                          JOIN {role_assignments} ra ON ra.userid = u.id

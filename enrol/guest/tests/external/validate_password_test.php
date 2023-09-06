@@ -36,7 +36,7 @@ class validate_password_test extends \advanced_testcase {
         $student = self::getDataGenerator()->create_user();
         $pass = 'abc';
 
-        // Add enrolment methods for course.
+        // Add enrollment methods for course.
         $guestplugin = enrol_get_plugin('guest');
         $instanceid = $guestplugin->add_instance($course, [
             'status' => ENROL_INSTANCE_ENABLED,

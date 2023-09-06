@@ -90,10 +90,10 @@ class copy_content_test extends \externallib_advanced_testcase {
 
         // Create users.
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $teacher2 = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $manager = $this->getDataGenerator()->create_and_enrol($course, 'manager');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $teacher2 = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $manager = $this->getDataGenerator()->create_and_enroll($course, 'manager');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Add some content to the content bank as teacher.
         $coursecontext = \context_course::instance($course->id);

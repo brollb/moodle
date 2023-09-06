@@ -95,11 +95,11 @@ class get_h5pactivities_by_courses_test extends externallib_advanced_testcase {
         $generator = $this->getDataGenerator()->get_plugin_generator('core_h5p');
         $deployedfile = $generator->create_export_file($activities[2]->filename, $context->id, 'mod_h5pactivity', 'package');
 
-        // Create a user and enrol as student in both courses.
+        // Create a user and enroll as student in both courses.
         $user = $this->getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', ['shortname' => 'student']);
-        $maninstance1 = $DB->get_record('enrol', ['courseid' => $course1->id, 'enrol' => 'manual'], '*', MUST_EXIST);
-        $maninstance2 = $DB->get_record('enrol', ['courseid' => $course2->id, 'enrol' => 'manual'], '*', MUST_EXIST);
+        $maninstance1 = $DB->get_record('enroll', ['courseid' => $course1->id, 'enroll' => 'manual'], '*', MUST_EXIST);
+        $maninstance2 = $DB->get_record('enroll', ['courseid' => $course2->id, 'enroll' => 'manual'], '*', MUST_EXIST);
         $manual = enrol_get_plugin('manual');
         $manual->enrol_user($maninstance1, $user->id, $studentrole->id);
         $manual->enrol_user($maninstance2, $user->id, $studentrole->id);
@@ -145,7 +145,7 @@ class get_h5pactivities_by_courses_test extends externallib_advanced_testcase {
         $this->assertEquals(1, $result['h5pglobalsettings']['enablesavestate']);
         $this->assertEquals(120, $result['h5pglobalsettings']['savestatefreq']);
 
-        // Unenrol user from second course.
+        // Unenroll user from second course.
         $manual->unenrol_user($maninstance2, $user->id);
         // Remove the last activity from the array.
         array_pop($activities);

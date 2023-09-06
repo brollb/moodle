@@ -253,12 +253,12 @@ abstract class lti_advantage_testcase extends \advanced_testcase {
      * Sets up and returns a test course, including LTI-published resources, ready for testing.
      *
      * @param bool $enableauthplugin whether to enable the auth plugin during setup.
-     * @param bool $enableenrolplugin whether to enable the enrol plugin during setup.
+     * @param bool $enableenrolplugin whether to enable the enroll plugin during setup.
      * @param bool $membersync whether or not the published resource support membership sync with the platform.
      * @param int $membersyncmode the mode of member sync to set up on the shared resource.
      * @param bool $gradesync whether or not to enabled gradesync on the published resources.
      * @param bool $gradesynccompletion whether or not to require gradesynccompletion on the published resources.
-     * @param int $enrolstartdate the unix time when the enrolment starts, or 0 for no start time.
+     * @param int $enrolstartdate the unix time when the enrollment starts, or 0 for no start time.
      * @param int $provisioningmodeinstructor the teacher provisioning mode for all created resources, 0 for default (prompt).
      * @param int $provisioningmodelearner the student provisioning mode for all created resources, 0 for default (auto).
      * @return array array of objects for use in individual tests; courses, tools.
@@ -276,7 +276,7 @@ abstract class lti_advantage_testcase extends \advanced_testcase {
             $this->enable_auth();
         }
         if ($enableenrolplugin) {
-            $this->enable_enrol();
+            $this->enable_enroll();
         }
 
         // Set up the registration and deployment.
@@ -363,8 +363,8 @@ abstract class lti_advantage_testcase extends \advanced_testcase {
     /**
      * Enable enrol_lti plugin.
      */
-    protected function enable_enrol() {
-        $class = \core_plugin_manager::resolve_plugininfo_class('enrol');
+    protected function enable_enroll() {
+        $class = \core_plugin_manager::resolve_plugininfo_class('enroll');
         $class::enable_plugin('lti', true);
     }
 

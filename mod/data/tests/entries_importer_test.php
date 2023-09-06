@@ -62,9 +62,9 @@ class entries_importer_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator()->get_plugin_generator('mod_data');
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $this->setUser($teacher);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student', array('username' => 'student'));
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student', array('username' => 'student'));
 
         $data = $generator->create_instance(array('course' => $course->id));
         $cm = get_coursemodule_from_instance('data', $data->id);

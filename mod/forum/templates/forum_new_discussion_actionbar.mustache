@@ -33,7 +33,7 @@
             "capabilities": [{
                 "viewdiscussions": true,
                 "create": true,
-                "selfenrol": false
+                "selfenroll": false
             }],
             "urls": [{
                 "create": "http://localhost/mod/forum/post.php?forum=11"
@@ -48,9 +48,9 @@
     </a>
 {{/forum.capabilities.create}}
 {{^forum.capabilities.create}}
-    {{#forum.capabilities.selfenrol}}
+    {{#forum.capabilities.selfenroll}}
         <a class="btn btn-primary" href="{{forum.urls.create}}">
             {{#str}}addanewdiscussion, forum{{/str}}
         </a>
-    {{/forum.capabilities.selfenrol}}
+    {{/forum.capabilities.selfenroll}}
 {{/forum.capabilities.create}}

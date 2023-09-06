@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Paypal enrolment plugin version specification.
+ * Paypal enrollment plugin version specification.
  *
  * @package    enrol_paypal
  * @copyright  2010 Eugene Venter

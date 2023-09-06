@@ -44,7 +44,7 @@ class stateupdates_test extends \advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course(['format' => 'topics']);
 
-        // Create and enrol user using given role.
+        // Create and enroll user using given role.
         if ($role == 'admin') {
             $this->setAdminUser();
         } else {
@@ -146,7 +146,7 @@ class stateupdates_test extends \advanced_testcase {
         // Set section 2 hidden.
         set_section_visible($course->id, 2, 0);
 
-        // Create and enrol user using given role.
+        // Create and enroll user using given role.
         if ($role == 'admin') {
             $this->setAdminUser();
         } else {
@@ -286,7 +286,7 @@ class stateupdates_test extends \advanced_testcase {
             ['section' => 2, 'visible' => false]
         );
 
-        // Create and enrol user using given role.
+        // Create and enroll user using given role.
         if ($role == 'admin') {
             $this->setAdminUser();
         } else {

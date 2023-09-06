@@ -118,7 +118,7 @@ Feature: Organize students into groups
     And I press "Save changes"
     And I should see "Not the greatest grouping, but it's ok!"
 
-  Scenario: Create groups with enrolment key
+  Scenario: Create groups with enrollment key
     Given the following "courses" exist:
       | fullname | shortname | category | groupmode |
       | Course 1 | C1 | 0 | 1 |
@@ -140,7 +140,7 @@ Feature: Organize students into groups
       | Group name | Group B |
       | Enrolment key | Abcdef-1 |
     And I press "Save changes"
-    Then I should see "This enrolment key is already used for another group."
+    Then I should see "This enrollment key is already used for another group."
     And I set the following fields to these values:
       | Enrolment key | Abcdef-2 |
     And I press "Save changes"
@@ -150,4 +150,4 @@ Feature: Organize students into groups
     And I set the following fields to these values:
       | Group name | Group A |
       | Enrolment key | Abcdef-1 |
-    And I should not see "This enrolment key is already used for another group."
+    And I should not see "This enrollment key is already used for another group."

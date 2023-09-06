@@ -56,7 +56,7 @@ class tool_uploadcourse_course {
     /** @var array default values. */
     protected $defaults = array();
 
-    /** @var array enrolment data. */
+    /** @var array enrollment data. */
     protected $enrolmentdata;
 
     /** @var array errors. */
@@ -798,7 +798,7 @@ class tool_uploadcourse_course {
         // Saving data.
         $this->data = $coursedata;
 
-        // Get enrolment data. Where the course already exists, we can also perform validation.
+        // Get enrollment data. Where the course already exists, we can also perform validation.
         $this->enrolmentdata = tool_uploadcourse_helper::get_enrolment_data($this->rawdata);
         $courseid = $coursedata['id'] ?? 0;
         $errors = $this->validate_enrolment_data($courseid, $this->enrolmentdata);
@@ -894,7 +894,7 @@ class tool_uploadcourse_course {
             $rc->destroy();
         }
 
-        // Proceed with enrolment data.
+        // Proceed with enrollment data.
         $this->process_enrolment_data($course);
 
         // Reset the course.
@@ -911,7 +911,7 @@ class tool_uploadcourse_course {
     }
 
     /**
-     * Validate passed enrolment data against an existing course
+     * Validate passed enrollment data against an existing course
      *
      * @param int $courseid
      * @param array[] $enrolmentdata
@@ -963,16 +963,16 @@ class tool_uploadcourse_course {
             }
 
             if ($courseid) {
-                // Find matching instances by enrolment method.
+                // Find matching instances by enrollment method.
                 $methodinstances = array_filter($instances, static function (stdClass $instance) use ($method) {
-                    return (strcmp($instance->enrol, $method) == 0);
+                    return (strcmp($instance->enroll, $method) == 0);
                 });
 
                 if (!empty($options['delete'])) {
                     // Ensure user is able to delete the instances.
                     foreach ($methodinstances as $methodinstance) {
                         if (!$plugin->can_delete_instance($methodinstance)) {
-                            $errors['errorcannotdeleteenrolment'] = new lang_string('errorcannotdeleteenrolment',
+                            $errors['errorcannotdeleteenrollment'] = new lang_string('errorcannotdeleteenrollment',
                                 'tool_uploadcourse', $plugin->get_instance_name($methodinstance));
                             break;
                         }
@@ -981,8 +981,8 @@ class tool_uploadcourse_course {
                     // Ensure user is able to toggle instance statuses.
                     foreach ($methodinstances as $methodinstance) {
                         if (!$plugin->can_hide_show_instance($methodinstance)) {
-                            $errors['errorcannotdisableenrolment'] =
-                                new lang_string('errorcannotdisableenrolment', 'tool_uploadcourse',
+                            $errors['errorcannotdisableenrollment'] =
+                                new lang_string('errorcannotdisableenrollment', 'tool_uploadcourse',
                                     $plugin->get_instance_name($methodinstance));
 
                             break;
@@ -994,8 +994,8 @@ class tool_uploadcourse_course {
                     if ((empty($methodinstance) && !$plugin->can_add_instance($courseid)) ||
                         (!empty($methodinstance) && !$plugin->can_edit_instance($methodinstance))) {
 
-                        $errors['errorcannotcreateorupdateenrolment'] =
-                            new lang_string('errorcannotcreateorupdateenrolment', 'tool_uploadcourse',
+                        $errors['errorcannotcreateorupdateenrollment'] =
+                            new lang_string('errorcannotcreateorupdateenrollment', 'tool_uploadcourse',
                                 $plugin->get_instance_name($methodinstance));
 
                         break;
@@ -1008,7 +1008,7 @@ class tool_uploadcourse_course {
     }
 
     /**
-     * Add the enrolment data for the course.
+     * Add the enrollment data for the course.
      *
      * @param object $course course record.
      * @return void
@@ -1027,7 +1027,7 @@ class tool_uploadcourse_course {
 
             $instance = null;
             foreach ($instances as $i) {
-                if ($i->enrol == $enrolmethod) {
+                if ($i->enroll == $enrolmethod) {
                     $instance = $i;
                     break;
                 }
@@ -1039,21 +1039,21 @@ class tool_uploadcourse_course {
             unset($method['disable']);
 
             if ($todelete) {
-                // Remove the enrolment method.
+                // Remove the enrollment method.
                 if ($instance) {
-                    $plugin = $enrolmentplugins[$instance->enrol];
+                    $plugin = $enrolmentplugins[$instance->enroll];
 
                     // Ensure user is able to delete the instance.
                     if ($plugin->can_delete_instance($instance) && $plugin->is_csv_upload_supported()) {
                         $plugin->delete_instance($instance);
                     } else {
-                        $this->error('errorcannotdeleteenrolment',
-                            new lang_string('errorcannotdeleteenrolment', 'tool_uploadcourse',
+                        $this->error('errorcannotdeleteenrollment',
+                            new lang_string('errorcannotdeleteenrollment', 'tool_uploadcourse',
                                 $plugin->get_instance_name($instance)));
                     }
                 }
             } else {
-                // Create/update enrolment.
+                // Create/update enrollment.
                 $plugin = $enrolmentplugins[$enrolmethod];
 
                 if ($plugin->is_csv_upload_supported()) {
@@ -1073,7 +1073,7 @@ class tool_uploadcourse_course {
                             $instanceid = $plugin->add_custom_instance($course, $method);
                         }
 
-                        $instance = $DB->get_record('enrol', ['id' => $instanceid]);
+                        $instance = $DB->get_record('enroll', ['id' => $instanceid]);
                         if ($instance) {
                             $instance->roleid = $plugin->get_config('roleid');
                             // On creation the user can decide the status.
@@ -1086,16 +1086,16 @@ class tool_uploadcourse_course {
                         if ($plugin->can_hide_show_instance($instance)) {
                             $plugin->update_status($instance, $status);
                         } else {
-                            $this->error('errorcannotdisableenrolment',
-                                new lang_string('errorcannotdisableenrolment', 'tool_uploadcourse',
+                            $this->error('errorcannotdisableenrollment',
+                                new lang_string('errorcannotdisableenrollment', 'tool_uploadcourse',
                                     $plugin->get_instance_name($instance)));
                             break;
                         }
                     }
 
                     if (empty($instance) || !$plugin->can_edit_instance($instance)) {
-                        $this->error('errorcannotcreateorupdateenrolment',
-                            new lang_string('errorcannotcreateorupdateenrolment', 'tool_uploadcourse',
+                        $this->error('errorcannotcreateorupdateenrollment',
+                            new lang_string('errorcannotcreateorupdateenrollment', 'tool_uploadcourse',
                                 $plugin->get_instance_name($instance)));
 
                         break;
@@ -1108,7 +1108,7 @@ class tool_uploadcourse_course {
                     $modifiedinstance->enrolstartdate = (isset($method['startdate']) ? strtotime($method['startdate']) : 0);
                     $modifiedinstance->enrolenddate = (isset($method['enddate']) ? strtotime($method['enddate']) : 0);
 
-                    // Is the enrolment period set?
+                    // Is the enrollment period set?
                     if (isset($method['enrolperiod']) && !empty($method['enrolperiod'])) {
                         if (preg_match('/^\d+$/', $method['enrolperiod'])) {
                             $method['enrolperiod'] = (int)$method['enrolperiod'];

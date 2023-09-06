@@ -78,7 +78,7 @@ class grade_export_xml extends grade_export {
 
         $geub = new grade_export_update_buffer();
         $gui = new graded_users_iterator($this->course, $this->columns, $this->groupid);
-        $gui->require_active_enrolment($this->onlyactive);
+        $gui->require_active_enrollment($this->onlyactive);
         $gui->init();
         while ($userdata = $gui->next_user()) {
             $user = $userdata->user;

@@ -51,9 +51,9 @@ class get_user_badge_by_hash_test extends externallib_advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create users and enrolments.
-        $student1 = $this->getDataGenerator()->create_and_enrol($course);
-        $student2 = $this->getDataGenerator()->create_and_enrol($course);
-        $teacher  = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course);
+        $student2 = $this->getDataGenerator()->create_and_enroll($course);
+        $teacher  = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         // Mock up a site badge.
         $now = time();

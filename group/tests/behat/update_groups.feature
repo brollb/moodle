@@ -95,7 +95,7 @@ Feature: Automatic updating of groups and groupings
     And the field "idnumber" matches value "An ID"
 
   @javascript
-  Scenario: Update groups with enrolment key
+  Scenario: Update groups with enrollment key
     Given the following "courses" exist:
       | fullname | shortname |
       | Course 2 | C2 |
@@ -117,29 +117,29 @@ Feature: Automatic updating of groups and groupings
     And I set the field "groups" to "Group (with ID)"
     And I press "Edit group settings"
     And I press "Save changes"
-    And I should not see "This enrolment key is already used for another group."
+    And I should not see "This enrollment key is already used for another group."
     And I set the field "groups" to "Group (without ID)"
     And I press "Edit group settings"
     And I set the following fields to these values:
       | Enrolment key | Abcdef-1 |
     And I press "Save changes"
-    And I should see "This enrolment key is already used for another group."
+    And I should see "This enrollment key is already used for another group."
     And I set the following fields to these values:
       | Enrolment key | Abcdef-2 |
     And I press "Save changes"
-    And I should not see "This enrolment key is already used for another group."
+    And I should not see "This enrollment key is already used for another group."
     And I am on the "Course 2" "groups" page
     And I press "Create group"
     And I set the following fields to these values:
       | Group name | Group A |
     And I press "Save changes"
-    And I should not see "This enrolment key is already used for another group."
+    And I should not see "This enrollment key is already used for another group."
     And I set the field "groups" to "Group A"
     And I press "Edit group settings"
     And I set the following fields to these values:
       | Enrolment key | Abcdef-1 |
     And I press "Save changes"
-    And I should not see "This enrolment key is already used for another group."
+    And I should not see "This enrollment key is already used for another group."
 
   @javascript
   Scenario: Visibility and Participation settings are locked once a group has members

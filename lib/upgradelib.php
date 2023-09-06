@@ -573,8 +573,8 @@ function upgrade_stale_php_files_present(): bool {
         // Removed in 3.4.
         '/auth/README.txt',
         '/calendar/set.php',
-        '/enrol/users.php',
-        '/enrol/yui/rolemanager/assets/skins/sam/rolemanager.css',
+        '/enroll/users.php',
+        '/enroll/yui/rolemanager/assets/skins/sam/rolemanager.css',
         // Removed in 3.3.
         '/badges/backpackconnect.php',
         '/calendar/yui/src/info/assets/skins/sam/moodle-calendar-info.css',
@@ -676,7 +676,7 @@ function upgrade_component_updated(string $component, string $messageplug = '',
 
 /**
  * Upgrade plugins
- * @param string $type The type of plugins that should be updated (e.g. 'enrol', 'qtype')
+ * @param string $type The type of plugins that should be updated (e.g. 'enroll', 'qtype')
  * return void
  */
 function upgrade_plugins($type, $startcallback, $endcallback, $verbose) {

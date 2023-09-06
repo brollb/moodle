@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Database enrolment plugin upgrade.
+ * Database enrollment plugin upgrade.
  *
  * @package    enrol_database
  * @copyright  2011 Petr Skoda {@link http://skodak.org}

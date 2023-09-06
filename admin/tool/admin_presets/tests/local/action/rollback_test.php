@@ -70,7 +70,7 @@ class rollback_test extends \advanced_testcase {
         $this->assertEquals(0, get_config('core', 'usecomments'));
 
         // Check the plugins visibility have changed accordingly with the ones defined in the preset.
-        $enabledplugins = \core\plugininfo\enrol::get_enabled_plugins();
+        $enabledplugins = \core\plugininfo\enroll::get_enabled_plugins();
         $this->assertArrayNotHasKey('guest', $enabledplugins);
         $enabledplugins = \core\plugininfo\mod::get_enabled_plugins();
         $this->assertArrayNotHasKey('glossary', $enabledplugins);
@@ -109,7 +109,7 @@ class rollback_test extends \advanced_testcase {
         $this->assertEquals(0, get_config('core', 'usecomments'));
 
         // Check the plugins visibility have been reverted accordingly.
-        $enabledplugins = \core\plugininfo\enrol::get_enabled_plugins();
+        $enabledplugins = \core\plugininfo\enroll::get_enabled_plugins();
         $this->assertArrayHasKey('guest', $enabledplugins);
         $enabledplugins = \core\plugininfo\mod::get_enabled_plugins();
         $this->assertArrayHasKey('glossary', $enabledplugins);

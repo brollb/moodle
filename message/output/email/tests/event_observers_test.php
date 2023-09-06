@@ -39,8 +39,8 @@ class event_observers_test extends \advanced_testcase {
         // Create the test data.
         $course = $this->getDataGenerator()->create_course();
 
-        $user1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $group1 = $this->getDataGenerator()->create_group(array('courseid' => $course->id));
 

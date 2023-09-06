@@ -65,7 +65,7 @@ class backup_restore_permission_test extends core_backup_backup_restore_base_tes
         $this->course1context = \context_course::instance($this->course1->id);
         $this->course2 = $generator->create_course();
         $this->course2context = \context_course::instance($this->course2->id);
-        $this->capabilityname = 'enrol/manual:enrol';
+        $this->capabilityname = 'enroll/manual:enroll';
         $this->user = $generator->create_user();
 
         // Set additional permission for course 1.

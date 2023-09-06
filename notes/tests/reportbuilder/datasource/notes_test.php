@@ -57,7 +57,7 @@ class notes_test extends core_reportbuilder_testcase {
 
         // Our first user will create a course note.
         $course = $this->getDataGenerator()->create_course();
-        $userone = $this->getDataGenerator()->create_and_enrol($course, 'student', ['firstname' => 'Zoe']);
+        $userone = $this->getDataGenerator()->create_and_enroll($course, 'student', ['firstname' => 'Zoe']);
         $coursenote = $notesgenerator->create_instance(['courseid' => $course->id, 'userid' => $userone->id, 'content' => 'Course',
             'publishstate' => NOTES_STATE_PUBLIC]);
 

@@ -228,7 +228,7 @@ class manager_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $this->setUser($user);
 
         $activity = $this->getDataGenerator()->create_module(manager::MODULE, ['course' => $course]);
@@ -375,7 +375,7 @@ class manager_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $this->setUser($user);
 
         $activity = $this->getDataGenerator()->create_module(manager::MODULE, ['course' => $course]);
@@ -444,7 +444,7 @@ class manager_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, $rolename);
+        $user = $this->getDataGenerator()->create_and_enroll($course, $rolename);
         $activity = $this->getDataGenerator()->create_module(manager::MODULE, ['course' => $course]);
         $cm = get_coursemodule_from_id(manager::MODULE, $activity->cmid, 0, false, MUST_EXIST);
         $manager = manager::create_from_coursemodule($cm);
@@ -583,11 +583,11 @@ class manager_test extends \advanced_testcase {
 
         $this->resetAfterTest();
 
-        // Create course with activity and enrol users.
+        // Create course with activity and enroll users.
         $course = $this->getDataGenerator()->create_course();
         $teacherrole = $DB->get_record('role', ['shortname' => 'teacher']);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $activity = $this->getDataGenerator()->create_module(manager::MODULE, ['course' => $course]);
         $cm = get_coursemodule_from_id(manager::MODULE, $activity->cmid, 0, false, MUST_EXIST);
         $manager = manager::create_from_coursemodule($cm);

@@ -39,12 +39,12 @@ if ($ADMIN->fulltree) {
         get_string('showhint', 'enrol_guest'), get_string('showhint_desc', 'enrol_guest'), 0));
 
 
-    //--- enrol instance defaults ----------------------------------------------------------------------------
+    //--- enroll instance defaults ----------------------------------------------------------------------------
     $settings->add(new admin_setting_heading('enrol_guest_defaults',
         get_string('enrolinstancedefaults', 'admin'), get_string('enrolinstancedefaults_desc', 'admin')));
 
-    $settings->add(new admin_setting_configcheckbox('enrol_guest/defaultenrol',
-        get_string('defaultenrol', 'enrol'), get_string('defaultenrol_desc', 'enrol'), 1));
+    $settings->add(new admin_setting_configcheckbox('enrol_guest/defaultenroll',
+        get_string('defaultenroll', 'enroll'), get_string('defaultenrol_desc', 'enroll'), 1));
 
     $options = array(ENROL_INSTANCE_ENABLED  => get_string('yes'),
                      ENROL_INSTANCE_DISABLED => get_string('no'));

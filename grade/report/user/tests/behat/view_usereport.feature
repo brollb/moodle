@@ -98,8 +98,8 @@ Feature: We can use the user report
     And I click on "Student 1" in the "user" search widget
     And I should see "Student 1" in the "region-main" "region"
     And I navigate to course participants
-    And I click on "Unenrol" "icon" in the "Student 1" "table_row"
-    And I click on "Unenrol" "button" in the "Unenrol" "dialogue"
+    And I click on "Unenroll" "icon" in the "Student 1" "table_row"
+    And I click on "Unenroll" "button" in the "Unenroll" "dialogue"
     And I am on "Course 1" course homepage
     When I navigate to "View > User report" in the course gradebook
     Then I should see "Select a user above to view their report" in the "region-main" "region"

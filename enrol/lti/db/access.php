@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capabilities for LTI enrolment plugin.
+ * Capabilities for LTI enrollment plugin.
  *
  * @package enrol_lti
  * @copyright 2016 Mark Nelson <markn@moodle.com>
@@ -26,8 +26,8 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    /* Add, edit or remove lti enrol instance. */
-    'enrol/lti:config' => array(
+    /* Add, edit or remove lti enroll instance. */
+    'enroll/lti:config' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -36,7 +36,7 @@ $capabilities = array(
         )
     ),
 
-    'enrol/lti:unenrol' => array(
+    'enroll/lti:unenroll' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(

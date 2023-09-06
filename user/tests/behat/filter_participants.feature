@@ -144,7 +144,7 @@ Feature: Course participants can be filtered
     And I navigate to course participants
 
     # Unsuspend student 2 for to improve coverage of this test.
-    And I click on "Edit enrolment" "icon" in the "Student 2" "table_row"
+    And I click on "Edit enrollment" "icon" in the "Student 2" "table_row"
     And I set the field "Status" to "Active"
     And I click on "Save changes" "button"
     And I log out
@@ -203,7 +203,7 @@ Feature: Course participants can be filtered
     And I navigate to course participants
 
     # Unsuspend student 2 for to improve coverage of this test.
-    And I click on "Edit enrolment" "icon" in the "Student 2" "table_row"
+    And I click on "Edit enrollment" "icon" in the "Student 2" "table_row"
     And I set the field "Status" to "Active"
     And I click on "Save changes" "button"
     And I log out
@@ -322,7 +322,7 @@ Feature: Course participants can be filtered
     #   Enrolment method Any ["Manual"]; and
     #   Groups Any ["Group 2"].
 
-    # Match enrolment method Any ["Manual"]
+    # Match enrollment method Any ["Manual"]
     When I click on "Add condition" "button"
     And I set the field "Match" in the "Filter 3" "fieldset" to "Any"
     And I set the field "type" in the "Filter 3" "fieldset" to "Enrolment methods"

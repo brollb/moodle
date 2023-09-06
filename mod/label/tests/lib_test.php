@@ -88,7 +88,7 @@ class lib_test extends \advanced_testcase {
         $label = $this->getDataGenerator()->create_module('label', array('course' => $course->id));
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a calendar event.
         $event = $this->create_action_event($course->id, $label->id,
@@ -115,7 +115,7 @@ class lib_test extends \advanced_testcase {
         $label = $this->getDataGenerator()->create_module('label', array('course' => $course->id));
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a calendar event.
         $event = $this->create_action_event($course->id, $label->id,
@@ -181,7 +181,7 @@ class lib_test extends \advanced_testcase {
                 array('completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS));
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('label', $label->id);

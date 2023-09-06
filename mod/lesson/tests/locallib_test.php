@@ -225,8 +225,8 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
         $this->setAdminUser();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student', [], 'manual', 0, 0, ENROL_USER_SUSPENDED);
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student', [], 'manual', 0, 0, ENROL_USER_SUSPENDED);
         $lessonmodule = $this->getDataGenerator()->create_module('lesson', array('course' => $course->id));
 
         // Login as student.

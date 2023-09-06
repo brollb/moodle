@@ -414,8 +414,8 @@ class lib_test extends \advanced_testcase {
 
         // Create a course.
         $course = $this->getDataGenerator()->create_course();
-        // Create a student and enrol into the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        // Create a student and enroll into the course.
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         // Create a quiz.
         $quiz = $this->getDataGenerator()->create_module('quiz', ['course' => $course->id,
             'timeopen' => time() - DAYSECS, 'timeclose' => time() + DAYSECS]);
@@ -445,8 +445,8 @@ class lib_test extends \advanced_testcase {
 
         // Create a course.
         $course = $this->getDataGenerator()->create_course();
-        // Create a student and enrol into the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        // Create a student and enroll into the course.
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         // Create a quiz.
         $quiz = $this->getDataGenerator()->create_module('quiz', ['course' => $course->id,
             'timeopen' => time() - DAYSECS, 'timeclose' => time() + DAYSECS]);
@@ -499,7 +499,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a quiz.
         $quiz = $this->getDataGenerator()->create_module('quiz', ['course' => $course->id,
@@ -522,8 +522,8 @@ class lib_test extends \advanced_testcase {
 
         // Create a course.
         $course = $this->getDataGenerator()->create_course();
-        // Create a student and enrol into the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        // Create a student and enroll into the course.
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         // Create a quiz.
         $quiz = $this->getDataGenerator()->create_module('quiz', ['course' => $course->id,
             'timeopen' => time() + DAYSECS]);
@@ -553,8 +553,8 @@ class lib_test extends \advanced_testcase {
 
         // Create a course.
         $course = $this->getDataGenerator()->create_course();
-        // Create a student and enrol into the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        // Create a student and enroll into the course.
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         // Create a quiz.
         $quiz = $this->getDataGenerator()->create_module('quiz', ['course' => $course->id,
             'timeopen' => time() + DAYSECS]);
@@ -796,7 +796,7 @@ class lib_test extends \advanced_testcase {
             ['completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS]);
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('quiz', $quiz->id);
@@ -891,7 +891,7 @@ class lib_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = self::getDataGenerator()->create_course();
         $context = \context_course::instance($course->id);
-        $user = self::getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = self::getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $roleid = self::getDataGenerator()->create_role();
         self::getDataGenerator()->role_assign($roleid, $user->id, $context->id);
         assign_capability('moodle/calendar:manageentries', CAP_PROHIBIT, $roleid, $context, true);

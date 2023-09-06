@@ -281,8 +281,8 @@ class provider_test extends \core_privacy\tests\provider_testcase {
         choice_user_submit_response($optionids[2], $choice2, $this->student->id, $this->course, $cm2);
 
         // Create 2 other students who will answer the first choice activity.
-        $otherstudent = $generator->create_and_enrol($this->course, 'student');
-        $anotherstudent = $generator->create_and_enrol($this->course, 'student');
+        $otherstudent = $generator->create_and_enroll($this->course, 'student');
+        $anotherstudent = $generator->create_and_enroll($this->course, 'student');
 
         $choicewithoptions = choice_get_choice($choice->id);
         $optionids = array_keys($choicewithoptions->option);

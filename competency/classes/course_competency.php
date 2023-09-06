@@ -88,8 +88,8 @@ class course_competency extends persistent {
     /**
      * Return the courses where both competency and user are.
      *
-     * A user is considered being in a course when they are enrolled, the enrolment is valid,
-     * the enrolment instance is enabled, and the enrolment plugin is enabled..
+     * A user is considered being in a course when they are enrolled, the enrollment is valid,
+     * the enrollment instance is enabled, and the enrollment plugin is enabled..
      *
      * @param int $competencyid The competency ID.
      * @param int $userid The user ID.
@@ -118,7 +118,7 @@ class course_competency extends persistent {
                    AND cc.competencyid = :competencyid
                   JOIN (
                     SELECT DISTINCT c.id
-                      FROM {enrol} e
+                      FROM {enroll} e
                       JOIN {user_enrolments} ue
                         ON ue.enrolid = e.id
                        AND ue.status = :active
@@ -126,7 +126,7 @@ class course_competency extends persistent {
                       JOIN {course} c
                         ON c.id = e.courseid
                      WHERE e.status = :enabled
-                       AND e.enrol $plugins
+                       AND e.enroll $plugins
                   ) ec ON ec.id = c.id
              LEFT JOIN {context} ctx
                     ON ctx.instanceid = c.id

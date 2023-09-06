@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Manual user enrolment UI.
+ * Manual user enrollment UI.
  *
  * @package    enrol_manual
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -23,7 +23,7 @@
  */
 
 require('../../config.php');
-require_once($CFG->dirroot.'/enrol/manual/locallib.php');
+require_once($CFG->dirroot.'/enroll/manual/locallib.php');
 
 $enrolid      = required_param('enrolid', PARAM_INT);
 $roleid       = optional_param('roleid', -1, PARAM_INT);
@@ -31,21 +31,21 @@ $extendperiod = optional_param('extendperiod', 0, PARAM_INT);
 $extendbase   = optional_param('extendbase', 0, PARAM_INT);
 $timeend      = optional_param_array('timeend', [], PARAM_INT);
 
-$instance = $DB->get_record('enrol', array('id'=>$enrolid, 'enrol'=>'manual'), '*', MUST_EXIST);
+$instance = $DB->get_record('enroll', array('id'=>$enrolid, 'enroll'=>'manual'), '*', MUST_EXIST);
 $course = $DB->get_record('course', array('id'=>$instance->courseid), '*', MUST_EXIST);
 $context = context_course::instance($course->id, MUST_EXIST);
 
 require_login($course);
-$canenrol = has_capability('enrol/manual:enrol', $context);
-$canunenrol = has_capability('enrol/manual:unenrol', $context);
+$canenroll = has_capability('enroll/manual:enroll', $context);
+$canunenroll = has_capability('enroll/manual:unenroll', $context);
 
 // Note: manage capability not used here because it is used for editing
 // of existing enrolments which is not possible here.
 
-if (!$canenrol and !$canunenrol) {
+if (!$canenroll and !$canunenroll) {
     // No need to invent new error strings here...
-    require_capability('enrol/manual:enrol', $context);
-    require_capability('enrol/manual:unenrol', $context);
+    require_capability('enroll/manual:enroll', $context);
+    require_capability('enroll/manual:unenroll', $context);
 }
 
 if ($roleid < 0) {
@@ -63,14 +63,14 @@ if (!$enrol_manual = enrol_get_plugin('manual')) {
     throw new coding_exception('Can not instantiate enrol_manual');
 }
 
-$url = new moodle_url('/enrol/manual/manage.php', ['enrolid' => $instance->id]);
+$url = new moodle_url('/enroll/manual/manage.php', ['enrolid' => $instance->id]);
 $title = get_string('managemanualenrolements', 'enrol_manual');
 
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title($title);
 $PAGE->set_heading($course->fullname);
-navigation_node::override_active_url(new moodle_url('/enrol/instances.php', ['id' => $course->id]));
+navigation_node::override_active_url(new moodle_url('/enroll/instances.php', ['id' => $course->id]));
 $PAGE->navbar->add($title, $url);
 
 // Create the user selector objects.
@@ -79,7 +79,7 @@ $options = array('enrolid' => $enrolid, 'accesscontext' => $context);
 $potentialuserselector = new enrol_manual_potential_participant('addselect', $options);
 $currentuserselector = new enrol_manual_current_participant('removeselect', $options);
 
-// Build the list of options for the enrolment period dropdown.
+// Build the list of options for the enrollment period dropdown.
 $unlimitedperiod = get_string('unlimited');
 $periodmenu = array();
 for ($i=1; $i<=365; $i++) {
@@ -116,7 +116,7 @@ $basemenu[3] = get_string('today') . ' (' . userdate($today, $dateformat) . ')';
 $basemenu[4] = get_string('now', 'enrol_manual') . ' (' . userdate($now, get_string('strftimedatetimeshort')) . ')';
 
 // Process add and removes.
-if ($canenrol && optional_param('add', false, PARAM_BOOL) && confirm_sesskey()) {
+if ($canenroll && optional_param('add', false, PARAM_BOOL) && confirm_sesskey()) {
     $userstoassign = $potentialuserselector->get_selected_users();
     if (!empty($userstoassign)) {
         foreach($userstoassign as $adduser) {
@@ -154,7 +154,7 @@ if ($canenrol && optional_param('add', false, PARAM_BOOL) && confirm_sesskey()) 
 }
 
 // Process incoming role unassignments.
-if ($canunenrol && optional_param('remove', false, PARAM_BOOL) && confirm_sesskey()) {
+if ($canunenroll && optional_param('remove', false, PARAM_BOOL) && confirm_sesskey()) {
     $userstounassign = $currentuserselector->get_selected_users();
     if (!empty($userstounassign)) {
         foreach($userstounassign as $removeuser) {
@@ -172,8 +172,8 @@ if ($canunenrol && optional_param('remove', false, PARAM_BOOL) && confirm_sesske
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
-$addenabled = $canenrol ? '' : 'disabled="disabled"';
-$removeenabled = $canunenrol ? '' : 'disabled="disabled"';
+$addenabled = $canenroll ? '' : 'disabled="disabled"';
+$removeenabled = $canunenroll ? '' : 'disabled="disabled"';
 
 ?>
 <form id="assignform" method="post" action="<?php echo $PAGE->url ?>"><div>
@@ -182,7 +182,7 @@ $removeenabled = $canunenrol ? '' : 'disabled="disabled"';
   <table summary="" class="roleassigntable generaltable generalbox boxaligncenter" cellspacing="0">
     <tr>
       <td id="existingcell">
-          <p><label for="removeselect"><?php print_string('enrolledusers', 'enrol'); ?></label></p>
+          <p><label for="removeselect"><?php print_string('enrolledusers', 'enroll'); ?></label></p>
           <?php $currentuserselector->display() ?>
       </td>
       <td id="buttonscell">
@@ -196,7 +196,7 @@ $removeenabled = $canunenrol ? '' : 'disabled="disabled"';
               <p><label for="menuroleid"><?php print_string('assignrole', 'enrol_manual') ?></label><br />
               <?php echo html_writer::select($roles, 'roleid', $roleid, false); ?></p>
 
-              <p><label for="menuextendperiod"><?php print_string('enrolperiod', 'enrol') ?></label><br />
+              <p><label for="menuextendperiod"><?php print_string('enrolperiod', 'enroll') ?></label><br />
               <?php echo html_writer::select($periodmenu, 'extendperiod', $defaultperiod, $unlimitedperiod); ?></p>
 
               <p><label for="menuextendbase"><?php print_string('startingfrom') ?></label><br />
@@ -212,7 +212,7 @@ $removeenabled = $canunenrol ? '' : 'disabled="disabled"';
           </div>
       </td>
       <td id="potentialcell">
-          <p><label for="addselect"><?php print_string('enrolcandidates', 'enrol'); ?></label></p>
+          <p><label for="addselect"><?php print_string('enrolcandidates', 'enroll'); ?></label></p>
           <?php $potentialuserselector->display() ?>
       </td>
     </tr>

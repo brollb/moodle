@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace core_enrol;
+namespace core_enroll;
 
 use course_enrolment_manager;
 
 /**
  * Test course_enrolment_manager parts.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @category   test
  * @copyright  2016 Ruslan Kabalin, Lancaster University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -48,7 +48,7 @@ class course_enrolment_manager_test extends \advanced_testcase {
      */
     protected function setUp(): void {
         global $CFG;
-        require_once($CFG->dirroot . '/enrol/locallib.php');
+        require_once($CFG->dirroot . '/enroll/locallib.php');
         $this->setAdminUser();
 
         $users = array();
@@ -345,7 +345,7 @@ class course_enrolment_manager_test extends \advanced_testcase {
         // Get the 'potential' (not enrolled) users and fish out the one we're interested in.
         $manager = new course_enrolment_manager($PAGE, $this->course);
         foreach (enrol_get_instances($this->course->id, true) as $enrolinstance) {
-            if ($enrolinstance->enrol === 'manual') {
+            if ($enrolinstance->enroll === 'manual') {
                 $enrolid = $enrolinstance->id;
             }
         }
@@ -383,9 +383,9 @@ class course_enrolment_manager_test extends \advanced_testcase {
         $this->resetAfterTest();
         $this->setAdminUser();
 
-        $enrol = $DB->get_record('enrol', array('courseid' => $this->course->id, 'enrol' => 'manual'));
+        $enroll = $DB->get_record('enroll', array('courseid' => $this->course->id, 'enroll' => 'manual'));
         $manager = new course_enrolment_manager($PAGE, $this->course);
-        $users = $manager->get_potential_users($enrol->id,
+        $users = $manager->get_potential_users($enroll->id,
                 'testapiuser',
                 true,
                 0,
@@ -415,10 +415,10 @@ class course_enrolment_manager_test extends \advanced_testcase {
         // set the values for a new test user.
         $newuser = $this->setup_for_user_identity_tests();
 
-        // Set up the enrolment manager.
+        // Set up the enrollment manager.
         $manager = new course_enrolment_manager($PAGE, $this->course);
         foreach (enrol_get_instances($this->course->id, true) as $enrolinstance) {
-            if ($enrolinstance->enrol === 'manual') {
+            if ($enrolinstance->enroll === 'manual') {
                 $enrolid = $enrolinstance->id;
             }
         }
@@ -524,9 +524,9 @@ class course_enrolment_manager_test extends \advanced_testcase {
         global $PAGE;
         $this->resetAfterTest();
 
-        $this->getDataGenerator()->create_and_enrol($this->course, 'student', ['firstname' => 'sutest 1']);
-        $this->getDataGenerator()->create_and_enrol($this->course, 'student', ['firstname' => 'sutest 2']);
-        $this->getDataGenerator()->create_and_enrol($this->course, 'student', ['firstname' => 'sutest 3']);
+        $this->getDataGenerator()->create_and_enroll($this->course, 'student', ['firstname' => 'sutest 1']);
+        $this->getDataGenerator()->create_and_enroll($this->course, 'student', ['firstname' => 'sutest 2']);
+        $this->getDataGenerator()->create_and_enroll($this->course, 'student', ['firstname' => 'sutest 3']);
 
         $manager = new course_enrolment_manager($PAGE, $this->course);
         $users = $manager->search_users(

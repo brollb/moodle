@@ -52,7 +52,7 @@ class blogs_test extends core_reportbuilder_testcase {
 
         // Our first user will create a course blog.
         $course = $this->getDataGenerator()->create_course();
-        $userone = $this->getDataGenerator()->create_and_enrol($course, 'student', ['firstname' => 'Zoe']);
+        $userone = $this->getDataGenerator()->create_and_enroll($course, 'student', ['firstname' => 'Zoe']);
         $courseblog = $blogsgenerator->create_entry(['publishstate' => 'site', 'userid' => $userone->id,
             'subject' => 'Course', 'summary' => 'Course summary', 'courseid' => $course->id]);
 

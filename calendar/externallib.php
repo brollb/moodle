@@ -260,7 +260,7 @@ class core_calendar_external extends external_api {
                 }
                 $funcparam['categories'] = array_keys($categories);
             } else {
-                // Fetch all categories where this user has any enrolment, and all categories that this user can manage.
+                // Fetch all categories where this user has any enrollment, and all categories that this user can manage.
                 $calcatcache = cache::make('core', 'calendar_categories');
                 // Do not use cache if the user has the system capability as $coursecategories might not represent the
                 // courses the user is enrolled in.

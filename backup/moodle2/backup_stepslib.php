@@ -460,7 +460,7 @@ class backup_course_structure_step extends backup_structure_step {
             'requested',
             'showactivitydates',
             'showcompletionconditions', 'pdfexportfont',
-            'enablecompletion', 'completionstartonenrol', 'completionnotify'));
+            'enablecompletion', 'completionstartonenroll', 'completionnotify'));
 
         $category = new backup_nested_element('category', array('id'), array(
             'name', 'description'));
@@ -599,8 +599,8 @@ class backup_enrolments_structure_step extends backup_structure_step {
 
         $enrols = new backup_nested_element('enrols');
 
-        $enrol = new backup_nested_element('enrol', array('id'), array(
-            'enrol', 'status', 'name', 'enrolperiod', 'enrolstartdate',
+        $enroll = new backup_nested_element('enroll', array('id'), array(
+            'enroll', 'status', 'name', 'enrolperiod', 'enrolstartdate',
             'enrolenddate', 'expirynotify', 'expirythreshold', 'notifyall',
             'password', 'cost', 'currency', 'roleid',
             'customint1', 'customint2', 'customint3', 'customint4', 'customint5', 'customint6', 'customint7', 'customint8',
@@ -611,23 +611,23 @@ class backup_enrolments_structure_step extends backup_structure_step {
 
         $userenrolments = new backup_nested_element('user_enrolments');
 
-        $enrolment = new backup_nested_element('enrolment', array('id'), array(
+        $enrollment = new backup_nested_element('enrollment', array('id'), array(
             'status', 'userid', 'timestart', 'timeend', 'modifierid',
             'timemodified'));
 
         // Build the tree
         $enrolments->add_child($enrols);
-        $enrols->add_child($enrol);
-        $enrol->add_child($userenrolments);
-        $userenrolments->add_child($enrolment);
+        $enrols->add_child($enroll);
+        $enroll->add_child($userenrolments);
+        $userenrolments->add_child($enrollment);
 
         // Define sources - the instances are restored using the same sortorder, we do not need to store it in xml and deal with it afterwards.
-        $enrol->set_source_table('enrol', array('courseid' => backup::VAR_COURSEID), 'sortorder ASC');
+        $enroll->set_source_table('enroll', array('courseid' => backup::VAR_COURSEID), 'sortorder ASC');
 
         // User enrolments only added only if users included.
         if (empty($keptroles) && $users) {
-            $enrolment->set_source_table('user_enrolments', array('enrolid' => backup::VAR_PARENTID));
-            $enrolment->annotate_ids('user', 'userid');
+            $enrollment->set_source_table('user_enrolments', array('enrolid' => backup::VAR_PARENTID));
+            $enrollment->annotate_ids('user', 'userid');
         } else if (!empty($keptroles)) {
             list($insql, $inparams) = $DB->get_in_or_equal($keptroles);
             $params = array(
@@ -637,7 +637,7 @@ class backup_enrolments_structure_step extends backup_structure_step {
             foreach ($inparams as $inparam) {
                 $params[] = backup_helper::is_sqlparam($inparam);
             }
-            $enrolment->set_source_sql(
+            $enrollment->set_source_sql(
                "SELECT ue.*
                   FROM {user_enrolments} ue
             INNER JOIN {role_assignments} ra ON ue.userid = ra.userid
@@ -645,13 +645,13 @@ class backup_enrolments_structure_step extends backup_structure_step {
                        AND ue.enrolid = ?
                        AND ra.roleid $insql",
                 $params);
-            $enrolment->annotate_ids('user', 'userid');
+            $enrollment->annotate_ids('user', 'userid');
         }
 
-        $enrol->annotate_ids('role', 'roleid');
+        $enroll->annotate_ids('role', 'roleid');
 
-        // Add enrol plugin structure.
-        $this->add_plugin_structure('enrol', $enrol, true);
+        // Add enroll plugin structure.
+        $this->add_plugin_structure('enroll', $enroll, true);
 
         return $enrolments;
     }
@@ -1719,7 +1719,7 @@ class backup_course_logs_structure_step extends backup_structure_step {
 
         // Annotations
         // NOTE: We don't annotate users from logs as far as they MUST be
-        //       always annotated by the course (enrol, ras... whatever)
+        //       always annotated by the course (enroll, ras... whatever)
 
         // Return the root element (logs)
 
@@ -2312,7 +2312,7 @@ class backup_activity_grade_items_to_ids extends backup_execution_step {
 
 
 /**
- * This step allows enrol plugins to annotate custom fields.
+ * This step allows enroll plugins to annotate custom fields.
  *
  * @package   core_backup
  * @copyright 2014 University of Wisconsin
@@ -2328,13 +2328,13 @@ class backup_enrolments_execution_step extends backup_execution_step {
         global $DB;
 
         $plugins = enrol_get_plugins(true);
-        $enrols = $DB->get_records('enrol', array(
+        $enrols = $DB->get_records('enroll', array(
                 'courseid' => $this->task->get_courseid()));
 
-        // Allow each enrol plugin to add annotations.
-        foreach ($enrols as $enrol) {
-            if (isset($plugins[$enrol->enrol])) {
-                $plugins[$enrol->enrol]->backup_annotate_custom_fields($this, $enrol);
+        // Allow each enroll plugin to add annotations.
+        foreach ($enrols as $enroll) {
+            if (isset($plugins[$enroll->enroll])) {
+                $plugins[$enroll->enroll]->backup_annotate_custom_fields($this, $enroll);
             }
         }
     }

@@ -3,7 +3,7 @@ Description of ADOdb library import into Moodle
 Source: https://github.com/ADOdb/ADOdb
 
 This library will be probably removed sometime in the future
-because it is now used only by enrol and auth db plugins.
+because it is now used only by enroll and auth db plugins.
 
 Removed:
  * Any invisible file (dot suffixed)

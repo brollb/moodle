@@ -1564,7 +1564,7 @@ function grade_user_delete($userid) {
  * @param int $courseid The ID of the course the user has unenrolled from
  * @param int $userid The ID of the user unenrolling
  */
-function grade_user_unenrol($courseid, $userid) {
+function grade_user_unenroll($courseid, $userid) {
     if ($items = grade_item::fetch_all(array('courseid'=>$courseid))) {
         foreach ($items as $item) {
             if ($grades = grade_grade::fetch_all(array('userid'=>$userid, 'itemid'=>$item->id))) {

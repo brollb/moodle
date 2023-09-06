@@ -28,7 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Base class for enrol backup plugins.
+ * Base class for enroll backup plugins.
  *
  * @package   core_backup
  * @copyright 2014 University of Wisconsin

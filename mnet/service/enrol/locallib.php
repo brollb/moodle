@@ -18,11 +18,11 @@
 /**
  * Provides various useful functionality to plugins that offer or use this MNet service
  *
- * Remote enrolment service is used by enrol_mnet plugin which publishes the server side
+ * Remote enrollment service is used by enrol_mnet plugin which publishes the server side
  * methods. The client side is accessible from the admin tree.
  *
  * @package    mnetservice
- * @subpackage enrol
+ * @subpackage enroll
  * @copyright  2010 David Mudrak <david@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -34,9 +34,9 @@ require_once($CFG->dirroot . '/user/selector/lib.php');
 /**
  * Singleton providing various functionality usable by plugin(s) implementing this MNet service
  */
-class mnetservice_enrol {
+class mnetservice_enroll {
 
-    /** @var mnetservice_enrol holds the singleton instance. */
+    /** @var mnetservice_enroll holds the singleton instance. */
     protected static $singleton;
 
     /** @var caches the result of {@link self::get_remote_subscribers()} */
@@ -46,13 +46,13 @@ class mnetservice_enrol {
     protected $cachepublishers = null;
 
     /**
-     * This is singleton, use {@link mnetservice_enrol::get_instance()}
+     * This is singleton, use {@link mnetservice_enroll::get_instance()}
      */
     protected function __construct() {
     }
 
     /**
-     * @return mnetservice_enrol singleton instance
+     * @return mnetservice_enroll singleton instance
      */
     public static function get_instance() {
         if (is_null(self::$singleton)) {
@@ -81,9 +81,9 @@ class mnetservice_enrol {
     }
 
     /**
-     * Returns a list of remote servers that can enrol their users into our courses
+     * Returns a list of remote servers that can enroll their users into our courses
      *
-     * We must publish MNet service 'mnet_enrol' for the peers to allow them to enrol
+     * We must publish MNet service 'mnet_enroll' for the peers to allow them to enroll
      * their users into our courses.
      *
      * @todo once the MNet core is refactored this may be part of a parent class
@@ -100,7 +100,7 @@ class mnetservice_enrol {
                       JOIN {mnet_host2service} hs ON h.id = hs.hostid
                       JOIN {mnet_service} s ON hs.serviceid = s.id
                       JOIN {mnet_application} a ON h.applicationid = a.id
-                     WHERE s.name = 'mnet_enrol'
+                     WHERE s.name = 'mnet_enroll'
                            AND h.deleted = 0
                            AND hs.publish = 1";
             $this->cachesubscribers = $DB->get_records_sql($sql);
@@ -112,7 +112,7 @@ class mnetservice_enrol {
     /**
      * Returns a list of remote servers that offer their courses for our users
      *
-     * We must subscribe MNet service 'mnet_enrol' for the peers to allow our users to enrol
+     * We must subscribe MNet service 'mnet_enroll' for the peers to allow our users to enroll
      * into their courses.
      *
      * @todo once the MNet core is refactored this may be part of a parent class
@@ -129,7 +129,7 @@ class mnetservice_enrol {
                       JOIN {mnet_host2service} hs ON h.id = hs.hostid
                       JOIN {mnet_service} s ON hs.serviceid = s.id
                       JOIN {mnet_application} a ON h.applicationid = a.id
-                     WHERE s.name = 'mnet_enrol'
+                     WHERE s.name = 'mnet_enroll'
                            AND h.deleted = 0
                            AND hs.subscribe = 1";
             $this->cachepublishers = $DB->get_records_sql($sql);
@@ -156,7 +156,7 @@ class mnetservice_enrol {
     public function get_remote_courses($mnethostid, $usecache=true) {
         global $CFG, $DB; // $CFG needed!
 
-        $lastfetchcourses = get_config('mnetservice_enrol', 'lastfetchcourses');
+        $lastfetchcourses = get_config('mnetservice_enroll', 'lastfetchcourses');
         if (empty($lastfetchcourses) or (time()-$lastfetchcourses > DAYSECS)) {
             $usecache = false;
         }
@@ -173,7 +173,7 @@ class mnetservice_enrol {
         }
 
         $request = new mnet_xmlrpc_client();
-        $request->set_method('enrol/mnet/enrol.php/available_courses');
+        $request->set_method('enroll/mnet/enroll.php/available_courses');
 
         if ($request->send($peer)) {
             $list = array();
@@ -230,7 +230,7 @@ class mnetservice_enrol {
             }
 
             // and return the fresh data
-            set_config('lastfetchcourses', time(), 'mnetservice_enrol');
+            set_config('lastfetchcourses', time(), 'mnetservice_enroll');
             return $list;
 
         } else {
@@ -241,10 +241,10 @@ class mnetservice_enrol {
     /**
      * Updates local cache about enrolments of our users in remote courses
      *
-     * The remote course must allow enrolments via our Remote enrolment service client.
+     * The remote course must allow enrolments via our Remote enrollment service client.
      * Because of legacy design of data structure returned by XML-RPC code, only one
-     * user enrolment per course is returned by 1.9 MNet servers. This may be an issue
-     * if the user is enrolled multiple times by various enrolment plugins. MNet 2.0
+     * user enrollment per course is returned by 1.9 MNet servers. This may be an issue
+     * if the user is enrolled multiple times by various enrollment plugins. MNet 2.0
      * servers do not use user name as array keys - they do not need to due to side
      * effect of MDL-19219.
      *
@@ -268,7 +268,7 @@ class mnetservice_enrol {
         }
 
         $request = new mnet_xmlrpc_client();
-        $request->set_method('enrol/mnet/enrol.php/course_enrolments');
+        $request->set_method('enroll/mnet/enroll.php/course_enrolments');
         $request->add_param($remotecourseid, 'int');
 
         if ($request->send($peer)) {
@@ -305,35 +305,35 @@ class mnetservice_enrol {
                 $usersbyusername = array();
             }
 
-            // populate the returned list and update local cache of enrolment records
+            // populate the returned list and update local cache of enrollment records
             foreach ($response as $remote) {
                 if (empty($usersbyusername[$remote['username']])) {
                     // we do not know this user or she is deleted or not confirmed or is 'guest'
                     continue;
                 }
-                $enrolment                  = new stdclass();
-                $enrolment->hostid          = $mnethostid;
-                $enrolment->userid          = $usersbyusername[$remote['username']]->id;
-                $enrolment->remotecourseid  = $remotecourseid;
-                $enrolment->rolename        = $remote['name']; // $remote['shortname'] not used
-                $enrolment->enroltime       = $remote['timemodified'];
-                $enrolment->enroltype       = $remote['enrol'];
+                $enrollment                  = new stdclass();
+                $enrollment->hostid          = $mnethostid;
+                $enrollment->userid          = $usersbyusername[$remote['username']]->id;
+                $enrollment->remotecourseid  = $remotecourseid;
+                $enrollment->rolename        = $remote['name']; // $remote['shortname'] not used
+                $enrollment->enroltime       = $remote['timemodified'];
+                $enrollment->enroltype       = $remote['enroll'];
 
-                $current = $DB->get_record('mnetservice_enrol_enrolments', array('hostid'=>$enrolment->hostid, 'userid'=>$enrolment->userid,
-                                       'remotecourseid'=>$enrolment->remotecourseid, 'enroltype'=>$enrolment->enroltype), 'id, enroltime');
+                $current = $DB->get_record('mnetservice_enrol_enrolments', array('hostid'=>$enrollment->hostid, 'userid'=>$enrollment->userid,
+                                       'remotecourseid'=>$enrollment->remotecourseid, 'enroltype'=>$enrollment->enroltype), 'id, enroltime');
                 if (empty($current)) {
-                    $enrolment->id = $DB->insert_record('mnetservice_enrol_enrolments', $enrolment);
+                    $enrollment->id = $DB->insert_record('mnetservice_enrol_enrolments', $enrollment);
                 } else {
-                    $enrolment->id = $current->id;
-                    if ($current->enroltime != $enrolment->enroltime) {
-                        $DB->update_record('mnetservice_enrol_enrolments', $enrolment);
+                    $enrollment->id = $current->id;
+                    if ($current->enroltime != $enrollment->enroltime) {
+                        $DB->update_record('mnetservice_enrol_enrolments', $enrollment);
                     }
                 }
 
-                $list[$enrolment->id] = $enrolment;
+                $list[$enrollment->id] = $enrollment;
             }
 
-            // prune stale enrolment records
+            // prune stale enrollment records
             if (empty($list)) {
                 $DB->delete_records('mnetservice_enrol_enrolments', array('hostid'=>$mnethostid, 'remotecourseid'=>$remotecourseid));
             } else {
@@ -345,7 +345,7 @@ class mnetservice_enrol {
             }
 
             // store the timestamp of the recent fetch, can be used for cache invalidate purposes
-            set_config('lastfetchenrolments', time(), 'mnetservice_enrol');
+            set_config('lastfetchenrolments', time(), 'mnetservice_enroll');
             // local cache successfully updated
             return true;
 
@@ -355,9 +355,9 @@ class mnetservice_enrol {
     }
 
     /**
-     * Send request to enrol our user to the remote course
+     * Send request to enroll our user to the remote course
      *
-     * Updates our remote enrolments cache if the enrolment was successful.
+     * Updates our remote enrolments cache if the enrollment was successful.
      *
      * @uses mnet_xmlrpc_client Invokes XML-RPC request
      * @param object $user our user
@@ -372,21 +372,21 @@ class mnetservice_enrol {
         $peer->set_id($remotecourse->hostid);
 
         $request = new mnet_xmlrpc_client();
-        $request->set_method('enrol/mnet/enrol.php/enrol_user');
+        $request->set_method('enroll/mnet/enroll.php/enrol_user');
         $request->add_param(mnet_strip_user((array)$user, mnet_fields_to_send($peer)));
         $request->add_param($remotecourse->remoteid);
 
         if ($request->send($peer) === true) {
             if ($request->response === true) {
-                // cache the enrolment information in our table
-                $enrolment                  = new stdclass();
-                $enrolment->hostid          = $peer->id;
-                $enrolment->userid          = $user->id;
-                $enrolment->remotecourseid  = $remotecourse->remoteid;
-                $enrolment->enroltype       = 'mnet';
-                // $enrolment->rolename not known now, must be re-fetched
-                // $enrolment->enroltime not known now, must be re-fetched
-                $DB->insert_record('mnetservice_enrol_enrolments', $enrolment);
+                // cache the enrollment information in our table
+                $enrollment                  = new stdclass();
+                $enrollment->hostid          = $peer->id;
+                $enrollment->userid          = $user->id;
+                $enrollment->remotecourseid  = $remotecourse->remoteid;
+                $enrollment->enroltype       = 'mnet';
+                // $enrollment->rolename not known now, must be re-fetched
+                // $enrollment->enroltime not known now, must be re-fetched
+                $DB->insert_record('mnetservice_enrol_enrolments', $enrollment);
                 return true;
 
             } else {
@@ -399,9 +399,9 @@ class mnetservice_enrol {
     }
 
     /**
-     * Send request to unenrol our user from the remote course
+     * Send request to unenroll our user from the remote course
      *
-     * Updates our remote enrolments cache if the unenrolment was successful.
+     * Updates our remote enrolments cache if the unenrollment was successful.
      *
      * @uses mnet_xmlrpc_client Invokes XML-RPC request
      * @param object $user our user
@@ -416,7 +416,7 @@ class mnetservice_enrol {
         $peer->set_id($remotecourse->hostid);
 
         $request = new mnet_xmlrpc_client();
-        $request->set_method('enrol/mnet/enrol.php/unenrol_user');
+        $request->set_method('enroll/mnet/enroll.php/unenrol_user');
         $request->add_param($user->username);
         $request->add_param($remotecourse->remoteid);
 
@@ -508,9 +508,9 @@ class mnetservice_enrol_existing_users_selector extends user_selector_base {
         }
 
         if ($search) {
-            $groupname = get_string('enrolledusersmatching', 'enrol', $search);
+            $groupname = get_string('enrolledusersmatching', 'enroll', $search);
         } else {
-            $groupname = get_string('enrolledusers', 'enrol');
+            $groupname = get_string('enrolledusers', 'enroll');
         }
 
         return array($groupname => $availableusers);
@@ -520,7 +520,7 @@ class mnetservice_enrol_existing_users_selector extends user_selector_base {
         $options = parent::get_options();
         $options['hostid'] = $this->hostid;
         $options['remotecourseid'] = $this->remotecourseid;
-        $options['file'] = 'mnet/service/enrol/locallib.php';
+        $options['file'] = 'mnet/service/enroll/locallib.php';
         return $options;
     }
 }
@@ -596,9 +596,9 @@ class mnetservice_enrol_potential_users_selector extends user_selector_base {
         }
 
         if ($search) {
-            $groupname = get_string('enrolcandidatesmatching', 'enrol', $search);
+            $groupname = get_string('enrolcandidatesmatching', 'enroll', $search);
         } else {
-            $groupname = get_string('enrolcandidates', 'enrol');
+            $groupname = get_string('enrolcandidates', 'enroll');
         }
 
         return array($groupname => $availableusers);
@@ -608,7 +608,7 @@ class mnetservice_enrol_potential_users_selector extends user_selector_base {
         $options = parent::get_options();
         $options['hostid'] = $this->hostid;
         $options['remotecourseid'] = $this->remotecourseid;
-        $options['file'] = 'mnet/service/enrol/locallib.php';
+        $options['file'] = 'mnet/service/enroll/locallib.php';
         return $options;
     }
 }

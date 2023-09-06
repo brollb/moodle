@@ -22,8 +22,8 @@ use enrol_imsenterprise\task\cron_task;
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once($CFG->dirroot . '/enrol/imsenterprise/locallib.php');
-require_once($CFG->dirroot . '/enrol/imsenterprise/lib.php');
+require_once($CFG->dirroot . '/enroll/imsenterprise/locallib.php');
+require_once($CFG->dirroot . '/enroll/imsenterprise/lib.php');
 
 /**
  * IMS Enterprise test case
@@ -1082,7 +1082,7 @@ class imsenterprise_test extends \advanced_testcase {
     }
 
     /**
-     * IMS Enterprise enrolment task test.
+     * IMS Enterprise enrollment task test.
      */
     public function test_imsenterprise_cron_task() {
         global $DB;

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * LDAP enrolment plugin installation.
+ * LDAP enrollment plugin installation.
  *
  * @package    enrol_ldap
  * @author     Iñaki Arenaza

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Renderer class for LTI enrolment
+ * Renderer class for LTI enrollment
  *
  * @package    enrol_lti
  * @copyright  2016 John Okely <john@moodle.com>
@@ -33,7 +33,7 @@ use Packback\Lti1p3\LtiMessageLaunch;
 use plugin_renderer_base;
 
 /**
- * Renderer class for LTI enrolment
+ * Renderer class for LTI enrollment
  *
  * @package    enrol_lti
  * @copyright  2016 John Okely <john@moodle.com>
@@ -65,7 +65,7 @@ class renderer extends plugin_renderer_base {
     public function render_published_resource_selection_view(LtiMessageLaunch $launch, array $resources): string {
         global $CFG;
         $context = [
-            'action' => $CFG->wwwroot . '/enrol/lti/configure.php',
+            'action' => $CFG->wwwroot . '/enroll/lti/configure.php',
             'launchid' => $launch->getLaunchId(),
             'hascontent' => !empty($resources),
             'sesskey' => sesskey(),
@@ -101,7 +101,7 @@ class renderer extends plugin_renderer_base {
     public function render_admin_setting_registered_platforms(array $registrations): string {
         $registrationscontext = [
             'registrations' => [],
-            'addurl' => (new \moodle_url('/enrol/lti/register_platform.php', ['action' => 'add']))->out(false),
+            'addurl' => (new \moodle_url('/enroll/lti/register_platform.php', ['action' => 'add']))->out(false),
         ];
         $registrationscontext['hasregs'] = count($registrations) > 0;
 
@@ -120,13 +120,13 @@ class renderer extends plugin_renderer_base {
                 'countdeployments' => $countdeployments,
                 'isactive' => $reg->is_complete(),
                 'statusstring' => $status,
-                'tooldetailsurl' => (new \moodle_url('/enrol/lti/register_platform.php',
+                'tooldetailsurl' => (new \moodle_url('/enroll/lti/register_platform.php',
                     ['action' => 'view', 'regid' => $reg->get_id(), 'tabselect' => 'tooldetails']))->out(false),
-                'platformdetailsurl' => (new \moodle_url('/enrol/lti/register_platform.php',
+                'platformdetailsurl' => (new \moodle_url('/enroll/lti/register_platform.php',
                     ['action' => 'view', 'regid' => $reg->get_id(), 'tabselect' => 'platformdetails']))->out(false),
-                'deploymentsurl' => (new \moodle_url('/enrol/lti/register_platform.php',
+                'deploymentsurl' => (new \moodle_url('/enroll/lti/register_platform.php',
                     ['action' => 'view', 'regid' => $reg->get_id(), 'tabselect' => 'tooldeployments']))->out(false),
-                'deleteurl' => (new \moodle_url('/enrol/lti/register_platform.php',
+                'deleteurl' => (new \moodle_url('/enroll/lti/register_platform.php',
                     ['action' => 'delete', 'regid' => $reg->get_id()]))->out(false)
             ];
         }
@@ -178,13 +178,13 @@ class renderer extends plugin_renderer_base {
                 'name' => $deployment->get_deploymentname(),
                 'deploymentid' => $deployment->get_deploymentid(),
                 'deleteurl' => (new \moodle_url(
-                    '/enrol/lti/manage_deployment.php',
+                    '/enroll/lti/manage_deployment.php',
                     ['action' => 'delete', 'id' => $deployment->get_id(), 'registrationid' => $registration->get_id()]
                 ))->out(false)
             ];
         }
 
-        $regurl = new \moodle_url('/enrol/lti/register.php', ['token' => $registration->get_uniqueid()]);
+        $regurl = new \moodle_url('/enroll/lti/register.php', ['token' => $registration->get_uniqueid()]);
 
         $tcontext = [
             'tool_details_active' => $activetab == 'tooldetails',
@@ -205,22 +205,22 @@ class renderer extends plugin_renderer_base {
             'manual_registration_urls' => [
                 [
                     'name' => get_string('toolurl', 'enrol_lti'),
-                    'url' => $CFG->wwwroot . '/enrol/lti/launch.php',
+                    'url' => $CFG->wwwroot . '/enroll/lti/launch.php',
                     'id' => uniqid()
                 ],
                 [
                     'name' => get_string('loginurl', 'enrol_lti'),
-                    'url' => $CFG->wwwroot . '/enrol/lti/login.php?id=' . $registration->get_uniqueid(),
+                    'url' => $CFG->wwwroot . '/enroll/lti/login.php?id=' . $registration->get_uniqueid(),
                     'id' => uniqid()
                 ],
                 [
                     'name' => get_string('jwksurl', 'enrol_lti'),
-                    'url' => $CFG->wwwroot . '/enrol/lti/jwks.php',
+                    'url' => $CFG->wwwroot . '/enroll/lti/jwks.php',
                     'id' => uniqid()
                 ],
                 [
                     'name' => get_string('deeplinkingurl', 'enrol_lti'),
-                    'url' => $CFG->wwwroot . '/enrol/lti/launch_deeplink.php',
+                    'url' => $CFG->wwwroot . '/enroll/lti/launch_deeplink.php',
                     'id' => uniqid()
                 ],
             ],
@@ -251,12 +251,12 @@ class renderer extends plugin_renderer_base {
                     'value' => $registration->get_accesstokenurl() ?? '',
                 ]
             ],
-            'edit_platform_details_url' => (new \moodle_url('/enrol/lti/register_platform.php',
+            'edit_platform_details_url' => (new \moodle_url('/enroll/lti/register_platform.php',
                 ['action' => 'edit', 'regid' => $registration->get_id()]))->out(false),
             'deployments_info' => get_string('deploymentsinfo', 'enrol_lti'),
             'has_deployments' => !empty($deploymentscontext),
             'tool_deployments' => $deploymentscontext,
-            'add_deployment_url' => (new \moodle_url('/enrol/lti/manage_deployment.php',
+            'add_deployment_url' => (new \moodle_url('/enroll/lti/manage_deployment.php',
                 ['action' => 'add', 'registrationid' => $registrationid]))->out(false)
         ];
 

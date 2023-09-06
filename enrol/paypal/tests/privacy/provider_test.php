@@ -103,20 +103,20 @@ class provider_test extends \core_privacy\tests\provider_testcase {
         $this->course2 = $generator->create_course();
         $this->course3 = $generator->create_course();
 
-        // Create enrolment instances.
+        // Create enrollment instances.
         $paypalplugin = enrol_get_plugin('paypal');
 
         $enrolinstanceid = $paypalplugin->add_instance($this->course1,
                 ['roleid'   => $studentrole->id, 'courseid' => $this->course1->id]);
-        $enrolinstance1  = $DB->get_record('enrol', array('id' => $enrolinstanceid));
+        $enrolinstance1  = $DB->get_record('enroll', array('id' => $enrolinstanceid));
 
         $enrolinstanceid = $paypalplugin->add_instance($this->course2,
                 ['roleid'   => $studentrole->id, 'courseid' => $this->course2->id]);
-        $enrolinstance2 = $DB->get_record('enrol', array('id' => $enrolinstanceid));
+        $enrolinstance2 = $DB->get_record('enroll', array('id' => $enrolinstanceid));
 
         $enrolinstanceid = $paypalplugin->add_instance($this->course3,
                 ['roleid'   => $studentrole->id, 'courseid' => $this->course3->id]);
-        $enrolinstance3 = $DB->get_record('enrol', array('id' => $enrolinstanceid));
+        $enrolinstance3 = $DB->get_record('enroll', array('id' => $enrolinstanceid));
 
         // Create students.
         $this->student0 = $generator->create_user();    // This user will not be enrolled in any course.
@@ -346,9 +346,9 @@ class provider_test extends \core_privacy\tests\provider_testcase {
     }
 
     /**
-     * Test for provider::export_user_data() when user has no enrolment.
+     * Test for provider::export_user_data() when user has no enrollment.
      */
-    public function test_export_user_data_no_enrolment() {
+    public function test_export_user_data_no_enrollment() {
         $coursecontext1 = \context_course::instance($this->course1->id);
 
         $this->setUser($this->student0);
@@ -529,7 +529,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
                 [$coursecontext1->id, $coursecontext2->id]);
         provider::delete_data_for_user($contextlist);
 
-        // After deletion, PayPal enrolment data for student12 in both course1 and course2 should have been deleted.
+        // After deletion, PayPal enrollment data for student12 in both course1 and course2 should have been deleted.
         $this->assertEquals(
                 1,
                 $DB->count_records('enrol_paypal', ['courseid' => $this->course1->id])
@@ -574,7 +574,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
                 [$coursecontext1->id]);
         provider::delete_data_for_user($contextlist);
 
-        // After deletion, PayPal enrolment data for businessuser1 in course1 should have been deleted.
+        // After deletion, PayPal enrollment data for businessuser1 in course1 should have been deleted.
         $this->assertEquals(
                 0,
                 $DB->count_records('enrol_paypal', ['courseid' => $this->course1->id, 'business' => $this->businessuser1->email])
@@ -619,7 +619,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
                 [$coursecontext1->id]);
         provider::delete_data_for_user($contextlist);
 
-        // After deletion, PayPal enrolment data for receiveruser1 in course1 should have been deleted.
+        // After deletion, PayPal enrollment data for receiveruser1 in course1 should have been deleted.
         $this->assertEquals(
                 0,
                 $DB->count_records('enrol_paypal', ['receiver_email' => $this->receiveruser1->email])
@@ -641,11 +641,11 @@ class provider_test extends \core_privacy\tests\provider_testcase {
      * @param   \stdClass   $receiver The user associated with the receiver
      * @param   \stdClass   $course The course to associate with
      * @param   \stdClass   $user The user associated with the student
-     * @param   \stdClass   $enrol The enrolment instance
+     * @param   \stdClass   $enroll The enrollment instance
      * @param   String      $txnid The Paypal txnid to use
      * @param   int         $time The txn time
      */
-    protected function create_enrol_paypal_record($business, $receiver, $course, $user, $enrol, $txnid, $time) {
+    protected function create_enrol_paypal_record($business, $receiver, $course, $user, $enroll, $txnid, $time) {
         global $DB;
 
         $paypaldata = [
@@ -655,7 +655,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
             'item_name'      => $course->fullname,
             'courseid'       => $course->id,
             'userid'         => $user->id,
-            'instanceid'     => $enrol->id,
+            'instanceid'     => $enroll->id,
             'payment_status' => 'Completed',
             'txn_id'         => $txnid,
             'payment_type'   => 'instant',

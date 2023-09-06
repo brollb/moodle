@@ -163,10 +163,10 @@ class post extends exporter {
                         'null' => NULL_ALLOWED,
                         'description' => 'Whether the user can reply to the post',
                     ],
-                    'selfenrol' => [
+                    'selfenroll' => [
                         'type' => PARAM_BOOL,
                         'null' => NULL_ALLOWED,
-                        'description' => 'Whether the user can self enrol into the course',
+                        'description' => 'Whether the user can self enroll into the course',
                     ],
                     'export' => [
                         'type' => PARAM_BOOL,
@@ -388,7 +388,7 @@ class post extends exporter {
         $canreply = $capabilitymanager->can_reply_to_post($user, $discussion, $post);
         $canexport = $capabilitymanager->can_export_post($user, $post);
         $cancontrolreadstatus = $capabilitymanager->can_manually_control_post_read_status($user);
-        $canselfenrol = $capabilitymanager->can_self_enrol($user);
+        $canselfenroll = $capabilitymanager->can_self_enroll($user);
         $canreplyprivately = $capabilitymanager->can_reply_privately_to_post($user, $post);
 
         $urlfactory = $this->related['urlfactory'];
@@ -398,7 +398,7 @@ class post extends exporter {
         $editurl = $canedit ? $urlfactory->get_edit_post_url_from_post($forum, $post) : null;
         $deleteurl = $candelete ? $urlfactory->get_delete_post_url_from_post($post) : null;
         $spliturl = $cansplit ? $urlfactory->get_split_discussion_at_post_url_from_post($post) : null;
-        $replyurl = $canreply || $canselfenrol ? $urlfactory->get_reply_to_post_url_from_post($post) : null;
+        $replyurl = $canreply || $canselfenroll ? $urlfactory->get_reply_to_post_url_from_post($post) : null;
         $exporturl = $canexport ? $urlfactory->get_export_post_url_from_post($post) : null;
         $markasreadurl = $cancontrolreadstatus ? $urlfactory->get_mark_post_as_read_url_from_post($post) : null;
         $markasunreadurl = $cancontrolreadstatus ? $urlfactory->get_mark_post_as_unread_url_from_post($post) : null;
@@ -469,7 +469,7 @@ class post extends exporter {
                 'export' => $canexport,
                 'controlreadstatus' => $cancontrolreadstatus,
                 'canreplyprivately' => $canreplyprivately,
-                'selfenrol' => $canselfenrol
+                'selfenroll' => $canselfenroll
             ],
             'urls' => [
                 'view' => $viewurl ? $viewurl->out(false) : null,

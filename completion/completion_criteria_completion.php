@@ -62,7 +62,7 @@ class completion_criteria_completion extends data_object {
     /* @var string Record of prior learning, leave blank if none */
     public $rpl;
 
-    /* @var int Timestamp of user unenrolment (if completing a unenrol criteria) */
+    /* @var int Timestamp of user unenrollment (if completing a unenroll criteria) */
     public $unenroled;
 
     /* @var int Timestamp of course criteria completion {@link completion_criteria_completion::mark_complete()} */

@@ -52,7 +52,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, [
                 'assignsubmission_onlinetext_enabled' => true,
             ]);
@@ -79,7 +79,7 @@ class locallib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, [
                 'assignsubmission_onlinetext_enabled' => true,
             ]);

@@ -110,7 +110,7 @@ class end_meeting_test extends \externallib_advanced_testcase {
         $record = $generator->create_module('bigbluebuttonbn', ['course' => $course->id]);
         $instance = instance::get_from_instanceid($record->id);
 
-        $user = $generator->create_and_enrol($course, 'student');
+        $user = $generator->create_and_enroll($course, 'student');
         $this->setUser($user);
 
         $this->expectException(restricted_context_exception::class);

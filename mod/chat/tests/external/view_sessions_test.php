@@ -56,7 +56,7 @@ class view_sessions_test extends externallib_advanced_testcase {
         global $DB;
         $this->resetAfterTest(true);
         $course = $this->getDataGenerator()->create_course();
-        $student1 = $this->getDataGenerator()->create_and_enrol($course);
+        $student1 = $this->getDataGenerator()->create_and_enroll($course);
         $chat = $this->getDataGenerator()->create_module('chat', ['course' => $course->id]);
         $context = \context_module::instance($chat->cmid);
         $studentroleid = $DB->get_field('role', 'id', ['shortname' => 'student']);

@@ -200,8 +200,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course);
         $this->add_submission($student, $assign);
@@ -233,13 +233,13 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
 
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group, $student);
 
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group, $otherstudent);
 
         $assign = $this->create_instance($course, [
@@ -269,8 +269,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
 
@@ -300,8 +300,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $teacher->ignoresesskey = true;
         $this->setUser($teacher);
@@ -325,7 +325,7 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         $teacher->ignoresesskey = true;
         $this->setUser($teacher);
@@ -359,7 +359,7 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
 
         $this->setUser($teacher);
 
@@ -389,8 +389,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
 
@@ -422,8 +422,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course);
         $this->add_submission($student, $assign);
@@ -453,13 +453,13 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $group = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
 
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group, $student);
 
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
         groups_add_member($group, $otherstudent);
 
         $assign = $this->create_instance($course, [
@@ -487,8 +487,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $teacher->ignoresesskey = true;
         $this->setUser($teacher);
@@ -514,8 +514,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $teacher->ignoresesskey = true;
         $this->setUser($teacher);
@@ -592,7 +592,7 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($student);
 
@@ -621,8 +621,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $teacher->ignoresesskey = true;
         $this->setUser($teacher);
@@ -646,8 +646,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $teacher->ignoresesskey = true;
         $this->setUser($teacher);
@@ -720,8 +720,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
 
@@ -758,8 +758,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
 
@@ -803,8 +803,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
 
@@ -838,8 +838,8 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($teacher);
 
@@ -874,7 +874,7 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($student);
 
@@ -905,7 +905,7 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($student);
 
@@ -964,7 +964,7 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($student);
 
@@ -1027,7 +1027,7 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course);
 
         // Trigger and capture the event.
@@ -1049,7 +1049,7 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course);
 
         // Trigger and capture the event.
@@ -1299,9 +1299,9 @@ class events_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $generator = $this->getDataGenerator()->get_plugin_generator('mod_assign');
         $instance = $generator->create_instance(array('course' => $course->id, 'blindmarking' => 1));

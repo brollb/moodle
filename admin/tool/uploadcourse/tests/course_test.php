@@ -498,7 +498,7 @@ class course_test extends \advanced_testcase {
         $instances = enrol_get_instances($course->id, false);
         $this->assertCount(3, $instances);
         foreach ($instances as $instance) {
-            $enroldata[$instance->enrol] = $instance;
+            $enroldata[$instance->enroll] = $instance;
         }
 
         $this->assertNotEmpty($enroldata['guest']);
@@ -604,7 +604,7 @@ class course_test extends \advanced_testcase {
         $instances = enrol_get_instances($course->id, false);
         $this->assertCount(2, $instances);
         foreach ($instances as $instance) {
-            $enroldata[$instance->enrol] = $instance;
+            $enroldata[$instance->enroll] = $instance;
         }
 
         $this->assertNotEmpty($enroldata['guest']);
@@ -1148,7 +1148,7 @@ class course_test extends \advanced_testcase {
     public function test_enrolment_data() {
         $this->resetAfterTest(true);
 
-        // We need to set the current user as one with the capability to edit manual enrolment instances in the new course.
+        // We need to set the current user as one with the capability to edit manual enrollment instances in the new course.
         $this->setAdminUser();
 
         $mode = tool_uploadcourse_processor::MODE_CREATE_NEW;
@@ -1167,7 +1167,7 @@ class course_test extends \advanced_testcase {
         $enroldata = array();
         $instances = enrol_get_instances($co->get_id(), false);
         foreach ($instances as $instance) {
-            $enroldata[$instance->enrol] = $instance;
+            $enroldata[$instance->enroll] = $instance;
         }
 
         $this->assertNotEmpty($enroldata['manual']);
@@ -1178,22 +1178,22 @@ class course_test extends \advanced_testcase {
     }
 
     /**
-     * Data provider for testing enrolment errors
+     * Data provider for testing enrollment errors
      *
      * @return array
      */
     public function enrolment_uploaddata_error_provider(): array {
         return [
-            ['errorcannotcreateorupdateenrolment', [
+            ['errorcannotcreateorupdateenrollment', [
                 'shortname' => 'C1',
                 'enrolment_1' => 'manual',
             ]],
-            ['errorcannotdeleteenrolment', [
+            ['errorcannotdeleteenrollment', [
                 'shortname' => 'C1',
                 'enrolment_1' => 'manual',
                 'enrolment_1_delete' => '1',
             ]],
-            ['errorcannotdisableenrolment', [
+            ['errorcannotdisableenrollment', [
                 'shortname' => 'C1',
                 'enrolment_1' => 'manual',
                 'enrolment_1_disable' => '1',
@@ -1202,7 +1202,7 @@ class course_test extends \advanced_testcase {
     }
 
     /**
-     * Test that user without permission, cannot modify enrolment instances when creating courses
+     * Test that user without permission, cannot modify enrollment instances when creating courses
      *
      * @param string $expectederror
      * @param array $uploaddata
@@ -1221,10 +1221,10 @@ class course_test extends \advanced_testcase {
         $user = $this->getDataGenerator()->create_user();
         $this->setUser($user);
 
-        // Assign the user as a manager of the category, disable ability to configure manual enrolment instances.
+        // Assign the user as a manager of the category, disable ability to configure manual enrollment instances.
         $roleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($roleid, $user->id, $categorycontext);
-        role_change_permission($roleid, $categorycontext, 'enrol/manual:config', CAP_PROHIBIT);
+        role_change_permission($roleid, $categorycontext, 'enroll/manual:config', CAP_PROHIBIT);
 
         $mode = tool_uploadcourse_processor::MODE_CREATE_NEW;
         $updatemode = tool_uploadcourse_processor::UPDATE_ALL_WITH_DATA_ONLY;
@@ -1246,7 +1246,7 @@ class course_test extends \advanced_testcase {
     }
 
     /**
-     * Test that user without permission, cannot modify enrolment instances when updating courses
+     * Test that user without permission, cannot modify enrollment instances when updating courses
      *
      * @param string $expectederror
      * @param array $uploaddata
@@ -1270,15 +1270,15 @@ class course_test extends \advanced_testcase {
         $user = $this->getDataGenerator()->create_user();
         $this->setUser($user);
 
-        // Assign the user as a manager of the category, disable ability to configure manual enrolment instances.
+        // Assign the user as a manager of the category, disable ability to configure manual enrollment instances.
         $roleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($roleid, $user->id, $categorycontext);
-        role_change_permission($roleid, $categorycontext, 'enrol/manual:config', CAP_PROHIBIT);
+        role_change_permission($roleid, $categorycontext, 'enroll/manual:config', CAP_PROHIBIT);
 
         // Sanity check.
         $instances = enrol_get_instances($course->id, true);
         $this->assertCount(1, $instances);
-        $this->assertEquals('manual', reset($instances)->enrol);
+        $this->assertEquals('manual', reset($instances)->enroll);
 
         $mode = tool_uploadcourse_processor::MODE_UPDATE_ONLY;
         $updatemode = tool_uploadcourse_processor::UPDATE_ALL_WITH_DATA_ONLY;

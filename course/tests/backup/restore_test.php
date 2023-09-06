@@ -394,7 +394,7 @@ class restore_test extends \advanced_testcase {
         $this->setAdminUser();
         $dg = $this->getDataGenerator();
 
-        // Create a user and a course, enrol user in the course. Backup this course.
+        // Create a user and a course, enroll user in the course. Backup this course.
         $startdate = mktime(12, 0, 0, 7, 1, 2016); // 01-Jul-2016.
         $u1 = $dg->create_user(['firstname' => 'Olivia']);
         $c1 = $dg->create_course(['shortname' => 'SN', 'fullname' => 'FN', 'startdate' => $startdate,

@@ -66,7 +66,7 @@ class screen_test extends \advanced_testcase {
         $this->assertDebuggingCalled('The function load_users() is deprecated. Please use get_gradable_users() instead.');
         $this->assertCount(2, $groupusers);
 
-        // Now, let's suspend the enrolment of a user. Should return only one user.
+        // Now, let's suspend the enrollment of a user. Should return only one user.
         $this->getDataGenerator()->enrol_user($user2->id, $course->id, $roleteacher->id, 'manual', 0, 0, ENROL_USER_SUSPENDED);
         $users = $screentest->test_load_users();
         $this->assertDebuggingCalled('The function load_users() is deprecated. Please use get_gradable_users() instead.');
@@ -74,7 +74,7 @@ class screen_test extends \advanced_testcase {
 
         // Change the viewsuspendedusers capabilities and set the user preference to display suspended users.
         assign_capability('moodle/course:viewsuspendedusers', CAP_ALLOW, $roleteacher->id, $coursecontext, true);
-        set_user_preference('grade_report_showonlyactiveenrol', false, $teacher);
+        set_user_preference('grade_report_showonlyactiveenroll', false, $teacher);
         accesslib_clear_all_caches_for_unit_testing();
         $this->setUser($teacher);
         $screentest = new gradereport_singleview_screen_testable($course->id, 0, $group->id);
@@ -84,13 +84,13 @@ class screen_test extends \advanced_testcase {
 
         // Change the capability again, now the user can't see the suspended enrolments.
         assign_capability('moodle/course:viewsuspendedusers', CAP_PROHIBIT, $roleteacher->id, $coursecontext, true);
-        set_user_preference('grade_report_showonlyactiveenrol', false, $teacher);
+        set_user_preference('grade_report_showonlyactiveenroll', false, $teacher);
         accesslib_clear_all_caches_for_unit_testing();
         $users = $screentest->test_load_users();
         $this->assertDebuggingCalled('The function load_users() is deprecated. Please use get_gradable_users() instead.');
         $this->assertCount(1, $users);
 
-        // Now, activate the user enrolment again. We shall get 2 users now.
+        // Now, activate the user enrollment again. We shall get 2 users now.
         $this->getDataGenerator()->enrol_user($user2->id, $course->id, $roleteacher->id, 'manual', 0, 0, ENROL_USER_ACTIVE);
         $users = $screentest->test_load_users();
         $this->assertDebuggingCalled('The function load_users() is deprecated. Please use get_gradable_users() instead.');

@@ -255,7 +255,7 @@ if (isguestuser()) {
     echo $output->view_page_guest($course, $quiz, $cm, $context, $viewobj->infomessages, $viewobj);
 } else if (!isguestuser() && !($canattempt || $canpreview
           || $viewobj->canreviewmine)) {
-    // If they are not enrolled in this course in a good enough role, tell them to enrol.
+    // If they are not enrolled in this course in a good enough role, tell them to enroll.
     echo $output->view_page_notenrolled($course, $quiz, $cm, $context, $viewobj->infomessages, $viewobj);
 } else {
     echo $output->view_page($course, $quiz, $cm, $context, $viewobj);

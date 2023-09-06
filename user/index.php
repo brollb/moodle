@@ -28,7 +28,7 @@ require_once($CFG->dirroot.'/course/lib.php');
 require_once($CFG->dirroot.'/notes/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->libdir.'/filelib.php');
-require_once($CFG->dirroot.'/enrol/locallib.php');
+require_once($CFG->dirroot.'/enroll/locallib.php');
 
 use core_table\local\filter\filter;
 use core_table\local\filter\integer_filter;
@@ -87,7 +87,7 @@ user_list_view($course, $context);
 $PAGE->set_title("$course->shortname: ".get_string('participants'));
 $PAGE->set_heading($course->fullname);
 $PAGE->set_pagetype('course-view-participants');
-$PAGE->set_docs_path('enrol/users');
+$PAGE->set_docs_path('enroll/users');
 $PAGE->add_body_class('path-user');                     // So we can style it independently.
 $PAGE->set_other_editing_capability('moodle/course:manageactivities');
 
@@ -105,7 +105,7 @@ $participanttable = new \core_user\table\participants("user-index-participants-{
 // Manage enrolments.
 $manager = new course_enrolment_manager($PAGE, $course);
 $enrolbuttons = $manager->get_manual_enrol_buttons();
-$enrolrenderer = $PAGE->get_renderer('core_enrol');
+$enrolrenderer = $PAGE->get_renderer('core_enroll');
 $enrolbuttonsout = '';
 foreach ($enrolbuttons as $enrolbutton) {
     $enrolbuttonsout .= $enrolrenderer->render($enrolbutton);
@@ -249,11 +249,11 @@ if ($context->id != $frontpagectx->id) {
     $instances = $manager->get_enrolment_instances();
     $plugins = $manager->get_enrolment_plugins(false);
     foreach ($instances as $key => $instance) {
-        if (!isset($plugins[$instance->enrol])) {
+        if (!isset($plugins[$instance->enroll])) {
             // Weird, some broken stuff in plugin.
             continue;
         }
-        $plugin = $plugins[$instance->enrol];
+        $plugin = $plugins[$instance->enroll];
         $bulkoperations = $plugin->get_bulk_operations($manager);
 
         $pluginoptions = [];
@@ -293,7 +293,7 @@ echo '</form>';
 $PAGE->requires->js_call_amd('core_user/participants', 'init', [$bulkoptions]);
 echo '</div>';  // Userlist.
 
-$enrolrenderer = $PAGE->get_renderer('core_enrol');
+$enrolrenderer = $PAGE->get_renderer('core_enroll');
 // Need to re-generate the buttons to avoid having elements with duplicate ids on the page.
 $enrolbuttons = $manager->get_manual_enrol_buttons();
 $enrolbuttonsout = '';

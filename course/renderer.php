@@ -850,7 +850,7 @@ class core_course_renderer extends plugin_renderer_base {
     }
 
     /**
-     * Returns HTML to display course enrolment icons.
+     * Returns HTML to display course enrollment icons.
      *
      * @param core_course_list_element $course
      * @return string

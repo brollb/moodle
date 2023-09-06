@@ -881,12 +881,12 @@ class behat_navigation extends behat_base {
                 }
                 $context = context_course::instance($courseid);
                 return new moodle_url('/admin/roles/permissions.php', ['contextid' => $context->id]);
-            case 'enrolment methods':
+            case 'enrollment methods':
                 $courseid = $this->get_course_id($identifier);
                 if (!$courseid) {
                     throw $coursenotfoundexception;
                 }
-                return new moodle_url('/enrol/instances.php', ['id' => $courseid]);
+                return new moodle_url('/enroll/instances.php', ['id' => $courseid]);
             case 'enrolled users':
                 $courseid = $this->get_course_id($identifier);
                 if (!$courseid) {
@@ -898,13 +898,13 @@ class behat_navigation extends behat_base {
                 if (!$courseid) {
                     throw $coursenotfoundexception;
                 }
-                return new moodle_url('/enrol/otherusers.php', ['id' => $courseid]);
+                return new moodle_url('/enroll/otherusers.php', ['id' => $courseid]);
             case 'renameroles':
                 $courseid = $this->get_course_id($identifier);
                 if (!$courseid) {
                     throw $coursenotfoundexception;
                 }
-                return new moodle_url('/enrol/renameroles.php', ['id' => $courseid]);
+                return new moodle_url('/enroll/renameroles.php', ['id' => $courseid]);
 
             case 'course profile':
                 $courseid = $this->get_course_id($identifier);

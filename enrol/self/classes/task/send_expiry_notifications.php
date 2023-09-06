@@ -50,9 +50,9 @@ class send_expiry_notifications extends \core\task\scheduled_task {
      * Run task for sending expiry notifications.
      */
     public function execute() {
-        $enrol = enrol_get_plugin('self');
+        $enroll = enrol_get_plugin('self');
         $trace = new \text_progress_trace();
-        $enrol->send_expiry_notifications($trace);
+        $enroll->send_expiry_notifications($trace);
     }
 
 }

@@ -56,7 +56,7 @@ class attempt_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
         $cm = get_coursemodule_from_id('h5pactivity', $activity->cmid, 0, false, MUST_EXIST);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         return [$cm, $student, $course];
     }
@@ -69,7 +69,7 @@ class attempt_test extends \advanced_testcase {
         require_once($CFG->dirroot.'/lib/xapi/tests/helper.php');
 
         [$cm, $student, $course] = $this->generate_testing_scenario();
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Save the current state for this activity for student1 and student2 (before creating the first attempt).
         $manager = manager::create_from_coursemodule($cm);
@@ -273,7 +273,7 @@ class attempt_test extends \advanced_testcase {
         // For this test we need extra activity and student.
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
         $cm2 = get_coursemodule_from_id('h5pactivity', $activity->cmid, 0, false, MUST_EXIST);
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Check no previous attempts are created.
         $count = $DB->count_records('h5pactivity_attempts');

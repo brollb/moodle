@@ -74,7 +74,7 @@ class core_role_check_users_selector extends user_selector_base {
                       JOIN (SELECT DISTINCT subu.id
                               FROM {user} subu
                               JOIN {user_enrolments} ue ON (ue.userid = subu.id)
-                              JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid1)
+                              JOIN {enroll} e ON (e.id = ue.enrolid AND e.courseid = :courseid1)
                            ) subq ON subq.id = u.id
                            $this->userfieldsjoin
                      WHERE $wherecondition";
@@ -85,7 +85,7 @@ class core_role_check_users_selector extends user_selector_base {
             } else {
                 $sql2 = " FROM {user} u
                      LEFT JOIN ({user_enrolments} ue
-                                JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :courseid2)) ON (ue.userid = u.id)
+                                JOIN {enroll} e ON (e.id = ue.enrolid AND e.courseid = :courseid2)) ON (ue.userid = u.id)
                                $this->userfieldsjoin
                          WHERE $wherecondition
                                AND ue.id IS NULL";
@@ -111,10 +111,10 @@ class core_role_check_users_selector extends user_selector_base {
         $result = array();
 
         if ($search) {
-            $groupname1 = get_string('enrolledusersmatching', 'enrol', $search);
+            $groupname1 = get_string('enrolledusersmatching', 'enroll', $search);
             $groupname2 = get_string('potusersmatching', 'core_role', $search);
         } else {
-            $groupname1 = get_string('enrolledusers', 'enrol');
+            $groupname1 = get_string('enrolledusers', 'enroll');
             $groupname2 = get_string('potusers', 'core_role');
         }
 

@@ -118,7 +118,7 @@ class tool_uploadcourse_helper {
     }
 
     /**
-     * Extract enrolment data from passed data.
+     * Extract enrollment data from passed data.
      *
      * Constructs an array of methods, and their options:
      * array(
@@ -132,7 +132,7 @@ class tool_uploadcourse_helper {
      *     )
      * )
      *
-     * @param array $data data to extract the enrolment data from.
+     * @param array $data data to extract the enrollment data from.
      * @return array
      */
     public static function get_enrolment_data($data) {
@@ -155,7 +155,7 @@ class tool_uploadcourse_helper {
             }
         }
 
-        // Combining enrolment methods and their options in a single array.
+        // Combining enrollment methods and their options in a single array.
         $enrolmentdata = array();
         if (!empty($enrolmethods)) {
             $enrolmentplugins = self::get_enrolment_plugins();
@@ -171,7 +171,7 @@ class tool_uploadcourse_helper {
     }
 
     /**
-     * Return the enrolment plugins.
+     * Return the enrollment plugins.
      *
      * The result is cached for faster execution.
      *
@@ -179,11 +179,11 @@ class tool_uploadcourse_helper {
      */
     public static function get_enrolment_plugins() {
         $cache = cache::make('tool_uploadcourse', 'helper');
-        if (($enrol = $cache->get('enrol')) === false) {
-            $enrol = enrol_get_plugins(false);
-            $cache->set('enrol', $enrol);
+        if (($enroll = $cache->get('enroll')) === false) {
+            $enroll = enrol_get_plugins(false);
+            $cache->set('enroll', $enroll);
         }
-        return $enrol;
+        return $enroll;
     }
 
     /**

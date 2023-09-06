@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Category enrolment plugin event handler definition.
+ * Category enrollment plugin event handler definition.
  *
  * @package   enrol_category
  * @category  event

@@ -1023,10 +1023,10 @@ class renderer extends plugin_renderer_base {
         $output = '';
         $output .= $this->view_page_tertiary_nav($viewobj);
         $output .= $this->view_information($quiz, $cm, $context, $messages);
-        $youneedtoenrol = html_writer::tag('p', get_string('youneedtoenrol', 'quiz'));
+        $youneedtoenroll = html_writer::tag('p', get_string('youneedtoenroll', 'quiz'));
         $button = html_writer::tag('p',
                 $this->continue_button($CFG->wwwroot . '/course/view.php?id=' . $course->id));
-        $output .= $this->box($youneedtoenrol . "\n\n" . $button . "\n", 'generalbox', 'notice');
+        $output .= $this->box($youneedtoenroll . "\n\n" . $button . "\n", 'generalbox', 'notice');
         return $output;
     }
 

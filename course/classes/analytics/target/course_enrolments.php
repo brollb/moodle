@@ -162,7 +162,7 @@ abstract class course_enrolments extends \core_analytics\local\target\binary {
      *
      * Note that this method assumes that the target is only interested in enrolments that are/were active
      * between the current course start and end times. Targets interested in predicting students at risk before
-     * their enrolment start and targets interested in getting predictions for students whose enrolment already
+     * their enrollment start and targets interested in getting predictions for students whose enrollment already
      * finished should overwrite this method as these students are discarded by this method.
      *
      * @param int $sampleid
@@ -174,16 +174,16 @@ abstract class course_enrolments extends \core_analytics\local\target\binary {
 
         $now = time();
 
-        $userenrol = $this->retrieve('user_enrolments', $sampleid);
-        if ($userenrol->timeend && $course->get_start() > $userenrol->timeend) {
+        $userenroll = $this->retrieve('user_enrolments', $sampleid);
+        if ($userenroll->timeend && $course->get_start() > $userenroll->timeend) {
             // Discard enrolments which time end is prior to the course start. This should get rid of
             // old user enrolments that remain on the course.
             return false;
         }
 
         $limit = $course->get_start() - (YEARSECS + (WEEKSECS * 4));
-        if (($userenrol->timestart && $userenrol->timestart < $limit) ||
-                (!$userenrol->timestart && $userenrol->timecreated < $limit)) {
+        if (($userenroll->timestart && $userenroll->timestart < $limit) ||
+                (!$userenroll->timestart && $userenroll->timecreated < $limit)) {
             // Following what we do in is_valid_analysable, we will discard enrolments that last more than 1 academic year
             // because they have incorrect start and end dates or because they are reused along multiple years
             // without removing previous academic years students. This may not be very accurate because some courses
@@ -192,20 +192,20 @@ abstract class course_enrolments extends \core_analytics\local\target\binary {
         }
 
         if ($course->get_end()) {
-            if (($userenrol->timestart && $userenrol->timestart > $course->get_end()) ||
-                    (!$userenrol->timestart && $userenrol->timecreated > $course->get_end())) {
+            if (($userenroll->timestart && $userenroll->timestart > $course->get_end()) ||
+                    (!$userenroll->timestart && $userenroll->timecreated > $course->get_end())) {
                 // Discard user enrolments that start after the analysable official end.
                 return false;
             }
 
         }
 
-        if ($now < $userenrol->timestart && $userenrol->timestart) {
+        if ($now < $userenroll->timestart && $userenroll->timestart) {
             // Discard enrolments whose start date is after now (no need to check timecreated > $now :P).
             return false;
         }
 
-        if (!$fortraining && $userenrol->timeend && $userenrol->timeend < $now) {
+        if (!$fortraining && $userenroll->timeend && $userenroll->timeend < $now) {
             // We don't want to generate predictions for finished enrolments.
             return false;
         }
@@ -283,7 +283,7 @@ abstract class course_enrolments extends \core_analytics\local\target\binary {
     }
 
     /**
-     * Is/was this user enrolment active during most of the analysis interval?
+     * Is/was this user enrollment active during most of the analysis interval?
      *
      * This method discards enrolments that were not active during most of the analysis interval. It is
      * important to discard these enrolments because the indicator calculations can lead to misleading
@@ -291,8 +291,8 @@ abstract class course_enrolments extends \core_analytics\local\target\binary {
      *
      * Note that this method assumes that the target is interested in enrolments that are/were active
      * during the analysis interval. Targets interested in predicting students at risk before
-     * their enrolment start should not call this method. Similarly, targets interested in getting
-     * predictions for students whose enrolment already finished should not call this method either.
+     * their enrollment start should not call this method. Similarly, targets interested in getting
+     * predictions for students whose enrollment already finished should not call this method either.
      *
      * @param  int    $sampleid     The id of the sample that is being calculated
      * @param  int    $starttime    The analysis interval start time
@@ -301,24 +301,24 @@ abstract class course_enrolments extends \core_analytics\local\target\binary {
      */
     protected function enrolment_active_during_analysis_time(int $sampleid, int $starttime, int $endtime) {
 
-        $userenrol = $this->retrieve('user_enrolments', $sampleid);
+        $userenroll = $this->retrieve('user_enrolments', $sampleid);
 
-        if (!empty($userenrol->timestart)) {
-            $enrolstart = $userenrol->timestart;
+        if (!empty($userenroll->timestart)) {
+            $enrolstart = $userenroll->timestart;
         } else {
             // This is always set.
-            $enrolstart = $userenrol->timecreated;
+            $enrolstart = $userenroll->timecreated;
         }
 
-        if (!empty($userenrol->timeend)) {
-            $enrolend = $userenrol->timeend;
+        if (!empty($userenroll->timeend)) {
+            $enrolend = $userenroll->timeend;
         } else {
             // Default to tre end of the world.
             $enrolend = PHP_INT_MAX;
         }
 
         if ($endtime && $endtime < $enrolstart) {
-            /* The enrolment starts/ed after the analysis end time.
+            /* The enrollment starts/ed after the analysis end time.
              *   |=========|        |----------|
              * A start    A end   E start     E end
              */
@@ -326,7 +326,7 @@ abstract class course_enrolments extends \core_analytics\local\target\binary {
         }
 
         if ($starttime && $enrolend < $starttime) {
-            /* The enrolment finishes/ed before the analysis start time.
+            /* The enrollment finishes/ed before the analysis start time.
              *    |---------|        |==========|
              * E start    E end   A start     A end
              */
@@ -343,12 +343,12 @@ abstract class course_enrolments extends \core_analytics\local\target\binary {
 
         if (!$endtime) {
             // We can not calculate in relative terms (percent) how far from the analysis start time
-            // this enrolment start is/was.
+            // this enrollment start is/was.
             return true;
         }
 
         if ($enrolstart < $starttime && $endtime < $enrolend) {
-            /* The enrolment is active during all the analysis time.
+            /* The enrollment is active during all the analysis time.
              *    |-----------------------------|
              *               |========|
              * E start    A start   A end     E end
@@ -356,7 +356,7 @@ abstract class course_enrolments extends \core_analytics\local\target\binary {
             return true;
         }
 
-        // If we reach this point is because the enrolment is only active for a portion of the analysis interval.
+        // If we reach this point is because the enrollment is only active for a portion of the analysis interval.
         // Therefore, we check that it was active for most of the analysis interval, a self::ENROL_ACTIVE_PERCENT_REQUIRED.
 
         if ($starttime <= $enrolstart && $enrolend <= $endtime) {
@@ -386,7 +386,7 @@ abstract class course_enrolments extends \core_analytics\local\target\binary {
             return false;
         }
 
-        // We happily return true if the enrolment was active for more than self::ENROL_ACTIVE_PERCENT_REQUIRED of
+        // We happily return true if the enrollment was active for more than self::ENROL_ACTIVE_PERCENT_REQUIRED of
         // the analysis interval.
         return true;
     }

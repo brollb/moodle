@@ -6225,7 +6225,7 @@ class api_test extends messagelib_test {
         $student1 = self::getDataGenerator()->create_user();
         $student2 = self::getDataGenerator()->create_user();
 
-        // Create a course and enrol the users.
+        // Create a course and enroll the users.
         $course = $this->getDataGenerator()->create_course();
         $coursecontext = \context_course::instance($course->id);
         $this->getDataGenerator()->enrol_user($teacher->id, $course->id, 'editingteacher');

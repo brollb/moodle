@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Meta link enrolment plugin installation.
+ * Meta link enrollment plugin installation.
  *
  * @package    enrol_meta
  * @copyright  2010 Petr Skoda {@link http://skodak.org}

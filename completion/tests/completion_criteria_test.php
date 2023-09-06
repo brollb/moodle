@@ -48,7 +48,7 @@ class completion_criteria_test extends \advanced_testcase {
         global $DB;
         $timestarted = time();
 
-        // Create a course, an activity and enrol a user.
+        // Create a course, an activity and enroll a user.
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
         $assign = $this->getDataGenerator()->create_module('assign', ['course' => $course->id], ['completion' => 1]);
         $user = $this->getDataGenerator()->create_user();
@@ -79,7 +79,7 @@ class completion_criteria_test extends \advanced_testcase {
     }
 
     /**
-     * Test that enrolment timestart are used when duration criteria is marked as completed.
+     * Test that enrollment timestart are used when duration criteria is marked as completed.
      */
     public function test_completion_criteria_duration_timestart(): void {
         global $DB;
@@ -88,7 +88,7 @@ class completion_criteria_test extends \advanced_testcase {
 
         // Create a course and users.
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student', null, 'manual', $timestarted);
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student', null, 'manual', $timestarted);
 
         // Set completion criteria.
         $criteriadata = (object) [
@@ -115,7 +115,7 @@ class completion_criteria_test extends \advanced_testcase {
     }
 
     /**
-     * Test that enrolment timecreated are used when duration criteria is marked as completed.
+     * Test that enrollment timecreated are used when duration criteria is marked as completed.
      */
     public function test_completion_criteria_duration_timecreated(): void {
         global $DB;
@@ -126,8 +126,8 @@ class completion_criteria_test extends \advanced_testcase {
         // Create a course and users.
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
 
-        // Create and enrol user with an empty time start, but update the record like it was created at $timecreated.
-        $user = $this->getDataGenerator()->create_and_enrol($course);
+        // Create and enroll user with an empty time start, but update the record like it was created at $timecreated.
+        $user = $this->getDataGenerator()->create_and_enroll($course);
         $DB->set_field('user_enrolments', 'timecreated', $timecreated, ['userid' => $user->id]);
 
         // Set completion criteria.
@@ -162,7 +162,7 @@ class completion_criteria_test extends \advanced_testcase {
         global $DB;
         $timeend = 1610000000;
 
-        // Create a course and enrol a user.
+        // Create a course and enroll a user.
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
         $user = $this->getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', ['shortname' => 'student']);
@@ -199,7 +199,7 @@ class completion_criteria_test extends \advanced_testcase {
         global $DB;
         $timegraded = 1610000000;
 
-        // Create a course and enrol a couple of users.
+        // Create a course and enroll a couple of users.
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
         $user1 = $this->getDataGenerator()->create_user();
         $user2 = $this->getDataGenerator()->create_user();

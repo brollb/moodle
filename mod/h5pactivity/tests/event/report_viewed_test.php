@@ -62,7 +62,7 @@ class report_viewed_test extends advanced_testcase {
         $generator = $this->getDataGenerator()->get_plugin_generator('mod_h5pactivity');
 
         // Create a user with 1 attempt.
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $params = ['cmid' => $activity->cmid, 'userid' => $user->id];
         $attempt = $generator->create_content($activity, $params);
 

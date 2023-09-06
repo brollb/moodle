@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * User enrolment deleted event.
+ * User enrollment deleted event.
  *
  * @package    core
  * @copyright  2013 Rajesh Taneja <rajesh@moodle.com>
@@ -31,8 +31,8 @@ defined('MOODLE_INTERNAL') || die();
  * @property-read array $other {
  *      Extra information about event.
  *
- *      - string enrol: name of enrolment instance.
- *      - array userenrolment: user_enrolment record.
+ *      - string enroll: name of enrollment instance.
+ *      - array userenrollment: user_enrollment record.
  * }
  *
  * @package    core
@@ -57,7 +57,7 @@ class user_enrolment_deleted extends base {
      * @return string
      */
     public static function get_name() {
-        return get_string('eventuserenrolmentdeleted', 'core_enrol');
+        return get_string('eventuserenrolmentdeleted', 'core_enroll');
     }
 
     /**
@@ -66,8 +66,8 @@ class user_enrolment_deleted extends base {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' unenrolled the user with id '$this->relateduserid' using the enrolment method " .
-            "'{$this->other['enrol']}' from the course with id '$this->courseid'.";
+        return "The user with id '$this->userid' unenrolled the user with id '$this->relateduserid' using the enrollment method " .
+            "'{$this->other['enroll']}' from the course with id '$this->courseid'.";
     }
 
     /**
@@ -87,11 +87,11 @@ class user_enrolment_deleted extends base {
      */
     protected function validate_data() {
         parent::validate_data();
-        if (!isset($this->other['userenrolment'])) {
-            throw new \coding_exception('The \'userenrolment\' value must be set in other.');
+        if (!isset($this->other['userenrollment'])) {
+            throw new \coding_exception('The \'userenrollment\' value must be set in other.');
         }
-        if (!isset($this->other['enrol'])) {
-            throw new \coding_exception('The \'enrol\' value must be set in other.');
+        if (!isset($this->other['enroll'])) {
+            throw new \coding_exception('The \'enroll\' value must be set in other.');
         }
         if (!isset($this->relateduserid)) {
             throw new \coding_exception('The \'relateduserid\' must be set.');

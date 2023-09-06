@@ -52,7 +52,7 @@ class mnet_xmlrpc_client {
      * machine. Examples:
      * mod/scorm/functionname
      * auth/mnet/methodname
-     * In the case of auth and enrolment plugins, an object will be created and
+     * In the case of auth and enrollment plugins, an object will be created and
      * the method on that object will be called
      */
     public function set_method($xmlrpcpath) {

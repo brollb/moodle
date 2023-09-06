@@ -405,7 +405,7 @@ class externallib_test extends externallib_advanced_testcase {
         global $DB, $CFG, $COMPLETION_CRITERIA_TYPES;
         require_once($CFG->dirroot.'/completion/criteria/completion_criteria_self.php');
         require_once($CFG->dirroot.'/completion/criteria/completion_criteria_date.php');
-        require_once($CFG->dirroot.'/completion/criteria/completion_criteria_unenrol.php');
+        require_once($CFG->dirroot.'/completion/criteria/completion_criteria_unenroll.php');
         require_once($CFG->dirroot.'/completion/criteria/completion_criteria_activity.php');
         require_once($CFG->dirroot.'/completion/criteria/completion_criteria_duration.php');
         require_once($CFG->dirroot.'/completion/criteria/completion_criteria_grade.php');

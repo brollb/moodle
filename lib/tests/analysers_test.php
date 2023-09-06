@@ -146,9 +146,9 @@ class analysers_test extends \advanced_testcase {
         $this->getDataGenerator()->enrol_user($user1->id, $course1->id, 'student');
         $this->getDataGenerator()->enrol_user($user2->id, $course1->id, 'student', 'manual', 0, 0, ENROL_USER_SUSPENDED);
         $this->getDataGenerator()->enrol_user($user3->id, $course1->id, 'editingteacher');
-        $enrol = $DB->get_record('enrol', array('courseid' => $course1->id, 'enrol' => 'manual'));
-        $ue1 = $DB->get_record('user_enrolments', array('userid' => $user1->id, 'enrolid' => $enrol->id));
-        $ue2 = $DB->get_record('user_enrolments', array('userid' => $user2->id, 'enrolid' => $enrol->id));
+        $enroll = $DB->get_record('enroll', array('courseid' => $course1->id, 'enroll' => 'manual'));
+        $ue1 = $DB->get_record('user_enrolments', array('userid' => $user1->id, 'enrolid' => $enroll->id));
+        $ue2 = $DB->get_record('user_enrolments', array('userid' => $user2->id, 'enrolid' => $enroll->id));
 
         $target = new test_target_shortname();
         $analyser = new \core\analytics\analyser\student_enrolments(1, $target, [], [], []);

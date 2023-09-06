@@ -48,8 +48,8 @@ class delete_saved_preset_test extends externallib_advanced_testcase {
         // Create course, database activity and users.
         $course = $this->getDataGenerator()->create_course();
         $data = $this->getDataGenerator()->create_module('data', ['course' => $course->id]);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $manager = manager::create_from_instance($data);
         $initialpresets = $manager->get_available_presets();
 

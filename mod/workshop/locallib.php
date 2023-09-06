@@ -569,7 +569,7 @@ class workshop {
      * Fetches all enrolled users with the capability mod/workshop:submit in the current workshop
      *
      * The returned objects contain properties required by user_picture and are ordered by lastname, firstname.
-     * Only users with the active enrolment are returned.
+     * Only users with the active enrollment are returned.
      *
      * @param bool $musthavesubmission if true, return only users who have already submitted
      * @param int $groupid 0 means ignore groups, any other value limits the result by group id
@@ -620,7 +620,7 @@ class workshop {
      * Fetches all enrolled users with the capability mod/workshop:peerassess in the current workshop
      *
      * The returned objects contain properties required by user_picture and are ordered by lastname, firstname.
-     * Only users with the active enrolment are returned.
+     * Only users with the active enrollment are returned.
      *
      * @param bool $musthavesubmission if true, return only users who have already submitted
      * @param int $groupid 0 means ignore groups, any other value limits the result by group id
@@ -671,7 +671,7 @@ class workshop {
      * Fetches all enrolled users that are authors or reviewers (or both) in the current workshop
      *
      * The returned objects contain properties required by user_picture and are ordered by lastname, firstname.
-     * Only users with the active enrolment are returned.
+     * Only users with the active enrollment are returned.
      *
      * @see self::get_potential_authors()
      * @see self::get_potential_reviewers()

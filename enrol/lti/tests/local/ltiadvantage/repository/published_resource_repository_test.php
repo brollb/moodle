@@ -37,8 +37,8 @@ class published_resource_repository_test extends \advanced_testcase {
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
         $course2 = $generator->create_course();
-        $user = $generator->create_and_enrol($course, 'editingteacher');
-        $user2 = $generator->create_and_enrol($course2, 'editingteacher');
+        $user = $generator->create_and_enroll($course, 'editingteacher');
+        $user2 = $generator->create_and_enroll($course2, 'editingteacher');
         $user3 = $generator->create_user();
         $this->setAdminUser();
         $mod = $generator->create_module('assign', ['course' => $course->id]);
@@ -171,7 +171,7 @@ class published_resource_repository_test extends \advanced_testcase {
             = $this->generate_published_resources();
 
         // Grant the user permissions as an editing teacher in a specific module within the course,
-        // as if the user had launched into the module via LTI enrolment, with an instructor role of 'editingteacher'.
+        // as if the user had launched into the module via LTI enrollment, with an instructor role of 'editingteacher'.
         $modaccessonlyuser = $this->getDataGenerator()->create_user();
         helper::enrol_user($modtool, $modaccessonlyuser->id); // Enrolment only, no role.
         $editingteacherrole = $DB->get_record('role', array('shortname' => 'editingteacher'));

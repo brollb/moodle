@@ -125,7 +125,7 @@
       <directory suffix="_test.php">calendar/tests</directory>
     </testsuite>
     <testsuite name="core_enrol_testsuite">
-      <directory suffix="_test.php">enrol/tests</directory>
+      <directory suffix="_test.php">enroll/tests</directory>
     </testsuite>
     <testsuite name="core_group_testsuite">
       <directory suffix="_test.php">group/tests</directory>

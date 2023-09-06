@@ -329,7 +329,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
         provider::delete_data_for_users($approveduserlist);
 
         // Check we have 2 users in groups because we have deleted user1.
-        // User2's membership is manual and is not as the result of a cohort enrolment.
+        // User2's membership is manual and is not as the result of a cohort enrollment.
         $this->assertEquals(
                 2,
                 $DB->count_records_sql("SELECT COUNT(gm.id)

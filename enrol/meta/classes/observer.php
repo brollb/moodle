@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Event observer for meta enrolment plugin.
+ * Event observer for meta enrollment plugin.
  *
  * @package    enrol_meta
  * @copyright  2013 Rajesh Taneja <rajesh@moodle.com>
@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/enrol/meta/locallib.php');
+require_once($CFG->dirroot.'/enroll/meta/locallib.php');
 
 /**
  * Event observer for enrol_meta.
@@ -47,7 +47,7 @@ class enrol_meta_observer extends enrol_meta_handler {
             return true;
         }
 
-        if ($event->other['enrol'] === 'meta') {
+        if ($event->other['enroll'] === 'meta') {
             // Prevent circular dependencies - we can not sync meta enrolments recursively.
             return true;
         }
@@ -68,7 +68,7 @@ class enrol_meta_observer extends enrol_meta_handler {
             return true;
         }
 
-        if ($event->other['enrol'] === 'meta') {
+        if ($event->other['enroll'] === 'meta') {
             // Prevent circular dependencies - we can not sync meta enrolments recursively.
             return true;
         }
@@ -90,7 +90,7 @@ class enrol_meta_observer extends enrol_meta_handler {
             return true;
         }
 
-        if ($event->other['enrol'] === 'meta') {
+        if ($event->other['enroll'] === 'meta') {
             // Prevent circular dependencies - we can not sync meta enrolments recursively.
             return true;
         }
@@ -174,7 +174,7 @@ class enrol_meta_observer extends enrol_meta_handler {
         }
 
         // Does anything want to sync with this parent?
-        if (!$enrols = $DB->get_records('enrol', array('customint1' => $event->objectid, 'enrol' => 'meta'),
+        if (!$enrols = $DB->get_records('enroll', array('customint1' => $event->objectid, 'enroll' => 'meta'),
                 'courseid ASC, id ASC')) {
             return true;
         }
@@ -185,20 +185,20 @@ class enrol_meta_observer extends enrol_meta_handler {
         if ($unenrolaction == ENROL_EXT_REMOVED_UNENROL) {
             // Simple, just delete this instance which purges all enrolments,
             // admins were warned that this is risky setting!
-            foreach ($enrols as $enrol) {
-                $plugin->delete_instance($enrol);
+            foreach ($enrols as $enroll) {
+                $plugin->delete_instance($enroll);
             }
             return true;
         }
 
-        foreach ($enrols as $enrol) {
+        foreach ($enrols as $enroll) {
             if ($unenrolaction == ENROL_EXT_REMOVED_SUSPEND or $unenrolaction == ENROL_EXT_REMOVED_SUSPENDNOROLES) {
                 // This makes all enrolments suspended very quickly.
-                $plugin->update_status($enrol, ENROL_INSTANCE_DISABLED);
+                $plugin->update_status($enroll, ENROL_INSTANCE_DISABLED);
             }
             if ($unenrolaction == ENROL_EXT_REMOVED_SUSPENDNOROLES) {
-                $context = context_course::instance($enrol->courseid);
-                role_unassign_all(array('contextid'=>$context->id, 'component'=>'enrol_meta', 'itemid'=>$enrol->id));
+                $context = context_course::instance($enroll->courseid);
+                role_unassign_all(array('contextid'=>$context->id, 'component'=>'enrol_meta', 'itemid'=>$enroll->id));
             }
         }
 
@@ -220,8 +220,8 @@ class enrol_meta_observer extends enrol_meta_handler {
         }
 
         // Does anything want to sync with this parent?
-        $affectedcourses = $DB->get_fieldset_sql('SELECT DISTINCT courseid FROM {enrol} '.
-                'WHERE customint1 = ? AND enrol = ?',
+        $affectedcourses = $DB->get_fieldset_sql('SELECT DISTINCT courseid FROM {enroll} '.
+                'WHERE customint1 = ? AND enroll = ?',
                 array($event->courseid, 'meta'));
 
         foreach ($affectedcourses as $courseid) {

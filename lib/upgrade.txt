@@ -176,7 +176,7 @@ being forced open in all behat tests.
 * In enrollib.php, the methods get_enrolled_with_capabilities_join, get_enrolled_sql, get_enrolled_users and
   count_enrolled_users used to only be able to accept a single group id, even though internally, they used
   groups_get_members_join which could also accept an array of groups, or the constant USERSWITHOUTGROUP.
-  This has now been made consistent. These enrol methods now accept all the group-related options that
+  This has now been made consistent. These enroll methods now accept all the group-related options that
   groups_get_members_join can handle.
 * assign_capability() now has an optional $performancehints parameter which can be used in
   situations where it is being called in a loop in response to a database query, to reduce the
@@ -984,7 +984,7 @@ validation against and defaults to null (so, no user needed) if not provided.
 * A new setting 'Cache templates' was added (see MDL-66367). This setting determines if templates are cached or not.
   This setting can be set via the UI or by defining $CFG->cachetemplates in your config.php file. It is a boolean
   and should be set to either false or true. Developers will probably want to set this to false.
-* The core_enrol_edit_user_enrolment webservice has been deprecated. Please use core_enrol_submit_user_enrolment_form instead.
+* The core_enrol_edit_user_enrollment webservice has been deprecated. Please use core_enrol_submit_user_enrolment_form instead.
 * \single_button constructor has a new attributes param to add attributes to the button HTML tag.
 * Improved url matching behaviour for profiled urls and excluded urls
 * Attempting to use xsendfile via the 3rd param of readstring_accel() is now ignored.
@@ -1279,26 +1279,26 @@ the groupid field.
   every form. The method should accept a single parameter with the submitted value. It should return a string with the
   eventual validation error, or an empty value if the validation passes.
 * New user_picture attribute $includefullname to determine whether to include the user's full name with the user's picture.
-* Enrol plugins which provide enrolment actions can now declare the following "data-action" attributes in their implementation of
+* Enrol plugins which provide enrollment actions can now declare the following "data-action" attributes in their implementation of
   enrol_plugin::get_user_enrolment_actions() whenever applicable:
-  * "editenrolment" - For editing a user'e enrolment details. Defined by constant ENROL_ACTION_EDIT.
-  * "unenrol" - For unenrolling a student. Defined by constant ENROL_ACTION_UNENROL.
-  These attributes enable enrol actions to be rendered via modals. If not added, clicking on the enrolment action buttons will still
-  redirect the user to the appropriate enrolment action page. Though optional, it is recommended to add these attributes for a
-  better user experience when performing enrol actions.
-* The enrol_plugin::get_user_enrolment_actions() implementations for core enrol plugins have been removed and moved to
-  the parent method itself. New enrol plugins don't have to implement get_user_enrolment_actions(), but just need to
+  * "editenrollment" - For editing a user'e enrollment details. Defined by constant ENROL_ACTION_EDIT.
+  * "unenroll" - For unenrolling a student. Defined by constant ENROL_ACTION_UNENROL.
+  These attributes enable enroll actions to be rendered via modals. If not added, clicking on the enrollment action buttons will still
+  redirect the user to the appropriate enrollment action page. Though optional, it is recommended to add these attributes for a
+  better user experience when performing enroll actions.
+* The enrol_plugin::get_user_enrolment_actions() implementations for core enroll plugins have been removed and moved to
+  the parent method itself. New enroll plugins don't have to implement get_user_enrolment_actions(), but just need to
   make sure that they override:
   - enrol_plugin::allow_manage(), and/or
-  - enrol_plugin::allow_unenrol_user() or enrol_plugin::allow_unenrol()
-  Existing enrol plugins that override enrol_plugin::get_user_enrolment_actions() don't have to do anything, but can
+  - enrol_plugin::allow_unenrol_user() or enrol_plugin::allow_unenroll()
+  Existing enroll plugins that override enrol_plugin::get_user_enrolment_actions() don't have to do anything, but can
   also opt to remove their own implementation of the method if they basically have the same logic as the parent method.
 * New optional parameter $enrolid for the following functions:
   - get_enrolled_join()
   - get_enrolled_sql()
   - get_enrolled_with_capabilities_join()
   Setting this parameter to a non-zero value will add a condition to the query such that only users that were enrolled
-  with this enrolment method will be returned.
+  with this enrollment method will be returned.
 * New optional parameter 'closeSuggestionsOnSelect' for the enhance() function for form-autocomplete. Setting this to true will
   close the suggestions popup immediately after an option has been selected. If not specified, it defaults to true for single-select
   elements and false for multiple-select elements.
@@ -2329,7 +2329,7 @@ YUI changes:
   are deprecated. See their phpdocs in lib/deprecatedlib.php on how to replace them
 
 YUI changes:
-* moodle-enrol-notification has been renamed to moodle-core-notification
+* moodle-enroll-notification has been renamed to moodle-core-notification
 * YUI2 code must now use 2in3, see http://yuilibrary.com/yui/docs/yui/yui-yui2.html
 * M.util.init_select_autosubmit() and M.util.init_url_select() have been deprecated. Code using this should be updated
   to use moodle-core-formautosubmit
@@ -2392,7 +2392,7 @@ API changes:
 * new rating API
 * new comment API
 * new sessions API
-* new enrolment API
+* new enrollment API
 * new backup/restore API
 * new blocks API
 * new filters API

@@ -168,16 +168,16 @@ class externallib_test extends externallib_advanced_testcase {
         // Enrol the user in two courses.
         // DataGenerator->enrol_user automatically sets a role for the user with the permission mod/form:viewdiscussion.
         $this->getDataGenerator()->enrol_user($user->id, $course1->id, null, 'manual');
-        // Execute real Moodle enrolment as we'll call unenrol() method on the instance later.
-        $enrol = enrol_get_plugin('manual');
+        // Execute real Moodle enrollment as we'll call unenroll() method on the instance later.
+        $enroll = enrol_get_plugin('manual');
         $enrolinstances = enrol_get_instances($course2->id, true);
         foreach ($enrolinstances as $courseenrolinstance) {
-            if ($courseenrolinstance->enrol == "manual") {
+            if ($courseenrolinstance->enroll == "manual") {
                 $instance2 = $courseenrolinstance;
                 break;
             }
         }
-        $enrol->enrol_user($instance2, $user->id);
+        $enroll->enrol_user($instance2, $user->id);
 
         // Assign capabilities to view forums for forum 2.
         $cm2 = get_coursemodule_from_id('forum', $forum2->cmid, 0, false, MUST_EXIST);
@@ -209,8 +209,8 @@ class externallib_test extends externallib_advanced_testcase {
             $this->assertEquals($expectedforums[$forum['id']], $forum);
         }
 
-        // Unenrol user from second course and alter expected forums.
-        $enrol->unenrol_user($instance2, $user->id);
+        // Unenroll user from second course and alter expected forums.
+        $enroll->unenrol_user($instance2, $user->id);
         unset($expectedforums[$forum2->id]);
 
         // Call the external function without passing course id.
@@ -443,8 +443,8 @@ class externallib_test extends externallib_advanced_testcase {
         $discussion1reply2 = $forumgenerator->create_post($record);
 
         // Enrol the user in the  course.
-        $enrol = enrol_get_plugin('manual');
-        // Following line enrol and assign default role id to the user.
+        $enroll = enrol_get_plugin('manual');
+        // Following line enroll and assign default role id to the user.
         // So the user automatically gets mod/forum:viewdiscussion on all forums of the course.
         $this->getDataGenerator()->enrol_user($user1->id, $course1->id);
         $this->getDataGenerator()->enrol_user($user2->id, $course1->id);
@@ -519,7 +519,7 @@ class externallib_test extends externallib_advanced_testcase {
                 'export' => 0,
                 'controlreadstatus' => 0,
                 'canreplyprivately' => 0,
-                'selfenrol' => 0
+                'selfenroll' => 0
             ],
             'urls' => [
                 'view' => $urlfactory->get_view_post_url_from_post_id($discussion1reply2->discussion, $discussion1reply2->id),
@@ -580,7 +580,7 @@ class externallib_test extends externallib_advanced_testcase {
                 'export' => 0,
                 'controlreadstatus' => 0,
                 'canreplyprivately' => 0,
-                'selfenrol' => 0
+                'selfenroll' => 0
             ],
             'urls' => [
                 'view' => $urlfactory->get_view_post_url_from_post_id($discussion1reply1->discussion, $discussion1reply1->id),
@@ -669,7 +669,7 @@ class externallib_test extends externallib_advanced_testcase {
         $this->resetAfterTest(true);
         $generator = self::getDataGenerator()->get_plugin_generator('mod_forum');
 
-        // Create a course and enrol some users in it.
+        // Create a course and enroll some users in it.
         $course1 = self::getDataGenerator()->create_course();
 
         // Create users.
@@ -748,7 +748,7 @@ class externallib_test extends externallib_advanced_testcase {
 
         $this->resetAfterTest(true);
 
-        // Create a course and enrol some users in it.
+        // Create a course and enroll some users in it.
         $course = self::getDataGenerator()->create_course();
 
         // Create users.
@@ -935,17 +935,17 @@ class externallib_test extends externallib_advanced_testcase {
         $discussion1reply3 = self::getDataGenerator()->get_plugin_generator('mod_forum')->create_post($record);
 
         // Enrol the user in the first course.
-        $enrol = enrol_get_plugin('manual');
+        $enroll = enrol_get_plugin('manual');
 
-        // We don't use the dataGenerator as we need to get the $instance2 to unenrol later.
+        // We don't use the dataGenerator as we need to get the $instance2 to unenroll later.
         $enrolinstances = enrol_get_instances($course1->id, true);
         foreach ($enrolinstances as $courseenrolinstance) {
-            if ($courseenrolinstance->enrol == "manual") {
+            if ($courseenrolinstance->enroll == "manual") {
                 $instance1 = $courseenrolinstance;
                 break;
             }
         }
-        $enrol->enrol_user($instance1, $user1->id);
+        $enroll->enrol_user($instance1, $user1->id);
 
         // Delete one user.
         delete_user($user4);
@@ -1022,8 +1022,8 @@ class externallib_test extends externallib_advanced_testcase {
             $this->assertEquals('noviewdiscussionspermission', $e->errorcode);
         }
 
-        // Unenrol user from second course.
-        $enrol->unenrol_user($instance1, $user1->id);
+        // Unenroll user from second course.
+        $enroll->unenrol_user($instance1, $user1->id);
 
         // Call for the second course we unenrolled the user from, make sure exception thrown.
         try {
@@ -1137,17 +1137,17 @@ class externallib_test extends externallib_advanced_testcase {
         $discussion1reply3 = self::getDataGenerator()->get_plugin_generator('mod_forum')->create_post($record);
 
         // Enrol the user in the first course.
-        $enrol = enrol_get_plugin('manual');
+        $enroll = enrol_get_plugin('manual');
 
-        // We don't use the dataGenerator as we need to get the $instance2 to unenrol later.
+        // We don't use the dataGenerator as we need to get the $instance2 to unenroll later.
         $enrolinstances = enrol_get_instances($course1->id, true);
         foreach ($enrolinstances as $courseenrolinstance) {
-            if ($courseenrolinstance->enrol == "manual") {
+            if ($courseenrolinstance->enroll == "manual") {
                 $instance1 = $courseenrolinstance;
                 break;
             }
         }
-        $enrol->enrol_user($instance1, $user1->id);
+        $enroll->enrol_user($instance1, $user1->id);
 
         // Delete one user.
         delete_user($user4);
@@ -1233,8 +1233,8 @@ class externallib_test extends externallib_advanced_testcase {
             $this->assertEquals('noviewdiscussionspermission', $e->errorcode);
         }
 
-        // Unenrol user from second course.
-        $enrol->unenrol_user($instance1, $user1->id);
+        // Unenroll user from second course.
+        $enroll->unenrol_user($instance1, $user1->id);
 
         // Call for the second course we unenrolled the user from, make sure exception thrown.
         try {
@@ -1277,17 +1277,17 @@ class externallib_test extends externallib_advanced_testcase {
         $course1 = self::getDataGenerator()->create_course();
 
         // Enrol the user in the first course.
-        $enrol = enrol_get_plugin('manual');
+        $enroll = enrol_get_plugin('manual');
 
-        // We don't use the dataGenerator as we need to get the $instance2 to unenrol later.
+        // We don't use the dataGenerator as we need to get the $instance2 to unenroll later.
         $enrolinstances = enrol_get_instances($course1->id, true);
         foreach ($enrolinstances as $courseenrolinstance) {
-            if ($courseenrolinstance->enrol == "manual") {
+            if ($courseenrolinstance->enroll == "manual") {
                 $instance1 = $courseenrolinstance;
                 break;
             }
         }
-        $enrol->enrol_user($instance1, $user1->id);
+        $enroll->enrol_user($instance1, $user1->id);
 
         // First forum with tracking off.
         $record = new \stdClass();
@@ -2213,7 +2213,7 @@ class externallib_test extends externallib_advanced_testcase {
         $forumcontext = \context_module::instance($forum->cmid);
         $generator = self::getDataGenerator()->get_plugin_generator('mod_forum');
 
-        // Create an enrol users.
+        // Create an enroll users.
         $student1 = self::getDataGenerator()->create_user();
         $this->getDataGenerator()->enrol_user($student1->id, $course->id, 'student');
         $student2 = self::getDataGenerator()->create_user();
@@ -2629,7 +2629,7 @@ class externallib_test extends externallib_advanced_testcase {
         $fs = get_file_storage();
         $file2 = $fs->create_file_from_string($filerecordinline, 'image contents (not really)');
 
-        // Following line enrol and assign default role id to the user.
+        // Following line enroll and assign default role id to the user.
         // So the user automatically gets mod/forum:viewdiscussion on all forums of the course.
         $this->getDataGenerator()->enrol_user($user1->id, $course1->id, 'teacher');
         $this->getDataGenerator()->enrol_user($user2->id, $course1->id);
@@ -2699,7 +2699,7 @@ class externallib_test extends externallib_advanced_testcase {
                             'export' => false,
                             'controlreadstatus' => false,
                             'canreplyprivately' => true,
-                            'selfenrol' => false
+                            'selfenroll' => false
                         ],
                         'urls' => [
                             'view' => $urlfactory->get_view_post_url_from_post_id(
@@ -2765,7 +2765,7 @@ class externallib_test extends externallib_advanced_testcase {
                             'export' => false,
                             'controlreadstatus' => false,
                             'canreplyprivately' => true,
-                            'selfenrol' => false
+                            'selfenroll' => false
                         ],
                         'urls' => [
                             'view' => $urlfactory->get_view_post_url_from_post_id(
@@ -2842,7 +2842,7 @@ class externallib_test extends externallib_advanced_testcase {
                             'export' => false,
                             'controlreadstatus' => false,
                             'canreplyprivately' => true,
-                            'selfenrol' => false
+                            'selfenroll' => false
                         ],
                         'urls' => [
                             'view' => $urlfactory->get_view_post_url_from_post_id(
@@ -2908,7 +2908,7 @@ class externallib_test extends externallib_advanced_testcase {
                             'export' => false,
                             'controlreadstatus' => false,
                             'canreplyprivately' => true,
-                            'selfenrol' => false
+                            'selfenroll' => false
                         ],
                         'urls' => [
                             'view' => $urlfactory->get_view_post_url_from_post_id(

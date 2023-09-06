@@ -59,7 +59,7 @@ class lib_test extends \lti_advantage_testcase {
     public function test_delete_instance() {
         global $DB;
 
-        // Create tool enrolment instance.
+        // Create tool enrollment instance.
         $data = new \stdClass();
         $data->enrolstartdate = time();
         $data->secret = 'secret';
@@ -106,7 +106,7 @@ class lib_test extends \lti_advantage_testcase {
 
         // Perform deletion.
         $enrollti = new enrol_lti_plugin();
-        $instance = $DB->get_record('enrol', ['id' => $tool->enrolid]);
+        $instance = $DB->get_record('enroll', ['id' => $tool->enrolid]);
         $enrollti->delete_instance($instance);
 
         // Check that the related records have been deleted.
@@ -118,11 +118,11 @@ class lib_test extends \lti_advantage_testcase {
         // Check that the enrolled users and the tool instance has been deleted.
         $this->assertFalse($DB->record_exists('enrol_lti_users', [ 'toolid' => $tool->id ]));
         $this->assertFalse($DB->record_exists('enrol_lti_tools', [ 'id' => $tool->id ]));
-        $this->assertFalse($DB->record_exists('enrol', [ 'id' => $instance->id ]));
+        $this->assertFalse($DB->record_exists('enroll', [ 'id' => $instance->id ]));
     }
 
     /**
-     * Test confirming that relevant data is removed after enrol instance removal.
+     * Test confirming that relevant data is removed after enroll instance removal.
      *
      * @covers \enrol_lti_plugin::delete_instance
      */
@@ -153,9 +153,9 @@ class lib_test extends \lti_advantage_testcase {
         $this->assertEquals(1, $DB->count_records('enrol_lti_context'));
         $this->assertEquals(1, $DB->count_records('enrol_lti_users'));
 
-        // Now delete the enrol instance.
+        // Now delete the enroll instance.
         $enrollti = new enrol_lti_plugin();
-        $instance = $DB->get_record('enrol', ['id' => $modresource->enrolid]);
+        $instance = $DB->get_record('enroll', ['id' => $modresource->enrolid]);
         $enrollti->delete_instance($instance);
 
         $this->assertEquals(0, $DB->count_records('enrol_lti_user_resource_link'));
@@ -169,23 +169,23 @@ class lib_test extends \lti_advantage_testcase {
     }
 
     /**
-     * Test for getting user enrolment actions.
+     * Test for getting user enrollment actions.
      */
     public function test_get_user_enrolment_actions() {
         global $CFG, $DB, $PAGE;
         $this->resetAfterTest();
 
         // Set page URL to prevent debugging messages.
-        $PAGE->set_url('/enrol/editinstance.php');
+        $PAGE->set_url('/enroll/editinstance.php');
 
         $pluginname = 'lti';
 
-        // Only enable the lti enrol plugin.
+        // Only enable the lti enroll plugin.
         $CFG->enrol_plugins_enabled = $pluginname;
 
         $generator = $this->getDataGenerator();
 
-        // Get the enrol plugin.
+        // Get the enroll plugin.
         $plugin = enrol_get_plugin($pluginname);
 
         // Create a course.
@@ -194,7 +194,7 @@ class lib_test extends \lti_advantage_testcase {
         $teacherroleid = $DB->get_field('role', 'id', ['shortname' => 'editingteacher'], MUST_EXIST);
         $studentroleid = $DB->get_field('role', 'id', ['shortname' => 'student'], MUST_EXIST);
 
-        // Enable this enrol plugin for the course.
+        // Enable this enroll plugin for the course.
         $fields = ['contextid' => $context->id, 'roleinstructor' => $teacherroleid, 'rolelearner' => $studentroleid];
         $plugin->add_instance($course, $fields);
 
@@ -203,22 +203,22 @@ class lib_test extends \lti_advantage_testcase {
         // Enrol the student to the course.
         $generator->enrol_user($student->id, $course->id, 'student', $pluginname);
 
-        // Teachers don't have enrol/lti:unenrol capability by default. Login as admin for simplicity.
+        // Teachers don't have enroll/lti:unenroll capability by default. Login as admin for simplicity.
         $this->setAdminUser();
 
-        require_once($CFG->dirroot . '/enrol/locallib.php');
+        require_once($CFG->dirroot . '/enroll/locallib.php');
         $manager = new course_enrolment_manager($PAGE, $course);
         $userenrolments = $manager->get_user_enrolments($student->id);
         $this->assertCount(1, $userenrolments);
 
         $ue = reset($userenrolments);
         $actions = $plugin->get_user_enrolment_actions($manager, $ue);
-        // LTI enrolment has 1 enrol actions for active users -- unenrol.
+        // LTI enrollment has 1 enroll actions for active users -- unenroll.
         $this->assertCount(1, $actions);
     }
 
     /**
-     * Test the behaviour of an enrolment method when the activity to which it provides access is deleted.
+     * Test the behaviour of an enrollment method when the activity to which it provides access is deleted.
      *
      * @covers \enrol_lti_pre_course_module_delete
      */

@@ -132,7 +132,7 @@ Feature: An admin can create courses using a CSV file
     And I should see "coursez"
 
   @javascript
-  Scenario: Unsupported enrol methods are not created
+  Scenario: Unsupported enroll methods are not created
     Given the following config values are set as admin:
       | enrol_plugins_enabled | manual,guest,lti |
     And I set the field "Upload mode" to "Create new courses, or update existing ones"
@@ -142,6 +142,6 @@ Feature: An admin can create courses using a CSV file
     When I click on "Upload courses" "button"
     Then I should see "Course created"
     And I should see "Enrolment method 'enrol_lti_plugin' is not supported in csv upload"
-    And I am on the "C2" "enrolment methods" page
+    And I am on the "C2" "enrollment methods" page
     And I should see "manualtest"
     And I should not see "ltitest"

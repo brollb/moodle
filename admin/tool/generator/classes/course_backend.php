@@ -329,17 +329,17 @@ class tool_generator_course_backend extends tool_generator_backend {
         }
 
         // Assign all users to course.
-        $this->log('enrol', $count, true);
+        $this->log('enroll', $count, true);
 
         $enrolplugin = enrol_get_plugin('manual');
         $instances = enrol_get_instances($this->course->id, true);
         foreach ($instances as $instance) {
-            if ($instance->enrol === 'manual') {
+            if ($instance->enroll === 'manual') {
                 break;
             }
         }
-        if ($instance->enrol !== 'manual') {
-            throw new coding_exception('No manual enrol plugin in course');
+        if ($instance->enroll !== 'manual') {
+            throw new coding_exception('No manual enroll plugin in course');
         }
         $role = $DB->get_record('role', array('shortname' => 'student'), '*', MUST_EXIST);
 

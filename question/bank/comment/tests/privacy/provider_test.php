@@ -63,7 +63,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
         $this->course1 = $generator->create_course();
         $this->course2 = $generator->create_course();
 
-        // Create and enrol teachers.
+        // Create and enroll teachers.
         $this->teacher1 = $generator->create_user();
         $this->teacher2 = $generator->create_user();
         $this->teacher3 = $generator->create_user();

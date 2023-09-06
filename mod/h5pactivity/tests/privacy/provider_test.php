@@ -303,10 +303,10 @@ class provider_test extends provider_testcase {
         $generator = $this->getDataGenerator()->get_plugin_generator('mod_h5pactivity');
 
         // Create student0 without any attempt.
-        $this->student0 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $this->student0 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create student1 with 2 attempts and 1 xapi state.
-        $this->student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $this->student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $params = ['cmid' => $cm->id, 'userid' => $this->student1->id];
         $generator->create_content($activity, $params);
         $generator->create_content($activity, $params);
@@ -319,13 +319,13 @@ class provider_test extends provider_testcase {
         $this->setUser($currentuser);
 
         // Create student2 with 2 attempts.
-        $this->student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $this->student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $params = ['cmid' => $cm->id, 'userid' => $this->student2->id];
         $generator->create_content($activity, $params);
         $generator->create_content($activity, $params);
 
         if ($extrauser) {
-            $this->student3 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+            $this->student3 = $this->getDataGenerator()->create_and_enroll($course, 'student');
             $params = ['cmid' => $cm->id, 'userid' => $this->student3->id];
             $generator->create_content($activity, $params);
             $generator->create_content($activity, $params);

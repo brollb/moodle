@@ -108,20 +108,20 @@ $regrequest = (object) [
     'application_type' => 'web',
     'grant_types' => ['client_credentials', 'implicit'],
     'response_types' => ['id_token'],
-    'initiate_login_uri' => $CFG->wwwroot . '/enrol/lti/login.php?id=' . $draftreg->get_uniqueid(),
+    'initiate_login_uri' => $CFG->wwwroot . '/enroll/lti/login.php?id=' . $draftreg->get_uniqueid(),
     'redirect_uris' => [
-        $CFG->wwwroot . '/enrol/lti/launch.php',
-        $CFG->wwwroot . '/enrol/lti/launch_deeplink.php',
+        $CFG->wwwroot . '/enroll/lti/launch.php',
+        $CFG->wwwroot . '/enroll/lti/launch_deeplink.php',
     ],
      // TODO: Consider whether to support client_name#ja syntax for multi language support - see MDL-73109.
     'client_name' => format_string($SITE->fullname, true, ['context' => system::instance()]),
-    'jwks_uri' => $CFG->wwwroot . '/enrol/lti/jwks.php',
+    'jwks_uri' => $CFG->wwwroot . '/enroll/lti/jwks.php',
     'logo_uri' => $OUTPUT->get_compact_logo_url() ? $OUTPUT->get_compact_logo_url()->out(false) : '',
     'token_endpoint_auth_method' => 'private_key_jwt',
     'scope' => implode(" ", $scopes),
     'https://purl.imsglobal.org/spec/lti-tool-configuration' => [
         'domain' => $parsed['host'],
-        'target_link_uri' => $CFG->wwwroot . '/enrol/lti/launch.php',
+        'target_link_uri' => $CFG->wwwroot . '/enroll/lti/launch.php',
         'custom_parameters' => [],
         'claims' => [
             'iss',
@@ -136,7 +136,7 @@ $regrequest = (object) [
             (object) [
                 'type' => 'LtiDeepLinkingRequest',
                 'allowLearner' => false,
-                'target_link_uri' => $CFG->wwwroot . '/enrol/lti/launch_deeplink.php',
+                'target_link_uri' => $CFG->wwwroot . '/enroll/lti/launch_deeplink.php',
                  // TODO: Consider whether to support label#ja syntax for multi language support - see MDL-73109.
                 'label' => get_string('registrationdeeplinklabel', 'enrol_lti', $sitefullname),
                 'placements' => [
@@ -146,7 +146,7 @@ $regrequest = (object) [
             (object) [
                 'type' => 'LtiResourceLinkRequest',
                 'allowLearner' => true,
-                'target_link_uri' => $CFG->wwwroot . '/enrol/lti/launch.php',
+                'target_link_uri' => $CFG->wwwroot . '/enroll/lti/launch.php',
                 // TODO: Consider whether to support label#ja syntax for multi language support - see MDL-73109.
                 'label' => get_string('registrationresourcelinklabel', 'enrol_lti', $sitefullname),
                 'placements' => [

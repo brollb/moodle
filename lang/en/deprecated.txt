@@ -10,7 +10,7 @@ search:mycourse,core_search
 calendarurl,core_calendar
 yourprogress,core_completion
 importfrominstructions,core_calendar
-proceedtocourse,core_enrol
+proceedtocourse,core_enroll
 coursepage,core_admin
 invalidpersistenterror,core_competency
 mediapluginswf,core_admin

@@ -17,23 +17,23 @@
 {{!
     @template core_user/status_details
 
-    Template for the user enrolment status details.
+    Template for the user enrollment status details.
 
     Context variables required for this template:
     * fullname string - The user's full name.
     * coursename string - The course name.
-    * enrolinstancename string - The enrolment instance name.
-    * status string - The enrolment status.
-    * statusclass string - The CSS class for the enrolment status.
-    * timestart string - Optional. The enrolment time start.
-    * timeend string - Optional. The enrolment time end.
+    * enrolinstancename string - The enrollment instance name.
+    * status string - The enrollment status.
+    * statusclass string - The CSS class for the enrollment status.
+    * timestart string - Optional. The enrollment time start.
+    * timeend string - Optional. The enrollment time end.
     * timeenrolled string - Optional. The time when the user was enrolled.
 
     Example context (json):
     {
         "fullname": "Student John",
         "coursename": "TC 1",
-        "enrolinstancename": "Manual enrolment",
+        "enrolinstancename": "Manual enrollment",
         "status": "Active",
         "statusclass": "badge badge-success",
         "timestart": "1 January 2017",
@@ -41,7 +41,7 @@
         "timeenrolled": "31 December 2016"
     }
 }}
-<table class="table user-enrol-details">
+<table class="table user-enroll-details">
     <tr>
         <th>
             {{#str}}fullname{{/str}}
@@ -60,17 +60,17 @@
     </tr>
     <tr>
         <th>
-            {{#str}}enrolmentmethod, enrol{{/str}}
+            {{#str}}enrolmentmethod, enroll{{/str}}
         </th>
-        <td class="user-enrol-instance">
+        <td class="user-enroll-instance">
             {{enrolinstancename}} {{{editenrollink}}}
         </td>
     </tr>
     <tr>
         <th>
-            {{#str}}participationstatus, enrol{{/str}}
+            {{#str}}participationstatus, enroll{{/str}}
         </th>
-        <td class="user-enrol-status">
+        <td class="user-enroll-status">
             <span class="{{statusclass}}">
                 {{status}}
             </span>
@@ -79,9 +79,9 @@
     {{#timestart}}
     <tr>
         <th>
-            {{#str}}enroltimestart, enrol{{/str}}
+            {{#str}}enroltimestart, enroll{{/str}}
         </th>
-        <td  class="user-enrol-timestart">
+        <td  class="user-enroll-timestart">
             {{timestart}}
         </td>
     </tr>
@@ -89,9 +89,9 @@
     {{#timeend}}
     <tr>
         <th>
-            {{#str}}enroltimeend, enrol{{/str}}
+            {{#str}}enroltimeend, enroll{{/str}}
         </th>
-        <td class="user-enrol-timeend">
+        <td class="user-enroll-timeend">
             {{timeend}}
         </td>
     </tr>
@@ -99,9 +99,9 @@
     {{#timeenrolled}}
     <tr>
         <th>
-            {{#str}}enroltimecreated, enrol{{/str}}
+            {{#str}}enroltimecreated, enroll{{/str}}
         </th>
-        <td class="user-enrol-timeenrolled">
+        <td class="user-enroll-timeenrolled">
             {{timeenrolled}}
         </td>
     </tr>

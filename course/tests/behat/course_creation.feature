@@ -14,8 +14,8 @@ Feature: Managers can create courses
     And I create a course with:
       | Course full name | Course 1 |
       | Course short name | C1 |
-    And I enrol "Teacher 1" user as "Teacher"
-    And I enrol "Student 1" user as "Student"
+    And I enroll "Teacher 1" user as "Teacher"
+    And I enroll "Student 1" user as "Student"
     And I log out
     When I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on

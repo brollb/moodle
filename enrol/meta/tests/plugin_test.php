@@ -17,7 +17,7 @@
 namespace enrol_meta;
 
 /**
- * Meta enrolment sync functional test.
+ * Meta enrollment sync functional test.
  *
  * @package    enrol_meta
  * @category   phpunit
@@ -40,10 +40,10 @@ class plugin_test extends \advanced_testcase {
         set_config('enrol_plugins_enabled', implode(',', $enabled));
     }
 
-    protected function is_meta_enrolled($user, $enrol, $role = null) {
+    protected function is_meta_enrolled($user, $enroll, $role = null) {
         global $DB;
 
-        if (!$DB->record_exists('user_enrolments', array('enrolid'=>$enrol->id, 'userid'=>$user->id))) {
+        if (!$DB->record_exists('user_enrolments', array('enrolid'=>$enroll->id, 'userid'=>$user->id))) {
             return false;
         }
 
@@ -51,19 +51,19 @@ class plugin_test extends \advanced_testcase {
             return true;
         }
 
-        return $this->has_role($user, $enrol, $role);
+        return $this->has_role($user, $enroll, $role);
     }
 
-    protected function has_role($user, $enrol, $role) {
+    protected function has_role($user, $enroll, $role) {
         global $DB;
 
-        $context = \context_course::instance($enrol->courseid);
+        $context = \context_course::instance($enroll->courseid);
 
         if ($role === false) {
-            if ($DB->record_exists('role_assignments', array('contextid'=>$context->id, 'userid'=>$user->id, 'component'=>'enrol_meta', 'itemid'=>$enrol->id))) {
+            if ($DB->record_exists('role_assignments', array('contextid'=>$context->id, 'userid'=>$user->id, 'component'=>'enrol_meta', 'itemid'=>$enroll->id))) {
                 return false;
             }
-        } else if (!$DB->record_exists('role_assignments', array('contextid'=>$context->id, 'userid'=>$user->id, 'roleid'=>$role->id, 'component'=>'enrol_meta', 'itemid'=>$enrol->id))) {
+        } else if (!$DB->record_exists('role_assignments', array('contextid'=>$context->id, 'userid'=>$user->id, 'roleid'=>$role->id, 'component'=>'enrol_meta', 'itemid'=>$enroll->id))) {
             return false;
         }
 
@@ -88,10 +88,10 @@ class plugin_test extends \advanced_testcase {
         $course2 = $this->getDataGenerator()->create_course();
         $course3 = $this->getDataGenerator()->create_course();
         $course4 = $this->getDataGenerator()->create_course();
-        $manual1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $manual2 = $DB->get_record('enrol', array('courseid'=>$course2->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $manual3 = $DB->get_record('enrol', array('courseid'=>$course3->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $manual4 = $DB->get_record('enrol', array('courseid'=>$course4->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $manual1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $manual2 = $DB->get_record('enroll', array('courseid'=>$course2->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $manual3 = $DB->get_record('enroll', array('courseid'=>$course3->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $manual4 = $DB->get_record('enroll', array('courseid'=>$course4->id, 'enroll'=>'manual'), '*', MUST_EXIST);
 
         $student = $DB->get_record('role', array('shortname'=>'student'));
         $teacher = $DB->get_record('role', array('shortname'=>'teacher'));
@@ -114,7 +114,7 @@ class plugin_test extends \advanced_testcase {
         set_config('syncall', 0, 'enrol_meta');
         set_config('nosyncroleids', $manager->id, 'enrol_meta');
 
-        require_once($CFG->dirroot.'/enrol/meta/locallib.php');
+        require_once($CFG->dirroot.'/enroll/meta/locallib.php');
 
         enrol_meta_sync(null, false);
         $this->assertEquals(7, $DB->count_records('user_enrolments'));
@@ -130,9 +130,9 @@ class plugin_test extends \advanced_testcase {
         $e1 = $metalplugin->add_instance($course3, array('customint1'=>$course1->id));
         $e2 = $metalplugin->add_instance($course3, array('customint1'=>$course2->id));
         $e3 = $metalplugin->add_instance($course4, array('customint1'=>$course2->id));
-        $enrol1 = $DB->get_record('enrol', array('id'=>$e1));
-        $enrol2 = $DB->get_record('enrol', array('id'=>$e2));
-        $enrol3 = $DB->get_record('enrol', array('id'=>$e3));
+        $enrol1 = $DB->get_record('enroll', array('id'=>$e1));
+        $enrol2 = $DB->get_record('enroll', array('id'=>$e2));
+        $enrol3 = $DB->get_record('enroll', array('id'=>$e3));
         $this->enable_plugin();
 
         enrol_meta_sync($course4->id, false);
@@ -337,7 +337,7 @@ class plugin_test extends \advanced_testcase {
         $this->assertEquals(13, $DB->count_records('user_enrolments', array('status'=>ENROL_USER_ACTIVE)));
         $this->assertTrue($this->is_meta_enrolled($user1, $enrol1, $student));
 
-        $manplugin->update_user_enrol($manual1, $user1->id, ENROL_USER_SUSPENDED);
+        $manplugin->update_user_enroll($manual1, $user1->id, ENROL_USER_SUSPENDED);
         $this->assertEquals(13, $DB->count_records('user_enrolments'));
         $this->assertEquals(10, $DB->count_records('role_assignments'));
         $this->assertEquals(11, $DB->count_records('user_enrolments', array('status'=>ENROL_USER_ACTIVE)));
@@ -455,8 +455,8 @@ class plugin_test extends \advanced_testcase {
         $course1 = $this->getDataGenerator()->create_course();
         $course2 = $this->getDataGenerator()->create_course();
         $course3 = $this->getDataGenerator()->create_course();
-        $manualenrol1 = $DB->get_record('enrol', array('courseid' => $course1->id, 'enrol' => 'manual'), '*', MUST_EXIST);
-        $manualenrol2 = $DB->get_record('enrol', array('courseid' => $course2->id, 'enrol' => 'manual'), '*', MUST_EXIST);
+        $manualenrol1 = $DB->get_record('enroll', array('courseid' => $course1->id, 'enroll' => 'manual'), '*', MUST_EXIST);
+        $manualenrol2 = $DB->get_record('enroll', array('courseid' => $course2->id, 'enroll' => 'manual'), '*', MUST_EXIST);
 
         $student = $DB->get_record('role', array('shortname' => 'student'));
         $teacher = $DB->get_record('role', array('shortname' => 'teacher'));
@@ -507,7 +507,7 @@ class plugin_test extends \advanced_testcase {
         enrol_get_plugin('manual')->unenrol_user($manualenrol1, $user1->id);
         $this->assertFalse(groups_is_member($group31->id, $user1->id));
         $this->assertTrue(groups_is_member($group32->id, $user1->id));
-        $this->assertTrue(is_enrolled(\context_course::instance($course3->id), $user1, '', true)); // He still has active enrolment.
+        $this->assertTrue(is_enrolled(\context_course::instance($course3->id), $user1, '', true)); // He still has active enrollment.
         // And the same after sync.
         enrol_meta_sync(null, false);
         $this->assertFalse(groups_is_member($group31->id, $user1->id));
@@ -521,7 +521,7 @@ class plugin_test extends \advanced_testcase {
 
         set_config('unenrolaction', ENROL_EXT_REMOVED_SUSPENDNOROLES, 'enrol_meta');
 
-        // When user is unenrolled in this case, he is still a member of a group (but enrolment is suspended).
+        // When user is unenrolled in this case, he is still a member of a group (but enrollment is suspended).
         enrol_get_plugin('manual')->unenrol_user($manualenrol1, $user4->id);
         $this->assertTrue(groups_is_member($group31->id, $user4->id));
         $this->assertTrue(is_enrolled(\context_course::instance($course3->id), $user4));
@@ -550,8 +550,8 @@ class plugin_test extends \advanced_testcase {
 
         $course1 = $this->getDataGenerator()->create_course();
         $course2 = $this->getDataGenerator()->create_course();
-        $manualenrol1 = $DB->get_record('enrol', array('courseid' => $course1->id, 'enrol' => 'manual'), '*', MUST_EXIST);
-        $manualenrol2 = $DB->get_record('enrol', array('courseid' => $course2->id, 'enrol' => 'manual'), '*', MUST_EXIST);
+        $manualenrol1 = $DB->get_record('enroll', array('courseid' => $course1->id, 'enroll' => 'manual'), '*', MUST_EXIST);
+        $manualenrol2 = $DB->get_record('enroll', array('courseid' => $course2->id, 'enroll' => 'manual'), '*', MUST_EXIST);
 
         $student = $DB->get_record('role', array('shortname' => 'student'));
 
@@ -560,15 +560,15 @@ class plugin_test extends \advanced_testcase {
         $this->enable_plugin();
         set_config('unenrolaction', ENROL_EXT_REMOVED_UNENROL, 'enrol_meta');
 
-        // Manually enrol user1 to course2 and add him to group.
-        // Manually enrol user2 to course2 but do not add him to the group.
+        // Manually enroll user1 to course2 and add him to group.
+        // Manually enroll user2 to course2 but do not add him to the group.
         enrol_get_plugin('manual')->enrol_user($manualenrol2, $user1->id, $student->id);
         groups_add_member($groupid, $user1->id);
         enrol_get_plugin('manual')->enrol_user($manualenrol2, $user2->id, $student->id);
         $this->assertTrue(groups_is_member($groupid, $user1->id));
         $this->assertFalse(groups_is_member($groupid, $user2->id));
 
-        // Add instance of meta enrolment in course2 linking to course1 and enrol both users in course1.
+        // Add instance of meta enrollment in course2 linking to course1 and enroll both users in course1.
         $metalplugin->add_instance($course2, array('customint1' => $course1->id, 'customint2' => $groupid));
 
         enrol_get_plugin('manual')->enrol_user($manualenrol1, $user1->id, $student->id);
@@ -609,7 +609,7 @@ class plugin_test extends \advanced_testcase {
         $student = $DB->get_record('role', array('shortname' => 'student'));
 
         $e1 = $metaplugin->add_instance($course2, array('customint1' => $course1->id));
-        $enrol1 = $DB->get_record('enrol', array('id' => $e1));
+        $enrol1 = $DB->get_record('enroll', array('id' => $e1));
 
         // Enrol user and capture event.
         $sink = $this->redirectEvents();
@@ -641,13 +641,13 @@ class plugin_test extends \advanced_testcase {
         $student = $DB->get_record('role', array('shortname'=>'student'));
 
         $e1 = $metalplugin->add_instance($course2, array('customint1' => $course1->id));
-        $enrol1 = $DB->get_record('enrol', array('id' => $e1));
+        $enrol1 = $DB->get_record('enroll', array('id' => $e1));
 
         // Enrol user.
         $metalplugin->enrol_user($enrol1, $user1->id, $student->id);
         $this->assertEquals(1, $DB->count_records('user_enrolments'));
 
-        // Unenrol user and capture event.
+        // Unenroll user and capture event.
         $sink = $this->redirectEvents();
         $metalplugin->unenrol_user($enrol1, $user1->id);
         $events = $sink->get_events();
@@ -674,15 +674,15 @@ class plugin_test extends \advanced_testcase {
         $student = $DB->get_record('role', array('shortname'=>'student'));
 
         $e1 = $metalplugin->add_instance($course2, array('customint1' => $course1->id));
-        $enrol1 = $DB->get_record('enrol', array('id' => $e1));
+        $enrol1 = $DB->get_record('enroll', array('id' => $e1));
 
         // Enrol user.
         $metalplugin->enrol_user($enrol1, $user1->id, $student->id);
         $this->assertEquals(1, $DB->count_records('user_enrolments'));
 
-        // Updated enrolment for user and capture event.
+        // Updated enrollment for user and capture event.
         $sink = $this->redirectEvents();
-        $metalplugin->update_user_enrol($enrol1, $user1->id, ENROL_USER_SUSPENDED, null, time());
+        $metalplugin->update_user_enroll($enrol1, $user1->id, ENROL_USER_SUSPENDED, null, time());
         $events = $sink->get_events();
         $sink->close();
         $event = array_shift($events);
@@ -732,7 +732,7 @@ class plugin_test extends \advanced_testcase {
     }
 
     /**
-     * Test that enrolment timestart-timeend is respected in meta course.
+     * Test that enrollment timestart-timeend is respected in meta course.
      */
     public function test_timeend() {
         global $CFG, $DB;
@@ -754,7 +754,7 @@ class plugin_test extends \advanced_testcase {
         $course1 = $this->getDataGenerator()->create_course();
         $course2 = $this->getDataGenerator()->create_course();
         $course3 = $this->getDataGenerator()->create_course();
-        $manual1 = $DB->get_record('enrol', array('courseid' => $course1->id, 'enrol' => 'manual'), '*', MUST_EXIST);
+        $manual1 = $DB->get_record('enroll', array('courseid' => $course1->id, 'enroll' => 'manual'), '*', MUST_EXIST);
 
         $student = $DB->get_record('role', array('shortname' => 'student'));
 
@@ -783,7 +783,7 @@ class plugin_test extends \advanced_testcase {
         $enrolments = $DB->get_records('user_enrolments', array('enrolid' => $manual1->id), 'userid', 'userid, timestart, timeend, status');
         $this->assertEquals($expectedenrolments, $enrolments);
 
-        // Make sure that the same enrolments are now present in course2 under meta enrolment.
+        // Make sure that the same enrolments are now present in course2 under meta enrollment.
         $enrolments = $DB->get_records('user_enrolments', array('enrolid' => $meta2id), '', 'userid, timestart, timeend, status');
         $this->assertEquals($expectedenrolments, $enrolments);
 
@@ -791,7 +791,7 @@ class plugin_test extends \advanced_testcase {
         $meta3id = $metalplugin->add_instance($course3, array('customint1' => $course1->id));
         enrol_meta_sync($course3->id);
 
-        // Make sure that the same enrolments are now present in course3 under meta enrolment.
+        // Make sure that the same enrolments are now present in course3 under meta enrollment.
         $enrolments = $DB->get_records('user_enrolments', array('enrolid' => $meta3id), '', 'userid, timestart, timeend, status');
         $this->assertEquals($expectedenrolments, $enrolments);
 
@@ -801,7 +801,7 @@ class plugin_test extends \advanced_testcase {
         $expectedenrolments[$user4->id]->status = ENROL_USER_SUSPENDED;
         $expectedenrolments[$user5->id]->status = ENROL_USER_ACTIVE;
         foreach ($expectedenrolments as $e) {
-            $manplugin->update_user_enrol($manual1, $e->userid, $e->status, $e->timestart, $e->timeend);
+            $manplugin->update_user_enroll($manual1, $e->userid, $e->status, $e->timestart, $e->timeend);
         }
 
         // Make sure meta courses are also updated.
@@ -817,7 +817,7 @@ class plugin_test extends \advanced_testcase {
         $expectedenrolments[$user4->id]->status = ENROL_USER_ACTIVE;
         $expectedenrolments[$user5->id]->status = ENROL_USER_SUSPENDED;
         foreach ($expectedenrolments as $e) {
-            $manplugin->update_user_enrol($manual1, $e->userid, $e->status, $e->timestart, $e->timeend);
+            $manplugin->update_user_enroll($manual1, $e->userid, $e->status, $e->timestart, $e->timeend);
         }
 
         // Make sure meta courses are updated only for the course that was synced.
@@ -831,7 +831,7 @@ class plugin_test extends \advanced_testcase {
 
         $sink->close();
 
-        // Disable manual enrolment in course1 and make sure all user enrolments in course2 are suspended.
+        // Disable manual enrollment in course1 and make sure all user enrolments in course2 are suspended.
         $manplugin->update_status($manual1, ENROL_INSTANCE_DISABLED);
         $allsuspendedenrolemnts = array_combine(array_keys($expectedenrolments), array_fill(0, 5, ENROL_USER_SUSPENDED));
         $enrolmentstatuses = $DB->get_records_menu('user_enrolments', array('enrolid' => $meta2id), '', 'userid, status');
@@ -856,28 +856,28 @@ class plugin_test extends \advanced_testcase {
     }
 
     /**
-     * Test for getting user enrolment actions.
+     * Test for getting user enrollment actions.
      */
     public function test_get_user_enrolment_actions() {
         global $CFG, $PAGE;
         $this->resetAfterTest();
 
         // Set page URL to prevent debugging messages.
-        $PAGE->set_url('/enrol/editinstance.php');
+        $PAGE->set_url('/enroll/editinstance.php');
 
         $pluginname = 'meta';
 
-        // Only enable the meta enrol plugin.
+        // Only enable the meta enroll plugin.
         $CFG->enrol_plugins_enabled = $pluginname;
 
         $generator = $this->getDataGenerator();
 
-        // Get the enrol plugin.
+        // Get the enroll plugin.
         $plugin = enrol_get_plugin($pluginname);
 
         // Create a course.
         $course = $generator->create_course();
-        // Enable this enrol plugin for the course.
+        // Enable this enroll plugin for the course.
         $plugin->add_instance($course);
 
         // Create a student.
@@ -885,9 +885,9 @@ class plugin_test extends \advanced_testcase {
         // Enrol the student to the course.
         $generator->enrol_user($student->id, $course->id, 'student', $pluginname);
 
-        // Teachers don't have enrol/meta:unenrol capability by default. Login as admin for simplicity.
+        // Teachers don't have enroll/meta:unenroll capability by default. Login as admin for simplicity.
         $this->setAdminUser();
-        require_once($CFG->dirroot . '/enrol/locallib.php');
+        require_once($CFG->dirroot . '/enroll/locallib.php');
         $manager = new \course_enrolment_manager($PAGE, $course);
 
         $userenrolments = $manager->get_user_enrolments($student->id);
@@ -895,7 +895,7 @@ class plugin_test extends \advanced_testcase {
 
         $ue = reset($userenrolments);
         $actions = $plugin->get_user_enrolment_actions($manager, $ue);
-        // Meta-link enrolment has no enrol actions for active students.
+        // Meta-link enrollment has no enroll actions for active students.
         $this->assertCount(0, $actions);
 
         // Enrol actions for a suspended student.
@@ -903,7 +903,7 @@ class plugin_test extends \advanced_testcase {
         $ue->status = ENROL_USER_SUSPENDED;
 
         $actions = $plugin->get_user_enrolment_actions($manager, $ue);
-        // Meta-link enrolment has enrol actions for suspended students -- unenrol.
+        // Meta-link enrollment has enroll actions for suspended students -- unenroll.
         $this->assertCount(1, $actions);
     }
 
@@ -917,11 +917,11 @@ class plugin_test extends \advanced_testcase {
 
         $metaplugin = enrol_get_plugin('meta');
 
-        // A course with meta enrolment.
+        // A course with meta enrollment.
         $course = $this->getDataGenerator()->create_course();
         $coursecontext = \context_course::instance($course->id);
 
-        // Create a meta enrolment instance.
+        // Create a meta enrollment instance.
         $instance = (object)$metaplugin->get_instance_defaults();
         $instance->id       = null;
         $instance->courseid = $course->id;
@@ -989,10 +989,10 @@ class plugin_test extends \advanced_testcase {
         assign_capability('moodle/course:viewhiddencourses', CAP_ALLOW,
             $teacherrole->id, \context_course::instance($metacourse2->id));
 
-        // Test with no 'enrol/meta:selectaslinked' capability.
-        unassign_capability('enrol/meta:selectaslinked', $teacherrole->id);
+        // Test with no 'enroll/meta:selectaslinked' capability.
+        unassign_capability('enroll/meta:selectaslinked', $teacherrole->id);
         $errors = $metaplugin->edit_instance_validation($data, [], $instance, $coursecontext);
-        $this->assertEquals('Sorry, but you do not currently have permissions to do that (enrol/meta:selectaslinked).',
+        $this->assertEquals('Sorry, but you do not currently have permissions to do that (enroll/meta:selectaslinked).',
             $errors['customint1']);
 
         // Back to admin user to regain the capabilities quickly.

@@ -60,7 +60,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
         $student = $this->getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
 
-        // Create Courses, then enrol a teacher and a student.
+        // Create Courses, then enroll a teacher and a student.
         $nocourses = 5;
         $courses = [];
         $coursecontextids = [];
@@ -166,7 +166,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
         $courses = [];
         $coursecontextids = [];
         for ($c = 1; $c <= $nocourses; $c++) {
-            // Create a Course, then enrol a teacher and enrol 2 students.
+            // Create a Course, then enroll a teacher and enroll 2 students.
             $course = $this->getDataGenerator()->create_course();
             $coursecontext = \context_course::instance($course->id);
 
@@ -257,7 +257,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
 
         $n = 0;
         for ($c = 0; $c < $nocourses; $c++) {
-            // Create a Course, then enrol a teacher and enrol 2 students.
+            // Create a Course, then enroll a teacher and enroll 2 students.
             $course = $this->getDataGenerator()->create_course();
             $coursecontext = \context_course::instance($course->id);
 
@@ -320,7 +320,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
 
         $n = 0;
         for ($c = 0; $c < $nocourses; $c++) {
-            // Create a Course, then enrol a teacher and enrol 2 students.
+            // Create a Course, then enroll a teacher and enroll 2 students.
             $course = $this->getDataGenerator()->create_course();
             $coursecontext = \context_course::instance($course->id);
 
@@ -382,7 +382,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
         $student2 = $this->getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
 
-        // Create courses, then enrol a teacher and a student.
+        // Create courses, then enroll a teacher and a student.
         $nocourses = 3;
         for ($c = 1; $c <= $nocourses; $c++) {
             ${'course' . $c} = $this->getDataGenerator()->create_course();
@@ -472,7 +472,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
         $student = $this->getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
 
-        // Create Courses, then enrol a teacher and a student.
+        // Create Courses, then enroll a teacher and a student.
         $nocourses = 3;
         for ($c = 1; $c <= $nocourses; $c++) {
             ${'course' . $c} = $this->getDataGenerator()->create_course();

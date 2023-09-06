@@ -241,7 +241,7 @@ class expired_contexts_test extends \advanced_testcase {
     /**
      * Ensure that a user with a lastaccess in the past and expired enrolments.
      */
-    public function test_flag_user_past_lastaccess_unexpired_past_enrolment() {
+    public function test_flag_user_past_lastaccess_unexpired_past_enrollment() {
         $this->resetAfterTest();
 
         $this->setup_basics('PT1H', 'PT1H', 'P1Y');

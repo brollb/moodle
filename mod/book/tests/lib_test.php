@@ -271,7 +271,7 @@ class lib_test extends \advanced_testcase {
         $book = $this->getDataGenerator()->create_module('book', array('course' => $course->id));
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a calendar event.
         $event = $this->create_action_event($course->id, $book->id,
@@ -299,7 +299,7 @@ class lib_test extends \advanced_testcase {
         $book = $this->getDataGenerator()->create_module('book', array('course' => $course->id));
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create a calendar event.
         $event = $this->create_action_event($course->id, $book->id,
@@ -389,7 +389,7 @@ class lib_test extends \advanced_testcase {
             array('completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS));
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('book', $book->id);
@@ -490,7 +490,7 @@ class lib_test extends \advanced_testcase {
         $this->assertNotEmpty($res->prevpageurl);
         $this->assertEmpty($res->nextpageurl);
 
-        // Create and enrol a user.
+        // Create and enroll a user.
         $student = self::getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $this->getDataGenerator()->enrol_user($student->id, $course1->id, $studentrole->id, 'manual');

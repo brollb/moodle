@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Self enrolment plugin version specification.
+ * Self enrollment plugin version specification.
  *
  * @package    enrol_self
  * @copyright  2010 Petr Skoda  {@link http://skodak.org}

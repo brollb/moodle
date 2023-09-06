@@ -21,8 +21,8 @@ namespace core_course\reportbuilder\datasource;
 use core_course\reportbuilder\local\entities\course_category;
 use core_course\reportbuilder\local\entities\access;
 use core_course\reportbuilder\local\entities\completion;
-use core_course\reportbuilder\local\entities\enrolment;
-use core_enrol\reportbuilder\local\entities\enrol;
+use core_course\reportbuilder\local\entities\enrollment;
+use core_enroll\reportbuilder\local\entities\enroll;
 use core_group\reportbuilder\local\entities\group;
 use core_reportbuilder\datasource;
 use core_reportbuilder\local\entities\course;
@@ -62,26 +62,26 @@ class participants extends datasource {
         $this->add_entity($coursecatentity
             ->add_join("JOIN {course_categories} {$categories} ON {$categories}.id = {$course}.category"));
 
-        // Join the enrolment method entity.
-        $enrolentity = new enrol();
-        $enrol = $enrolentity->get_table_alias('enrol');
+        // Join the enrollment method entity.
+        $enrolentity = new enroll();
+        $enroll = $enrolentity->get_table_alias('enroll');
         $this->add_entity($enrolentity
-            ->add_join("LEFT JOIN {enrol} {$enrol} ON {$enrol}.courseid = {$course}.id"));
+            ->add_join("LEFT JOIN {enroll} {$enroll} ON {$enroll}.courseid = {$course}.id"));
 
         // Join the enrolments entity.
-        $enrolmententity = (new enrolment())
-            ->set_table_alias('enrol', $enrol);
-        $userenrolment = $enrolmententity->get_table_alias('user_enrolments');
+        $enrolmententity = (new enrollment())
+            ->set_table_alias('enroll', $enroll);
+        $userenrollment = $enrolmententity->get_table_alias('user_enrolments');
         $this->add_entity($enrolmententity
             ->add_joins($enrolentity->get_joins())
-            ->add_join("LEFT JOIN {user_enrolments} {$userenrolment} ON {$userenrolment}.enrolid = {$enrol}.id"));
+            ->add_join("LEFT JOIN {user_enrolments} {$userenrollment} ON {$userenrollment}.enrolid = {$enroll}.id"));
 
         // Join user entity.
         $userentity = new user();
         $user = $userentity->get_table_alias('user');
         $this->add_entity($userentity
             ->add_joins($enrolmententity->get_joins())
-            ->add_join("LEFT JOIN {user} {$user} ON {$user}.id = {$userenrolment}.userid AND {$user}.deleted = 0"));
+            ->add_join("LEFT JOIN {user} {$user} ON {$user}.id = {$userenrollment}.userid AND {$user}.deleted = 0"));
 
         // Join the role entity.
         $roleentity = (new role())
@@ -159,7 +159,7 @@ class participants extends datasource {
         return [
             'course:coursefullnamewithlink',
             'user:fullnamewithlink',
-            'enrol:name',
+            'enroll:name',
         ];
     }
 
@@ -172,7 +172,7 @@ class participants extends datasource {
         return [
             'course:coursefullnamewithlink' => SORT_ASC,
             'user:fullnamewithlink' => SORT_ASC,
-            'enrol:name' => SORT_ASC,
+            'enroll:name' => SORT_ASC,
         ];
     }
 
@@ -195,7 +195,7 @@ class participants extends datasource {
      */
     public function get_default_conditions(): array {
         return [
-            'enrolment:status',
+            'enrollment:status',
             'user:suspended',
             'user:confirmed',
         ];
@@ -208,8 +208,8 @@ class participants extends datasource {
      */
     public function get_default_condition_values(): array {
         return [
-            'enrolment:status_operator' => select::EQUAL_TO,
-            'enrolment:status_value' => status_field::STATUS_ACTIVE,
+            'enrollment:status_operator' => select::EQUAL_TO,
+            'enrollment:status_value' => status_field::STATUS_ACTIVE,
         ];
     }
 }

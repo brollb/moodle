@@ -1805,7 +1805,7 @@ privatefiles,moodle|/user/files.php';
                     $value = explode(',', $value);
                 }
 
-                // Join the rest of the parts: ie enrol_imsenterprise_imsenterprise_enrolment.
+                // Join the rest of the parts: ie enrol_imsenterprise_imsenterprise_enrollment.
                 $prefname = implode('_', $parts);
 
                 if (!isset($treatedprefs[$prefname])) {
@@ -2459,13 +2459,13 @@ privatefiles,moodle|/user/files.php';
             // Plugins. Enrolments. Disable/enable Guest access.
             [
                 'presetid' => $starterpreset->id,
-                'plugin' => 'enrol',
+                'plugin' => 'enroll',
                 'name' => 'guest',
                 'enabled' => '0',
             ],
             [
                 'presetid' => $fullpreset->id,
-                'plugin' => 'enrol',
+                'plugin' => 'enroll',
                 'name' => 'guest',
                 'enabled' => '1',
             ],

@@ -46,9 +46,9 @@ class cli_test extends \advanced_testcase {
     }
 
     /**
-     * Tests simple upload with course enrolment and group allocation
+     * Tests simple upload with course enrollment and group allocation
      */
-    public function test_upload_with_course_enrolment() {
+    public function test_upload_with_course_enrollment() {
         global $CFG;
         $this->resetAfterTest();
         set_config('passwordpolicy', 0);

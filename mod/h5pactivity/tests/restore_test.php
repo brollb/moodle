@@ -68,7 +68,7 @@ class restore_test extends advanced_testcase {
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create one activity.
         $this->assertFalse($DB->record_exists('h5pactivity', ['course' => $course->id]));

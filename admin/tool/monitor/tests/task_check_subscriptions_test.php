@@ -154,11 +154,11 @@ class task_check_subscriptions_test extends \advanced_testcase {
     }
 
     /**
-     * Test to confirm that a subscription for a user without an enrolment to the course is made inactive.
+     * Test to confirm that a subscription for a user without an enrollment to the course is made inactive.
      */
-    public function test_course_enrolment() {
+    public function test_course_enrollment() {
         // Subscription should be active until deactivated by the scheduled task. Remember, by default the test setup
-        // doesn't enrol the user, so the first run of the task should deactivate it.
+        // doesn't enroll the user, so the first run of the task should deactivate it.
         $this->assertEquals(true, \tool_monitor\subscription_manager::subscription_is_active($this->subscription));
 
         // Run the task.

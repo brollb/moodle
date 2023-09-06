@@ -254,7 +254,7 @@ echo isset($groupselect) ? $groupselect : '';
 echo '<div class="clearer"></div>';
 
 if (empty($students)) {
-    echo $OUTPUT->notification(get_string('noexistingparticipants', 'enrol'));
+    echo $OUTPUT->notification(get_string('noexistingparticipants', 'enroll'));
 } else {
 
     if ($canbulkmessaging) {

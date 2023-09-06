@@ -203,7 +203,7 @@ abstract class restore_check {
                 $overwritesetting->set_status(base_setting::LOCKED_BY_PERMISSION);
             }
 
-            // Ensure the user has the capability to manage enrolment methods. If not we want to unset and lock
+            // Ensure the user has the capability to manage enrollment methods. If not we want to unset and lock
             // the setting so that they cannot change it.
             $hasmanageenrolcap = has_capability('moodle/course:enrolconfig', $coursectx, $userid);
             if (!$hasmanageenrolcap) {

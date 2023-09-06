@@ -60,7 +60,7 @@ class handler_test extends \advanced_testcase {
         $data->course = $this->getDataGenerator()->create_course();
 
         // Generate 2 users, one enroled into course and one not.
-        $data->student = $this->getDataGenerator()->create_and_enrol($data->course, 'student');
+        $data->student = $this->getDataGenerator()->create_and_enroll($data->course, 'student');
         $data->otheruser = $this->getDataGenerator()->create_user();
 
         // H5P activity.
@@ -401,7 +401,7 @@ class handler_test extends \advanced_testcase {
 
         // Create a valid H5P activity with a valid xAPI state.
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->setUser($user);
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
         $coursecontext = \context_course::instance($course->id);

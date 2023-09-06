@@ -36,7 +36,7 @@ use enrol_lti\local\ltiadvantage\service\tool_deployment_service;
 require_once(__DIR__ . '/../../config.php');
 global $CFG, $OUTPUT;
 require_once($CFG->libdir . '/adminlib.php');
-require_once($CFG->dirroot . '/enrol/lti/lib.php');
+require_once($CFG->dirroot . '/enroll/lti/lib.php');
 
 $action = required_param('action', PARAM_ALPHA);
 $registrationid = required_param('registrationid', PARAM_INT);
@@ -45,7 +45,7 @@ if (!in_array($action, ['add', 'delete'])) {
 }
 
 // The page to go back to when the respective action has been performed.
-$deploymentslisturl = new moodle_url($CFG->wwwroot . "/enrol/lti/register_platform.php",
+$deploymentslisturl = new moodle_url($CFG->wwwroot . "/enroll/lti/register_platform.php",
     ['regid' => $registrationid, 'action' => 'view', 'tabselect' => 'tooldeployments']);
 
 // Local anon helper to extend the nav for this page and call admin_externalpage_setup.
@@ -70,7 +70,7 @@ $maptodto = function($formdata): stdClass {
 if ($action === 'add') {
     $pagesetup(get_string('deploymentadd', 'enrol_lti'));
 
-    $pageurl = new moodle_url('/enrol/lti/manage_deployment.php', ['action' => 'add']);
+    $pageurl = new moodle_url('/enroll/lti/manage_deployment.php', ['action' => 'add']);
     $mform = new deployment_form($pageurl->out(false));
     if ($data = $mform->get_data()) {
         $deploymentservice = new tool_deployment_service(new application_registration_repository(),
@@ -104,7 +104,7 @@ if ($action === 'add') {
             'sesskey' => sesskey(),
             'confirm' => true
         ];
-        $continueurl = new moodle_url('/enrol/lti/manage_deployment.php', $continueparams);
+        $continueurl = new moodle_url('/enroll/lti/manage_deployment.php', $continueparams);
         $deploymentrepo = new deployment_repository();
         $deployment = $deploymentrepo->find($id);
         if (!$deployment) {

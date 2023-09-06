@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Manual enrolment plugin main library file.
+ * Manual enrollment plugin main library file.
  *
  * @package    enrol_manual
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
@@ -34,13 +34,13 @@ class enrol_manual_plugin extends enrol_plugin {
         return false;
     }
 
-    public function allow_enrol(stdClass $instance) {
-        // Users with enrol cap may unenrol other users manually manually.
+    public function allow_enroll(stdClass $instance) {
+        // Users with enroll cap may unenroll other users manually manually.
         return true;
     }
 
-    public function allow_unenrol(stdClass $instance) {
-        // Users with unenrol cap may unenrol other users manually manually.
+    public function allow_unenroll(stdClass $instance) {
+        // Users with unenroll cap may unenroll other users manually manually.
         return true;
     }
 
@@ -50,7 +50,7 @@ class enrol_manual_plugin extends enrol_plugin {
     }
 
     /**
-     * Returns link to manual enrol UI if exists.
+     * Returns link to manual enroll UI if exists.
      * Does the access control tests automatically.
      *
      * @param stdClass $instance
@@ -58,8 +58,8 @@ class enrol_manual_plugin extends enrol_plugin {
      */
     public function get_manual_enrol_link($instance) {
         $name = $this->get_name();
-        if ($instance->enrol !== $name) {
-            throw new coding_exception('invalid enrol instance!');
+        if ($instance->enroll !== $name) {
+            throw new coding_exception('invalid enroll instance!');
         }
 
         if (!enrol_is_enabled($name)) {
@@ -68,13 +68,13 @@ class enrol_manual_plugin extends enrol_plugin {
 
         $context = context_course::instance($instance->courseid, MUST_EXIST);
 
-        if (!has_capability('enrol/manual:enrol', $context)) {
+        if (!has_capability('enroll/manual:enroll', $context)) {
             // Note: manage capability not used here because it is used for editing
             // of existing enrolments which is not possible here.
             return NULL;
         }
 
-        return new moodle_url('/enrol/manual/manage.php', array('enrolid'=>$instance->id, 'id'=>$instance->courseid));
+        return new moodle_url('/enroll/manual/manage.php', array('enrolid'=>$instance->id, 'id'=>$instance->courseid));
     }
 
     /**
@@ -87,11 +87,11 @@ class enrol_manual_plugin extends enrol_plugin {
         global $DB;
 
         $context = context_course::instance($courseid, MUST_EXIST);
-        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enrol/manual:config', $context)) {
+        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enroll/manual:config', $context)) {
             return false;
         }
 
-        if ($DB->record_exists('enrol', array('courseid'=>$courseid, 'enrol'=>'manual'))) {
+        if ($DB->record_exists('enroll', array('courseid'=>$courseid, 'enroll'=>'manual'))) {
             // Multiple instances not supported.
             return false;
         }
@@ -110,8 +110,8 @@ class enrol_manual_plugin extends enrol_plugin {
         $context = context_course::instance($instance->courseid);
 
         $icons = array();
-        if (has_capability('enrol/manual:enrol', $context) or has_capability('enrol/manual:unenrol', $context)) {
-            $managelink = new moodle_url("/enrol/manual/manage.php", array('enrolid'=>$instance->id));
+        if (has_capability('enroll/manual:enroll', $context) or has_capability('enroll/manual:unenroll', $context)) {
+            $managelink = new moodle_url("/enroll/manual/manage.php", array('enrolid'=>$instance->id));
             $icons[] = $OUTPUT->action_icon($managelink, new pix_icon('t/enrolusers', get_string('enrolusers', 'enrol_manual'), 'core', array('class'=>'iconsmall')));
         }
         $parenticons = parent::get_action_icons($instance);
@@ -121,7 +121,7 @@ class enrol_manual_plugin extends enrol_plugin {
     }
 
     /**
-     * Add new instance of enrol plugin with default settings.
+     * Add new instance of enroll plugin with default settings.
      * @param stdClass $course
      * @return int id of new instance, null if can not be created
      */
@@ -140,7 +140,7 @@ class enrol_manual_plugin extends enrol_plugin {
     }
 
     /**
-     * Add new instance of enrol plugin.
+     * Add new instance of enroll plugin.
      * @param stdClass $course
      * @param array instance fields
      * @return int id of new instance, null if can not be created
@@ -148,7 +148,7 @@ class enrol_manual_plugin extends enrol_plugin {
     public function add_instance($course, array $fields = NULL) {
         global $DB;
 
-        if ($DB->record_exists('enrol', array('courseid'=>$course->id, 'enrol'=>'manual'))) {
+        if ($DB->record_exists('enroll', array('courseid'=>$course->id, 'enroll'=>'manual'))) {
             // only one instance allowed, sorry
             return NULL;
         }
@@ -157,7 +157,7 @@ class enrol_manual_plugin extends enrol_plugin {
     }
 
     /**
-     * Update instance of enrol plugin.
+     * Update instance of enroll plugin.
      * @param stdClass $instance
      * @param stdClass $data modified instance fields
      * @return boolean
@@ -166,7 +166,7 @@ class enrol_manual_plugin extends enrol_plugin {
         global $DB;
 
         // Delete all other instances, leaving only one.
-        if ($instances = $DB->get_records('enrol', array('courseid' => $instance->courseid, 'enrol' => 'manual'), 'id ASC')) {
+        if ($instances = $DB->get_records('enroll', array('courseid' => $instance->courseid, 'enroll' => 'manual'), 'id ASC')) {
             foreach ($instances as $anotherinstance) {
                 if ($anotherinstance->id != $instance->id) {
                     $this->delete_instance($anotherinstance);
@@ -180,12 +180,12 @@ class enrol_manual_plugin extends enrol_plugin {
     }
 
     /**
-     * Returns a button to manually enrol users through the manual enrolment plugin.
+     * Returns a button to manually enroll users through the manual enrollment plugin.
      *
-     * By default the first manual enrolment plugin instance available in the course is used.
-     * If no manual enrolment instances exist within the course then false is returned.
+     * By default the first manual enrollment plugin instance available in the course is used.
+     * If no manual enrollment instances exist within the course then false is returned.
      *
-     * This function also adds a quickenrolment JS ui to the page so that users can be enrolled
+     * This function also adds a quickenrollment JS ui to the page so that users can be enrolled
      * via AJAX.
      *
      * @param course_enrolment_manager $manager
@@ -199,7 +199,7 @@ class enrol_manual_plugin extends enrol_plugin {
 
         $instance = null;
         foreach ($manager->get_enrolment_instances() as $tempinstance) {
-            if ($tempinstance->enrol == 'manual') {
+            if ($tempinstance->enroll == 'manual') {
                 if ($instance === null) {
                     $instance = $tempinstance;
                 }
@@ -224,7 +224,7 @@ class enrol_manual_plugin extends enrol_plugin {
         if (!$called) {
             $called = true;
             // Calling the following more than once will cause unexpected results.
-            $PAGE->requires->js_call_amd('enrol_manual/quickenrolment', 'init', array($arguments));
+            $PAGE->requires->js_call_amd('enrol_manual/quickenrollment', 'init', array($arguments));
         }
 
         return $button;
@@ -249,7 +249,7 @@ class enrol_manual_plugin extends enrol_plugin {
         core_php_time_limit::raise();
         raise_memory_limit(MEMORY_HUGE);
 
-        $trace->output('Verifying manual enrolment expiration...');
+        $trace->output('Verifying manual enrollment expiration...');
 
         $params = array('now'=>time(), 'useractive'=>ENROL_USER_ACTIVE, 'courselevel'=>CONTEXT_COURSE);
         $coursesql = "";
@@ -265,14 +265,14 @@ class enrol_manual_plugin extends enrol_plugin {
             $instances = array();
             $sql = "SELECT ue.*, e.courseid, c.id AS contextid
                       FROM {user_enrolments} ue
-                      JOIN {enrol} e ON (e.id = ue.enrolid AND e.enrol = 'manual')
+                      JOIN {enroll} e ON (e.id = ue.enrolid AND e.enroll = 'manual')
                       JOIN {context} c ON (c.instanceid = e.courseid AND c.contextlevel = :courselevel)
                      WHERE ue.timeend > 0 AND ue.timeend < :now
                            $coursesql";
             $rs = $DB->get_recordset_sql($sql, $params);
             foreach ($rs as $ue) {
                 if (empty($instances[$ue->enrolid])) {
-                    $instances[$ue->enrolid] = $DB->get_record('enrol', array('id'=>$ue->enrolid));
+                    $instances[$ue->enrolid] = $DB->get_record('enroll', array('id'=>$ue->enrolid));
                 }
                 $instance = $instances[$ue->enrolid];
                 // Always remove all manually assigned roles here, this may break enrol_self roles but we do not want hardcoded hacks here.
@@ -287,7 +287,7 @@ class enrol_manual_plugin extends enrol_plugin {
             $instances = array();
             $sql = "SELECT ue.*, e.courseid, c.id AS contextid
                       FROM {user_enrolments} ue
-                      JOIN {enrol} e ON (e.id = ue.enrolid AND e.enrol = 'manual')
+                      JOIN {enroll} e ON (e.id = ue.enrolid AND e.enroll = 'manual')
                       JOIN {context} c ON (c.instanceid = e.courseid AND c.contextlevel = :courselevel)
                      WHERE ue.timeend > 0 AND ue.timeend < :now
                            AND ue.status = :useractive
@@ -295,16 +295,16 @@ class enrol_manual_plugin extends enrol_plugin {
             $rs = $DB->get_recordset_sql($sql, $params);
             foreach ($rs as $ue) {
                 if (empty($instances[$ue->enrolid])) {
-                    $instances[$ue->enrolid] = $DB->get_record('enrol', array('id'=>$ue->enrolid));
+                    $instances[$ue->enrolid] = $DB->get_record('enroll', array('id'=>$ue->enrolid));
                 }
                 $instance = $instances[$ue->enrolid];
                 if ($action == ENROL_EXT_REMOVED_SUSPENDNOROLES) {
                     // Remove all manually assigned roles here, this may break enrol_self roles but we do not want hardcoded hacks here.
                     role_unassign_all(array('userid'=>$ue->userid, 'contextid'=>$ue->contextid, 'component'=>'', 'itemid'=>0), true);
-                    $this->update_user_enrol($instance, $ue->userid, ENROL_USER_SUSPENDED);
+                    $this->update_user_enroll($instance, $ue->userid, ENROL_USER_SUSPENDED);
                     $trace->output("suspending expired user $ue->userid in course $instance->courseid, roles unassigned", 1);
                 } else {
-                    $this->update_user_enrol($instance, $ue->userid, ENROL_USER_SUSPENDED);
+                    $this->update_user_enroll($instance, $ue->userid, ENROL_USER_SUSPENDED);
                     $trace->output("suspending expired user $ue->userid in course $instance->courseid, roles kept", 1);
                 }
             }
@@ -315,7 +315,7 @@ class enrol_manual_plugin extends enrol_plugin {
             // ENROL_EXT_REMOVED_KEEP means no changes.
         }
 
-        $trace->output('...manual enrolment updates finished.');
+        $trace->output('...manual enrollment updates finished.');
         $trace->finished();
 
         return 0;
@@ -325,10 +325,10 @@ class enrol_manual_plugin extends enrol_plugin {
      * Returns the user who is responsible for manual enrolments in given instance.
      *
      * Usually it is the first editing teacher - the person with "highest authority"
-     * as defined by sort_by_roleassignment_authority() having 'enrol/manual:manage'
+     * as defined by sort_by_roleassignment_authority() having 'enroll/manual:manage'
      * capability.
      *
-     * @param int $instanceid enrolment instance id
+     * @param int $instanceid enrollment instance id
      * @return stdClass user record
      */
     protected function get_enroller($instanceid) {
@@ -338,10 +338,10 @@ class enrol_manual_plugin extends enrol_plugin {
             return $this->lasternoller;
         }
 
-        $instance = $DB->get_record('enrol', array('id'=>$instanceid, 'enrol'=>$this->get_name()), '*', MUST_EXIST);
+        $instance = $DB->get_record('enroll', array('id'=>$instanceid, 'enroll'=>$this->get_name()), '*', MUST_EXIST);
         $context = context_course::instance($instance->courseid);
 
-        if ($users = get_enrolled_users($context, 'enrol/manual:manage')) {
+        if ($users = get_enrolled_users($context, 'enroll/manual:manage')) {
             $users = sort_by_roleassignment_authority($users, $context);
             $this->lasternoller = reset($users);
             unset($users);
@@ -361,13 +361,13 @@ class enrol_manual_plugin extends enrol_plugin {
      */
     public function get_bulk_operations(course_enrolment_manager $manager) {
         global $CFG;
-        require_once($CFG->dirroot.'/enrol/manual/locallib.php');
+        require_once($CFG->dirroot.'/enroll/manual/locallib.php');
         $context = $manager->get_context();
         $bulkoperations = array();
-        if (has_capability("enrol/manual:manage", $context)) {
+        if (has_capability("enroll/manual:manage", $context)) {
             $bulkoperations['editselectedusers'] = new enrol_manual_editselectedusers_operation($manager, $this);
         }
-        if (has_capability("enrol/manual:unenrol", $context)) {
+        if (has_capability("enroll/manual:unenroll", $context)) {
             $bulkoperations['deleteselectedusers'] = new enrol_manual_deleteselectedusers_operation($manager, $this);
         }
         return $bulkoperations;
@@ -383,18 +383,18 @@ class enrol_manual_plugin extends enrol_plugin {
      */
     public function restore_instance(restore_enrolments_structure_step $step, stdClass $data, $course, $oldid) {
         global $DB;
-        // There is only I manual enrol instance allowed per course.
-        if ($instances = $DB->get_records('enrol', array('courseid'=>$data->courseid, 'enrol'=>'manual'), 'id')) {
+        // There is only I manual enroll instance allowed per course.
+        if ($instances = $DB->get_records('enroll', array('courseid'=>$data->courseid, 'enroll'=>'manual'), 'id')) {
             $instance = reset($instances);
             $instanceid = $instance->id;
         } else {
             $instanceid = $this->add_instance($course, (array)$data);
         }
-        $step->set_mapping('enrol', $oldid, $instanceid);
+        $step->set_mapping('enroll', $oldid, $instanceid);
     }
 
     /**
-     * Restore user enrolment.
+     * Restore user enrollment.
      *
      * @param restore_enrolments_structure_step $step
      * @param stdClass $data
@@ -402,32 +402,32 @@ class enrol_manual_plugin extends enrol_plugin {
      * @param int $oldinstancestatus
      * @param int $userid
      */
-    public function restore_user_enrolment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
+    public function restore_user_enrollment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
         global $DB;
 
         // Note: this is a bit tricky because other types may be converted to manual enrolments,
-        //       and manual is restricted to one enrolment per user.
+        //       and manual is restricted to one enrollment per user.
 
         $ue = $DB->get_record('user_enrolments', array('enrolid'=>$instance->id, 'userid'=>$userid));
-        $enrol = false;
+        $enroll = false;
         if ($ue and $ue->status == ENROL_USER_ACTIVE) {
             // We do not want to restrict current active enrolments, let's kind of merge the times only.
             // This prevents some teacher lockouts too.
             if ($data->status == ENROL_USER_ACTIVE) {
                 if ($data->timestart > $ue->timestart) {
                     $data->timestart = $ue->timestart;
-                    $enrol = true;
+                    $enroll = true;
                 }
 
                 if ($data->timeend == 0) {
                     if ($ue->timeend != 0) {
-                        $enrol = true;
+                        $enroll = true;
                     }
                 } else if ($ue->timeend == 0) {
                     $data->timeend = 0;
                 } else if ($data->timeend < $ue->timeend) {
                     $data->timeend = $ue->timeend;
-                    $enrol = true;
+                    $enroll = true;
                 }
             }
         } else {
@@ -436,10 +436,10 @@ class enrol_manual_plugin extends enrol_plugin {
                 // we do it only here because it is not expected that enrolments are migrated to other plugins.
                 $data->status = ENROL_USER_SUSPENDED;
             }
-            $enrol = true;
+            $enroll = true;
         }
 
-        if ($enrol) {
+        if ($enroll) {
             $this->enrol_user($instance, $userid, null, $data->timestart, $data->timeend, $data->status);
         }
     }
@@ -454,7 +454,7 @@ class enrol_manual_plugin extends enrol_plugin {
      */
     public function restore_role_assignment($instance, $roleid, $userid, $contextid) {
         // This is necessary only because we may migrate other types to this instance,
-        // we do not use component in manual or self enrol.
+        // we do not use component in manual or self enroll.
         role_assign($roleid, $userid, $contextid, '', 0);
     }
 
@@ -474,29 +474,29 @@ class enrol_manual_plugin extends enrol_plugin {
     }
 
     /**
-     * Is it possible to delete enrol instance via standard UI?
+     * Is it possible to delete enroll instance via standard UI?
      *
      * @param object $instance
      * @return bool
      */
     public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/manual:config', $context);
+        return has_capability('enroll/manual:config', $context);
     }
 
     /**
-     * Is it possible to hide/show enrol instance via standard UI?
+     * Is it possible to hide/show enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/manual:config', $context);
+        return has_capability('enroll/manual:config', $context);
     }
 
     /**
-     * Enrol all not enrolled cohort members into course via enrol instance.
+     * Enrol all not enrolled cohort members into course via enroll instance.
      *
      * @param stdClass $instance
      * @param int $cohortid
@@ -565,8 +565,8 @@ class enrol_manual_plugin extends enrol_plugin {
     protected function get_expirynotify_options() {
         $options = array(
             0 => get_string('no'),
-            1 => get_string('expirynotifyenroller', 'core_enrol'),
-            2 => get_string('expirynotifyall', 'core_enrol')
+            1 => get_string('expirynotifyenroller', 'core_enroll'),
+            2 => get_string('expirynotifyall', 'core_enroll')
         );
         return $options;
     }
@@ -596,17 +596,17 @@ class enrol_manual_plugin extends enrol_plugin {
         $mform->addHelpButton('enrolperiod', 'defaultperiod', 'enrol_manual');
 
         $options = $this->get_expirynotify_options();
-        $mform->addElement('select', 'expirynotify', get_string('expirynotify', 'core_enrol'), $options);
-        $mform->addHelpButton('expirynotify', 'expirynotify', 'core_enrol');
+        $mform->addElement('select', 'expirynotify', get_string('expirynotify', 'core_enroll'), $options);
+        $mform->addHelpButton('expirynotify', 'expirynotify', 'core_enroll');
 
         $options = array('optional' => false, 'defaultunit' => 86400);
-        $mform->addElement('duration', 'expirythreshold', get_string('expirythreshold', 'core_enrol'), $options);
-        $mform->addHelpButton('expirythreshold', 'expirythreshold', 'core_enrol');
+        $mform->addElement('duration', 'expirythreshold', get_string('expirythreshold', 'core_enroll'), $options);
+        $mform->addHelpButton('expirythreshold', 'expirythreshold', 'core_enroll');
         $mform->disabledIf('expirythreshold', 'expirynotify', 'eq', 0);
 
         if (enrol_accessing_via_instance($instance)) {
-            $warntext = get_string('instanceeditselfwarningtext', 'core_enrol');
-            $mform->addElement('static', 'selfwarn', get_string('instanceeditselfwarning', 'core_enrol'), $warntext);
+            $warntext = get_string('instanceeditselfwarningtext', 'core_enroll');
+            $mform->addElement('static', 'selfwarn', get_string('instanceeditselfwarning', 'core_enroll'), $warntext);
         }
     }
 
@@ -625,7 +625,7 @@ class enrol_manual_plugin extends enrol_plugin {
         $errors = array();
 
         if ($data['expirynotify'] > 0 and $data['expirythreshold'] < 86400) {
-            $errors['expirythreshold'] = get_string('errorthresholdlow', 'core_enrol');
+            $errors['expirythreshold'] = get_string('errorthresholdlow', 'core_enroll');
         }
 
         $validstatus = array_keys($this->get_status_options());
@@ -647,7 +647,7 @@ class enrol_manual_plugin extends enrol_plugin {
     }
 
     /**
-     * Check if enrolment plugin is supported in csv course upload.
+     * Check if enrollment plugin is supported in csv course upload.
      *
      * @return bool
      */
@@ -658,7 +658,7 @@ class enrol_manual_plugin extends enrol_plugin {
 }
 
 /**
- * Serve the manual enrol users form as a fragment.
+ * Serve the manual enroll users form as a fragment.
  *
  * @param array $args List of named arguments for the fragment loader.
  * @return string
@@ -668,7 +668,7 @@ function enrol_manual_output_fragment_enrol_users_form($args) {
     $context = $args->context;
     $o = '';
 
-    require_capability('enrol/manual:enrol', $context);
+    require_capability('enroll/manual:enroll', $context);
     $mform = new enrol_manual_enrol_users_form(null, $args);
 
     ob_start();

@@ -228,7 +228,7 @@ Feature: Restore Moodle 2 course backups
   Scenario: Restore a backup with override permission
     Given the following "permission overrides" exist:
       | capability         | permission | role           | contextlevel | reference |
-      | enrol/manual:enrol | Allow      | teacher        | Course       | C1        |
+      | enroll/manual:enroll | Allow      | teacher        | Course       | C1        |
     And I backup "Course 1" course using this options:
       | Confirmation | Filename | test_backup.mbz |
     When I restore "test_backup.mbz" backup into a new course using this options:
@@ -236,13 +236,13 @@ Feature: Restore Moodle 2 course backups
     Then I am on the "Course 1 copy 1" "permissions" page
     And I should see "Non-editing teacher (1)"
     And I set the field "Advanced role override" to "Non-editing teacher (1)"
-    And "enrol/manual:enrol" capability has "Allow" permission
+    And "enroll/manual:enroll" capability has "Allow" permission
 
   @javascript
   Scenario: Restore a backup without override permission
     Given the following "permission overrides" exist:
       | capability         | permission | role           | contextlevel | reference |
-      | enrol/manual:enrol | Allow      | teacher        | Course       | C1        |
+      | enroll/manual:enroll | Allow      | teacher        | Course       | C1        |
     And I backup "Course 1" course using this options:
       | Confirmation | Filename | test_backup.mbz |
     When I restore "test_backup.mbz" backup into a new course using this options:

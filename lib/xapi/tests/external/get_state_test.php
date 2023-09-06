@@ -127,7 +127,7 @@ class get_state_test extends externallib_advanced_testcase {
         if ($component === 'mod_h5pactivity') {
             // For the mod_h5pactivity component, the activity needs to be created too.
             $course = $this->getDataGenerator()->create_course();
-            $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+            $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
             $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
 
             $activitycontext = \context_module::instance($activity->cmid);

@@ -14,9 +14,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Quick enrolment AMD module.
+ * Quick enrollment AMD module.
  *
- * @module     enrol_manual/quickenrolment
+ * @module     enrol_manual/quickenrollment
  * @copyright  2016 Damyon Wiese <damyon@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -86,7 +86,7 @@ const registerEventListeners = contextId => {
  * @returns {Promise}
  */
 const showModal = (dynamicTable, contextId) => {
-    const pendingPromise = new Pending('enrol_manual/quickenrolment:showModal');
+    const pendingPromise = new Pending('enrol_manual/quickenrollment:showModal');
 
     return ModalFactory.create({
         type: ModalFactory.types.SAVE_CANCEL,
@@ -155,7 +155,7 @@ const submitFormAjax = (dynamicTable, modal) => {
     modal.destroy();
 
     jQuery.ajax(
-        `${Config.wwwroot}/enrol/manual/ajax.php?${form.serialize()}`,
+        `${Config.wwwroot}/enroll/manual/ajax.php?${form.serialize()}`,
         {
             type: 'GET',
             processData: false,
@@ -171,7 +171,7 @@ const submitFormAjax = (dynamicTable, modal) => {
     })
     .then(count => {
         return Promise.all([
-            Str.get_string('totalenrolledusers', 'enrol', count),
+            Str.get_string('totalenrolledusers', 'enroll', count),
             DynamicTable.refreshTableContent(dynamicTable),
         ]);
     })
@@ -186,7 +186,7 @@ const submitFormAjax = (dynamicTable, modal) => {
 };
 
 /**
- * Set up quick enrolment for the manual enrolment plugin.
+ * Set up quick enrollment for the manual enrollment plugin.
  *
  * @param {Number} contextid The context id to setup for
  */
@@ -198,5 +198,5 @@ export const init = ({contextid}) => {
         'enroluserscohorts',
     ]);
 
-    Prefetch.prefetchString('enrol', 'totalenrolledusers');
+    Prefetch.prefetchString('enroll', 'totalenrolledusers');
 };

@@ -42,7 +42,7 @@ Feature: Displaying the link to the Participants page
     Given the following "activities" exist:
       | activity | course | name            |
       | forum    | C1     | Test forum name |
-    And I am on the "Course1" "enrolment methods" page logged in as admin
+    And I am on the "Course1" "enrollment methods" page logged in as admin
     And I click on "Edit" "link" in the "Guest access" "table_row"
     And I set the following fields to these values:
       | Allow guest access | Yes |

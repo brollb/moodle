@@ -178,7 +178,7 @@ class assign_grading_table extends table_sql implements renderable {
             $from .= ' LEFT JOIN (
             SELECT ue1.userid as enroluserid,
               CASE WHEN MIN(ue1.timestart - c2.startdate) < 0 THEN 0 ELSE MIN(ue1.timestart - c2.startdate) END as enrolstartoffset
-              FROM {enrol} e1
+              FROM {enroll} e1
               JOIN {user_enrolments} ue1
                 ON (ue1.enrolid = e1.id AND ue1.status = 0)
               JOIN {course} c2

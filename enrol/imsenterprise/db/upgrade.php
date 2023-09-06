@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file keeps track of upgrades to the imsenterprise enrolment plugin
+ * This file keeps track of upgrades to the imsenterprise enrollment plugin
  *
  * @package    enrol_imsenterprise
  * @copyright  2011 Petr Skoda (http://skodak.org)

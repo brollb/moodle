@@ -44,7 +44,7 @@ class context_freeze_test extends \advanced_testcase {
         set_config('contextlocking', 1);
 
         $context = \context_course::instance($course->id);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $args = new \stdClass;
         $args->context = $context;

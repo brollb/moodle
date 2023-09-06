@@ -378,21 +378,21 @@ class testing_generator_test extends \advanced_testcase {
         $user3 = $this->getDataGenerator()->create_user();
         $user4 = $this->getDataGenerator()->create_user();
 
-        $this->assertEquals(3, $DB->count_records('enrol', array('enrol'=>'self')));
-        $instance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'self'), '*', MUST_EXIST);
-        $instance2 = $DB->get_record('enrol', array('courseid'=>$course2->id, 'enrol'=>'self'), '*', MUST_EXIST);
-        $instance3 = $DB->get_record('enrol', array('courseid'=>$course3->id, 'enrol'=>'self'), '*', MUST_EXIST);
+        $this->assertEquals(3, $DB->count_records('enroll', array('enroll'=>'self')));
+        $instance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'self'), '*', MUST_EXIST);
+        $instance2 = $DB->get_record('enroll', array('courseid'=>$course2->id, 'enroll'=>'self'), '*', MUST_EXIST);
+        $instance3 = $DB->get_record('enroll', array('courseid'=>$course3->id, 'enroll'=>'self'), '*', MUST_EXIST);
 
         $this->assertEquals($studentrole->id, $instance1->roleid);
         $this->assertEquals($studentrole->id, $instance2->roleid);
         $this->assertEquals($studentrole->id, $instance3->roleid);
 
-        $this->assertEquals(3, $DB->count_records('enrol', array('enrol'=>'manual')));
-        $maninstance1 = $DB->get_record('enrol', array('courseid'=>$course1->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $maninstance2 = $DB->get_record('enrol', array('courseid'=>$course2->id, 'enrol'=>'manual'), '*', MUST_EXIST);
-        $maninstance3 = $DB->get_record('enrol', array('courseid'=>$course3->id, 'enrol'=>'manual'), '*', MUST_EXIST);
+        $this->assertEquals(3, $DB->count_records('enroll', array('enroll'=>'manual')));
+        $maninstance1 = $DB->get_record('enroll', array('courseid'=>$course1->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $maninstance2 = $DB->get_record('enroll', array('courseid'=>$course2->id, 'enroll'=>'manual'), '*', MUST_EXIST);
+        $maninstance3 = $DB->get_record('enroll', array('courseid'=>$course3->id, 'enroll'=>'manual'), '*', MUST_EXIST);
         $maninstance3->roleid = $teacherrole->id;
-        $DB->update_record('enrol', $maninstance3, array('id'=>$maninstance3->id));
+        $DB->update_record('enroll', $maninstance3, array('id'=>$maninstance3->id));
 
         $this->assertEquals($studentrole->id, $maninstance1->roleid);
         $this->assertEquals($studentrole->id, $maninstance2->roleid);
@@ -429,7 +429,7 @@ class testing_generator_test extends \advanced_testcase {
         $result = $this->getDataGenerator()->enrol_user($user2->id, $course2->id, null, 'self');
         $this->assertFalse($result);
 
-        $DB->delete_records('enrol', array('enrol'=>'self', 'courseid'=>$course3->id));
+        $DB->delete_records('enroll', array('enroll'=>'self', 'courseid'=>$course3->id));
         $result = $this->getDataGenerator()->enrol_user($user2->id, $course3->id, null, 'self');
         $this->assertFalse($result);
     }

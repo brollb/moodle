@@ -1,5 +1,5 @@
-@enrol @enrol_cohort
-Feature: Cohort enrolment management
+@enroll @enrol_cohort
+Feature: Cohort enrollment management
 
   Background:
     Given the following "users" exist:
@@ -19,7 +19,7 @@ Feature: Cohort enrolment management
   @javascript
   Scenario: Add multiple cohorts to the course
     When I log in as "teacher001"
-    And I am on the "Course 001" "enrolment methods" page
+    And I am on the "Course 001" "enrollment methods" page
     And I select "Cohort sync" from the "Add method" singleselect
     And I open the autocomplete suggestions list
     And I click on "Alpha1" item in the autocomplete list
@@ -32,9 +32,9 @@ Feature: Cohort enrolment management
     And I should see "Cohort sync (Alpha1 - Student)"
 
   @javascript
-  Scenario: Edit cohort enrolment
+  Scenario: Edit cohort enrollment
     When I log in as "teacher001"
-    And I add "Cohort sync" enrolment method in "Course 001" with:
+    And I add "Cohort sync" enrollment method in "Course 001" with:
       | Cohort | Alpha1 |
     And I should see "Cohort sync (Alpha1 - Student)"
     And I click on "Edit" "link" in the "Alpha1" "table_row"
@@ -43,7 +43,7 @@ Feature: Cohort enrolment management
     And I should see "Cohort sync (Alpha1 - Non-editing teacher)"
 
   @javascript
-  Scenario: Course cohort enrolment sync cohorts members
+  Scenario: Course cohort enrollment sync cohorts members
     Given the following "users" exist:
       | username | firstname | lastname | email          |
       | s1       | Sandra    | Cole     | s1@example.com |
@@ -54,7 +54,7 @@ Feature: Cohort enrolment management
       | s1   | A1     |
       | s2   | A1     |
     When I log in as "teacher001"
-    And I add "Cohort sync" enrolment method in "Course 001" with:
+    And I add "Cohort sync" enrollment method in "Course 001" with:
       | Cohort      | A1 |
       | customint2  | -1 |
     Then I should see "Cohort sync (Alpha1 - Student)"
@@ -91,7 +91,7 @@ Feature: Cohort enrolment management
       | John Smith             | s2@example.com | Student | Alpha1 cohort |
 
   @javascript
-  Scenario: Course cohort enrolment creates a new group
+  Scenario: Course cohort enrollment creates a new group
     Given the following "users" exist:
       | username | firstname | lastname | email          |
       | s3       | Bianca    | McAfee   | s3@example.com |
@@ -101,7 +101,7 @@ Feature: Cohort enrolment management
       | s3   | B1     |
       | s5   | B1     |
     When I log in as "teacher001"
-    And I add "Cohort sync" enrolment method in "Course 001" with:
+    And I add "Cohort sync" enrollment method in "Course 001" with:
       | Cohort      | B1 |
     And I click on "Edit" "link" in the "Beta2" "table_row"
     And I set the field "Add to group" to "Create new group"

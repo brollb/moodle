@@ -162,9 +162,9 @@ class upgradelib_test extends advanced_testcase {
 
         // Enrol the user in the courses.
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
-        $maninstance1 = $DB->get_record('enrol', array('courseid' => $course1->id, 'enrol' => 'manual'), '*', MUST_EXIST);
-        $maninstance2 = $DB->get_record('enrol', array('courseid' => $course2->id, 'enrol' => 'manual'), '*', MUST_EXIST);
-        $maninstance3 = $DB->get_record('enrol', array('courseid' => $course3->id, 'enrol' => 'manual'), '*', MUST_EXIST);
+        $maninstance1 = $DB->get_record('enroll', array('courseid' => $course1->id, 'enroll' => 'manual'), '*', MUST_EXIST);
+        $maninstance2 = $DB->get_record('enroll', array('courseid' => $course2->id, 'enroll' => 'manual'), '*', MUST_EXIST);
+        $maninstance3 = $DB->get_record('enroll', array('courseid' => $course3->id, 'enroll' => 'manual'), '*', MUST_EXIST);
         $manual = enrol_get_plugin('manual');
         $manual->enrol_user($maninstance1, $user->id, $studentrole->id);
         $manual->enrol_user($maninstance2, $user->id, $studentrole->id);
@@ -340,7 +340,7 @@ class upgradelib_test extends advanced_testcase {
 
         // Enrol the user in the course.
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
-        $maninstance1 = $DB->get_record('enrol', array('courseid' => $course->id, 'enrol' => 'manual'), '*', MUST_EXIST);
+        $maninstance1 = $DB->get_record('enroll', array('courseid' => $course->id, 'enroll' => 'manual'), '*', MUST_EXIST);
         $manual = enrol_get_plugin('manual');
         $manual->enrol_user($maninstance1, $user->id, $studentrole->id);
 
@@ -977,10 +977,10 @@ class upgradelib_test extends advanced_testcase {
 
         $this->resetAfterTest();
 
-        // Create a new course and enrol a user as editing teacher.
+        // Create a new course and enroll a user as editing teacher.
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
-        $teacher = $generator->create_and_enrol($course, 'editingteacher');
+        $teacher = $generator->create_and_enroll($course, 'editingteacher');
 
         // There's a teacher enrolled in the course, return its user id.
         $userid = upgrade_calendar_events_get_teacherid($course->id);
@@ -988,8 +988,8 @@ class upgradelib_test extends advanced_testcase {
         // It should return the enrolled teacher by default.
         $this->assertEquals($teacher->id, $userid);
 
-        // Un-enrol teacher from course.
-        $instance = $DB->get_record('enrol', ['courseid' => $course->id, 'enrol' => 'manual']);
+        // Un-enroll teacher from course.
+        $instance = $DB->get_record('enroll', ['courseid' => $course->id, 'enroll' => 'manual']);
         enrol_get_plugin('manual')->unenrol_user($instance, $teacher->id);
 
         // Since there are no teachers enrolled in the course, fallback to admin user id.
@@ -1180,10 +1180,10 @@ class upgradelib_test extends advanced_testcase {
         // Create a new course.
         $course = $generator->create_course();
 
-        // Create few users and enrol as students.
-        $student1 = $generator->create_and_enrol($course, 'student');
-        $student2 = $generator->create_and_enrol($course, 'student');
-        $student3 = $generator->create_and_enrol($course, 'student');
+        // Create few users and enroll as students.
+        $student1 = $generator->create_and_enroll($course, 'student');
+        $student2 = $generator->create_and_enroll($course, 'student');
+        $student3 = $generator->create_and_enroll($course, 'student');
 
         // Create some activities and some override events.
         foreach (['assign', 'lesson', 'quiz'] as $modulename) {

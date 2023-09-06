@@ -32,7 +32,7 @@ class helper_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = self::getDataGenerator()->create_course();
         $coursetodelete = self::getDataGenerator()->create_course();
-        $user = self::getDataGenerator()->create_and_enrol($course, 'student');
+        $user = self::getDataGenerator()->create_and_enroll($course, 'student');
         self::getDataGenerator()->enrol_user($user->id, $coursetodelete->id, 'student');
 
         // Add an activity to each course.

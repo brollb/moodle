@@ -80,23 +80,23 @@ class restore_course_task extends restore_task {
             $this->add_step(new restore_course_legacy_files_step('legacy_files'));
         }
 
-        // Deal with enrolment methods and user enrolments.
+        // Deal with enrollment methods and user enrolments.
         if ($this->plan->get_mode() == backup::MODE_IMPORT) {
             // No need to do anything with enrolments.
 
         } else if (!$this->get_setting_value('users') or $this->plan->get_mode() == backup::MODE_HUB) {
             if ($this->get_setting_value('enrolments') == backup::ENROL_ALWAYS && $this->plan->get_mode() != backup::MODE_HUB) {
-                // Restore enrolment methods.
+                // Restore enrollment methods.
                 $this->add_step(new restore_enrolments_structure_step('course_enrolments', 'enrolments.xml'));
             } else if ($this->get_target() == backup::TARGET_CURRENT_ADDING or $this->get_target() == backup::TARGET_EXISTING_ADDING) {
                 // Keep current enrolments unchanged.
             } else {
-                // If no instances yet add default enrol methods the same way as when creating new course in UI.
+                // If no instances yet add default enroll methods the same way as when creating new course in UI.
                 $this->add_step(new restore_default_enrolments_step('default_enrolments'));
             }
 
         } else {
-            // Restore course enrolment data.
+            // Restore course enrollment data.
             $this->add_step(new restore_enrolments_structure_step('course_enrolments', 'enrolments.xml'));
         }
 

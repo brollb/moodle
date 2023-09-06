@@ -61,8 +61,8 @@ class log_report_viewed_testcase extends externallib_advanced_testcase {
 
         // Enrol users: 1 teacher, 1 student.
         $users = [
-            'editingteacher' => $this->getDataGenerator()->create_and_enrol($course, 'editingteacher'),
-            'student' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
+            'editingteacher' => $this->getDataGenerator()->create_and_enroll($course, 'editingteacher'),
+            'student' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
         ];
 
         // Add h5p activity.

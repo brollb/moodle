@@ -17,7 +17,7 @@
 /**
  * Enrol users form.
  *
- * Simple form to search for users and add them using a manual enrolment to this course.
+ * Simple form to search for users and add them using a manual enrollment to this course.
  *
  * @package enrol_manual
  * @copyright 2016 Damyon Wiese
@@ -38,18 +38,18 @@ class enrol_manual_enrol_users_form extends moodleform {
         global $PAGE, $DB, $CFG;
 
 
-        require_once($CFG->dirroot . '/enrol/locallib.php');
+        require_once($CFG->dirroot . '/enroll/locallib.php');
 
         $context = $this->_customdata->context;
 
-        // Get the course and enrolment instance.
+        // Get the course and enrollment instance.
         $coursecontext = $context->get_course_context();
         $course = $DB->get_record('course', ['id' => $coursecontext->instanceid]);
         $manager = new course_enrolment_manager($PAGE, $course);
 
         $instance = null;
         foreach ($manager->get_enrolment_instances() as $tempinstance) {
-            if ($tempinstance->enrol == 'manual') {
+            if ($tempinstance->enroll == 'manual') {
                 if ($instance === null) {
                     $instance = $tempinstance;
                     break;
@@ -86,7 +86,7 @@ class enrol_manual_enrol_users_form extends moodleform {
         $basemenu[3] = get_string('today') . ' (' . userdate($today, $dateformat) . ')';
         $basemenu[4] = get_string('now', 'enrol_manual') . ' (' . userdate($now, get_string('strftimedatetimeshort')) . ')';
 
-        $mform->addElement('header', 'main', get_string('enrolmentoptions', 'enrol'));
+        $mform->addElement('header', 'main', get_string('enrolmentoptions', 'enroll'));
         $options = array(
             'ajax' => 'enrol_manual/form-potential-user-selector',
             'multiple' => true,
@@ -122,21 +122,21 @@ class enrol_manual_enrol_users_form extends moodleform {
 
         $mform->addAdvancedStatusElement('main');
 
-        $mform->addElement('checkbox', 'recovergrades', get_string('recovergrades', 'enrol'));
+        $mform->addElement('checkbox', 'recovergrades', get_string('recovergrades', 'enroll'));
         $mform->setAdvanced('recovergrades');
         $mform->setDefault('recovergrades', $CFG->recovergradesdefault);
         $mform->addElement('select', 'startdate', get_string('startingfrom'), $basemenu);
         $mform->setDefault('startdate', $extendbase);
         $mform->setAdvanced('startdate');
-        $mform->addElement('select', 'duration', get_string('enrolperiod', 'enrol'), $periodmenu);
+        $mform->addElement('select', 'duration', get_string('enrolperiod', 'enroll'), $periodmenu);
         $mform->setDefault('duration', $defaultperiod);
         $mform->setAdvanced('duration');
         $mform->disabledIf('duration', 'timeend[enabled]', 'checked', 1);
-        $mform->addElement('date_time_selector', 'timeend', get_string('enroltimeend', 'enrol'), ['optional' => true]);
+        $mform->addElement('date_time_selector', 'timeend', get_string('enroltimeend', 'enroll'), ['optional' => true]);
         $mform->setAdvanced('timeend');
         $mform->addElement('hidden', 'id', $course->id);
         $mform->setType('id', PARAM_INT);
-        $mform->addElement('hidden', 'action', 'enrol');
+        $mform->addElement('hidden', 'action', 'enroll');
         $mform->setType('action', PARAM_ALPHA);
         $mform->addElement('hidden', 'enrolid', $instance->id);
         $mform->setType('enrolid', PARAM_INT);
@@ -154,7 +154,7 @@ class enrol_manual_enrol_users_form extends moodleform {
         $errors = parent::validation($data, $files);
         if (!empty($data['startdate']) && !empty($data['timeend'])) {
             if ($data['startdate'] >= $data['timeend']) {
-                $errors['timeend'] = get_string('enroltimeendinvalid', 'enrol');
+                $errors['timeend'] = get_string('enroltimeendinvalid', 'enroll');
             }
         }
         return $errors;

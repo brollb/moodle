@@ -65,7 +65,7 @@ $contentitems = [];
 foreach ($resources as $resource) {
 
     $contentitem = LtiDeepLinkResource::new()
-        ->setUrl($CFG->wwwroot . '/enrol/lti/launch.php')
+        ->setUrl($CFG->wwwroot . '/enroll/lti/launch.php')
         ->setCustomParams(['id' => $resource->get_uuid()])
         ->setTitle($resource->get_name());
 
@@ -86,7 +86,7 @@ foreach ($resources as $resource) {
 
 global $USER, $CFG, $OUTPUT;
 $PAGE->set_context(context_system::instance());
-$url = new moodle_url('/enrol/lti/configure.php');
+$url = new moodle_url('/enroll/lti/configure.php');
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('popup');
 echo $OUTPUT->header();

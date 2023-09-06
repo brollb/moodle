@@ -468,8 +468,8 @@ class manager {
         }
 
         // Enrolment.
-        $enrol = new \moodle_url('/enrol/index.php');
-        if ($enrol->compare($url, URL_MATCH_BASE)) {
+        $enroll = new \moodle_url('/enroll/index.php');
+        if ($enroll->compare($url, URL_MATCH_BASE)) {
             return self::NO_REDIRECT;
         }
 

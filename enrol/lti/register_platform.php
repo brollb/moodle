@@ -39,7 +39,7 @@ use enrol_lti\local\ltiadvantage\service\application_registration_service;
 require_once(__DIR__ . '/../../config.php');
 global $CFG, $OUTPUT, $DB;
 require_once($CFG->libdir . '/adminlib.php');
-require_once($CFG->dirroot . '/enrol/lti/lib.php');
+require_once($CFG->dirroot . '/enroll/lti/lib.php');
 
 $action = required_param('action', PARAM_ALPHA);
 if (!in_array($action, ['add', 'view', 'edit', 'delete'])) {
@@ -65,7 +65,7 @@ if ($action == 'view') {
     $tabselect = optional_param('tabselect', 'platformdetails', PARAM_ALPHA);
     global $PAGE;
     $pagesetup(get_string('registerplatformedit', 'enrol_lti'));
-    $pageurl = new moodle_url('/enrol/lti/register_platform.php', ['action' => 'view', 'regid' => $regid]);
+    $pageurl = new moodle_url('/enroll/lti/register_platform.php', ['action' => 'view', 'regid' => $regid]);
 
     echo $OUTPUT->header();
     echo $OUTPUT->heading(get_string('registerplatformedit', 'enrol_lti'));
@@ -77,7 +77,7 @@ if ($action == 'view') {
 
 } else if ($action === 'add') {
     $pagesetup(get_string('registerplatformadd', 'enrol_lti'));
-    $pageurl = new moodle_url('/enrol/lti/register_platform.php', ['action' => 'add']);
+    $pageurl = new moodle_url('/enroll/lti/register_platform.php', ['action' => 'add']);
 
     $mform = new create_registration_form($pageurl->out(false));
     if ($data = $mform->get_data()) {
@@ -88,7 +88,7 @@ if ($action == 'view') {
         $draft = $regservice->create_draft_application_registration($data);
 
         // Redirect to the registration view, which will display endpoints and allow the user to complete the registration.
-        redirect(new moodle_url('/enrol/lti/register_platform.php',
+        redirect(new moodle_url('/enroll/lti/register_platform.php',
             ['action' => 'view', 'regid' => $draft->get_id(), 'tabselect' => 'tooldetails']));
 
     } else if (!$mform->is_cancelled()) {
@@ -104,8 +104,8 @@ if ($action == 'view') {
     $regid = required_param('regid', PARAM_INT);
     $pagesetup(get_string('registerplatformedit', 'enrol_lti'));
 
-    $pageurl = new moodle_url('/enrol/lti/register_platform.php', ['action' => 'edit', 'regid' => $regid]);
-    $viewurl = new moodle_url('/enrol/lti/register_platform.php', ['action' => 'view', 'regid' => $regid]);
+    $pageurl = new moodle_url('/enroll/lti/register_platform.php', ['action' => 'edit', 'regid' => $regid]);
+    $viewurl = new moodle_url('/enroll/lti/register_platform.php', ['action' => 'view', 'regid' => $regid]);
 
     $mform = new platform_registration_form($pageurl->out(false));
     if (($data = $mform->get_data()) && confirm_sesskey()) {
@@ -149,7 +149,7 @@ if ($action == 'view') {
 
     if (!optional_param('confirm', false, PARAM_BOOL)) {
         $continueparams = ['action' => 'delete', 'regid' => $regid, 'sesskey' => sesskey(), 'confirm' => true];
-        $continueurl = new moodle_url('/enrol/lti/register_platform.php', $continueparams);
+        $continueurl = new moodle_url('/enroll/lti/register_platform.php', $continueparams);
         $appregrepo = new application_registration_repository();
         $appreg = $appregrepo->find($regid);
         if (!$appreg) {

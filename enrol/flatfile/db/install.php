@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Flatfile enrolment plugin installation.
+ * Flatfile enrollment plugin installation.
  *
  * @package    enrol_flatfile
  * @copyright  2013 Petr Skoda {@link http://skodak.org}

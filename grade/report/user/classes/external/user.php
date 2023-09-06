@@ -191,12 +191,12 @@ class user extends external_api {
             }
             $reportdata[] = $gradeuserdata;
         } else {
-            $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-            $showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-            $showonlyactiveenrol = $showonlyactiveenrol || !has_capability('moodle/course:viewsuspendedusers', $context);
+            $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+            $showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
+            $showonlyactiveenroll = $showonlyactiveenroll || !has_capability('moodle/course:viewsuspendedusers', $context);
 
             $gui = new graded_users_iterator($course, null, $groupid);
-            $gui->require_active_enrolment($showonlyactiveenrol);
+            $gui->require_active_enrollment($showonlyactiveenroll);
             $gui->init();
 
             while ($userdata = $gui->next_user()) {

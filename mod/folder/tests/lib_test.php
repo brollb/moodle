@@ -154,7 +154,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create the activity.
         $folder = $this->getDataGenerator()->create_module('folder', array('course' => $course->id));
@@ -181,7 +181,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create the activity.
         $folder = $this->getDataGenerator()->create_module('folder', array('course' => $course->id));
@@ -247,7 +247,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course(array('enablecompletion' => 1));
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create the activity.
         $folder = $this->getDataGenerator()->create_module('folder', array('course' => $course->id),

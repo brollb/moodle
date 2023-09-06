@@ -64,9 +64,9 @@ src/ToolProvider/DataConnector/DataConnector_mysql.php
 
 In case of any changes we may need to update
 
-enrol/lti/classes/data_connector.php
-enrol/lti/db/install.xml
-enrol/lti/db/upgrade.php
+enroll/lti/classes/data_connector.php
+enroll/lti/db/install.xml
+enroll/lti/db/upgrade.php
 
 * MDL-78144 PHP 8.2 compliance.
   To temporarily prevent the PHP 8.2 warning about the deprecation of dynamic properties,

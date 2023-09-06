@@ -199,7 +199,7 @@ class group_form extends moodleform {
                     // Enforce password policy when the password is changed.
                     $errors['enrolmentkey'] = $errmsg;
                 } else {
-                    // Prevent twice the same enrolment key in course groups.
+                    // Prevent twice the same enrollment key in course groups.
                     $sql = "SELECT id FROM {groups} WHERE id <> :groupid AND courseid = :courseid AND enrolmentkey = :key";
                     $params = array('groupid' => $data['id'], 'courseid' => $COURSE->id, 'key' => $data['enrolmentkey']);
                     if ($DB->record_exists_sql($sql, $params)) {
@@ -218,7 +218,7 @@ class group_form extends moodleform {
                 // Enforce password policy.
                 $errors['enrolmentkey'] = $errmsg;
             } else if ($DB->record_exists('groups', array('courseid' => $COURSE->id, 'enrolmentkey' => $data['enrolmentkey']))) {
-                // Prevent the same enrolment key from being used multiple times in course groups.
+                // Prevent the same enrollment key from being used multiple times in course groups.
                 $errors['enrolmentkey'] = get_string('enrolmentkeyalreadyinuse', 'group');
             }
         }

@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Test enrol plugin settings.
+ * Test enroll plugin settings.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2013 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,11 +25,11 @@
 require(__DIR__.'/../config.php');
 require_once("$CFG->libdir/adminlib.php");
 
-$enrol = optional_param('enrol', '', PARAM_RAW);
-if (!core_component::is_valid_plugin_name('enrol', $enrol)) {
-    $enrol = '';
-} else if (!file_exists("$CFG->dirroot/enrol/$enrol/lib.php")) {
-    $enrol = '';
+$enroll = optional_param('enroll', '', PARAM_RAW);
+if (!core_component::is_valid_plugin_name('enroll', $enroll)) {
+    $enroll = '';
+} else if (!file_exists("$CFG->dirroot/enroll/$enroll/lib.php")) {
+    $enroll = '';
 }
 
 navigation_node::override_active_url(new moodle_url('/admin/settings.php', array('section'=>'manageenrols')));
@@ -39,9 +39,9 @@ $returnurl = new moodle_url('/admin/settings.php', array('section'=>'manageenrol
 
 echo $OUTPUT->header();
 
-if (!$enrol) {
+if (!$enroll) {
     $options = array();
-    $plugins = core_component::get_plugin_list('enrol');
+    $plugins = core_component::get_plugin_list('enroll');
     foreach ($plugins as $name => $fulldir) {
         $plugin = enrol_get_plugin($name);
         if (!$plugin or !method_exists($plugin, 'test_settings')) {
@@ -54,20 +54,20 @@ if (!$enrol) {
         redirect($returnurl);
     }
 
-    echo $OUTPUT->heading(get_string('testsettings', 'core_enrol'));
+    echo $OUTPUT->heading(get_string('testsettings', 'core_enroll'));
 
-    $url = new moodle_url('/enrol/test_settings.php', array('sesskey'=>sesskey()));
-    echo $OUTPUT->single_select($url, 'enrol', $options);
+    $url = new moodle_url('/enroll/test_settings.php', array('sesskey'=>sesskey()));
+    echo $OUTPUT->single_select($url, 'enroll', $options);
 
     echo $OUTPUT->footer();
 }
 
-$plugin = enrol_get_plugin($enrol);
+$plugin = enrol_get_plugin($enroll);
 if (!$plugin or !method_exists($plugin, 'test_settings')) {
     redirect($returnurl);
 }
 
-echo $OUTPUT->heading(get_string('testsettingsheading', 'core_enrol', get_string('pluginname', 'enrol_'.$enrol)));
+echo $OUTPUT->heading(get_string('testsettingsheading', 'core_enroll', get_string('pluginname', 'enrol_'.$enroll)));
 
 $plugin->test_settings();
 

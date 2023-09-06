@@ -31,7 +31,7 @@ if ($ADMIN->fulltree) {
     $strreal                = get_string('real', 'grades');
     $strletter              = get_string('letter', 'grades');
 
-    $settings->add(new admin_setting_configcheckbox('grade_report_showonlyactiveenrol', get_string('showonlyactiveenrol', 'grades'),
+    $settings->add(new admin_setting_configcheckbox('grade_report_showonlyactiveenroll', get_string('showonlyactiveenroll', 'grades'),
                                                 get_string('showonlyactiveenrol_help', 'grades'), 1));
 
     $settings->add(new admin_setting_configcheckbox('grade_report_quickgrading', get_string('quickgrading', 'grades'),

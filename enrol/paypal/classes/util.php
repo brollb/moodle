@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * PayPal enrolment plugin utility class.
+ * PayPal enrollment plugin utility class.
  *
  * @package    enrol_paypal
  * @copyright  2016 Cameron Ball <cameron@cameron1729.xyz>
@@ -27,7 +27,7 @@ namespace enrol_paypal;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * PayPal enrolment plugin utility class.
+ * PayPal enrollment plugin utility class.
  *
  * @package   enrol_paypal
  * @copyright 2016 Cameron Ball <cameron@cameron1729.xyz>
@@ -55,7 +55,7 @@ final class util {
         $eventdata->courseid          = empty($data->courseid) ? SITEID : $data->courseid;
         $eventdata->modulename        = 'moodle';
         $eventdata->component         = 'enrol_paypal';
-        $eventdata->name              = 'paypal_enrolment';
+        $eventdata->name              = 'paypal_enrollment';
         $eventdata->userfrom          = $admin;
         $eventdata->userto            = $admin;
         $eventdata->subject           = "PAYPAL ERROR: ".$subject;

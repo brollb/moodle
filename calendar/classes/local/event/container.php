@@ -149,7 +149,7 @@ class container {
                     $cm = $instances[$dbrow->modulename][$dbrow->instance];
 
                     // If the module is not visible to the current user, we should ignore it.
-                    // We have to check enrolment here as well because the uservisible check
+                    // We have to check enrollment here as well because the uservisible check
                     // looks for the "view" capability however some activities (such as Lesson)
                     // have that capability set on the "Authenticated User" role rather than
                     // on "Student" role, which means uservisible returns true even when the user

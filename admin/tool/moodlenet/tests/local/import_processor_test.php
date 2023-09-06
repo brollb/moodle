@@ -41,7 +41,7 @@ class import_processor_test extends \advanced_testcase {
 
         // Set up a user as a teacher in a course.
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $section = 0;
         $this->setUser($teacher);
 
@@ -88,7 +88,7 @@ class import_processor_test extends \advanced_testcase {
 
         // Set up a user as a teacher in a course.
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $section = 0;
         $this->setUser($teacher);
 
@@ -120,7 +120,7 @@ class import_processor_test extends \advanced_testcase {
 
         // Set up a user as a teacher in a course.
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $section = 0;
         $this->setUser($teacher);
 

@@ -93,7 +93,7 @@ class externallib_test extends externallib_advanced_testcase {
         $group1['name'] = 'Group Test 1';
         $group1['description'] = 'Group Test 1 description';
         $group1['descriptionformat'] = FORMAT_MOODLE;
-        $group1['enrolmentkey'] = 'Test group enrol secret phrase';
+        $group1['enrolmentkey'] = 'Test group enroll secret phrase';
         $group1['idnumber'] = 'TEST1';
         $group2 = array();
         $group2['courseid'] = $course->id;
@@ -245,7 +245,7 @@ class externallib_test extends externallib_advanced_testcase {
         $group1data['name'] = 'Group Test 1';
         $group1data['description'] = 'Group Test 1 description';
         $group1data['descriptionformat'] = FORMAT_MOODLE;
-        $group1data['enrolmentkey'] = 'Test group enrol secret phrase';
+        $group1data['enrolmentkey'] = 'Test group enroll secret phrase';
         $group1data['idnumber'] = 'TEST1';
         $group2data = array();
         $group2data['courseid'] = $course->id;
@@ -396,7 +396,7 @@ class externallib_test extends externallib_advanced_testcase {
 
         // Create the test group and add a member.
         $group1 = self::getDataGenerator()->create_group($group1data);
-        $user1 = self::getDataGenerator()->create_and_enrol($course);
+        $user1 = self::getDataGenerator()->create_and_enroll($course);
         self::getDataGenerator()->create_group_member(['userid' => $user1->id, 'groupid' => $group1->id]);
 
         $group1data['id'] = $group1->id;
@@ -429,7 +429,7 @@ class externallib_test extends externallib_advanced_testcase {
 
         // Create the test group and add a member.
         $group1 = self::getDataGenerator()->create_group($group1data);
-        $user1 = self::getDataGenerator()->create_and_enrol($course);
+        $user1 = self::getDataGenerator()->create_and_enroll($course);
         self::getDataGenerator()->create_group_member(['userid' => $user1->id, 'groupid' => $group1->id]);
 
         $group1data['id'] = $group1->id;
@@ -454,7 +454,7 @@ class externallib_test extends externallib_advanced_testcase {
         $group1data['name'] = 'Group Test 1';
         $group1data['description'] = 'Group Test 1 description';
         $group1data['descriptionformat'] = FORMAT_MOODLE;
-        $group1data['enrolmentkey'] = 'Test group enrol secret phrase';
+        $group1data['enrolmentkey'] = 'Test group enroll secret phrase';
         $group1data['idnumber'] = 'TEST1';
         $group2data = array();
         $group2data['courseid'] = $course->id;
@@ -555,7 +555,7 @@ class externallib_test extends externallib_advanced_testcase {
         $group1data['name'] = 'Group Test 1';
         $group1data['description'] = 'Group Test 1 description';
         $group1data['descriptionformat'] = FORMAT_MOODLE;
-        $group1data['enrolmentkey'] = 'Test group enrol secret phrase';
+        $group1data['enrolmentkey'] = 'Test group enroll secret phrase';
         $group2data = array();
         $group2data['courseid'] = $course->id;
         $group2data['name'] = 'Group Test 2';

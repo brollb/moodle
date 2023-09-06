@@ -17,7 +17,7 @@
 namespace enrol_ldap;
 
 /**
- * LDAP enrolment plugin tests.
+ * LDAP enrollment plugin tests.
  *
  * NOTE: in order to execute this test you need to set up
  *       OpenLDAP server with core, cosine, nis and internet schemas
@@ -73,7 +73,7 @@ class ldap_test extends \advanced_testcase {
 
         $this->resetAfterTest();
 
-        require_once($CFG->dirroot.'/enrol/ldap/lib.php');
+        require_once($CFG->dirroot.'/enroll/ldap/lib.php');
         require_once($CFG->libdir.'/ldaplib.php');
 
         if (!defined('TEST_ENROL_LDAP_HOST_URL') or !defined('TEST_ENROL_LDAP_BIND_DN') or !defined('TEST_ENROL_LDAP_BIND_PW') or !defined('TEST_ENROL_LDAP_DOMAIN')) {
@@ -101,36 +101,36 @@ class ldap_test extends \advanced_testcase {
             $this->markTestSkipped('Can not create test LDAP container.');
         }
 
-        // Configure enrol plugin.
-        /** @var \enrol_ldap_plugin $enrol */
-        $enrol = enrol_get_plugin('ldap');
-        $enrol->set_config('host_url', TEST_ENROL_LDAP_HOST_URL);
-        $enrol->set_config('start_tls', 0);
-        $enrol->set_config('ldap_version', 3);
-        $enrol->set_config('ldapencoding', 'utf-8');
-        $enrol->set_config('pagesize', $pagesize);
-        $enrol->set_config('bind_dn', TEST_ENROL_LDAP_BIND_DN);
-        $enrol->set_config('bind_pw', TEST_ENROL_LDAP_BIND_PW);
-        $enrol->set_config('course_search_sub', $subcontext);
-        $enrol->set_config('memberattribute_isdn', 0);
-        $enrol->set_config('user_contexts', '');
-        $enrol->set_config('user_search_sub', 0);
-        $enrol->set_config('user_type', 'rfc2307');
-        $enrol->set_config('opt_deref', LDAP_DEREF_NEVER);
-        $enrol->set_config('objectclass', '(objectClass=posixGroup)');
-        $enrol->set_config('course_idnumber', 'cn');
-        $enrol->set_config('course_shortname', 'cn');
-        $enrol->set_config('course_fullname', 'cn');
-        $enrol->set_config('course_summary', '');
-        $enrol->set_config('ignorehiddencourses', 0);
-        $enrol->set_config('nested_groups', 0);
-        $enrol->set_config('autocreate', 0);
-        $enrol->set_config('unenrolaction', ENROL_EXT_REMOVED_KEEP);
+        // Configure enroll plugin.
+        /** @var \enrol_ldap_plugin $enroll */
+        $enroll = enrol_get_plugin('ldap');
+        $enroll->set_config('host_url', TEST_ENROL_LDAP_HOST_URL);
+        $enroll->set_config('start_tls', 0);
+        $enroll->set_config('ldap_version', 3);
+        $enroll->set_config('ldapencoding', 'utf-8');
+        $enroll->set_config('pagesize', $pagesize);
+        $enroll->set_config('bind_dn', TEST_ENROL_LDAP_BIND_DN);
+        $enroll->set_config('bind_pw', TEST_ENROL_LDAP_BIND_PW);
+        $enroll->set_config('course_search_sub', $subcontext);
+        $enroll->set_config('memberattribute_isdn', 0);
+        $enroll->set_config('user_contexts', '');
+        $enroll->set_config('user_search_sub', 0);
+        $enroll->set_config('user_type', 'rfc2307');
+        $enroll->set_config('opt_deref', LDAP_DEREF_NEVER);
+        $enroll->set_config('objectclass', '(objectClass=posixGroup)');
+        $enroll->set_config('course_idnumber', 'cn');
+        $enroll->set_config('course_shortname', 'cn');
+        $enroll->set_config('course_fullname', 'cn');
+        $enroll->set_config('course_summary', '');
+        $enroll->set_config('ignorehiddencourses', 0);
+        $enroll->set_config('nested_groups', 0);
+        $enroll->set_config('autocreate', 0);
+        $enroll->set_config('unenrolaction', ENROL_EXT_REMOVED_KEEP);
 
         $roles = get_all_roles();
         foreach ($roles as $role) {
-            $enrol->set_config('contexts_role'.$role->id, '');
-            $enrol->set_config('memberattribute_role'.$role->id, '');
+            $enroll->set_config('contexts_role'.$role->id, '');
+            $enroll->set_config('memberattribute_role'.$role->id, '');
         }
 
         // Create group for teacher enrolments.
@@ -140,8 +140,8 @@ class ldap_test extends \advanced_testcase {
         $o['objectClass'] = array('organizationalUnit');
         $o['ou']          = 'teachers';
         ldap_add($connection, 'ou=teachers,'.$topdn, $o);
-        $enrol->set_config('contexts_role'.$teacherrole->id, 'ou=teachers,'.$topdn);
-        $enrol->set_config('memberattribute_role'.$teacherrole->id, 'memberuid');
+        $enroll->set_config('contexts_role'.$teacherrole->id, 'ou=teachers,'.$topdn);
+        $enroll->set_config('memberattribute_role'.$teacherrole->id, 'memberuid');
 
         // Create group for student enrolments.
         $studentrole = $DB->get_record('role', array('shortname'=>'student'));
@@ -150,8 +150,8 @@ class ldap_test extends \advanced_testcase {
         $o['objectClass'] = array('organizationalUnit');
         $o['ou']          = 'students';
         ldap_add($connection, 'ou=students,'.$topdn, $o);
-        $enrol->set_config('contexts_role'.$studentrole->id, 'ou=students,'.$topdn);
-        $enrol->set_config('memberattribute_role'.$studentrole->id, 'memberuid');
+        $enroll->set_config('contexts_role'.$studentrole->id, 'ou=students,'.$topdn);
+        $enroll->set_config('memberattribute_role'.$studentrole->id, 'memberuid');
 
         // Create some users and courses.
         $user1 = $this->getDataGenerator()->create_user(array('idnumber'=>'user1', 'username'=>'user1'));
@@ -206,7 +206,7 @@ class ldap_test extends \advanced_testcase {
         $this->assertEquals(0, $DB->count_records('role_assignments'));
         $this->assertEquals(4, $DB->count_records('course'));
 
-        $enrol->sync_enrolments(new \null_progress_trace());
+        $enroll->sync_enrolments(new \null_progress_trace());
 
         $this->assertEquals(8, $DB->count_records('user_enrolments'));
         $this->assertEquals(8, $DB->count_records('role_assignments'));
@@ -224,9 +224,9 @@ class ldap_test extends \advanced_testcase {
 
 
         // Test course creation.
-        $enrol->set_config('autocreate', 1);
+        $enroll->set_config('autocreate', 1);
 
-        $enrol->sync_enrolments(new \null_progress_trace());
+        $enroll->sync_enrolments(new \null_progress_trace());
 
         $this->assertEquals(12, $DB->count_records('user_enrolments'));
         $this->assertEquals(12, $DB->count_records('role_assignments'));
@@ -240,7 +240,7 @@ class ldap_test extends \advanced_testcase {
         $this->assertIsEnrolled($course4->id, $user6->id, $teacherrole->id);
 
 
-        // Test unenrolment.
+        // Test unenrollment.
         ldap_delete($connection, 'cn=course1,ou=students,'.$topdn);
         $o = array();
         $o['objectClass'] = array('posixGroup');
@@ -248,14 +248,14 @@ class ldap_test extends \advanced_testcase {
         $o['gidNumber']   = '1';
         ldap_add($connection, 'cn='.$o['cn'].',ou=students,'.$topdn, $o);
 
-        $enrol->set_config('unenrolaction', ENROL_EXT_REMOVED_KEEP);
-        $enrol->sync_enrolments(new \null_progress_trace());
+        $enroll->set_config('unenrolaction', ENROL_EXT_REMOVED_KEEP);
+        $enroll->sync_enrolments(new \null_progress_trace());
         $this->assertEquals(12, $DB->count_records('user_enrolments'));
         $this->assertEquals(12, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
 
-        $enrol->set_config('unenrolaction', ENROL_EXT_REMOVED_SUSPEND);
-        $enrol->sync_enrolments(new \null_progress_trace());
+        $enroll->set_config('unenrolaction', ENROL_EXT_REMOVED_SUSPEND);
+        $enroll->sync_enrolments(new \null_progress_trace());
         $this->assertEquals(12, $DB->count_records('user_enrolments'));
         $this->assertEquals(12, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
@@ -271,7 +271,7 @@ class ldap_test extends \advanced_testcase {
         $o['memberUid']   = array('user1', 'user2', 'user3');
         ldap_add($connection, 'cn='.$o['cn'].',ou=students,'.$topdn, $o);
 
-        $enrol->sync_enrolments(new \null_progress_trace());
+        $enroll->sync_enrolments(new \null_progress_trace());
         $this->assertEquals(12, $DB->count_records('user_enrolments'));
         $this->assertEquals(12, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
@@ -286,8 +286,8 @@ class ldap_test extends \advanced_testcase {
         $o['gidNumber']   = '1';
         ldap_add($connection, 'cn='.$o['cn'].',ou=students,'.$topdn, $o);
 
-        $enrol->set_config('unenrolaction', ENROL_EXT_REMOVED_SUSPENDNOROLES);
-        $enrol->sync_enrolments(new \null_progress_trace());
+        $enroll->set_config('unenrolaction', ENROL_EXT_REMOVED_SUSPENDNOROLES);
+        $enroll->sync_enrolments(new \null_progress_trace());
         $this->assertEquals(12, $DB->count_records('user_enrolments'));
         $this->assertEquals(9, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
@@ -303,7 +303,7 @@ class ldap_test extends \advanced_testcase {
         $o['memberUid']   = array('user1', 'user2', 'user3');
         ldap_add($connection, 'cn='.$o['cn'].',ou=students,'.$topdn, $o);
 
-        $enrol->sync_enrolments(new \null_progress_trace());
+        $enroll->sync_enrolments(new \null_progress_trace());
         $this->assertEquals(12, $DB->count_records('user_enrolments'));
         $this->assertEquals(12, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
@@ -318,8 +318,8 @@ class ldap_test extends \advanced_testcase {
         $o['gidNumber']   = '1';
         ldap_add($connection, 'cn='.$o['cn'].',ou=students,'.$topdn, $o);
 
-        $enrol->set_config('unenrolaction', ENROL_EXT_REMOVED_UNENROL);
-        $enrol->sync_enrolments(new \null_progress_trace());
+        $enroll->set_config('unenrolaction', ENROL_EXT_REMOVED_UNENROL);
+        $enroll->sync_enrolments(new \null_progress_trace());
         $this->assertEquals(9, $DB->count_records('user_enrolments'));
         $this->assertEquals(9, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
@@ -338,7 +338,7 @@ class ldap_test extends \advanced_testcase {
         $o['memberUid']   = array('user1', 'user2', 'user3');
         ldap_add($connection, 'cn='.$o['cn'].',ou=students,'.$topdn, $o);
 
-        $enrol->sync_user_enrolments($user1);
+        $enroll->sync_user_enrolments($user1);
         $this->assertEquals(10, $DB->count_records('user_enrolments'));
         $this->assertEquals(10, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
@@ -352,15 +352,15 @@ class ldap_test extends \advanced_testcase {
         $o['memberUid']   = array('user2', 'user3');
         ldap_add($connection, 'cn='.$o['cn'].',ou=students,'.$topdn, $o);
 
-        $enrol->set_config('unenrolaction', ENROL_EXT_REMOVED_KEEP);
-        $enrol->sync_user_enrolments($user1);
+        $enroll->set_config('unenrolaction', ENROL_EXT_REMOVED_KEEP);
+        $enroll->sync_user_enrolments($user1);
         $this->assertEquals(10, $DB->count_records('user_enrolments'));
         $this->assertEquals(10, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
         $this->assertIsEnrolled($course1->id, $user1->id, $studentrole->id, ENROL_USER_ACTIVE);
 
-        $enrol->set_config('unenrolaction', ENROL_EXT_REMOVED_SUSPEND);
-        $enrol->sync_user_enrolments($user1);
+        $enroll->set_config('unenrolaction', ENROL_EXT_REMOVED_SUSPEND);
+        $enroll->sync_user_enrolments($user1);
         $this->assertEquals(10, $DB->count_records('user_enrolments'));
         $this->assertEquals(10, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
@@ -374,7 +374,7 @@ class ldap_test extends \advanced_testcase {
         $o['memberUid']   = array('user1', 'user2', 'user3');
         ldap_add($connection, 'cn='.$o['cn'].',ou=students,'.$topdn, $o);
 
-        $enrol->sync_user_enrolments($user1);
+        $enroll->sync_user_enrolments($user1);
         $this->assertEquals(10, $DB->count_records('user_enrolments'));
         $this->assertEquals(10, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
@@ -388,8 +388,8 @@ class ldap_test extends \advanced_testcase {
         $o['memberUid']   = array('user2', 'user3');
         ldap_add($connection, 'cn='.$o['cn'].',ou=students,'.$topdn, $o);
 
-        $enrol->set_config('unenrolaction', ENROL_EXT_REMOVED_SUSPENDNOROLES);
-        $enrol->sync_user_enrolments($user1);
+        $enroll->set_config('unenrolaction', ENROL_EXT_REMOVED_SUSPENDNOROLES);
+        $enroll->sync_user_enrolments($user1);
         $this->assertEquals(10, $DB->count_records('user_enrolments'));
         $this->assertEquals(9, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
@@ -403,7 +403,7 @@ class ldap_test extends \advanced_testcase {
         $o['memberUid']   = array('user1', 'user2', 'user3');
         ldap_add($connection, 'cn='.$o['cn'].',ou=students,'.$topdn, $o);
 
-        $enrol->sync_user_enrolments($user1);
+        $enroll->sync_user_enrolments($user1);
         $this->assertEquals(10, $DB->count_records('user_enrolments'));
         $this->assertEquals(10, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
@@ -417,8 +417,8 @@ class ldap_test extends \advanced_testcase {
         $o['memberUid']   = array('user2', 'user3');
         ldap_add($connection, 'cn='.$o['cn'].',ou=students,'.$topdn, $o);
 
-        $enrol->set_config('unenrolaction', ENROL_EXT_REMOVED_UNENROL);
-        $enrol->sync_user_enrolments($user1);
+        $enroll->set_config('unenrolaction', ENROL_EXT_REMOVED_UNENROL);
+        $enroll->sync_user_enrolments($user1);
         $this->assertEquals(9, $DB->count_records('user_enrolments'));
         $this->assertEquals(9, $DB->count_records('role_assignments'));
         $this->assertEquals(5, $DB->count_records('course'));
@@ -434,7 +434,7 @@ class ldap_test extends \advanced_testcase {
         global $DB;
 
         $context = \context_course::instance($courseid);
-        $instance = $DB->get_record('enrol', array('courseid'=>$courseid, 'enrol'=>'ldap'));
+        $instance = $DB->get_record('enroll', array('courseid'=>$courseid, 'enroll'=>'ldap'));
         $this->assertNotEmpty($instance);
         $ue = $DB->get_record('user_enrolments', array('enrolid'=>$instance->id, 'userid'=>$userid));
         $this->assertNotEmpty($ue);

@@ -44,7 +44,7 @@ class caching_content_item_readonly_repository_test extends \advanced_testcase {
         global $DB;
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $cir = new content_item_readonly_repository();
         $ccir = new caching_content_item_readonly_repository(\cache::make('core', 'user_course_content_items'), $cir);
 

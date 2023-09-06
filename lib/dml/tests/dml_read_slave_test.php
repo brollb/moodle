@@ -102,10 +102,10 @@ class dml_read_slave_test extends \base_testcase {
                  JOIN (
                      SELECT DISTINCT u.id FROM {user} u
                      JOIN {user_enrolments} ue1 ON ue1.userid = u.id
-                     JOIN {enrol} e ON e.id = ue1.enrolid
+                     JOIN {enroll} e ON e.id = ue1.enrolid
                      WHERE u.id NOT IN (
                          SELECT DISTINCT ue.userid FROM {user_enrolments} ue
-                         JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = 1)
+                         JOIN {enroll} e ON (e.id = ue.enrolid AND e.courseid = 1)
                          WHERE ue.status = 'active'
                            AND e.status = 'enabled'
                            AND ue.timestart < now()
@@ -123,9 +123,9 @@ class dml_read_slave_test extends \base_testcase {
                     'user',
                     'user',
                     'user_enrolments',
-                    'enrol',
+                    'enroll',
                     'user_enrolments',
-                    'enrol',
+                    'enroll',
                     'role_assignments',
                 ]
             ],

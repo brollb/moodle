@@ -211,7 +211,7 @@ class delete_states_test extends externallib_advanced_testcase {
             $uname = $stateinfo['user'];
             $user = $users[$uname] ?? null;
             if (empty($user)) {
-                $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+                $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
                 $users[$uname] = $user;
             }
             $activityname = $stateinfo['activity'];
@@ -230,7 +230,7 @@ class delete_states_test extends externallib_advanced_testcase {
             test_helper::create_state($params, true);
         }
         if (empty($users[$testedusername])) {
-            $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+            $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
             $users[$testedusername] = $user;
         }
         $this->setUser($users[$testedusername]);

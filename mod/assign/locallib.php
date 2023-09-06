@@ -165,8 +165,8 @@ class assign {
     /** @var array of marking workflow states for the current user */
     private $markingworkflowstates = null;
 
-    /** @var bool whether to exclude users with inactive enrolment */
-    private $showonlyactiveenrol = null;
+    /** @var bool whether to exclude users with inactive enrollment */
+    private $showonlyactiveenroll = null;
 
     /** @var string A key used to identify userlists created by this object. */
     private $useridlistid = null;
@@ -2518,7 +2518,7 @@ class assign {
         }
 
         if ($this->get_instance()->teamsubmission) {
-            // We cannot join on the enrolment tables for group submissions (no userid).
+            // We cannot join on the enrollment tables for group submissions (no userid).
             $sql = 'SELECT COUNT(DISTINCT s.groupid)
                         FROM {assign_submission} s
                         WHERE
@@ -4494,7 +4494,7 @@ class assign {
                                           'markingworkflowopt'=>$markingworkflowoptions,
                                           'markingallocationopt'=>$markingallocationoptions,
                                           'showonlyactiveenrolopt'=>$showonlyactiveenrolopt,
-                                          'showonlyactiveenrol' => $this->show_only_active_users(),
+                                          'showonlyactiveenroll' => $this->show_only_active_users(),
                                           'downloadasfolders' => $downloadasfolders);
 
         $classoptions = array('class'=>'gradingoptionsform');
@@ -7324,7 +7324,7 @@ class assign {
                                       'markingworkflowopt' => $markingworkflowoptions,
                                       'markingallocationopt' => $markingallocationoptions,
                                       'showonlyactiveenrolopt'=>$showonlyactiveenrolopt,
-                                      'showonlyactiveenrol' => $this->show_only_active_users(),
+                                      'showonlyactiveenroll' => $this->show_only_active_users(),
                                       'downloadasfolders' => get_user_preferences('assign_downloadasfolders', 1));
         $mform = new mod_assign_grading_options_form(null, $gradingoptionsparams);
         if ($formdata = $mform->get_data()) {
@@ -7347,9 +7347,9 @@ class assign {
                 set_user_preference('assign_downloadasfolders', 0); // Disabled.
             }
             if (!empty($showonlyactiveenrolopt)) {
-                $showonlyactiveenrol = isset($formdata->showonlyactiveenrol);
-                set_user_preference('grade_report_showonlyactiveenrol', $showonlyactiveenrol);
-                $this->showonlyactiveenrol = $showonlyactiveenrol;
+                $showonlyactiveenroll = isset($formdata->showonlyactiveenroll);
+                set_user_preference('grade_report_showonlyactiveenroll', $showonlyactiveenroll);
+                $this->showonlyactiveenroll = $showonlyactiveenroll;
             }
         }
     }
@@ -9195,16 +9195,16 @@ class assign {
     public function show_only_active_users() {
         global $CFG;
 
-        if (is_null($this->showonlyactiveenrol)) {
-            $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-            $this->showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
+        if (is_null($this->showonlyactiveenroll)) {
+            $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+            $this->showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
 
             if (!is_null($this->context)) {
-                $this->showonlyactiveenrol = $this->showonlyactiveenrol ||
+                $this->showonlyactiveenroll = $this->showonlyactiveenroll ||
                             !has_capability('moodle/course:viewsuspendedusers', $this->context);
             }
         }
-        return $this->showonlyactiveenrol;
+        return $this->showonlyactiveenroll;
     }
 
     /**

@@ -914,7 +914,7 @@ class lib_test extends \advanced_testcase {
         // A course with manual enrolments.
         $manualcourse = $generator->create_course();
 
-        // Enrol the student to the manual enrolment course.
+        // Enrol the student to the manual enrollment course.
         $generator->enrol_user($student->id, $manualcourse->id);
 
         // A course that allows guest access.

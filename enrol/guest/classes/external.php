@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Guest enrolment method external API
+ * Guest enrollment method external API
  *
  * @package    enrol_guest
  * @category   external
@@ -36,7 +36,7 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->libdir . '/enrollib.php');
 
 /**
- * Guest enrolment method external API
+ * Guest enrollment method external API
  *
  * @package    enrol_guest
  * @category   external
@@ -54,14 +54,14 @@ class enrol_guest_external extends external_api {
      */
     public static function get_instance_info_parameters() {
         return new external_function_parameters(
-                array('instanceid' => new external_value(PARAM_INT, 'Instance id of guest enrolment plugin.'))
+                array('instanceid' => new external_value(PARAM_INT, 'Instance id of guest enrollment plugin.'))
             );
     }
 
     /**
-     * Return guest enrolment instance information.
+     * Return guest enrollment instance information.
      *
-     * @param int $instanceid instance id of guest enrolment plugin.
+     * @param int $instanceid instance id of guest enrollment plugin.
      * @return array warnings and instance information.
      * @since Moodle 3.1
      */
@@ -71,14 +71,14 @@ class enrol_guest_external extends external_api {
         $params = self::validate_parameters(self::get_instance_info_parameters(), array('instanceid' => $instanceid));
         $warnings = array();
 
-        // Retrieve guest enrolment plugin.
+        // Retrieve guest enrollment plugin.
         $enrolplugin = enrol_get_plugin('guest');
         if (empty($enrolplugin)) {
             throw new moodle_exception('invaliddata', 'error');
         }
 
         self::validate_context(context_system::instance());
-        $enrolinstance = $DB->get_record('enrol', array('id' => $params['instanceid']), '*', MUST_EXIST);
+        $enrolinstance = $DB->get_record('enroll', array('id' => $params['instanceid']), '*', MUST_EXIST);
 
         $course = $DB->get_record('course', array('id' => $enrolinstance->courseid), '*', MUST_EXIST);
         if (!core_course_category::can_view_course_info($course) && !can_access_course($course)) {
@@ -108,11 +108,11 @@ class enrol_guest_external extends external_api {
             array(
                 'instanceinfo' => new external_single_structure(
                     array(
-                        'id' => new external_value(PARAM_INT, 'Id of course enrolment instance'),
+                        'id' => new external_value(PARAM_INT, 'Id of course enrollment instance'),
                         'courseid' => new external_value(PARAM_INT, 'Id of course'),
-                        'type' => new external_value(PARAM_PLUGIN, 'Type of enrolment plugin'),
-                        'name' => new external_value(PARAM_RAW, 'Name of enrolment plugin'),
-                        'status' => new external_value(PARAM_BOOL, 'Is the enrolment enabled?'),
+                        'type' => new external_value(PARAM_PLUGIN, 'Type of enrollment plugin'),
+                        'name' => new external_value(PARAM_RAW, 'Name of enrollment plugin'),
+                        'status' => new external_value(PARAM_BOOL, 'Is the enrollment enabled?'),
                         'passwordrequired' => new external_value(PARAM_BOOL, 'Is a password required?'),
                     )
                 ),

@@ -142,7 +142,7 @@ class view_h5pactivity_test extends externallib_advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
         $h5pactivity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $contextmodule = context_module::instance($h5pactivity->cmid);
 
         $scenario = new stdClass();

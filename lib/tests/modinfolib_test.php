@@ -71,12 +71,12 @@ class modinfolib_test extends advanced_testcase {
         rebuild_course_cache($course->id, true);
         $sectiondb = $DB->get_record('course_sections', array('course' => $course->id, 'section' => 2));
 
-        // Create and enrol a student.
+        // Create and enroll a student.
         $studentrole = $DB->get_record('role', array('shortname' => 'student'), '*', MUST_EXIST);
         $student = $this->getDataGenerator()->create_user();
         role_assign($studentrole->id, $student->id, $coursecontext);
         $enrolplugin = enrol_get_plugin('manual');
-        $enrolinstance = $DB->get_record('enrol', array('courseid' => $course->id, 'enrol' => 'manual'));
+        $enrolinstance = $DB->get_record('enroll', array('courseid' => $course->id, 'enroll' => 'manual'));
         $enrolplugin->enrol_user($enrolinstance, $student->id);
         $this->setUser($student);
 
@@ -149,12 +149,12 @@ class modinfolib_test extends advanced_testcase {
         $modnamessingular = get_module_types_names(false);
         $modnamesplural = get_module_types_names(true);
 
-        // Create and enrol a student.
+        // Create and enroll a student.
         $studentrole = $DB->get_record('role', array('shortname' => 'student'), '*', MUST_EXIST);
         $student = $this->getDataGenerator()->create_user();
         role_assign($studentrole->id, $student->id, $coursecontext);
         $enrolplugin = enrol_get_plugin('manual');
-        $enrolinstance = $DB->get_record('enrol', array('courseid' => $course->id, 'enrol' => 'manual'));
+        $enrolinstance = $DB->get_record('enroll', array('courseid' => $course->id, 'enroll' => 'manual'));
         $enrolplugin->enrol_user($enrolinstance, $student->id);
         $this->setUser($student);
 
@@ -427,13 +427,13 @@ class modinfolib_test extends advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $assign = $this->getDataGenerator()->create_module('assign', array('course'=>$course->id));
 
-        // Create and enrol a student.
+        // Create and enroll a student.
         $coursecontext = context_course::instance($course->id);
         $studentrole = $DB->get_record('role', array('shortname' => 'student'), '*', MUST_EXIST);
         $student = $this->getDataGenerator()->create_user();
         role_assign($studentrole->id, $student->id, $coursecontext);
         $enrolplugin = enrol_get_plugin('manual');
-        $enrolinstance = $DB->get_record('enrol', array('courseid' => $course->id, 'enrol' => 'manual'));
+        $enrolinstance = $DB->get_record('enroll', array('courseid' => $course->id, 'enroll' => 'manual'));
         $enrolplugin->enrol_user($enrolinstance, $student->id);
         $this->setUser($student);
 

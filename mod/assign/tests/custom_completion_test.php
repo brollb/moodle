@@ -89,7 +89,7 @@ class custom_completion_test extends advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, ['completion' => COMPLETION_TRACKING_AUTOMATIC, $rule => $available]);
 
         // Submit the assignment as the student.
@@ -122,7 +122,7 @@ class custom_completion_test extends advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, ['completion' => COMPLETION_TRACKING_AUTOMATIC, $rule => $available,
                 'teamsubmission' => 1]);
 

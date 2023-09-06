@@ -150,10 +150,10 @@ class get_test extends advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $user1 = $this->getDataGenerator()->create_and_enrol($course, 'student', ['email' => 's1@moodle.com']);
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student', ['email' => 's2@moodle.com']);
+        $user1 = $this->getDataGenerator()->create_and_enroll($course, 'student', ['email' => 's1@moodle.com']);
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student', ['email' => 's2@moodle.com']);
         $user3 = $this->getDataGenerator()->create_user(['email' => 's3@moodle.com']);
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher', ['email' => 't1@moodle.com']);
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher', ['email' => 't1@moodle.com']);
 
         $this->setUser($teacher);
 

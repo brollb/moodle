@@ -1147,13 +1147,13 @@ class user extends grade_report {
                 'grbr0'
             );
 
-            // Limit to users with an active enrolment.
+            // Limit to users with an active enrollment.
             $coursecontext = $this->context->get_course_context(true);
-            $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-            $showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-            $showonlyactiveenrol = $showonlyactiveenrol ||
+            $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+            $showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
+            $showonlyactiveenroll = $showonlyactiveenroll ||
                 !has_capability('moodle/course:viewsuspendedusers', $coursecontext);
-            list($enrolledsql, $enrolledparams) = get_enrolled_sql($this->context, '', 0, $showonlyactiveenrol);
+            list($enrolledsql, $enrolledparams) = get_enrolled_sql($this->context, '', 0, $showonlyactiveenroll);
 
             $params = array_merge($this->groupwheresql_params, $gradebookrolesparams, $enrolledparams, $relatedctxparams);
             $params['courseid'] = $this->courseid;

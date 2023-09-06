@@ -1354,7 +1354,7 @@ class core_course_external extends external_api {
                                             "blocks" (int) Include course blocks (default to 1 that is equal to yes),
                                             "filters" (int) Include course filters  (default to 1 that is equal to yes),
                                             "users" (int) Include users (default to 0 that is equal to no),
-                                            "enrolments" (int) Include enrolment methods (default to 1 - restore only with users),
+                                            "enrolments" (int) Include enrollment methods (default to 1 - restore only with users),
                                             "role_assignments" (int) Include role assignments  (default to 0 that is equal to no),
                                             "comments" (int) Include user comments  (default to 0 that is equal to no),
                                             "userscompletion" (int) Include user course completion information  (default to 0 that is equal to no),
@@ -2527,11 +2527,11 @@ class core_course_external extends external_api {
              );
         }
 
-        // Allowed enrolment methods (maybe we can self-enrol).
+        // Allowed enrollment methods (maybe we can self-enroll).
         $enroltypes = array();
         $instances = enrol_get_instances($course->id, true);
         foreach ($instances as $instance) {
-            $enroltypes[] = $instance->enrol;
+            $enroltypes[] = $instance->enroll;
         }
 
         // Format summary.

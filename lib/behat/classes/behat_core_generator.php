@@ -70,7 +70,7 @@ class behat_core_generator extends behat_generator_base {
                 'switchids' => ['course' => 'courseid'],
             ],
             'course enrolments' => [
-                'singular' => 'course enrolment',
+                'singular' => 'course enrollment',
                 'datagenerator' => 'enrol_user',
                 'required' => ['user', 'course', 'role'],
                 'switchids' => ['user' => 'userid', 'course' => 'courseid', 'role' => 'roleid'],
@@ -599,8 +599,8 @@ class behat_core_generator extends behat_generator_base {
             throw new Exception('\'course enrolments\' requires the field \'course\' to be specified');
         }
 
-        if (!isset($data['enrol'])) {
-            $data['enrol'] = 'manual';
+        if (!isset($data['enroll'])) {
+            $data['enroll'] = 'manual';
         }
 
         if (!isset($data['timestart'])) {
@@ -633,7 +633,7 @@ class behat_core_generator extends behat_generator_base {
 
         } else {
             // Course assign.
-            $this->datagenerator->enrol_user($data['userid'], $data['courseid'], $data['roleid'], $data['enrol'],
+            $this->datagenerator->enrol_user($data['userid'], $data['courseid'], $data['roleid'], $data['enroll'],
                     $data['timestart'], $data['timeend'], $data['status']);
         }
 

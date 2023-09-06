@@ -197,7 +197,7 @@ if ($roleid) {
     $backurl = $pageurl;
 } else if ($context->contextlevel == CONTEXT_COURSE && !$isfrontpage) {
     // Return to the intermediary page when within the course context.
-    $backurl = new moodle_url('/enrol/otherusers.php', ['id' => $course->id]);
+    $backurl = new moodle_url('/enroll/otherusers.php', ['id' => $course->id]);
 } else if ($returnurl) {
     // Factor in for $returnurl being passed.
     $backurl = new moodle_url($returnurl);

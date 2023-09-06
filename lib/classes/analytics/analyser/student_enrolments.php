@@ -40,7 +40,7 @@ require_once($CFG->dirroot . '/lib/enrollib.php');
 class student_enrolments extends \core_analytics\local\analyser\by_course {
 
     /**
-     * @var array Cache for user_enrolment id - course id relation.
+     * @var array Cache for user_enrollment id - course id relation.
      */
     protected $samplecourses = array();
 
@@ -54,7 +54,7 @@ class student_enrolments extends \core_analytics\local\analyser\by_course {
     }
 
     /**
-     * Returns the student enrolment course context.
+     * Returns the student enrollment course context.
      *
      * @param int $sampleid
      * @return \context
@@ -64,7 +64,7 @@ class student_enrolments extends \core_analytics\local\analyser\by_course {
     }
 
     /**
-     * Returns the student enrolment course.
+     * Returns the student enrollment course.
      *
      * @param int $sampleid
      * @return \core_analytics\analysable
@@ -219,7 +219,7 @@ class student_enrolments extends \core_analytics\local\analyser\by_course {
     }
 
     /**
-     * Returns the student enrolment course id.
+     * Returns the student enrollment course id.
      *
      * @param int $sampleid
      * @return int

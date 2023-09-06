@@ -54,10 +54,10 @@ class sync_enrolments extends \core\task\scheduled_task {
             return;
         }
 
-        $enrol = enrol_get_plugin('database');
+        $enroll = enrol_get_plugin('database');
 
         // Update enrolments -- these handlers should autocreate courses if required.
-        $enrol->sync_courses($trace);
-        $enrol->sync_enrolments($trace);
+        $enroll->sync_courses($trace);
+        $enroll->sync_enrolments($trace);
     }
 }

@@ -177,11 +177,11 @@ class accesslib_test extends advanced_testcase {
         $coursecontext = context_course::instance($course->id);
         $role = $DB->get_record('role', array('shortname'=>'student'));
 
-        // There should be a manual enrolment as part of the default install.
+        // There should be a manual enrollment as part of the default install.
         $plugin = enrol_get_plugin('manual');
-        $instance = $DB->get_record('enrol', array(
+        $instance = $DB->get_record('enroll', array(
             'courseid' => $course->id,
-            'enrol' => 'manual',
+            'enroll' => 'manual',
         ));
         $this->assertNotSame(false, $instance);
 
@@ -207,7 +207,7 @@ class accesslib_test extends advanced_testcase {
         assign_capability($capability, CAP_PROHIBIT, $role->id, $coursecontext);
         $this->assertFalse(has_capability($capability, $coursecontext, $user->id));
 
-        // Again, we seed the cache first by checking initial enrolment,
+        // Again, we seed the cache first by checking initial enrollment,
         // and then we test the actual capability.
         $this->assertTrue(is_enrolled($coursecontext, $user, '', true));
         $this->assertFalse(is_enrolled($coursecontext, $user, $capability));
@@ -1591,7 +1591,7 @@ class accesslib_test extends advanced_testcase {
     }
 
     /**
-     * Test default enrol roles.
+     * Test default enroll roles.
      *
      * @covers ::get_default_enrol_roles
      */
@@ -1983,7 +1983,7 @@ class accesslib_test extends advanced_testcase {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
         $coursecontext = context_course::instance($course->id);
-        $user = $this->getDataGenerator()->create_and_enrol($course);
+        $user = $this->getDataGenerator()->create_and_enroll($course);
         $this->setup_fake_plugin('access');
 
         // For now we have deprecated fake/access:fakecapability.
@@ -2002,7 +2002,7 @@ class accesslib_test extends advanced_testcase {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
         $coursecontext = context_course::instance($course->id);
-        $user = $this->getDataGenerator()->create_and_enrol($course);
+        $user = $this->getDataGenerator()->create_and_enroll($course);
         $this->setup_fake_plugin('access');
 
         // For now we have deprecated fake/access:fakecapability.
@@ -2021,7 +2021,7 @@ class accesslib_test extends advanced_testcase {
         $this->resetAfterTest();
         $category = $this->getDataGenerator()->create_category();
         $course = $this->getDataGenerator()->create_course(['categoryid' => $category->id]);
-        $user = $this->getDataGenerator()->create_and_enrol($course);
+        $user = $this->getDataGenerator()->create_and_enroll($course);
         $this->setup_fake_plugin('access');
 
         // For now we have deprecated fake/access:fakecapability.
@@ -2045,7 +2045,7 @@ class accesslib_test extends advanced_testcase {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
         $coursecontext = context_course::instance($course->id);
-        $user = $this->getDataGenerator()->create_and_enrol($course);
+        $user = $this->getDataGenerator()->create_and_enroll($course);
         $this->setup_fake_plugin('access');
 
         // For now we have deprecated fake/access:fakecapability.
@@ -2767,7 +2767,7 @@ class accesslib_test extends advanced_testcase {
 
     /**
      * Test that enrolled users SQL does not return any values for role
-     * assignments without an enrolment.
+     * assignments without an enrollment.
      *
      *
      * @covers ::get_enrolled_users
@@ -2824,8 +2824,8 @@ class accesslib_test extends advanced_testcase {
         $student = $DB->get_record('role', array('shortname' => 'student'), '*', MUST_EXIST);
         $user = $this->getDataGenerator()->create_user();
 
-        // Add a suspended enrol.
-        $selfinstance = $DB->get_record('enrol', array('courseid' => $course->id, 'enrol' => 'self'));
+        // Add a suspended enroll.
+        $selfinstance = $DB->get_record('enroll', array('courseid' => $course->id, 'enroll' => 'self'));
         $selfplugin = enrol_get_plugin('self');
         $selfplugin->update_status($selfinstance, ENROL_INSTANCE_ENABLED);
         $this->getDataGenerator()->enrol_user($user->id, $course->id, $student->id, 'self', 0, 0, ENROL_USER_SUSPENDED);
@@ -2842,7 +2842,7 @@ class accesslib_test extends advanced_testcase {
         $this->assertCount(0, $active);
         $this->assertCount(1, $suspended);
 
-        // Add an active enrol for the user. Any active enrol makes them enrolled.
+        // Add an active enroll for the user. Any active enroll makes them enrolled.
         $this->getDataGenerator()->enrol_user($user->id, $course->id, $student->id);
 
         // User should be active now.
@@ -3180,7 +3180,7 @@ class accesslib_test extends advanced_testcase {
         $testblocks[] = $bi->id;
 
         // Some nested course categories with courses.
-        $manualenrol = enrol_get_plugin('manual');
+        $manualenroll = enrol_get_plugin('manual');
         $parentcat = 0;
         for ($i=0; $i<5; $i++) {
             $cat = $generator->create_category(array('parent'=>$parentcat));
@@ -3205,8 +3205,8 @@ class accesslib_test extends advanced_testcase {
                 if ($j >= 5) {
                     continue;
                 }
-                // Add manual enrol instance.
-                $manualenrol->add_default_instance($DB->get_record('course', array('id'=>$course->id)));
+                // Add manual enroll instance.
+                $manualenroll->add_default_instance($DB->get_record('course', array('id'=>$course->id)));
 
                 // Add block to each course.
                 $bi = $generator->create_block('online_users', array('parentcontextid'=>$coursecontext->id));
@@ -3507,18 +3507,18 @@ class accesslib_test extends advanced_testcase {
         $cm1 = reset($cms);
         $blocks = $DB->get_records('block_instances', array('parentcontextid'=>context_module::instance($cm1->id)->id), 'id');
         $block1 = reset($blocks);
-        $instance1 = $DB->get_record('enrol', array('enrol'=>'manual', 'courseid'=>$course1->id));
-        $instance2 = $DB->get_record('enrol', array('enrol'=>'manual', 'courseid'=>$course2->id));
+        $instance1 = $DB->get_record('enroll', array('enroll'=>'manual', 'courseid'=>$course1->id));
+        $instance2 = $DB->get_record('enroll', array('enroll'=>'manual', 'courseid'=>$course2->id));
         for ($i=0; $i<9; $i++) {
-            $manualenrol->enrol_user($instance1, $testusers[$i], $allroles['student']);
+            $manualenroll->enrol_user($instance1, $testusers[$i], $allroles['student']);
         }
-        $manualenrol->enrol_user($instance1, $testusers[8], $allroles['teacher']);
-        $manualenrol->enrol_user($instance1, $testusers[9], $allroles['editingteacher']);
+        $manualenroll->enrol_user($instance1, $testusers[8], $allroles['teacher']);
+        $manualenroll->enrol_user($instance1, $testusers[9], $allroles['editingteacher']);
 
         for ($i=10; $i<15; $i++) {
-            $manualenrol->enrol_user($instance2, $testusers[$i], $allroles['student']);
+            $manualenroll->enrol_user($instance2, $testusers[$i], $allroles['student']);
         }
-        $manualenrol->enrol_user($instance2, $testusers[15], $allroles['editingteacher']);
+        $manualenroll->enrol_user($instance2, $testusers[15], $allroles['editingteacher']);
 
         // Add tons of role assignments - the more the better.
         role_assign($allroles['coursecreator'], $testusers[11], context_coursecat::instance($testcategories[2]));
@@ -3631,7 +3631,7 @@ class accesslib_test extends advanced_testcase {
         load_all_capabilities();
         $this->assertTrue(has_capability('moodle/course:update', $blockcontext));
 
-        // Temp course role for enrol.
+        // Temp course role for enroll.
         $DB->delete_records('cache_flags', array()); // This prevents problem with dirty contexts immediately resetting the temp role - this is a known problem...
         $userid = $testusers[5];
         $roleid = $allroles['editingteacher'];
@@ -4326,7 +4326,7 @@ class accesslib_test extends advanced_testcase {
         $this->resetAfterTest(true);
         $generator = $this->getDataGenerator();
 
-        // Create test course and user, enrol one in the other.
+        // Create test course and user, enroll one in the other.
         $course = $generator->create_course();
         $user = $generator->create_user();
         $roleid = $DB->get_field('role', 'id', array('shortname' => 'student'), MUST_EXIST);
@@ -4993,7 +4993,7 @@ class accesslib_test extends advanced_testcase {
         $caput = 'mod/forum:startdiscussion';
 
         // Create a test user.
-        $uut = $generator->create_and_enrol($cat1course1, 'teacher');
+        $uut = $generator->create_and_enroll($cat1course1, 'teacher');
 
         // Initially the user will be returned by get_users_by_capability.
         list($sql, $params) = get_with_capability_sql($contexts->cat1course1forum, $caput);
@@ -5080,7 +5080,7 @@ class accesslib_test extends advanced_testcase {
         $caput = 'mod/forum:startdiscussion';
 
         // Create a test user.
-        $uut = $generator->create_and_enrol($cat1course1, 'teacher');
+        $uut = $generator->create_and_enroll($cat1course1, 'teacher');
 
         // Initially the user will be returned by get_users_by_capability.
         $users = get_users_by_capability($contexts->cat1course1forum, $caput);

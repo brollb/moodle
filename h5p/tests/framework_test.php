@@ -795,7 +795,7 @@ class framework_test extends \advanced_testcase {
         $manager = $this->getDataGenerator()->create_user();
         role_assign($managerrole->id, $manager->id, $contextsys);
 
-        // Create a course with a label and enrol the user.
+        // Create a course with a label and enroll the user.
         $course = $this->getDataGenerator()->create_course();
         $label = $this->getDataGenerator()->create_module('label', ['course' => $course->id]);
         list(, $labelcm) = get_course_and_cm_from_instance($label->id, 'label');
@@ -1149,7 +1149,7 @@ class framework_test extends \advanced_testcase {
         $generator = $this->getDataGenerator()->get_plugin_generator('core_h5p');
         // For the mod_h5pactivity component, the activity needs to be created too.
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->setUser($user);
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
         $activitycontext = \context_module::instance($activity->cmid);
@@ -1203,7 +1203,7 @@ class framework_test extends \advanced_testcase {
         $generator = $this->getDataGenerator()->get_plugin_generator('core_h5p');
         // For the mod_h5pactivity component, the activity needs to be created too.
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $this->setUser($user);
         $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course]);
         $activitycontext = \context_module::instance($activity->cmid);

@@ -69,9 +69,9 @@ class get_attempts_test extends externallib_advanced_testcase {
 
         // Prepare users: 1 teacher, 2 students, 1 unenroled user.
         $users = [
-            'editingteacher' => $this->getDataGenerator()->create_and_enrol($course, 'editingteacher'),
-            'student' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
-            'other' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
+            'editingteacher' => $this->getDataGenerator()->create_and_enroll($course, 'editingteacher'),
+            'student' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
+            'other' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
             'noenrolled' => $this->getDataGenerator()->create_user(),
         ];
 
@@ -305,8 +305,8 @@ class get_attempts_test extends externallib_advanced_testcase {
 
         // Prepare users: 1 teacher, 1 student.
         $users = [
-            'editingteacher' => $this->getDataGenerator()->create_and_enrol($course, 'editingteacher'),
-            'student' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
+            'editingteacher' => $this->getDataGenerator()->create_and_enroll($course, 'editingteacher'),
+            'student' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
         ];
 
         // Execute external method.
@@ -340,7 +340,7 @@ class get_attempts_test extends externallib_advanced_testcase {
 
         // Prepare users: 1 student.
         $users = [
-            'student' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
+            'student' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
         ];
 
         // Execute external method.
@@ -380,10 +380,10 @@ class get_attempts_test extends externallib_advanced_testcase {
 
         // Prepare users: 1 teacher, 2 students with attempts, 1 student without, 1 no enrolled.
         $users = [
-            'editingteacher' => $this->getDataGenerator()->create_and_enrol($course, 'editingteacher'),
-            'student1' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
-            'student2' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
-            'noattempts' => $this->getDataGenerator()->create_and_enrol($course, 'student'),
+            'editingteacher' => $this->getDataGenerator()->create_and_enroll($course, 'editingteacher'),
+            'student1' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
+            'student2' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
+            'noattempts' => $this->getDataGenerator()->create_and_enroll($course, 'student'),
             'noenrolled' => $this->getDataGenerator()->create_user(),
         ];
 

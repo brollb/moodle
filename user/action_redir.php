@@ -31,7 +31,7 @@ $id = required_param('id', PARAM_INT);
 $PAGE->set_url('/user/action_redir.php', array('formaction' => $formaction, 'id' => $id));
 list($formaction) = explode('?', $formaction, 2);
 
-// This page now only handles the bulk enrolment change actions, other actions are done with ajax.
+// This page now only handles the bulk enrollment change actions, other actions are done with ajax.
 $actions = array('bulkchange.php');
 
 if (array_search($formaction, $actions) === false) {
@@ -43,14 +43,14 @@ if (!confirm_sesskey()) {
 }
 
 if ($formaction == 'bulkchange.php') {
-    // Backwards compatibility for enrolment plugins bulk change functionality.
+    // Backwards compatibility for enrollment plugins bulk change functionality.
     // This awful code is adapting from the participant page with it's param names and values
-    // to the values expected by the bulk enrolment changes forms.
+    // to the values expected by the bulk enrollment changes forms.
     $formaction = required_param('formaction', PARAM_URL);
-    require_once($CFG->dirroot . '/enrol/locallib.php');
+    require_once($CFG->dirroot . '/enroll/locallib.php');
 
     $url = new moodle_url($formaction);
-    // Get the enrolment plugin type and bulk action from the url.
+    // Get the enrollment plugin type and bulk action from the url.
     $plugin = $url->param('plugin');
     $operationname = $url->param('operation');
     $dataformat = $url->param('dataformat');
@@ -176,20 +176,20 @@ if ($formaction == 'bulkchange.php') {
         $instances = enrol_get_instances($course->id, false);
         $instance = false;
         foreach ($instances as $oneinstance) {
-            if ($oneinstance->enrol == $plugin) {
+            if ($oneinstance->enroll == $plugin) {
                 $instance = $oneinstance;
                 break;
             }
         }
         if (!$instance) {
-            throw new \moodle_exception('errorwithbulkoperation', 'enrol');
+            throw new \moodle_exception('errorwithbulkoperation', 'enroll');
         }
 
         $manager = new course_enrolment_manager($PAGE, $course, $instance->id);
         $plugins = $manager->get_enrolment_plugins();
 
         if (!isset($plugins[$plugin])) {
-            throw new \moodle_exception('errorwithbulkoperation', 'enrol');
+            throw new \moodle_exception('errorwithbulkoperation', 'enroll');
         }
 
         $plugin = $plugins[$plugin];
@@ -197,7 +197,7 @@ if ($formaction == 'bulkchange.php') {
         $operations = $plugin->get_bulk_operations($manager);
 
         if (!isset($operations[$operationname])) {
-            throw new \moodle_exception('errorwithbulkoperation', 'enrol');
+            throw new \moodle_exception('errorwithbulkoperation', 'enroll');
         }
         $operation = $operations[$operationname];
 
@@ -209,20 +209,20 @@ if ($formaction == 'bulkchange.php') {
 
         $removed = array_diff($userids, array_keys($users));
         if (!empty($removed)) {
-            // This manager does not filter by enrolment method - so we can get the removed users details.
+            // This manager does not filter by enrollment method - so we can get the removed users details.
             $removedmanager = new course_enrolment_manager($PAGE, $course);
             $removedusers = $removedmanager->get_users_enrolments($removed);
 
             foreach ($removedusers as $removeduser) {
-                $msg = get_string('userremovedfromselectiona', 'enrol', fullname($removeduser));
+                $msg = get_string('userremovedfromselectiona', 'enroll', fullname($removeduser));
                 \core\notification::warning($msg);
             }
         }
 
-        // We may have users from any kind of enrolment, we need to filter for the enrolment plugin matching the bulk action.
+        // We may have users from any kind of enrollment, we need to filter for the enrollment plugin matching the bulk action.
         $matchesplugin = function($user) use ($plugin) {
-            foreach ($user->enrolments as $enrolment) {
-                if ($enrolment->enrolmentplugin->get_name() == $plugin->get_name()) {
+            foreach ($user->enrolments as $enrollment) {
+                if ($enrollment->enrolmentplugin->get_name() == $plugin->get_name()) {
                     return true;
                 }
             }
@@ -232,7 +232,7 @@ if ($formaction == 'bulkchange.php') {
 
         // If the bulk operation is deleting enrolments, we exclude in any case the current user as it was probably a mistake.
         if ($operationname === 'deleteselectedusers' && (!in_array($USER->id, $removed))) {
-            \core\notification::warning(get_string('userremovedfromselectiona', 'enrol', fullname($USER)));
+            \core\notification::warning(get_string('userremovedfromselectiona', 'enroll', fullname($USER)));
             unset($filteredusers[$USER->id]);
         }
 
@@ -250,7 +250,7 @@ if ($formaction == 'bulkchange.php') {
             if ($operation->process($manager, $users, new stdClass)) {
                 redirect($returnurl);
             } else {
-                throw new \moodle_exception('errorwithbulkoperation', 'enrol');
+                throw new \moodle_exception('errorwithbulkoperation', 'enroll');
             }
         }
         // Check if the bulk operation has been cancelled.
@@ -263,7 +263,7 @@ if ($formaction == 'bulkchange.php') {
             }
         }
 
-        $pagetitle = get_string('bulkuseroperation', 'enrol');
+        $pagetitle = get_string('bulkuseroperation', 'enroll');
 
         $PAGE->set_title($pagetitle);
         $PAGE->set_heading($pagetitle);

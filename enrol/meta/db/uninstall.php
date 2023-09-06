@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Meta link enrolment plugin uninstallation.
+ * Meta link enrollment plugin uninstallation.
  *
  * @package    enrol_meta
  * @copyright  2011 Petr Skoda {@link http://skodak.org}
@@ -28,7 +28,7 @@ function xmldb_enrol_meta_uninstall() {
     global $CFG, $DB;
 
     $meta = enrol_get_plugin('meta');
-    $rs = $DB->get_recordset('enrol', array('enrol'=>'meta'));
+    $rs = $DB->get_recordset('enroll', array('enroll'=>'meta'));
     foreach ($rs as $instance) {
         $meta->delete_instance($instance);
     }

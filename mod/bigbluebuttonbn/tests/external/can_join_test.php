@@ -111,7 +111,7 @@ class can_join_test extends \externallib_advanced_testcase {
         $record = $generator->create_module('bigbluebuttonbn', ['course' => $course->id]);
         $instance = instance::get_from_instanceid($record->id);
 
-        $user = $generator->create_and_enrol($course, 'student');
+        $user = $generator->create_and_enroll($course, 'student');
         $this->setUser($user);
 
         $canjoin = $this->can_join($instance->get_cm_id());

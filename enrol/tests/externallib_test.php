@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace core_enrol;
+namespace core_enroll;
 
 use core_enrol_external;
 use core_external\external_api;
@@ -26,12 +26,12 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
-require_once($CFG->dirroot . '/enrol/externallib.php');
+require_once($CFG->dirroot . '/enroll/externallib.php');
 
 /**
  * Enrol external PHPunit tests
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @category   external
  * @copyright  2012 Jerome Mouneyrac
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -545,49 +545,49 @@ class externallib_test extends externallib_advanced_testcase {
         // only for those fields listed in the $coursedata1 array.
         $course1->fullname = \core_external\util::format_string($course1->fullname, $contexts[$course1->id]->id);
         $course1->shortname = \core_external\util::format_string($course1->shortname, $contexts[$course1->id]->id);
-        foreach ($enrolledincourses as $courseenrol) {
-            if ($courseenrol['id'] == $course1->id) {
+        foreach ($enrolledincourses as $courseenroll) {
+            if ($courseenroll['id'] == $course1->id) {
                 foreach ($coursedata1 as $fieldname => $value) {
-                    $this->assertEquals($courseenrol[$fieldname], $course1->$fieldname);
+                    $this->assertEquals($courseenroll[$fieldname], $course1->$fieldname);
                 }
                 // Text extra fields.
-                $this->assertEquals($course1->fullname, $courseenrol['displayname']);
-                $this->assertEquals([], $courseenrol['overviewfiles']);
-                $this->assertEquals($timenow, $courseenrol['lastaccess']);
-                $this->assertEquals(100.0, $courseenrol['progress']);
-                $this->assertEquals(true, $courseenrol['completed']);
-                $this->assertTrue($courseenrol['completionhascriteria']);
-                $this->assertTrue($courseenrol['completionusertracked']);
-                $this->assertTrue($courseenrol['hidden']);
-                $this->assertTrue($courseenrol['isfavourite']);
-                $this->assertEquals(2, $courseenrol['enrolledusercount']);
-                $this->assertEquals($course1->timemodified, $courseenrol['timemodified']);
+                $this->assertEquals($course1->fullname, $courseenroll['displayname']);
+                $this->assertEquals([], $courseenroll['overviewfiles']);
+                $this->assertEquals($timenow, $courseenroll['lastaccess']);
+                $this->assertEquals(100.0, $courseenroll['progress']);
+                $this->assertEquals(true, $courseenroll['completed']);
+                $this->assertTrue($courseenroll['completionhascriteria']);
+                $this->assertTrue($courseenroll['completionusertracked']);
+                $this->assertTrue($courseenroll['hidden']);
+                $this->assertTrue($courseenroll['isfavourite']);
+                $this->assertEquals(2, $courseenroll['enrolledusercount']);
+                $this->assertEquals($course1->timemodified, $courseenroll['timemodified']);
                 $url = "https://www.example.com/moodle/pluginfile.php/{$contexts[$course1->id]->id}/course/generated/course.svg";
-                $this->assertEquals($url, $courseenrol['courseimage']);
+                $this->assertEquals($url, $courseenroll['courseimage']);
             } else {
                 // Check language pack. Should be empty since an incorrect one was used when creating the course.
-                $this->assertEmpty($courseenrol['lang']);
-                $this->assertEquals($course2->fullname, $courseenrol['displayname']);
-                $this->assertEquals([], $courseenrol['overviewfiles']);
-                $this->assertEquals(0, $courseenrol['lastaccess']);
-                $this->assertEquals(0, $courseenrol['progress']);
-                $this->assertEquals(false, $courseenrol['completed']);
-                $this->assertFalse($courseenrol['completionhascriteria']);
-                $this->assertFalse($courseenrol['completionusertracked']);
-                $this->assertFalse($courseenrol['hidden']);
-                $this->assertFalse($courseenrol['isfavourite']);
-                $this->assertEquals(1, $courseenrol['enrolledusercount']);
-                $this->assertEquals($course2->timemodified, $courseenrol['timemodified']);
+                $this->assertEmpty($courseenroll['lang']);
+                $this->assertEquals($course2->fullname, $courseenroll['displayname']);
+                $this->assertEquals([], $courseenroll['overviewfiles']);
+                $this->assertEquals(0, $courseenroll['lastaccess']);
+                $this->assertEquals(0, $courseenroll['progress']);
+                $this->assertEquals(false, $courseenroll['completed']);
+                $this->assertFalse($courseenroll['completionhascriteria']);
+                $this->assertFalse($courseenroll['completionusertracked']);
+                $this->assertFalse($courseenroll['hidden']);
+                $this->assertFalse($courseenroll['isfavourite']);
+                $this->assertEquals(1, $courseenroll['enrolledusercount']);
+                $this->assertEquals($course2->timemodified, $courseenroll['timemodified']);
                 $url = "https://www.example.com/moodle/pluginfile.php/{$contexts[$course2->id]->id}/course/generated/course.svg";
-                $this->assertEquals($url, $courseenrol['courseimage']);
+                $this->assertEquals($url, $courseenroll['courseimage']);
             }
         }
 
         // Check that returnusercount works correctly.
         $enrolledincourses = core_enrol_external::get_users_courses($student->id, false);
         $enrolledincourses = external_api::clean_returnvalue(core_enrol_external::get_users_courses_returns(), $enrolledincourses);
-        foreach ($enrolledincourses as $courseenrol) {
-            $this->assertFalse(isset($courseenrol['enrolledusercount']));
+        foreach ($enrolledincourses as $courseenroll) {
+            $this->assertFalse(isset($courseenroll['enrolledusercount']));
         }
 
         // Now check that admin users can see all the info.
@@ -596,20 +596,20 @@ class externallib_test extends externallib_advanced_testcase {
         $enrolledincourses = core_enrol_external::get_users_courses($student->id, true);
         $enrolledincourses = external_api::clean_returnvalue(core_enrol_external::get_users_courses_returns(), $enrolledincourses);
         $this->assertEquals(2, count($enrolledincourses));
-        foreach ($enrolledincourses as $courseenrol) {
-            if ($courseenrol['id'] == $course1->id) {
-                $this->assertEquals($timenow, $courseenrol['lastaccess']);
-                $this->assertEquals(100.0, $courseenrol['progress']);
-                $this->assertTrue($courseenrol['completionhascriteria']);
-                $this->assertTrue($courseenrol['completionusertracked']);
-                $this->assertFalse($courseenrol['isfavourite']);    // This always false.
-                $this->assertFalse($courseenrol['hidden']); // This always false.
+        foreach ($enrolledincourses as $courseenroll) {
+            if ($courseenroll['id'] == $course1->id) {
+                $this->assertEquals($timenow, $courseenroll['lastaccess']);
+                $this->assertEquals(100.0, $courseenroll['progress']);
+                $this->assertTrue($courseenroll['completionhascriteria']);
+                $this->assertTrue($courseenroll['completionusertracked']);
+                $this->assertFalse($courseenroll['isfavourite']);    // This always false.
+                $this->assertFalse($courseenroll['hidden']); // This always false.
             } else {
-                $this->assertEquals(0, $courseenrol['progress']);
-                $this->assertFalse($courseenrol['completionhascriteria']);
-                $this->assertFalse($courseenrol['completionusertracked']);
-                $this->assertFalse($courseenrol['isfavourite']);    // This always false.
-                $this->assertFalse($courseenrol['hidden']); // This always false.
+                $this->assertEquals(0, $courseenroll['progress']);
+                $this->assertFalse($courseenroll['completionhascriteria']);
+                $this->assertFalse($courseenroll['completionusertracked']);
+                $this->assertFalse($courseenroll['isfavourite']);    // This always false.
+                $this->assertFalse($courseenroll['hidden']); // This always false.
             }
         }
 
@@ -642,8 +642,8 @@ class externallib_test extends externallib_advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $context = \context_course::instance($course->id);
 
-        $user1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setUser($user1);
 
@@ -676,8 +676,8 @@ class externallib_test extends externallib_advanced_testcase {
             'groupmode' => VISIBLEGROUPS,
         ]);
 
-        $user1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $user1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create separate groups for each of our students.
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course->id]);
@@ -775,7 +775,7 @@ class externallib_test extends externallib_advanced_testcase {
 
         $this->resetAfterTest(true);
 
-        // Get enrolment plugins.
+        // Get enrollment plugins.
         $selfplugin = enrol_get_plugin('self');
         $this->assertNotEmpty($selfplugin);
         $manualplugin = enrol_get_plugin('manual');
@@ -789,7 +789,7 @@ class externallib_test extends externallib_advanced_testcase {
         $coursedata->visible = 0;
         $course2 = self::getDataGenerator()->create_course($coursedata);
 
-        // Add enrolment methods for course.
+        // Add enrollment methods for course.
         $instanceid1 = $selfplugin->add_instance($course1, array('status' => ENROL_INSTANCE_ENABLED,
                                                                 'name' => 'Test instance 1',
                                                                 'customint6' => 1,
@@ -801,7 +801,7 @@ class externallib_test extends externallib_advanced_testcase {
         $instanceid3 = $manualplugin->add_instance($course1, array('status' => ENROL_INSTANCE_ENABLED,
                                                                 'name' => 'Test instance 3'));
 
-        $enrolmentmethods = $DB->get_records('enrol', array('courseid' => $course1->id, 'status' => ENROL_INSTANCE_ENABLED));
+        $enrolmentmethods = $DB->get_records('enroll', array('courseid' => $course1->id, 'status' => ENROL_INSTANCE_ENABLED));
         $this->assertCount(2, $enrolmentmethods);
 
         $this->setAdminUser();
@@ -810,8 +810,8 @@ class externallib_test extends externallib_advanced_testcase {
         $enrolmentmethods = core_enrol_external::get_course_enrolment_methods($course1->id);
         $enrolmentmethods = external_api::clean_returnvalue(core_enrol_external::get_course_enrolment_methods_returns(),
                                                             $enrolmentmethods);
-        // Enrolment information is currently returned by self enrolment plugin, so count == 1.
-        // This should be changed as we implement get_enrol_info() for other enrolment plugins.
+        // Enrolment information is currently returned by self enrollment plugin, so count == 1.
+        // This should be changed as we implement get_enrol_info() for other enrollment plugins.
         $this->assertCount(1, $enrolmentmethods);
 
         $enrolmentmethod = $enrolmentmethods[0];
@@ -1210,7 +1210,7 @@ class externallib_test extends externallib_advanced_testcase {
         $instanceid = null;
         $instances = enrol_get_instances($course->id, true);
         foreach ($instances as $inst) {
-            if ($inst->enrol == 'manual') {
+            if ($inst->enroll == 'manual') {
                 $instanceid = (int)$inst->id;
                 break;
             }
@@ -1223,7 +1223,7 @@ class externallib_test extends externallib_advanced_testcase {
         }
         $this->assertNotNull($instanceid);
 
-        $instance = $DB->get_record('enrol', ['id' => $instanceid], '*', MUST_EXIST);
+        $instance = $DB->get_record('enroll', ['id' => $instanceid], '*', MUST_EXIST);
         $manualplugin->enrol_user($instance, $user->id, $studentroleid, 0, 0, ENROL_USER_ACTIVE);
         $manualplugin->enrol_user($instance, $teacher->id, $teacherroleid, 0, 0, ENROL_USER_ACTIVE);
         $ueid = (int) $DB->get_field(
@@ -1248,7 +1248,7 @@ class externallib_test extends externallib_advanced_testcase {
 
         $formdata = array_merge($formdata, $customdata);
 
-        require_once("$CFG->dirroot/enrol/editenrolment_form.php");
+        require_once("$CFG->dirroot/enroll/editenrolment_form.php");
         $formdata = enrol_user_enrolment_form::mock_generate_submit_keys($formdata);
 
         $querystring = http_build_query($formdata, '', '&');
@@ -1269,9 +1269,9 @@ class externallib_test extends externallib_advanced_testcase {
     }
 
     /**
-     * Test for core_enrol_external::unenrol_user_enrolment().
+     * Test for core_enrol_external::unenrol_user_enrollment().
      */
-    public function test_unenerol_user_enrolment() {
+    public function test_unenerol_user_enrollment() {
         global $DB;
 
         $this->resetAfterTest(true);
@@ -1290,7 +1290,7 @@ class externallib_test extends externallib_advanced_testcase {
         $instanceid = null;
         $instances = enrol_get_instances($course->id, true);
         foreach ($instances as $inst) {
-            if ($inst->enrol == 'manual') {
+            if ($inst->enroll == 'manual') {
                 $instanceid = (int)$inst->id;
                 break;
             }
@@ -1303,7 +1303,7 @@ class externallib_test extends externallib_advanced_testcase {
         }
         $this->assertNotNull($instanceid);
 
-        $instance = $DB->get_record('enrol', ['id' => $instanceid], '*', MUST_EXIST);
+        $instance = $DB->get_record('enroll', ['id' => $instanceid], '*', MUST_EXIST);
         $manualplugin->enrol_user($instance, $user->id, $studentroleid, 0, 0, ENROL_USER_ACTIVE);
         $manualplugin->enrol_user($instance, $teacher->id, $teacherroleid, 0, 0, ENROL_USER_ACTIVE);
         $ueid = (int)$DB->get_field(
@@ -1317,18 +1317,18 @@ class externallib_test extends externallib_advanced_testcase {
         $this->setUser($teacher);
 
         // Invalid data by passing invalid ueid.
-        $data = core_enrol_external::unenrol_user_enrolment(101010);
+        $data = core_enrol_external::unenrol_user_enrollment(101010);
         $data = external_api::clean_returnvalue(core_enrol_external::unenrol_user_enrolment_returns(), $data);
         $this->assertFalse($data['result']);
         $this->assertNotEmpty($data['errors']);
 
         // Valid data.
-        $data = core_enrol_external::unenrol_user_enrolment($ueid);
+        $data = core_enrol_external::unenrol_user_enrollment($ueid);
         $data = external_api::clean_returnvalue(core_enrol_external::unenrol_user_enrolment_returns(), $data);
         $this->assertTrue($data['result']);
         $this->assertEmpty($data['errors']);
 
-        // Check unenrol user enrolment.
+        // Check unenroll user enrollment.
         $ue = $DB->count_records('user_enrolments', ['id' => $ueid]);
         $this->assertEquals(0, $ue);
     }
@@ -1360,7 +1360,7 @@ class externallib_test extends externallib_advanced_testcase {
         $instanceid = null;
         $instances = enrol_get_instances($course1->id, true);
         foreach ($instances as $inst) {
-            if ($inst->enrol == 'manual') {
+            if ($inst->enroll == 'manual') {
                 $instanceid = (int)$inst->id;
                 break;
             }
@@ -1373,7 +1373,7 @@ class externallib_test extends externallib_advanced_testcase {
         }
         $this->assertNotNull($instanceid);
 
-        $instance = $DB->get_record('enrol', ['id' => $instanceid], '*', MUST_EXIST);
+        $instance = $DB->get_record('enroll', ['id' => $instanceid], '*', MUST_EXIST);
         $manualplugin->enrol_user($instance, $user1->id, $studentroleid, 0, 0, ENROL_USER_ACTIVE);
         $manualplugin->enrol_user($instance, $user2->id, $studentroleid, 0, 0, ENROL_USER_ACTIVE);
         $manualplugin->enrol_user($instance, $user3->id, $studentroleid, 0, 0, ENROL_USER_ACTIVE);
@@ -1439,9 +1439,9 @@ class externallib_test extends externallib_advanced_testcase {
         // Create a course.
         $course = $generator->create_course();
 
-        // Get enrol id for manual enrol plugin.
+        // Get enroll id for manual enroll plugin.
         foreach (enrol_get_instances($course->id, true) as $instance) {
-            if ($instance->enrol === 'manual') {
+            if ($instance->enroll === 'manual') {
                 $enrolid = $instance->id;
             }
         }

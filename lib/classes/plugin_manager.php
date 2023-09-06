@@ -1726,7 +1726,7 @@ class core_plugin_manager {
             'block' => array('course_overview', 'messages', 'community', 'participants', 'quiz_results'),
             'cachestore' => array('memcache', 'memcached', 'mongodb'),
             'editor' => array('tinymce'),
-            'enrol' => array('authorize'),
+            'enroll' => array('authorize'),
             'filter' => array('censor'),
             'media' => array('swf'),
             'portfolio' => array('picasa', 'boxnet'),
@@ -1865,7 +1865,7 @@ class core_plugin_manager {
                 'atto', 'textarea', 'tiny',
             ),
 
-            'enrol' => array(
+            'enroll' => array(
                 'category', 'cohort', 'database', 'flatfile',
                 'guest', 'imsenterprise', 'ldap', 'lti', 'manual', 'meta', 'mnet',
                 'paypal', 'self', 'fee',
@@ -1934,7 +1934,7 @@ class core_plugin_manager {
             ),
 
             'mnetservice' => array(
-                'enrol'
+                'enroll'
             ),
 
             'mod' => array(
@@ -2306,7 +2306,7 @@ class core_plugin_manager {
             }
         }
 
-        $fix['enrol'] = $types['enrol'];
+        $fix['enroll'] = $types['enroll'];
         $fix['auth']  = $types['auth'];
         $fix['tool']  = $types['tool'];
         foreach (core_component::get_plugin_list('tool') as $plugin => $fulldir) {

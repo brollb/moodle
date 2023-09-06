@@ -45,7 +45,7 @@ class services_content_item_service_test extends \advanced_testcase {
 
         // Create a user in a course.
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         $cis = new content_item_service(new content_item_readonly_repository());
         $contentitems = $cis->get_content_items_for_user_in_course($user, $course);
@@ -71,7 +71,7 @@ class services_content_item_service_test extends \advanced_testcase {
 
         // Create a user in a course.
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         // No cap override, so assign should be returned.
         $cis = new content_item_service(new content_item_readonly_repository());
@@ -94,7 +94,7 @@ class services_content_item_service_test extends \advanced_testcase {
 
         // Create a user in a course.
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         $cis = new content_item_service(new content_item_readonly_repository());
         $contentitems = $cis->get_content_items_for_user_in_course($user, $course, ['sr' => 7]);
@@ -113,7 +113,7 @@ class services_content_item_service_test extends \advanced_testcase {
 
         // Create a user in a course and set up a site-level LTI tool, configured to display in the activity chooser.
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         /** @var \mod_lti_generator $ltigenerator */
         $ltigenerator = $this->getDataGenerator()->get_plugin_generator('mod_lti');
         $ltigenerator->create_tool_types([
@@ -152,7 +152,7 @@ class services_content_item_service_test extends \advanced_testcase {
 
         // Create a user in a course.
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
 
         // Pattern that does exist.
         $pattern1 = "assign";
@@ -181,7 +181,7 @@ class services_content_item_service_test extends \advanced_testcase {
 
         // Create a user in a course.
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $cis = new content_item_service(new content_item_readonly_repository());
 
         // Grab a the assign content item, which we'll favourite for the user.
@@ -211,7 +211,7 @@ class services_content_item_service_test extends \advanced_testcase {
 
         // Create a user in a course.
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $cis = new content_item_service(new content_item_readonly_repository());
 
         // Grab a the assign content item, which we'll favourite for the user.
@@ -243,7 +243,7 @@ class services_content_item_service_test extends \advanced_testcase {
 
         // Create a user in a course.
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $cis = new content_item_service(new content_item_readonly_repository());
 
         // Grab a the assign content item, which we'll recommend for the user.

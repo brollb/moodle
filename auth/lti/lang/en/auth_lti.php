@@ -24,7 +24,7 @@
 
 $string['accountcreatedsuccess'] = 'Your account has been created and is now ready to use.';
 $string['accountlinkedsuccess'] = 'Your existing account has been successfully linked.';
-$string['auth_ltidescription'] = 'The LTI authentication plugin, together with the \'Publish as LTI tool\' enrolment plugin, allows remote users to access selected courses and activities. In other words, Moodle functions as an LTI tool provider.';
+$string['auth_ltidescription'] = 'The LTI authentication plugin, together with the \'Publish as LTI tool\' enrollment plugin, allows remote users to access selected courses and activities. In other words, Moodle functions as an LTI tool provider.';
 $string['cannotcreateaccounts'] = 'Account creation is currently prohibited on this site.';
 $string['createaccount'] = 'Create account';
 $string['createaccountforme'] = 'Create an account for me';

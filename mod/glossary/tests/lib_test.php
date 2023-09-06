@@ -180,7 +180,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create the activity.
         $glossary = $this->getDataGenerator()->create_module('glossary', array('course' => $course->id));
@@ -215,7 +215,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create the activity.
         $glossary = $this->getDataGenerator()->create_module('glossary', array('course' => $course->id));
@@ -283,7 +283,7 @@ class lib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course(array('enablecompletion' => 1));
 
         // Create a student.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Create the activity.
         $glossary = $this->getDataGenerator()->create_module('glossary', array('course' => $course->id),
@@ -381,7 +381,7 @@ class lib_test extends \advanced_testcase {
         $course2 = $this->getDataGenerator()->create_course();
         $course1 = $this->getDataGenerator()->create_course();
 
-        // Create and enrol a student.
+        // Create and enroll a student.
         $student = self::getDataGenerator()->create_user();
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
         $this->getDataGenerator()->enrol_user($student->id, $course1->id, $studentrole->id, 'manual');
@@ -510,9 +510,9 @@ class lib_test extends \advanced_testcase {
 
         // Create required data.
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $anotherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $anotherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $glossary = $this->getDataGenerator()->create_module('glossary', ['course' => $course->id]);
 
         $gg = $this->getDataGenerator()->get_plugin_generator('mod_glossary');
@@ -546,7 +546,7 @@ class lib_test extends \advanced_testcase {
 
         // Create required data.
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $glossary = $this->getDataGenerator()->create_module('glossary', ['course' => $course->id, 'editalways' => 1]);
 
         $gg = $this->getDataGenerator()->get_plugin_generator('mod_glossary');
@@ -579,8 +579,8 @@ class lib_test extends \advanced_testcase {
 
         // Create required data.
         $course = $this->getDataGenerator()->create_course();
-        $student1 = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student1 = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $student2 = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $record = new \stdClass();
         $record->course = $course->id;
@@ -637,7 +637,7 @@ class lib_test extends \advanced_testcase {
 
         // Create required data.
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $glossary1 = $this->getDataGenerator()->create_module('glossary', ['course' => $course->id]);
         $glossary2 = $this->getDataGenerator()->create_module('glossary', ['course' => $course->id]);
@@ -677,9 +677,9 @@ class lib_test extends \advanced_testcase {
 
         // Create required data.
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $anotherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $anotherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $glossary = $this->getDataGenerator()->create_module('glossary', array('course' => $course->id));
 
         $gg = $this->getDataGenerator()->get_plugin_generator('mod_glossary');
@@ -714,7 +714,7 @@ class lib_test extends \advanced_testcase {
 
         // Create required data.
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $glossary = $this->getDataGenerator()->create_module('glossary', array('course' => $course->id, 'editalways' => 1));
 
         $gg = $this->getDataGenerator()->get_plugin_generator('mod_glossary');

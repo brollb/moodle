@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * AMD module for the user enrolment status field in the course participants page.
+ * AMD module for the user enrollment status field in the course participants page.
  *
  * @module     core_user/status_field
  * @copyright  2017 Jun Pataleta
@@ -33,9 +33,9 @@ import Templates from 'core/templates';
 import {add as notifyUser} from 'core/toast';
 
 const Selectors = {
-    editEnrolment: '[data-action="editenrolment"]',
+    editEnrolment: '[data-action="editenrollment"]',
     showDetails: '[data-action="showdetails"]',
-    unenrol: '[data-action="unenrol"]',
+    unenroll: '[data-action="unenroll"]',
     statusElement: '[data-status]',
 };
 
@@ -56,7 +56,7 @@ const getDynamicTableFromLink = link => link.closest(DynamicTableSelectors.main.
 const getStatusContainer = link => link.closest(Selectors.statusElement);
 
 /**
- * Get user enrolment id from the specified link
+ * Get user enrollment id from the specified link
  *
  * @param {HTMLElement} link
  * @returns {Number}
@@ -85,7 +85,7 @@ const registerEventListeners = (contextId, uniqueId) => {
             showEditDialogue(editLink, getBodyFunction);
         }
 
-        const unenrolLink = e.target.closest(Selectors.unenrol);
+        const unenrolLink = e.target.closest(Selectors.unenroll);
         if (unenrolLink) {
             e.preventDefault();
 
@@ -105,7 +105,7 @@ const registerEventListeners = (contextId, uniqueId) => {
  * Show the edit dialogue.
  *
  * @param {HTMLElement} link
- * @param {Function} getBody Function to get the body for the specified user enrolment
+ * @param {Function} getBody Function to get the body for the specified user enrollment
  */
 const showEditDialogue = (link, getBody) => {
     const container = getStatusContainer(link);
@@ -113,7 +113,7 @@ const showEditDialogue = (link, getBody) => {
 
     ModalFactory.create({
         large: true,
-        title: Str.get_string('edituserenrolment', 'enrol', container.dataset.fullname),
+        title: Str.get_string('edituserenrollment', 'enroll', container.dataset.fullname),
         type: ModalFactory.types.SAVE_CANCEL,
         body: getBody(userEnrolmentId)
     })
@@ -142,7 +142,7 @@ const showEditDialogue = (link, getBody) => {
 };
 
 /**
- * Show and handle the unenrolment confirmation dialogue.
+ * Show and handle the unenrollment confirmation dialogue.
  *
  * @param {HTMLElement} link
  */
@@ -181,12 +181,12 @@ const showUnenrolConfirmation = link => {
 
         const stringData = [
             {
-                key: 'unenrol',
-                component: 'enrol',
+                key: 'unenroll',
+                component: 'enroll',
             },
             {
                 key: 'unenrolconfirm',
-                component: 'enrol',
+                component: 'enroll',
                 param: {
                     user: container.dataset.fullname,
                     course: container.dataset.coursename,
@@ -221,17 +221,17 @@ const showStatusDetails = link => {
         ...container.dataset,
     };
 
-    // Find the edit enrolment link.
+    // Find the edit enrollment link.
     const editEnrolLink = container.querySelector(Selectors.editEnrolment);
     if (editEnrolLink) {
-        // If there's an edit enrolment link for this user, clone it into the context for the modal.
+        // If there's an edit enrollment link for this user, clone it into the context for the modal.
         context.editenrollink = editEnrolLink.outerHTML;
     }
 
     ModalFactory.create({
         large: true,
         type: ModalFactory.types.CANCEL,
-        title: Str.get_string('enroldetails', 'enrol'),
+        title: Str.get_string('enroldetails', 'enroll'),
         body: Templates.render('core_user/status_details', context),
     })
     .then(modal => {
@@ -240,7 +240,7 @@ const showStatusDetails = link => {
                 e.preventDefault();
                 modal.hide();
 
-                // Trigger click event for the edit enrolment link to show the edit enrolment modal.
+                // Trigger click event for the edit enrollment link to show the edit enrollment modal.
                 editEnrolLink.click();
             });
         }
@@ -283,7 +283,7 @@ const submitEditFormAjax = (clickedLink, getBody, modal, userEnrolmentId, userDa
         DynamicTable.refreshTableContent(getDynamicTableFromLink(clickedLink))
         .catch(Notification.exception);
 
-        return Str.get_string('enrolmentupdatedforuser', 'core_enrol', userData);
+        return Str.get_string('enrolmentupdatedforuser', 'core_enroll', userData);
     })
     .then(notificationString => {
         notifyUser(notificationString);
@@ -298,7 +298,7 @@ const submitEditFormAjax = (clickedLink, getBody, modal, userEnrolmentId, userDa
 };
 
 /**
- * Submit the unenrolment form.
+ * Submit the unenrollment form.
  *
  * @param {HTMLElement} clickedLink
  * @param {Object} modal
@@ -325,7 +325,7 @@ const submitUnenrolFormAjax = (clickedLink, modal, args, userData) => {
         DynamicTable.refreshTableContent(getDynamicTableFromLink(clickedLink))
         .catch(Notification.exception);
 
-        return Str.get_string('unenrolleduser', 'core_enrol', userData);
+        return Str.get_string('unenrolleduser', 'core_enroll', userData);
     })
     .then(notificationString => {
         notifyUser(notificationString);
@@ -339,12 +339,12 @@ const submitUnenrolFormAjax = (clickedLink, modal, args, userData) => {
  * Get the body fragment.
  *
  * @param {Number} contextId
- * @param {Number} ueid The user enrolment id
+ * @param {Number} ueid The user enrollment id
  * @param {Object} formdata
  * @returns {Promise}
  */
 const getBody = (contextId, ueid, formdata = null) => Fragment.loadFragment(
-    'enrol',
+    'enroll',
     'user_enrolment_form',
     contextId,
     {

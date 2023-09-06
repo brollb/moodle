@@ -635,7 +635,7 @@ function has_all_capabilities(array $capabilities, context $context, $user = nul
 /**
  * Is course creator going to have capability in a new course?
  *
- * This is intended to be used in enrolment plugins before or during course creation,
+ * This is intended to be used in enrollment plugins before or during course creation,
  * do not use after the course is fully created.
  *
  * @category access
@@ -1040,8 +1040,8 @@ function load_all_capabilities() {
     // Clear to force a refresh
     unset($USER->mycourses);
 
-    // init/reset internal enrol caches - active course enrolments and temp access
-    $USER->enrol = array('enrolled'=>array(), 'tempguest'=>array());
+    // init/reset internal enroll caches - active course enrolments and temp access
+    $USER->enroll = array('enrolled'=>array(), 'tempguest'=>array());
 }
 
 /**
@@ -1089,7 +1089,7 @@ function reload_all_capabilities() {
  * Adds a temp role to current USER->access array.
  *
  * Useful for the "temporary guest" access we grant to logged-in users.
- * This is useful for enrol plugins only.
+ * This is useful for enroll plugins only.
  *
  * @since Moodle 2.2
  * @param context_course $coursecontext
@@ -1124,7 +1124,7 @@ function load_temp_course_role(context_course $coursecontext, $roleid) {
 
 /**
  * Removes any extra guest roles from current USER->access array.
- * This is useful for enrol plugins only.
+ * This is useful for enroll plugins only.
  *
  * @since Moodle 2.2
  * @param context_course $coursecontext
@@ -1562,7 +1562,7 @@ function get_roles_with_capability($capability, $permission = null, $context = n
  * @param int $userid userid
  * @param int|context $contextid id of the context
  * @param string $component example 'enrol_ldap', defaults to '' which means manual assignment,
- * @param int $itemid id of enrolment/auth plugin
+ * @param int $itemid id of enrollment/auth plugin
  * @param string $timemodified defaults to current time
  * @return int new/existing id of the assignment
  */
@@ -1936,7 +1936,7 @@ function is_viewing(context $context, $user = null, $withcapability = '') {
     }
 
     if ($withcapability and !has_capability($withcapability, $context, $user)) {
-        // site admins always have the capability, but the enrolment above blocks
+        // site admins always have the capability, but the enrollment above blocks
         return false;
     }
 
@@ -2023,13 +2023,13 @@ function can_access_course(stdClass $course, $user = null, $withcapability = '',
 
     $coursecontext->reload_if_dirty();
 
-    if (isset($USER->enrol['enrolled'][$course->id])) {
-        if ($USER->enrol['enrolled'][$course->id] > time()) {
+    if (isset($USER->enroll['enrolled'][$course->id])) {
+        if ($USER->enroll['enrolled'][$course->id] > time()) {
             return true;
         }
     }
-    if (isset($USER->enrol['tempguest'][$course->id])) {
-        if ($USER->enrol['tempguest'][$course->id] > time()) {
+    if (isset($USER->enroll['tempguest'][$course->id])) {
+        if ($USER->enroll['tempguest'][$course->id] > time()) {
             return true;
         }
     }
@@ -2044,21 +2044,21 @@ function can_access_course(stdClass $course, $user = null, $withcapability = '',
     }
 
     // if not enrolled try to gain temporary guest access
-    $instances = $DB->get_records('enrol', array('courseid'=>$course->id, 'status'=>ENROL_INSTANCE_ENABLED), 'sortorder, id ASC');
+    $instances = $DB->get_records('enroll', array('courseid'=>$course->id, 'status'=>ENROL_INSTANCE_ENABLED), 'sortorder, id ASC');
     $enrols = enrol_get_plugins(true);
     foreach ($instances as $instance) {
-        if (!isset($enrols[$instance->enrol])) {
+        if (!isset($enrols[$instance->enroll])) {
             continue;
         }
         // Get a duration for the guest access, a timestamp in the future, 0 (always) or false.
-        $until = $enrols[$instance->enrol]->try_guestaccess($instance);
+        $until = $enrols[$instance->enroll]->try_guestaccess($instance);
         if ($until !== false and $until > time()) {
-            $USER->enrol['tempguest'][$course->id] = $until;
+            $USER->enroll['tempguest'][$course->id] = $until;
             return true;
         }
     }
-    if (isset($USER->enrol['tempguest'][$course->id])) {
-        unset($USER->enrol['tempguest'][$course->id]);
+    if (isset($USER->enroll['tempguest'][$course->id])) {
+        unset($USER->enroll['tempguest'][$course->id]);
         remove_temp_course_roles($coursecontext);
     }
 
@@ -3474,9 +3474,9 @@ function get_overridable_roles(context $context, $rolenamedisplay = ROLENAME_ALI
 }
 
 /**
- * Create a role menu suitable for default role selection in enrol plugins.
+ * Create a role menu suitable for default role selection in enroll plugins.
  *
- * @package    core_enrol
+ * @package    core_enroll
  *
  * @param context $context
  * @param int $addroleid current or default role - always added to list
@@ -4141,7 +4141,7 @@ function get_role_users($roleid, context $context, $parent = false, $fields = ''
     if (!$all and $coursecontext) {
         // Do not use get_enrolled_sql() here for performance reasons.
         $ejoin = "JOIN {user_enrolments} ue ON ue.userid = u.id
-                  JOIN {enrol} e ON (e.id = ue.enrolid AND e.courseid = :ecourseid)";
+                  JOIN {enroll} e ON (e.id = ue.enrolid AND e.courseid = :ecourseid)";
         $params['ecourseid'] = $coursecontext->instanceid;
     } else {
         $ejoin = "";
@@ -5063,8 +5063,8 @@ function get_sorted_contexts($select, $params = array()) {
 }
 
 /**
- * Given context and array of users, returns array of users whose enrolment status is suspended,
- * or enrolment has expired or has not started. Also removes those users from the given array
+ * Given context and array of users, returns array of users whose enrollment status is suspended,
+ * or enrollment has expired or has not started. Also removes those users from the given array
  *
  * @param context $context context in which suspended users should be extracted.
  * @param array $users list of users.
@@ -5092,10 +5092,10 @@ function extract_suspended_users($context, &$users, $ignoreusers=array()) {
 }
 
 /**
- * Given context and array of users, returns array of user ids whose enrolment status is suspended,
- * or enrolment has expired or not started.
+ * Given context and array of users, returns array of user ids whose enrollment status is suspended,
+ * or enrollment has expired or not started.
  *
- * @param context $context context in which user enrolment is checked.
+ * @param context $context context in which user enrollment is checked.
  * @param bool $usecache Enable or disable (default) the request cache
  * @return array list of suspended user id's.
  */

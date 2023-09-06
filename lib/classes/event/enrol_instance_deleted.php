@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @property-read array $other {
  *      Extra information about event.
  *
- *      - string enrol: name of enrol method
+ *      - string enroll: name of enroll method
  * }
  *
  * @package    core
@@ -42,18 +42,18 @@ defined('MOODLE_INTERNAL') || die();
 class enrol_instance_deleted extends base {
 
     /**
-     * Api to Create new event from enrol object.
+     * Api to Create new event from enroll object.
      *
-     * @param \stdClass $enrol record from DB table 'enrol'
+     * @param \stdClass $enroll record from DB table 'enroll'
      * @return \core\event\base returns instance of new event
      */
-    public static final function create_from_record($enrol) {
+    public static final function create_from_record($enroll) {
         $event = static::create(array(
-            'context'  => \context_course::instance($enrol->courseid),
-            'objectid' => $enrol->id,
-            'other'    => array('enrol' => $enrol->enrol)
+            'context'  => \context_course::instance($enroll->courseid),
+            'objectid' => $enroll->id,
+            'other'    => array('enroll' => $enroll->enroll)
         ));
-        $event->add_record_snapshot('enrol', $enrol);
+        $event->add_record_snapshot('enroll', $enroll);
         return $event;
     }
 
@@ -63,8 +63,8 @@ class enrol_instance_deleted extends base {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' deleted the instance of enrolment method '" .
-                $this->other['enrol'] . "' with id '$this->objectid'.";
+        return "The user with id '$this->userid' deleted the instance of enrollment method '" .
+                $this->other['enroll'] . "' with id '$this->objectid'.";
     }
 
     /**
@@ -73,7 +73,7 @@ class enrol_instance_deleted extends base {
      * @return string
      */
     public static function get_name() {
-        return get_string('eventenrolinstancedeleted', 'enrol');
+        return get_string('eventenrolinstancedeleted', 'enroll');
     }
 
     /**
@@ -82,7 +82,7 @@ class enrol_instance_deleted extends base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/enrol/instances.php', array('id' => $this->courseid));
+        return new \moodle_url('/enroll/instances.php', array('id' => $this->courseid));
     }
 
     /**
@@ -93,7 +93,7 @@ class enrol_instance_deleted extends base {
     protected function init() {
         $this->data['crud'] = 'd';
         $this->data['edulevel'] = self::LEVEL_OTHER;
-        $this->data['objecttable'] = 'enrol';
+        $this->data['objecttable'] = 'enroll';
     }
 
     /**
@@ -103,13 +103,13 @@ class enrol_instance_deleted extends base {
      */
     protected function validate_data() {
         parent::validate_data();
-        if (!isset($this->other['enrol'])) {
-            throw new \coding_exception('The \'enrol\' value must be set in other.');
+        if (!isset($this->other['enroll'])) {
+            throw new \coding_exception('The \'enroll\' value must be set in other.');
         }
     }
 
     public static function get_objectid_mapping() {
-        return array('db' => 'enrol', 'restore' => 'enrol');
+        return array('db' => 'enroll', 'restore' => 'enroll');
     }
 
     public static function get_other_mapping() {

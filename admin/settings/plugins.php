@@ -146,18 +146,18 @@ if ($hassiteconfig) {
     }
 
     // Enrolment plugins
-    $ADMIN->add('modules', new admin_category('enrolments', new lang_string('enrolments', 'enrol')));
-    $temp = new admin_settingpage('manageenrols', new lang_string('manageenrols', 'enrol'));
+    $ADMIN->add('modules', new admin_category('enrolments', new lang_string('enrolments', 'enroll')));
+    $temp = new admin_settingpage('manageenrols', new lang_string('manageenrols', 'enroll'));
     $temp->add(new admin_setting_manageenrols());
     $ADMIN->add('enrolments', $temp);
 
-    $temp = new admin_externalpage('enroltestsettings', get_string('testsettings', 'core_enrol'), new moodle_url("/enrol/test_settings.php"), 'moodle/site:config', true);
+    $temp = new admin_externalpage('enroltestsettings', get_string('testsettings', 'core_enroll'), new moodle_url("/enroll/test_settings.php"), 'moodle/site:config', true);
     $ADMIN->add('enrolments', $temp);
 
-    $plugins = core_plugin_manager::instance()->get_plugins_of_type('enrol');
+    $plugins = core_plugin_manager::instance()->get_plugins_of_type('enroll');
     core_collator::asort_objects_by_property($plugins, 'displayname');
     foreach ($plugins as $plugin) {
-        /** @var \core\plugininfo\enrol $plugin */
+        /** @var \core\plugininfo\enroll $plugin */
         $plugin->load_settings($ADMIN, 'enrolments', $hassiteconfig);
     }
 

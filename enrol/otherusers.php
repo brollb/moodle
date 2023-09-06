@@ -17,14 +17,14 @@
 /**
  * List and modify users that are not enrolled but still have a role in course.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2010 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require('../config.php');
-require_once("$CFG->dirroot/enrol/locallib.php");
-require_once("$CFG->dirroot/enrol/renderer.php");
+require_once("$CFG->dirroot/enroll/locallib.php");
+require_once("$CFG->dirroot/enroll/renderer.php");
 require_once("$CFG->dirroot/group/lib.php");
 
 $id      = required_param('id', PARAM_INT); // course id
@@ -45,8 +45,8 @@ $PAGE->set_pagelayout('admin');
 
 $manager = new course_enrolment_manager($PAGE, $course, $filter);
 $table = new course_enrolment_other_users_table($manager, $PAGE);
-$PAGE->set_url('/enrol/otherusers.php', $manager->get_url_params()+$table->get_url_params());
-navigation_node::override_active_url(new moodle_url('/enrol/otherusers.php', array('id' => $id)));
+$PAGE->set_url('/enroll/otherusers.php', $manager->get_url_params()+$table->get_url_params());
+navigation_node::override_active_url(new moodle_url('/enroll/otherusers.php', array('id' => $id)));
 
 $userdetails = array (
     'picture' => false,
@@ -78,7 +78,7 @@ $table->set_fields($fields, $OUTPUT);
 
 //$users = $manager->get_other_users($table->sort, $table->sortdirection, $table->page, $table->perpage);
 
-$renderer = $PAGE->get_renderer('core_enrol');
+$renderer = $PAGE->get_renderer('core_enroll');
 $canassign = has_capability('moodle/role:assign', $manager->get_context());
 $users = $manager->get_other_users_for_display($renderer, $PAGE->url, $table->sort, $table->sortdirection, $table->page, $table->perpage);
 $assignableroles = $manager->get_assignable_roles(true);
@@ -90,7 +90,7 @@ foreach ($users as $userid=>&$user) {
 $table->set_total_users($manager->get_total_other_users());
 $table->set_users($users);
 
-$PAGE->set_title($course->fullname.': '.get_string('totalotherusers', 'enrol', $manager->get_total_other_users()));
+$PAGE->set_title($course->fullname.': '.get_string('totalotherusers', 'enroll', $manager->get_total_other_users()));
 $PAGE->set_heading($PAGE->title);
 
 echo $OUTPUT->header();

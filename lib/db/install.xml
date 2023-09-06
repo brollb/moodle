@@ -82,7 +82,7 @@
         <FIELD NAME="newsitems" TYPE="int" LENGTH="5" NOTNULL="true" DEFAULT="1" SEQUENCE="false"/>
         <FIELD NAME="startdate" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="enddate" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="relativedatesmode" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether to let this course display course- or activity-related dates relative to the user's enrolment date in this course."/>
+        <FIELD NAME="relativedatesmode" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether to let this course display course- or activity-related dates relative to the user's enrollment date in this course."/>
         <FIELD NAME="marker" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="maxbytes" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="legacyfiles" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="course files are not necessary any more: 0 no legacy files, 1 legacy files disabled, 2 legacy files enabled"/>
@@ -165,7 +165,7 @@
         <FIELD NAME="module" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Type of module (if using module criteria type)"/>
         <FIELD NAME="moduleinstance" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Course module id (if using module criteria type)"/>
         <FIELD NAME="courseinstance" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Course instance id (if using course criteria type)"/>
-        <FIELD NAME="enrolperiod" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Number of days after enrolment the course is completed (if using enrolperiod criteria type)"/>
+        <FIELD NAME="enrolperiod" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Number of days after enrollment the course is completed (if using enrolperiod criteria type)"/>
         <FIELD NAME="timeend" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Timestamp of the date for course completion (if using date criteria type)"/>
         <FIELD NAME="gradepass" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="5" COMMENT="The minimum grade needed to pass the course (if passing grade criteria enabled)"/>
         <FIELD NAME="role" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
@@ -248,24 +248,24 @@
         <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="enrol" COMMENT="Instances of enrolment plugins used in courses, fields marked as custom have a plugin defined meaning, core does not touch them. Create a new linked table if you need even more custom fields.">
+    <TABLE NAME="enroll" COMMENT="Instances of enrollment plugins used in courses, fields marked as custom have a plugin defined meaning, core does not touch them. Create a new linked table if you need even more custom fields.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="enrol" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="status" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="0..9 are system constants, 0 means active enrolment, see ENROL_STATUS_* constants, plugins may define own status greater than 10"/>
+        <FIELD NAME="enroll" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="status" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="0..9 are system constants, 0 means active enrollment, see ENROL_STATUS_* constants, plugins may define own status greater than 10"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="order of enrol plugins in each course"/>
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="order of enroll plugins in each course"/>
         <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Optional instance name"/>
-        <FIELD NAME="enrolperiod" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Custom - enrolment duration"/>
-        <FIELD NAME="enrolstartdate" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Custom - start of self enrolment"/>
-        <FIELD NAME="enrolenddate" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Custom - end of enrolment"/>
+        <FIELD NAME="enrolperiod" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Custom - enrollment duration"/>
+        <FIELD NAME="enrolstartdate" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Custom - start of self enrollment"/>
+        <FIELD NAME="enrolenddate" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Custom - end of enrollment"/>
         <FIELD NAME="expirynotify" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Custom - notify users before expiration"/>
         <FIELD NAME="expirythreshold" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Custom - when should be the participants notified"/>
         <FIELD NAME="notifyall" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Custom - Notify both participant and person responsible for enrolments"/>
-        <FIELD NAME="password" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false" COMMENT="Custom - enrolment or access password"/>
-        <FIELD NAME="cost" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Custom - enrolment cost"/>
+        <FIELD NAME="password" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false" COMMENT="Custom - enrollment or access password"/>
+        <FIELD NAME="cost" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Custom - enrollment cost"/>
         <FIELD NAME="currency" TYPE="char" LENGTH="3" NOTNULL="false" SEQUENCE="false" COMMENT="Custom - cost currency"/>
-        <FIELD NAME="roleid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Custom - the default role given to participants who self-enrol"/>
+        <FIELD NAME="roleid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Custom - the default role given to participants who self-enroll"/>
         <FIELD NAME="customint1" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Custom - general int"/>
         <FIELD NAME="customint2" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Custom - general int"/>
         <FIELD NAME="customint3" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Custom - general int"/>
@@ -292,7 +292,7 @@
         <KEY NAME="roleid" TYPE="foreign" FIELDS="roleid" REFTABLE="role" REFFIELDS="id"/>
       </KEYS>
       <INDEXES>
-        <INDEX NAME="enrol" UNIQUE="false" FIELDS="enrol"/>
+        <INDEX NAME="enroll" UNIQUE="false" FIELDS="enroll"/>
       </INDEXES>
     </TABLE>
     <TABLE NAME="user_enrolments" COMMENT="Users participating in courses (aka enrolled users) - everybody who is participating/visible in course, that means both teachers and students">
@@ -309,12 +309,12 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="enrolid" TYPE="foreign" FIELDS="enrolid" REFTABLE="enrol" REFFIELDS="id"/>
+        <KEY NAME="enrolid" TYPE="foreign" FIELDS="enrolid" REFTABLE="enroll" REFFIELDS="id"/>
         <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
         <KEY NAME="modifierid" TYPE="foreign" FIELDS="modifierid" REFTABLE="user" REFFIELDS="id"/>
       </KEYS>
       <INDEXES>
-        <INDEX NAME="enrolid-userid" UNIQUE="true" FIELDS="enrolid, userid" COMMENT="Only one enrolment per plugin allowed"/>
+        <INDEX NAME="enrolid-userid" UNIQUE="true" FIELDS="enrolid, userid" COMMENT="Only one enrollment per plugin allowed"/>
       </INDEXES>
     </TABLE>
     <TABLE NAME="course_modules" COMMENT="course_modules table retrofitted from MySQL">
@@ -1300,7 +1300,7 @@
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="modifierid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="component" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="plugin responsible responsible for role assignment, empty when manually assigned"/>
-        <FIELD NAME="itemid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Id of enrolment/auth instance responsible for this role assignment"/>
+        <FIELD NAME="itemid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Id of enrollment/auth instance responsible for this role assignment"/>
         <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>

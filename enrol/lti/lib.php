@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * LTI enrolment plugin main library file.
+ * LTI enrollment plugin main library file.
  *
  * @package enrol_lti
  * @copyright 2016 Mark Nelson <markn@moodle.com>
@@ -29,7 +29,7 @@ use IMSGlobal\LTI\ToolProvider\ToolConsumer;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * LTI enrolment plugin class.
+ * LTI enrollment plugin class.
  *
  * @package enrol_lti
  * @copyright 2016 Mark Nelson <markn@moodle.com>
@@ -45,38 +45,38 @@ class enrol_lti_plugin extends enrol_plugin {
      */
     public function can_add_instance($courseid) {
         $context = context_course::instance($courseid, MUST_EXIST);
-        return has_capability('moodle/course:enrolconfig', $context) && has_capability('enrol/lti:config', $context);
+        return has_capability('moodle/course:enrolconfig', $context) && has_capability('enroll/lti:config', $context);
     }
 
     /**
-     * Is it possible to delete enrol instance via standard UI?
+     * Is it possible to delete enroll instance via standard UI?
      *
      * @param object $instance
      * @return bool
      */
     public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/lti:config', $context);
+        return has_capability('enroll/lti:config', $context);
     }
 
     /**
-     * Is it possible to hide/show enrol instance via standard UI?
+     * Is it possible to hide/show enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/lti:config', $context);
+        return has_capability('enroll/lti:config', $context);
     }
 
     /**
-     * Returns true if it's possible to unenrol users.
+     * Returns true if it's possible to unenroll users.
      *
-     * @param stdClass $instance course enrol instance
+     * @param stdClass $instance course enroll instance
      * @return bool
      */
-    public function allow_unenrol(stdClass $instance) {
+    public function allow_unenroll(stdClass $instance) {
         return true;
     }
 
@@ -90,7 +90,7 @@ class enrol_lti_plugin extends enrol_plugin {
     }
 
     /**
-     * Add new instance of enrol plugin.
+     * Add new instance of enroll plugin.
      *
      * @param object $course
      * @param array $fields instance fields
@@ -121,7 +121,7 @@ class enrol_lti_plugin extends enrol_plugin {
     }
 
     /**
-     * Update instance of enrol plugin.
+     * Update instance of enroll plugin.
      *
      * @param stdClass $instance
      * @param stdClass $data modified instance fields
@@ -240,7 +240,7 @@ class enrol_lti_plugin extends enrol_plugin {
         }
 
         $nameattribs = array('size' => '20', 'maxlength' => '255');
-        $mform->addElement('text', 'name', get_string('custominstancename', 'enrol'), $nameattribs);
+        $mform->addElement('text', 'name', get_string('custominstancename', 'enroll'), $nameattribs);
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'server');
 
@@ -325,7 +325,7 @@ class enrol_lti_plugin extends enrol_plugin {
         $mform->addHelpButton('membersync', 'membersync', 'enrol_lti');
 
         $options = array();
-        $options[\enrol_lti\helper::MEMBER_SYNC_ENROL_AND_UNENROL] = get_string('membersyncmodeenrolandunenrol', 'enrol_lti');
+        $options[\enrol_lti\helper::MEMBER_SYNC_ENROL_AND_UNENROL] = get_string('membersyncmodeenrolandunenroll', 'enrol_lti');
         $options[\enrol_lti\helper::MEMBER_SYNC_ENROL_NEW] = get_string('membersyncmodeenrolnew', 'enrol_lti');
         $options[\enrol_lti\helper::MEMBER_SYNC_UNENROL_MISSING] = get_string('membersyncmodeunenrolmissing', 'enrol_lti');
         $mform->addElement('select', 'membersyncmode', get_string('membersyncmode', 'enrol_lti'), $options);
@@ -444,7 +444,7 @@ class enrol_lti_plugin extends enrol_plugin {
         // We want to call the parent because we do not want to add an enrol_lti_tools row
         // as that is done as part of the restore process.
         $instanceid = parent::add_instance($course, (array)$data);
-        $step->set_mapping('enrol', $oldid, $instanceid);
+        $step->set_mapping('enroll', $oldid, $instanceid);
     }
 }
 
@@ -461,7 +461,7 @@ function enrol_lti_extend_navigation_course($navigation, $course, $context) {
         // Check that they can add an instance.
         $ltiplugin = enrol_get_plugin('lti');
         if ($ltiplugin->can_add_instance($course->id)) {
-            $url = new moodle_url('/enrol/lti/index.php', ['courseid' => $course->id]);
+            $url = new moodle_url('/enroll/lti/index.php', ['courseid' => $course->id]);
             $settingsnode = navigation_node::create(get_string('sharedexternaltools', 'enrol_lti'), $url,
                 navigation_node::TYPE_SETTING, null, 'publishedtools', new pix_icon('i/settings', ''));
             $navigation->add_node($settingsnode);
@@ -492,5 +492,5 @@ function enrol_lti_pre_course_module_delete(stdClass $cm) {
                      JOIN {context} c ON (t.contextid = c.id)
                     WHERE c.contextlevel = :contextlevel
                       AND c.instanceid = :cmid)";
-    $DB->set_field_select('enrol', 'status', ENROL_INSTANCE_DISABLED, $sql, ['contextlevel' => CONTEXT_MODULE, 'cmid' => $cm->id]);
+    $DB->set_field_select('enroll', 'status', ENROL_INSTANCE_DISABLED, $sql, ['contextlevel' => CONTEXT_MODULE, 'cmid' => $cm->id]);
 }

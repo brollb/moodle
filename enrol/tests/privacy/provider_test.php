@@ -14,18 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
- * Privacy test for the core_enrol implementation of the privacy API.
+ * Privacy test for the core_enroll implementation of the privacy API.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @category   test
  * @copyright  2018 Carlos Escobedo <carlos@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace core_enrol\privacy;
+namespace core_enroll\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
-use core_enrol\privacy\provider;
+use core_enroll\privacy\provider;
 use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\request\writer;
 use core_privacy\tests\provider_testcase;
@@ -33,9 +33,9 @@ use core_privacy\local\request\transform;
 use core_privacy\local\request\approved_userlist;
 
 /**
- * Privacy test for the core_enrol.
+ * Privacy test for the core_enroll.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @category   test
  * @copyright  2018 Carlos Escobedo <carlos@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -72,14 +72,14 @@ class provider_test extends provider_testcase {
         $this->getDataGenerator()->enrol_user($user1->id, $course1->id,  null, 'self');
         $this->getDataGenerator()->enrol_user($user1->id, $course2->id,  null, 'manual');
         $subcontexts = [
-            get_string('privacy:metadata:user_enrolments', 'core_enrol')
+            get_string('privacy:metadata:user_enrolments', 'core_enroll')
         ];
         $coursecontext1 = \context_course::instance($course1->id);
         $coursecontext2 = \context_course::instance($course2->id);
         $this->setUser($user1);
         $writer = writer::with_context($coursecontext1);
         $this->assertFalse($writer->has_any_data());
-        $this->export_context_data_for_user($user1->id, $coursecontext1, 'core_enrol');
+        $this->export_context_data_for_user($user1->id, $coursecontext1, 'core_enroll');
         $data = $writer->get_related_data($subcontexts);
         $this->assertCount(2, (array)$data);
 
@@ -90,14 +90,14 @@ class provider_test extends provider_testcase {
                        ue.timecreated,
                        ue.timemodified
                   FROM {user_enrolments} ue
-                  JOIN {enrol} e
+                  JOIN {enroll} e
                     ON e.id = ue.enrolid
                    AND e.courseid = :courseid
                  WHERE ue.userid = :userid";
         $enrolmentcouse2 = $DB->get_record_sql($sql, array('userid' => $user1->id, 'courseid' => $course2->id));
         writer::reset();
         $writer = writer::with_context($coursecontext2);
-        $this->export_context_data_for_user($user1->id, $coursecontext2, 'core_enrol');
+        $this->export_context_data_for_user($user1->id, $coursecontext2, 'core_enroll');
         $data = (array)$writer->get_related_data($subcontexts, 'manual');
         $this->assertEquals($enrolmentcouse2->status, reset($data)->status);
         $this->assertEquals(transform::datetime($enrolmentcouse2->timestart), reset($data)->timestart);
@@ -128,7 +128,7 @@ class provider_test extends provider_testcase {
         // Get all user enrolments match with course1.
         $sql = "SELECT ue.id
                   FROM {user_enrolments} ue
-                  JOIN {enrol} e
+                  JOIN {enroll} e
                     ON e.id = ue.enrolid
                    AND e.courseid = :courseid";
         $userenrolments = $DB->get_records_sql($sql, array('courseid' => $course1->id));
@@ -168,7 +168,7 @@ class provider_test extends provider_testcase {
         $this->assertCount(2, $userenrolments);
         // Delete everything for the user1 in the context course 1.
         $coursecontext1 = \context_course::instance($course1->id);
-        $approvedlist = new approved_contextlist($user1, 'core_enrol', [$coursecontext1->id]);
+        $approvedlist = new approved_contextlist($user1, 'core_enroll', [$coursecontext1->id]);
         provider::delete_data_for_user($approvedlist);
         // Get all user enrolments match with user.
         $userenrolments = $DB->get_records('user_enrolments', ['userid' => $user1->id]);
@@ -184,7 +184,7 @@ class provider_test extends provider_testcase {
     public function test_get_users_in_context() {
         $this->resetAfterTest();
 
-        $component = 'core_enrol';
+        $component = 'core_enroll';
 
         $user = $this->getDataGenerator()->create_user();
         $usercontext = \context_user::instance($user->id);
@@ -217,7 +217,7 @@ class provider_test extends provider_testcase {
     public function test_delete_data_for_users() {
         $this->resetAfterTest();
 
-        $component = 'core_enrol';
+        $component = 'core_enroll';
 
         $user1 = $this->getDataGenerator()->create_user();
         $user2 = $this->getDataGenerator()->create_user();

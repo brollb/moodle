@@ -41,7 +41,7 @@ define('COMPLETION_CRITERIA_TYPE_SELF',         1);
 define('COMPLETION_CRITERIA_TYPE_DATE',         2);
 
 /**
- * Unenrol completion criteria type
+ * Unenroll completion criteria type
  * Criteria type constant, primarily for storing criteria type in the database.
  */
 define('COMPLETION_CRITERIA_TYPE_UNENROL',      3);
@@ -85,7 +85,7 @@ global $COMPLETION_CRITERIA_TYPES;
 $COMPLETION_CRITERIA_TYPES = array(
     COMPLETION_CRITERIA_TYPE_SELF       => 'self',
     COMPLETION_CRITERIA_TYPE_DATE       => 'date',
-    COMPLETION_CRITERIA_TYPE_UNENROL    => 'unenrol',
+    COMPLETION_CRITERIA_TYPE_UNENROL    => 'unenroll',
     COMPLETION_CRITERIA_TYPE_ACTIVITY   => 'activity',
     COMPLETION_CRITERIA_TYPE_DURATION   => 'duration',
     COMPLETION_CRITERIA_TYPE_GRADE      => 'grade',
@@ -133,7 +133,7 @@ abstract class completion_criteria extends data_object {
     public $moduleinstance;
 
     /**
-     * Period after enrolment completion will be triggered (for period criteria)
+     * Period after enrollment completion will be triggered (for period criteria)
      * The value here is the number of days as an int.
      * @var int
      */

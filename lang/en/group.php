@@ -64,10 +64,10 @@ $string['enablemessagingaction'] = 'Enable messaging';
 $string['enablemessaging_help'] = 'If enabled, group members can send messages to the others in their group via the messaging drawer.';
 $string['encoding'] = 'Encoding';
 $string['enrolmentkey'] = 'Enrolment key';
-$string['enrolmentkey_help'] = 'An enrolment key enables access to the course to be restricted to only those who know the key. If a group enrolment key is specified, then not only will entering that key let the user into the course, but it will also automatically make them a member of this group.
+$string['enrolmentkey_help'] = 'An enrollment key enables access to the course to be restricted to only those who know the key. If a group enrollment key is specified, then not only will entering that key let the user into the course, but it will also automatically make them a member of this group.
 
-Note: Group enrolment keys must be enabled in the self enrolment settings and an enrolment key for the course must also be specified.';
-$string['enrolmentkeyalreadyinuse'] = 'This enrolment key is already used for another group.';
+Note: Group enrollment keys must be enabled in the self enrollment settings and an enrollment key for the course must also be specified.';
+$string['enrolmentkeyalreadyinuse'] = 'This enrollment key is already used for another group.';
 $string['erroraddremoveuser'] = 'Error adding/removing user {$a} to group';
 $string['erroreditgroup'] = 'Error creating/updating group {$a}';
 $string['erroreditgrouping'] = 'Error creating/updating grouping {$a}';
@@ -148,7 +148,7 @@ $string['importgroups_help'] = 'Groups may be imported via text file. The format
 * Required fieldname is groupname
 * Optional fieldnames are groupidnumber, description, enrolmentkey, groupingname, enablemessaging';
 $string['importgroups_link'] = 'group/import';
-$string['includeonlyactiveenrol'] = 'Include only active enrolments';
+$string['includeonlyactiveenroll'] = 'Include only active enrolments';
 $string['includeonlyactiveenrol_help'] = 'If enabled, suspended users will not be included in groups.';
 $string['javascriptrequired'] = 'This page requires JavaScript to be enabled.';
 $string['members'] = 'Members per group';

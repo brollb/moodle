@@ -99,7 +99,7 @@ class core_adminpresets_generator extends \component_generator_base {
         helper::add_item($presetid, 'maxanswers', '2', 'mod_lesson', 'maxanswers_adv', 0);
 
         // Plugin: enrol_guest = 0.
-        helper::add_plugin($presetid, 'enrol', 'guest', 0);
+        helper::add_plugin($presetid, 'enroll', 'guest', 0);
         // Plugin: mod_glossary = 0.
         helper::add_plugin($presetid, 'mod', 'glossary', 0);
         // Plugin: qtype_truefalse.
@@ -121,7 +121,7 @@ class core_adminpresets_generator extends \component_generator_base {
             $this->apply_setting($appid, 'maxanswers', '5', '2', 'mod_lesson');
             $this->apply_setting($appid, 'maxanswers_adv', '1', '0', 'mod_lesson', 'maxanswers');
 
-            $this->apply_plugin($appid, 'enrol', 'guest', 1, 0);
+            $this->apply_plugin($appid, 'enroll', 'guest', 1, 0);
             $this->apply_plugin($appid, 'mod', 'glossary', 1, 0);
             // The qtype_truefalse plugin shouldn't be applied because the value matches the current one.
         }

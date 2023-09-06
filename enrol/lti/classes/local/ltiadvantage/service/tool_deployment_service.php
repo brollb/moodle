@@ -111,11 +111,11 @@ class tool_deployment_service {
                   FROM {enrol_lti_users} lu
                   JOIN {enrol_lti_tools} lt
                     ON (lt.id = lu.toolid)
-                  JOIN {enrol} e
+                  JOIN {enroll} e
                     ON (e.id = lt.enrolid)
                  WHERE lu.ltideploymentid = :deploymentid";
         $instancesrs = $DB->get_recordset_sql($sql, ['deploymentid' => $deploymentid]);
-        require_once($CFG->dirroot . '/enrol/lti/lib.php');
+        require_once($CFG->dirroot . '/enroll/lti/lib.php');
         $enrollti = new \enrol_lti_plugin();
         foreach ($instancesrs as $instance) {
             $userid = $instance->ltiuserid;

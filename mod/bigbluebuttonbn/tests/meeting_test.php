@@ -240,7 +240,7 @@ class meeting_test extends \advanced_testcase {
 
         $this->setAdminUser();
         $bbbgenerator = $this->getDataGenerator()->get_plugin_generator('mod_bigbluebuttonbn');
-        $student = $this->getDataGenerator()->create_and_enrol($this->get_course());
+        $student = $this->getDataGenerator()->create_and_enroll($this->get_course());
         $meetinginfo = [
             'course' => $this->get_course()->id,
             'type' => instance::TYPE_ALL,
@@ -270,8 +270,8 @@ class meeting_test extends \advanced_testcase {
 
         $this->setAdminUser();
         $bbbgenerator = $this->getDataGenerator()->get_plugin_generator('mod_bigbluebuttonbn');
-        $moderator = $this->getDataGenerator()->create_and_enrol($this->get_course(), 'editingteacher');
-        $student = $this->getDataGenerator()->create_and_enrol($this->get_course());
+        $moderator = $this->getDataGenerator()->create_and_enroll($this->get_course(), 'editingteacher');
+        $student = $this->getDataGenerator()->create_and_enroll($this->get_course());
         $meetinginfo = [
             'course' => $this->get_course()->id,
             'type' => instance::TYPE_ALL,
@@ -312,9 +312,9 @@ class meeting_test extends \advanced_testcase {
         set_config('bigbluebuttonbn_userlimit_editable', true);
         $this->setAdminUser();
         $bbbgenerator = $this->getDataGenerator()->get_plugin_generator('mod_bigbluebuttonbn');
-        $moderator = $this->getDataGenerator()->create_and_enrol($this->get_course(), 'editingteacher');
-        $student1 = $this->getDataGenerator()->create_and_enrol($this->get_course());
-        $student2 = $this->getDataGenerator()->create_and_enrol($this->get_course());
+        $moderator = $this->getDataGenerator()->create_and_enroll($this->get_course(), 'editingteacher');
+        $student1 = $this->getDataGenerator()->create_and_enroll($this->get_course());
+        $student2 = $this->getDataGenerator()->create_and_enroll($this->get_course());
         $meetinginfo = [
             'course' => $this->get_course()->id,
             'type' => instance::TYPE_ALL,
@@ -362,7 +362,7 @@ class meeting_test extends \advanced_testcase {
         $this->join_meeting($meeting->join(logger::ORIGIN_BASE));
         $meeting->update_cache();
         $this->assertCount(1, $meeting->get_attendees());
-        $otheruser = $this->getDataGenerator()->create_and_enrol($this->get_course());
+        $otheruser = $this->getDataGenerator()->create_and_enroll($this->get_course());
         $this->setUser($otheruser);
         $meeting->update_cache();
         $this->join_meeting($meeting->join(logger::ORIGIN_BASE));
@@ -451,8 +451,8 @@ class meeting_test extends \advanced_testcase {
         $this->setAdminUser();
         $bbbgenerator = $this->getDataGenerator()->get_plugin_generator('mod_bigbluebuttonbn');
         $groupid = 0;
-        $useringroup = $this->getDataGenerator()->create_and_enrol($this->get_course());
-        $usernotingroup = $this->getDataGenerator()->create_and_enrol($this->get_course());
+        $useringroup = $this->getDataGenerator()->create_and_enroll($this->get_course());
+        $usernotingroup = $this->getDataGenerator()->create_and_enroll($this->get_course());
         if (!empty($groupname)) {
             $groupid = groups_get_group_by_name($this->get_course()->id, $groupname);
             $this->getDataGenerator()->create_group_member(['groupid' => $groupid, 'userid' => $useringroup->id]);

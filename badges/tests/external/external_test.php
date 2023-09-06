@@ -70,8 +70,8 @@ class external_test extends externallib_advanced_testcase {
         $this->course = $this->getDataGenerator()->create_course();
 
         // Create users and enrolments.
-        $this->student = $this->getDataGenerator()->create_and_enrol($this->course, 'student');
-        $this->teacher = $this->getDataGenerator()->create_and_enrol($this->course, 'editingteacher');
+        $this->student = $this->getDataGenerator()->create_and_enroll($this->course, 'student');
+        $this->teacher = $this->getDataGenerator()->create_and_enroll($this->course, 'editingteacher');
 
         // Mock up a site badge.
         $now = time();

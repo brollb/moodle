@@ -197,10 +197,10 @@ class search_test extends \advanced_testcase {
         $course2context = \context_course::instance($course2->id);
 
         $admin = get_admin();
-        // Create and enrol an editing teacher in course1.
-        $editingteacher = $this->getDataGenerator()->create_and_enrol($course1, 'editingteacher');
-        // Create and enrol a teacher in course2.
-        $teacher = $this->getDataGenerator()->create_and_enrol($course2, 'teacher');
+        // Create and enroll an editing teacher in course1.
+        $editingteacher = $this->getDataGenerator()->create_and_enroll($course1, 'editingteacher');
+        // Create and enroll a teacher in course2.
+        $teacher = $this->getDataGenerator()->create_and_enroll($course2, 'teacher');
 
         // Add some content to the content bank in different contexts.
         $generator = $this->getDataGenerator()->get_plugin_generator('core_contentbank');

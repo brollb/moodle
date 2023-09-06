@@ -49,7 +49,7 @@ class report_graderlib_test extends \advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
 
-        // Create and enrol a student.
+        // Create and enroll a student.
         $student = $this->getDataGenerator()->create_user(array('username' => 'student_sam'));
         $role = $DB->get_record('role', array('shortname' => 'student'), '*', MUST_EXIST);
         $this->getDataGenerator()->enrol_user($student->id, $course->id, $role->id);
@@ -528,9 +528,9 @@ class report_graderlib_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // The report users will default to sorting by their lastname.
-        $user1 = $this->getDataGenerator()->create_and_enrol($course, 'student', ['lastname' => 'Apple']);
-        $user2 = $this->getDataGenerator()->create_and_enrol($course, 'student', ['lastname' => 'Banana']);
-        $user3 = $this->getDataGenerator()->create_and_enrol($course, 'student', ['lastname' => 'Carrot']);
+        $user1 = $this->getDataGenerator()->create_and_enroll($course, 'student', ['lastname' => 'Apple']);
+        $user2 = $this->getDataGenerator()->create_and_enroll($course, 'student', ['lastname' => 'Banana']);
+        $user3 = $this->getDataGenerator()->create_and_enroll($course, 'student', ['lastname' => 'Carrot']);
 
         // Set to empty string.
         $report = $this->create_report($course);

@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    'enrol/meta:config' => array(
+    'enroll/meta:config' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -35,7 +35,7 @@ $capabilities = array(
     ),
 
     // select some course as source
-    'enrol/meta:selectaslinked' => array(
+    'enroll/meta:selectaslinked' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -43,8 +43,8 @@ $capabilities = array(
         )
     ),
 
-    /* This is used only when sync suspends users instead of full unenrolment */
-    'enrol/meta:unenrol' => array(
+    /* This is used only when sync suspends users instead of full unenrollment */
+    'enroll/meta:unenroll' => array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,

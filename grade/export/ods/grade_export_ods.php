@@ -83,7 +83,7 @@ class grade_export_ods extends grade_export {
         $i = 0;
         $geub = new grade_export_update_buffer();
         $gui = new graded_users_iterator($this->course, $this->columns, $this->groupid);
-        $gui->require_active_enrolment($this->onlyactive);
+        $gui->require_active_enrollment($this->onlyactive);
         $gui->allow_user_custom_fields($this->usercustomfields);
         $gui->init();
         while ($userdata = $gui->next_user()) {
@@ -97,7 +97,7 @@ class grade_export_ods extends grade_export {
             $j = count($profilefields);
 
             if (!$this->onlyactive) {
-                $issuspended = ($user->suspendedenrolment) ? get_string('yes') : '';
+                $issuspended = ($user->suspendedenrollment) ? get_string('yes') : '';
                 $myxls->write_string($i, $j++, $issuspended);
             }
             foreach ($userdata->grades as $itemid => $grade) {

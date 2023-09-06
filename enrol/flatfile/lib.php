@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Flatfile enrolment plugin.
+ * Flatfile enrollment plugin.
  *
- * This plugin lets the user specify a "flatfile" (CSV) containing enrolment information.
+ * This plugin lets the user specify a "flatfile" (CSV) containing enrollment information.
  * On a regular cron cycle, the specified file is parsed and then deleted.
  *
  * @package    enrol_flatfile
@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Flatfile enrolment plugin implementation.
+ * Flatfile enrollment plugin implementation.
  *
  * Comma separated file assumed to have four or six fields per line:
  *   operation, role, idnumber(user), idnumber(course) [, starttime [, endtime]]
@@ -57,27 +57,27 @@ class enrol_flatfile_plugin extends enrol_plugin {
     }
 
     /**
-     * Does this plugin allow manual unenrolment of all users?
-     * All plugins allowing this must implement 'enrol/xxx:unenrol' capability
+     * Does this plugin allow manual unenrollment of all users?
+     * All plugins allowing this must implement 'enroll/xxx:unenroll' capability
      *
-     * @param stdClass $instance course enrol instance
-     * @return bool - true means user with 'enrol/xxx:unenrol' may unenrol others freely, false means nobody may touch user_enrolments
+     * @param stdClass $instance course enroll instance
+     * @return bool - true means user with 'enroll/xxx:unenroll' may unenroll others freely, false means nobody may touch user_enrolments
      */
-    public function allow_unenrol(stdClass $instance) {
+    public function allow_unenroll(stdClass $instance) {
         return true;
     }
 
     /**
-     * Does this plugin allow manual unenrolment of a specific user?
-     * All plugins allowing this must implement 'enrol/xxx:unenrol' capability
+     * Does this plugin allow manual unenrollment of a specific user?
+     * All plugins allowing this must implement 'enroll/xxx:unenroll' capability
      *
      * This is useful especially for synchronisation plugins that
-     * do suspend instead of full unenrolment.
+     * do suspend instead of full unenrollment.
      *
-     * @param stdClass $instance course enrol instance
+     * @param stdClass $instance course enroll instance
      * @param stdClass $ue record from user_enrolments table, specifies user
      *
-     * @return bool - true means user with 'enrol/xxx:unenrol' may unenrol this user, false means nobody may touch this user enrolment
+     * @return bool - true means user with 'enroll/xxx:unenroll' may unenroll this user, false means nobody may touch this user enrollment
      */
     public function allow_unenrol_user(stdClass $instance, stdClass $ue) {
         return true;
@@ -86,39 +86,39 @@ class enrol_flatfile_plugin extends enrol_plugin {
     /**
      * Does this plugin allow manual changes in user_enrolments table?
      *
-     * All plugins allowing this must implement 'enrol/xxx:manage' capability
+     * All plugins allowing this must implement 'enroll/xxx:manage' capability
      *
-     * @param stdClass $instance course enrol instance
-     * @return bool - true means it is possible to change enrol period and status in user_enrolments table
+     * @param stdClass $instance course enroll instance
+     * @return bool - true means it is possible to change enroll period and status in user_enrolments table
      */
     public function allow_manage(stdClass $instance) {
         return true;
     }
 
     /**
-     * Is it possible to delete enrol instance via standard UI?
+     * Is it possible to delete enroll instance via standard UI?
      *
      * @param object $instance
      * @return bool
      */
     public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/flatfile:manage', $context);
+        return has_capability('enroll/flatfile:manage', $context);
     }
 
     /**
-     * Is it possible to hide/show enrol instance via standard UI?
+     * Is it possible to hide/show enroll instance via standard UI?
      *
      * @param stdClass $instance
      * @return bool
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/flatfile:manage', $context);
+        return has_capability('enroll/flatfile:manage', $context);
     }
 
     /**
-     * Enrol user into course via enrol instance.
+     * Enrol user into course via enroll instance.
      *
      * @param stdClass $instance
      * @param int $userid
@@ -166,7 +166,7 @@ class enrol_flatfile_plugin extends enrol_plugin {
                 $eventdata->courseid          = SITEID;
                 $eventdata->modulename        = 'moodle';
                 $eventdata->component         = 'enrol_flatfile';
-                $eventdata->name              = 'flatfile_enrolment';
+                $eventdata->name              = 'flatfile_enrollment';
                 $eventdata->userfrom          = get_admin();
                 $eventdata->userto            = get_admin();
                 $eventdata->subject           = 'Flatfile Enrolment Log';
@@ -321,7 +321,7 @@ class enrol_flatfile_plugin extends enrol_plugin {
             $eventdata->courseid          = SITEID;
             $eventdata->modulename        = 'moodle';
             $eventdata->component         = 'enrol_flatfile';
-            $eventdata->name              = 'flatfile_enrolment';
+            $eventdata->name              = 'flatfile_enrollment';
             $eventdata->userfrom          = get_admin();
             $eventdata->userto            = get_admin();
             $eventdata->subject           = get_string('filelockedmailsubject', 'enrol_flatfile');
@@ -330,12 +330,12 @@ class enrol_flatfile_plugin extends enrol_plugin {
             $eventdata->fullmessagehtml   = '';
             $eventdata->smallmessage      = '';
             message_send($eventdata);
-            $trace->output("Error deleting enrolment file: $disclosefile", 1);
+            $trace->output("Error deleting enrollment file: $disclosefile", 1);
         } else {
-            $trace->output("Deleted enrolment file", 1);
+            $trace->output("Deleted enrollment file", 1);
         }
 
-        $trace->output("...finished enrolment file processing.");
+        $trace->output("...finished enrollment file processing.");
         $trace->finished();
 
         return true;
@@ -372,7 +372,7 @@ class enrol_flatfile_plugin extends enrol_plugin {
     }
 
     /**
-     * Process user enrolment line.
+     * Process user enrollment line.
      *
      * @param progress_trace $trace
      * @param string $action
@@ -409,21 +409,21 @@ class enrol_flatfile_plugin extends enrol_plugin {
             // Clear the buffer just in case there were some future enrolments.
             $DB->delete_records('enrol_flatfile', array('userid'=>$user->id, 'courseid'=>$course->id, 'roleid'=>$roleid));
 
-            $instance = $DB->get_record('enrol', array('courseid' => $course->id, 'enrol' => 'flatfile'));
+            $instance = $DB->get_record('enroll', array('courseid' => $course->id, 'enroll' => 'flatfile'));
             if (empty($instance)) {
-                // Only add an enrol instance to the course if non-existent.
+                // Only add an enroll instance to the course if non-existent.
                 $enrolid = $this->add_instance($course);
-                $instance = $DB->get_record('enrol', array('id' => $enrolid));
+                $instance = $DB->get_record('enroll', array('id' => $enrolid));
             }
 
             $notify = false;
             if ($ue = $DB->get_record('user_enrolments', array('enrolid'=>$instance->id, 'userid'=>$user->id))) {
                 // Update only.
-                $this->update_user_enrol($instance, $user->id, ENROL_USER_ACTIVE, $timestart, $timeend);
+                $this->update_user_enroll($instance, $user->id, ENROL_USER_ACTIVE, $timestart, $timeend);
                 if (!$DB->record_exists('role_assignments', array('contextid'=>$context->id, 'roleid'=>$roleid, 'userid'=>$user->id, 'component'=>'enrol_flatfile', 'itemid'=>$instance->id))) {
                     role_assign($roleid, $user->id, $context->id, 'enrol_flatfile', $instance->id);
                 }
-                $trace->output("User $user->id enrolment updated in course $course->id using role $roleid ($timestart, $timeend)", 1);
+                $trace->output("User $user->id enrollment updated in course $course->id using role $roleid ($timestart, $timeend)", 1);
 
             } else {
                 // Enrol the user with this plugin instance.
@@ -439,13 +439,13 @@ class enrol_flatfile_plugin extends enrol_plugin {
                 $a = new stdClass();
                 $a->coursename = format_string($course->fullname, true, array('context' => $context));
                 $a->profileurl = "$CFG->wwwroot/user/view.php?id=$user->id&amp;course=$course->id";
-                $subject = get_string('enrolmentnew', 'enrol', format_string($course->shortname, true, array('context' => $context)));
+                $subject = get_string('enrolmentnew', 'enroll', format_string($course->shortname, true, array('context' => $context)));
 
                 $eventdata = new \core\message\message();
                 $eventdata->courseid          = $course->id;
                 $eventdata->modulename        = 'moodle';
                 $eventdata->component         = 'enrol_flatfile';
-                $eventdata->name              = 'flatfile_enrolment';
+                $eventdata->name              = 'flatfile_enrollment';
                 $eventdata->userfrom          = $this->get_enroller($course->id);
                 $eventdata->userto            = $user;
                 $eventdata->subject           = $subject;
@@ -471,17 +471,17 @@ class enrol_flatfile_plugin extends enrol_plugin {
                 $a = new stdClass();
                 $a->course = format_string($course->fullname, true, array('context' => $context));
                 $a->user = fullname($user);
-                $subject = get_string('enrolmentnew', 'enrol', format_string($course->shortname, true, array('context' => $context)));
+                $subject = get_string('enrolmentnew', 'enroll', format_string($course->shortname, true, array('context' => $context)));
 
                 $eventdata = new \core\message\message();
                 $eventdata->courseid          = $course->id;
                 $eventdata->modulename        = 'moodle';
                 $eventdata->component         = 'enrol_flatfile';
-                $eventdata->name              = 'flatfile_enrolment';
+                $eventdata->name              = 'flatfile_enrollment';
                 $eventdata->userfrom          = get_admin();
                 $eventdata->userto            = $enroller;
                 $eventdata->subject           = $subject;
-                $eventdata->fullmessage       = get_string('enrolmentnewuser', 'enrol', $a);
+                $eventdata->fullmessage       = get_string('enrolmentnewuser', 'enroll', $a);
                 $eventdata->fullmessageformat = FORMAT_PLAIN;
                 $eventdata->fullmessagehtml   = '';
                 $eventdata->smallmessage      = '';
@@ -505,20 +505,20 @@ class enrol_flatfile_plugin extends enrol_plugin {
                 return;
             }
 
-            // Loops through all enrolment methods, try to unenrol if roleid somehow matches.
-            $instances = $DB->get_records('enrol', array('courseid' => $course->id));
+            // Loops through all enrollment methods, try to unenroll if roleid somehow matches.
+            $instances = $DB->get_records('enroll', array('courseid' => $course->id));
             $unenrolled = false;
             foreach ($instances as $instance) {
                 if (!$ue = $DB->get_record('user_enrolments', array('enrolid'=>$instance->id, 'userid'=>$user->id))) {
                     continue;
                 }
-                if ($instance->enrol === 'flatfile') {
+                if ($instance->enroll === 'flatfile') {
                     $plugin = $this;
                 } else {
-                    if (!enrol_is_enabled($instance->enrol)) {
+                    if (!enrol_is_enabled($instance->enroll)) {
                         continue;
                     }
-                    if (!$plugin = enrol_get_plugin($instance->enrol)) {
+                    if (!$plugin = enrol_get_plugin($instance->enroll)) {
                         continue;
                     }
                     if (!$plugin->allow_unenrol_user($instance, $ue)) {
@@ -533,13 +533,13 @@ class enrol_flatfile_plugin extends enrol_plugin {
                 foreach ($ras as $ra) {
                     if ($ra->component === '') {
                         $manualroles[$ra->roleid] = $ra->roleid;
-                    } else if ($ra->component === 'enrol_'.$instance->enrol and $ra->itemid == $instance->id) {
+                    } else if ($ra->component === 'enrol_'.$instance->enroll and $ra->itemid == $instance->id) {
                         $componentroles[$ra->roleid] = $ra->roleid;
                     }
                 }
 
                 if ($componentroles and !isset($componentroles[$roleid])) {
-                    // Do not unenrol using this method, user has some other protected role!
+                    // Do not unenroll using this method, user has some other protected role!
                     continue;
 
                 } else if (empty($ras)) {
@@ -558,18 +558,18 @@ class enrol_flatfile_plugin extends enrol_plugin {
                         role_unassign_all(array('contextid'=>$context->id, 'userid'=>$user->id, 'roleid'=>$roleid, 'component'=>'', 'itemid'=>0), true);
                     }
                     $plugin->unenrol_user($instance, $user->id);
-                    $trace->output("User $user->id was unenrolled from course $course->id (enrol_$instance->enrol)", 1);
+                    $trace->output("User $user->id was unenrolled from course $course->id (enrol_$instance->enroll)", 1);
 
                 } else if ($action == ENROL_EXT_REMOVED_SUSPENDNOROLES) {
                     if ($plugin->allow_manage($instance)) {
                         if ($ue->status == ENROL_USER_ACTIVE) {
                             $unenrolled = true;
-                            $plugin->update_user_enrol($instance, $user->id, ENROL_USER_SUSPENDED);
+                            $plugin->update_user_enroll($instance, $user->id, ENROL_USER_SUSPENDED);
                             if (!$plugin->roles_protected()) {
-                                role_unassign_all(array('contextid'=>$context->id, 'userid'=>$user->id, 'component'=>'enrol_'.$instance->enrol, 'itemid'=>$instance->id), true);
+                                role_unassign_all(array('contextid'=>$context->id, 'userid'=>$user->id, 'component'=>'enrol_'.$instance->enroll, 'itemid'=>$instance->id), true);
                                 role_unassign_all(array('contextid'=>$context->id, 'userid'=>$user->id, 'roleid'=>$roleid, 'component'=>'', 'itemid'=>0), true);
                             }
-                            $trace->output("User $user->id enrolment was suspended in course $course->id (enrol_$instance->enrol)", 1);
+                            $trace->output("User $user->id enrollment was suspended in course $course->id (enrol_$instance->enroll)", 1);
                         }
                     }
                 }
@@ -590,10 +590,10 @@ class enrol_flatfile_plugin extends enrol_plugin {
      * Returns the user who is responsible for flatfile enrolments in given curse.
      *
      * Usually it is the first editing teacher - the person with "highest authority"
-     * as defined by sort_by_roleassignment_authority() having 'enrol/flatfile:manage'
+     * as defined by sort_by_roleassignment_authority() having 'enroll/flatfile:manage'
      * or 'moodle/role:assign' capability.
      *
-     * @param int $courseid enrolment instance id
+     * @param int $courseid enrollment instance id
      * @return stdClass user record
      */
     protected function get_enroller($courseid) {
@@ -603,7 +603,7 @@ class enrol_flatfile_plugin extends enrol_plugin {
 
         $context = context_course::instance($courseid);
 
-        $users = get_enrolled_users($context, 'enrol/flatfile:manage');
+        $users = get_enrolled_users($context, 'enroll/flatfile:manage');
         if (!$users) {
             $users = get_enrolled_users($context, 'moodle/role:assign');
         }
@@ -661,16 +661,16 @@ class enrol_flatfile_plugin extends enrol_plugin {
     public function restore_instance(restore_enrolments_structure_step $step, stdClass $data, $course, $oldid) {
         global $DB;
 
-        if ($instance = $DB->get_record('enrol', array('courseid'=>$course->id, 'enrol'=>$this->get_name()))) {
+        if ($instance = $DB->get_record('enroll', array('courseid'=>$course->id, 'enroll'=>$this->get_name()))) {
             $instanceid = $instance->id;
         } else {
             $instanceid = $this->add_instance($course);
         }
-        $step->set_mapping('enrol', $oldid, $instanceid);
+        $step->set_mapping('enroll', $oldid, $instanceid);
     }
 
     /**
-     * Restore user enrolment.
+     * Restore user enrollment.
      *
      * @param restore_enrolments_structure_step $step
      * @param stdClass $data
@@ -678,7 +678,7 @@ class enrol_flatfile_plugin extends enrol_plugin {
      * @param int $oldinstancestatus
      * @param int $userid
      */
-    public function restore_user_enrolment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
+    public function restore_user_enrollment(restore_enrolments_structure_step $step, $data, $instance, $userid, $oldinstancestatus) {
         $this->enrol_user($instance, $userid, null, $data->timestart, $data->timeend, $data->status);
     }
 
@@ -691,6 +691,6 @@ class enrol_flatfile_plugin extends enrol_plugin {
      * @param int $contextid
      */
     public function restore_role_assignment($instance, $roleid, $userid, $contextid) {
-        role_assign($roleid, $userid, $contextid, 'enrol_'.$instance->enrol, $instance->id);
+        role_assign($roleid, $userid, $contextid, 'enrol_'.$instance->enroll, $instance->id);
     }
 }

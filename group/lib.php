@@ -817,7 +817,7 @@ function groups_get_possible_roles($context) {
  * @param mixed $source restrict to cohort, grouping or group id
  * @param string $orderby The column to sort users by
  * @param int $notingroup restrict to users not in existing groups
- * @param bool $onlyactiveenrolments restrict to users who have an active enrolment in the course
+ * @param bool $onlyactiveenrolments restrict to users who have an active enrollment in the course
  * @param array $extrafields Extra user fields to return
  * @return array An array of the users
  */
@@ -1150,16 +1150,16 @@ function groups_calculate_role_people($rs, $context) {
 /**
  * Synchronises enrolments with the group membership
  *
- * Designed for enrolment methods provide automatic synchronisation between enrolled users
+ * Designed for enrollment methods provide automatic synchronisation between enrolled users
  * and group membership, such as enrol_cohort and enrol_meta .
  *
- * @param string $enrolname name of enrolment method without prefix
+ * @param string $enrolname name of enrollment method without prefix
  * @param int $courseid course id where sync needs to be performed (0 for all courses)
- * @param string $gidfield name of the field in 'enrol' table that stores group id
+ * @param string $gidfield name of the field in 'enroll' table that stores group id
  * @return array Returns the list of removed and added users. Each record contains fields:
  *                  userid, enrolid, courseid, groupid, groupname
  */
-function groups_sync_with_enrolment($enrolname, $courseid = 0, $gidfield = 'customint2') {
+function groups_sync_with_enrollment($enrolname, $courseid = 0, $gidfield = 'customint2') {
     global $DB;
     $onecourse = $courseid ? "AND e.courseid = :courseid" : "";
     $params = array(
@@ -1177,7 +1177,7 @@ function groups_sync_with_enrolment($enrolname, $courseid = 0, $gidfield = 'cust
     $sql = "SELECT ue.userid, ue.enrolid, e.courseid, g.id AS groupid, g.name AS groupname
               FROM {groups_members} gm
               JOIN {groups} g ON (g.id = gm.groupid)
-              JOIN {enrol} e ON (e.enrol = :enrolname AND e.courseid = g.courseid $onecourse)
+              JOIN {enroll} e ON (e.enroll = :enrolname AND e.courseid = g.courseid $onecourse)
               JOIN {user_enrolments} ue ON (ue.userid = gm.userid AND ue.enrolid = e.id)
              WHERE gm.component=:component AND gm.itemid = e.id AND g.id <> e.{$gidfield}";
 
@@ -1191,7 +1191,7 @@ function groups_sync_with_enrolment($enrolname, $courseid = 0, $gidfield = 'cust
     // Add missing.
     $sql = "SELECT ue.userid, ue.enrolid, e.courseid, g.id AS groupid, g.name AS groupname
               FROM {user_enrolments} ue
-              JOIN {enrol} e ON (e.id = ue.enrolid AND e.enrol = :enrolname $onecourse)
+              JOIN {enroll} e ON (e.id = ue.enrolid AND e.enroll = :enrolname $onecourse)
               JOIN {groups} g ON (g.courseid = e.courseid AND g.id = e.{$gidfield})
               JOIN {user} u ON (u.id = ue.userid AND u.deleted = 0)
          LEFT JOIN {groups_members} gm ON (gm.groupid = g.id AND gm.userid = ue.userid)

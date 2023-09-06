@@ -88,7 +88,7 @@ class graded_users_iterator {
     protected $sortorder2;
 
     /**
-     * Should users whose enrolment has been suspended be ignored?
+     * Should users whose enrollment has been suspended be ignored?
      */
     protected $onlyactive = false;
 
@@ -98,8 +98,8 @@ class graded_users_iterator {
     protected $allowusercustomfields = false;
 
     /**
-     * List of suspended users in course. This includes users whose enrolment status is suspended
-     * or enrolment has expired or not started.
+     * List of suspended users in course. This includes users whose enrollment status is suspended
+     * or enrollment has expired or not started.
      */
     protected $suspendedusers = array();
 
@@ -316,7 +316,7 @@ class graded_users_iterator {
         }
 
         // Set user suspended status.
-        $user->suspendedenrolment = isset($this->suspendedusers[$user->id]);
+        $user->suspendedenrollment = isset($this->suspendedusers[$user->id]);
         $result = new stdClass();
         $result->user      = $user;
         $result->grades    = $grades;
@@ -340,13 +340,13 @@ class graded_users_iterator {
     }
 
     /**
-     * Should all enrolled users be exported or just those with an active enrolment?
+     * Should all enrolled users be exported or just those with an active enrollment?
      *
-     * @param bool $onlyactive True to limit the export to users with an active enrolment
+     * @param bool $onlyactive True to limit the export to users with an active enrollment
      */
-    public function require_active_enrolment($onlyactive = true) {
+    public function require_active_enrollment($onlyactive = true) {
         if (!empty($this->users_rs)) {
-            debugging('Calling require_active_enrolment() has no effect unless you call init() again', DEBUG_DEVELOPER);
+            debugging('Calling require_active_enrollment() has no effect unless you call init() again', DEBUG_DEVELOPER);
         }
         $this->onlyactive  = $onlyactive;
     }
@@ -425,13 +425,13 @@ function grade_get_graded_users_select($report, $course, $userid, $groupid, $inc
         $userid = $USER->id;
     }
     $coursecontext = context_course::instance($course->id);
-    $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-    $showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-    $showonlyactiveenrol = $showonlyactiveenrol || !has_capability('moodle/course:viewsuspendedusers', $coursecontext);
+    $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+    $showonlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll);
+    $showonlyactiveenroll = $showonlyactiveenroll || !has_capability('moodle/course:viewsuspendedusers', $coursecontext);
     $menu = array(); // Will be a list of userid => user name
     $menususpendedusers = array(); // Suspended users go to a separate optgroup.
     $gui = new graded_users_iterator($course, null, $groupid);
-    $gui->require_active_enrolment($showonlyactiveenrol);
+    $gui->require_active_enrollment($showonlyactiveenroll);
     $gui->init();
     $label = get_string('selectauser', 'grades');
     if ($includeall) {
@@ -441,7 +441,7 @@ function grade_get_graded_users_select($report, $course, $userid, $groupid, $inc
     while ($userdata = $gui->next_user()) {
         $user = $userdata->user;
         $userfullname = fullname($user);
-        if ($user->suspendedenrolment) {
+        if ($user->suspendedenrollment) {
             $menususpendedusers[$user->id] = $userfullname;
         } else {
             $menu[$user->id] = $userfullname;
@@ -793,13 +793,13 @@ function get_gradable_users(int $courseid, ?int $groupid = null): array {
 
     $context = context_course::instance($courseid);
     // Create a graded_users_iterator because it will properly check the groups etc.
-    $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-    $onlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol) ||
+    $defaultgradeshowactiveenroll = !empty($CFG->grade_report_showonlyactiveenroll);
+    $onlyactiveenroll = get_user_preferences('grade_report_showonlyactiveenroll', $defaultgradeshowactiveenroll) ||
         !has_capability('moodle/course:viewsuspendedusers', $context);
 
     $course = get_course($courseid);
     $gui = new graded_users_iterator($course, null, $groupid);
-    $gui->require_active_enrolment($onlyactiveenrol);
+    $gui->require_active_enrollment($onlyactiveenroll);
     $gui->init();
 
     // Flatten the users.

@@ -1,4 +1,4 @@
-YUI.add('moodle-enrol-otherusersmanager', function(Y) {
+YUI.add('moodle-enroll-otherusersmanager', function(Y) {
 
     var OUMANAGERNAME = 'Other users manager',
         OTHERUSERNAME = 'Other user (not enroled in course)',
@@ -58,7 +58,7 @@ YUI.add('moodle-enrol-otherusersmanager', function(Y) {
                 .append(Y.Node.create('<div class="'+CSS.WRAP+'"></div>')
                     .append(Y.Node.create('<div class="'+CSS.HEADER+' header"></div>')
                         .append(Y.Node.create('<div class="'+CSS.CLOSE+'"></div>'))
-                        .append(Y.Node.create('<h2>'+M.util.get_string('usersearch', 'enrol')+'</h2>')))
+                        .append(Y.Node.create('<h2>'+M.util.get_string('usersearch', 'enroll')+'</h2>')))
                     .append(Y.Node.create('<div class="'+CSS.CONTENT+'"></div>')
                         .append(Y.Node.create('<div class="'+CSS.AJAXCONTENT+'"></div>'))
                         .append(Y.Node.create('<div class="'+CSS.LIGHTBOX+' '+CSS.HIDDEN+'"></div>')
@@ -66,7 +66,7 @@ YUI.add('moodle-enrol-otherusersmanager', function(Y) {
                                 .setAttribute('src', M.util.image_url('i/loading', 'moodle')))
                             .setStyle('opacity', 0.5)))
                     .append(Y.Node.create('<div class="'+CSS.FOOTER+'"></div>')
-                        .append(Y.Node.create('<div class="'+CSS.SEARCH+'"><label>'+M.util.get_string('usersearch', 'enrol')+'</label></div>')
+                        .append(Y.Node.create('<div class="'+CSS.SEARCH+'"><label>'+M.util.get_string('usersearch', 'enroll')+'</label></div>')
                             .append(Y.Node.create('<input type="text" id="oump-usersearch" value="" />'))
                         )
                     )
@@ -170,7 +170,7 @@ YUI.add('moodle-enrol-otherusersmanager', function(Y) {
                 new M.core.exception(e);
             }
             if (!result.success) {
-                this.setContent = M.util.get_string('errajaxsearch', 'enrol');
+                this.setContent = M.util.get_string('errajaxsearch', 'enroll');
             }
             var usersnode, users = [], i=0, count=0, user;
             if (!args.append) {
@@ -189,18 +189,18 @@ YUI.add('moodle-enrol-otherusersmanager', function(Y) {
             if (!args.append) {
                 var usersstr = '';
                 if (this.get(USERCOUNT) === 1) {
-                    usersstr = M.util.get_string('ajaxoneuserfound', 'enrol');
+                    usersstr = M.util.get_string('ajaxoneuserfound', 'enroll');
                 } else if (result.response.moreusers) {
-                    usersstr = M.util.get_string('ajaxxmoreusersfound', 'enrol', this.get(USERCOUNT));
+                    usersstr = M.util.get_string('ajaxxmoreusersfound', 'enroll', this.get(USERCOUNT));
                 } else {
-                    usersstr = M.util.get_string('ajaxxusersfound', 'enrol', this.get(USERCOUNT));
+                    usersstr = M.util.get_string('ajaxxusersfound', 'enroll', this.get(USERCOUNT));
                 }
 
                 var content = Y.Node.create('<div class="'+CSS.SEARCHRESULTS+'"></div>')
                     .append(Y.Node.create('<div class="'+CSS.TOTALUSERS+'">'+usersstr+'</div>'))
                     .append(usersnode);
                 if (result.response.moreusers) {
-                    var fetchmore = Y.Node.create('<div class="'+CSS.MORERESULTS+'"><a href="#">'+M.util.get_string('ajaxnext25', 'enrol')+'</a></div>');
+                    var fetchmore = Y.Node.create('<div class="'+CSS.MORERESULTS+'"><a href="#">'+M.util.get_string('ajaxnext25', 'enroll')+'</a></div>');
                     fetchmore.on('click', this.getUsers, this, true);
                     content.append(fetchmore)
                 }
@@ -215,7 +215,7 @@ YUI.add('moodle-enrol-otherusersmanager', function(Y) {
             this.get(BASE).one('.'+CSS.CONTENT+' .'+CSS.AJAXCONTENT).setContent(content);
         },
         getAssignableRoles : function() {
-            Y.io(M.cfg.wwwroot+'/enrol/ajax.php', {
+            Y.io(M.cfg.wwwroot+'/enroll/ajax.php', {
                 method:'POST',
                 data:'id='+this.get(COURSEID)+'&action=getassignable&otherusers=true&sesskey='+M.cfg.sesskey,
                 on: {
@@ -338,7 +338,7 @@ YUI.add('moodle-enrol-otherusersmanager', function(Y) {
             }
             this._node.addClass('assignment-in-progress');
             this._assignmentInProgress = true;
-            Y.io(M.cfg.wwwroot+'/enrol/ajax.php', {
+            Y.io(M.cfg.wwwroot+'/enroll/ajax.php', {
                 method:'POST',
                 data:'id='+this._manager.get(COURSEID)+'&action=assign&sesskey='+M.cfg.sesskey+'&roleid='+roleid+'&user='+this.get(USERID),
                 on: {
@@ -393,8 +393,8 @@ YUI.add('moodle-enrol-otherusersmanager', function(Y) {
     });
     Y.augment(OTHERUSER, Y.EventTarget);
 
-    M.enrol = M.enrol || {};
-    M.enrol.otherusersmanager = {
+    M.enroll = M.enroll || {};
+    M.enroll.otherusersmanager = {
         init : function(cfg) {
             new OUMANAGER(cfg);
         }

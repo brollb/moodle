@@ -123,13 +123,13 @@ class course_competencies extends course_enrolments {
             return null;
         }
 
-        $userenrol = $this->retrieve('user_enrolments', $sampleid);
+        $userenroll = $this->retrieve('user_enrolments', $sampleid);
 
         $key = $course->get_id();
         // Number of competencies in the course.
         $ccs = $this->get_num_competencies_in_course($key);
         // Number of proficient competencies in the same course for the user.
-        $ucs = \core_competency\api::count_proficient_competencies_in_course_for_user($key, $userenrol->userid);
+        $ucs = \core_competency\api::count_proficient_competencies_in_course_for_user($key, $userenroll->userid);
 
         // If they are the equals, the user achieved all the competencies assigned to the course.
         if ($ccs == $ucs) {

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Self enrol external PHPunit tests
+ * Self enroll external PHPunit tests
  *
  * @package   enrol_guest
  * @copyright 2015 Juan Leyva <juan@moodle.com>
@@ -36,7 +36,7 @@ global $CFG;
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 
 /**
- * Guest enrolment external functions tests
+ * Guest enrollment external functions tests
  *
  * @package    enrol_guest
  * @category   external
@@ -54,7 +54,7 @@ class external_test extends externallib_advanced_testcase {
 
         $this->resetAfterTest(true);
 
-        // Check if guest enrolment plugin is enabled.
+        // Check if guest enrollment plugin is enabled.
         $guestplugin = enrol_get_plugin('guest');
         $this->assertNotEmpty($guestplugin);
 
@@ -67,7 +67,7 @@ class external_test extends externallib_advanced_testcase {
         $student = self::getDataGenerator()->create_user();
         $this->getDataGenerator()->enrol_user($student->id, $course->id, $studentrole->id, 'manual');
 
-        // Add enrolment methods for course.
+        // Add enrollment methods for course.
         $instance = $guestplugin->add_instance($course, array('status' => ENROL_INSTANCE_ENABLED,
                                                                 'name' => 'Test instance',
                                                                 'customint6' => 1,
@@ -84,7 +84,7 @@ class external_test extends externallib_advanced_testcase {
         $this->assertTrue($result['instanceinfo']['status']);
         $this->assertFalse($result['instanceinfo']['passwordrequired']);
 
-        $DB->set_field('enrol', 'status', ENROL_INSTANCE_DISABLED, array('id' => $instance));
+        $DB->set_field('enroll', 'status', ENROL_INSTANCE_DISABLED, array('id' => $instance));
 
         $result = enrol_guest_external::get_instance_info($instance);
         $result = external_api::clean_returnvalue(enrol_guest_external::get_instance_info_returns(), $result);
@@ -95,7 +95,7 @@ class external_test extends externallib_advanced_testcase {
         $this->assertFalse($result['instanceinfo']['status']);
         $this->assertFalse($result['instanceinfo']['passwordrequired']);
 
-        $DB->set_field('enrol', 'status', ENROL_INSTANCE_ENABLED, array('id' => $instance));
+        $DB->set_field('enroll', 'status', ENROL_INSTANCE_ENABLED, array('id' => $instance));
 
         // Try to retrieve information using a normal user for a hidden course.
         $user = self::getDataGenerator()->create_user();

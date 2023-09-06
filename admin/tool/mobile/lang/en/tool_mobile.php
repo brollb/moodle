@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['adodbdebugwarning'] = 'ADOdb debugging is enabled. It should be disabled in the external database authentication or external database enrolment plugin settings.';
+$string['adodbdebugwarning'] = 'ADOdb debugging is enabled. It should be disabled in the external database authentication or external database enrollment plugin settings.';
 $string['androidappid'] = 'Android app\'s unique identifier';
 $string['androidappid_desc'] = 'This setting may be left as default unless you have a custom Android app.';
 $string['apppolicy'] = 'App policy URL';

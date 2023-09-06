@@ -17,7 +17,7 @@
 /**
  * Customise the course role names.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2023 Ferran Recio <ferran@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -41,7 +41,7 @@ if ($course->id == SITEID) {
 }
 
 $PAGE->set_pagelayout('admin');
-$PAGE->set_url('/enrol/renameroles.php', ['id' => $course->id]);
+$PAGE->set_url('/enroll/renameroles.php', ['id' => $course->id]);
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('rolerenaming'));
 $PAGE->set_heading($course->fullname);
@@ -55,7 +55,7 @@ $customdata = [
     'id' => $course->id,
     'roles' => role_get_names($context, ROLENAME_ORIGINAL),
 ];
-$mform = new core_enrol\form\renameroles(null, $customdata);
+$mform = new core_enroll\form\renameroles(null, $customdata);
 if ($data = $mform->get_data()) {
     save_local_role_names($course->id, (array)$data);
     core\notification::add(get_string('rolerenaming_success'), core\notification::SUCCESS);

@@ -134,11 +134,11 @@ class helper {
             $instances = \enrol_get_instances($course->id, true);
             $plugins = \enrol_get_plugins(true);
             foreach ($instances as $instance) {
-                if (!isset($plugins[$instance->enrol])) {
+                if (!isset($plugins[$instance->enroll])) {
                     // Weird.
                     continue;
                 }
-                $plugin = $plugins[$instance->enrol];
+                $plugin = $plugins[$instance->enroll];
                 $enrolmentlines[] = $plugin->get_instance_name($instance);
             }
             $details['enrolmentmethods'] = array(
@@ -445,7 +445,7 @@ class helper {
         if ($course->can_review_enrolments()) {
             $actions['enrolledusers'] = array(
                 'url' => new \moodle_url('/user/index.php', array('id' => $course->id)),
-                'string' => \get_string('enrolledusers', 'enrol')
+                'string' => \get_string('enrolledusers', 'enroll')
             );
         }
         // Delete.

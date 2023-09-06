@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace core_enrol\form;
+namespace core_enroll\form;
 
 /**
  * Form to customise the course role names.
  *
- * @package    core_enrol
+ * @package    core_enroll
  * @copyright  2023 Ferran Recio <ferran@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

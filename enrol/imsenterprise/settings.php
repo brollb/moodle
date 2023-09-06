@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
-    require_once($CFG->dirroot.'/enrol/imsenterprise/locallib.php');
+    require_once($CFG->dirroot.'/enroll/imsenterprise/locallib.php');
 
     $settings->add(new admin_setting_heading('enrol_imsenterprise_settings', '',
         get_string('pluginname_desc', 'enrol_imsenterprise')));
@@ -108,10 +108,10 @@ if ($ADMIN->fulltree) {
         get_string('categoryseparator', 'enrol_imsenterprise'), get_string('categoryseparator_desc', 'enrol_imsenterprise'), '',
         PARAM_TEXT, 3));
 
-    $settings->add(new admin_setting_configcheckbox('enrol_imsenterprise/imsunenrol',
-        get_string('allowunenrol', 'enrol_imsenterprise'), get_string('allowunenrol_desc', 'enrol_imsenterprise'), 0));
+    $settings->add(new admin_setting_configcheckbox('enrol_imsenterprise/imsunenroll',
+        get_string('allowunenroll', 'enrol_imsenterprise'), get_string('allowunenrol_desc', 'enrol_imsenterprise'), 0));
 
-    /* Action to take when a request to remove a user enrolment record is detected in the IMS file */
+    /* Action to take when a request to remove a user enrollment record is detected in the IMS file */
     $options = [
         ENROL_EXT_REMOVED_KEEP => get_string('noaction', 'enrol_imsenterprise'),
         ENROL_EXT_REMOVED_UNENROL => get_string('removeenrolmentandallroles', 'enrol_imsenterprise'),
@@ -150,7 +150,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('enrol_imsenterprise/imscapitafix',
         get_string('usecapitafix', 'enrol_imsenterprise'), get_string('usecapitafix_desc', 'enrol_imsenterprise'), 0));
 
-    $importurl = new moodle_url('/enrol/imsenterprise/importnow.php', array('sesskey' => sesskey()));
+    $importurl = new moodle_url('/enroll/imsenterprise/importnow.php', array('sesskey' => sesskey()));
     $importnowstring = get_string('aftersaving...', 'enrol_imsenterprise').' ';
     $importnowstring .= html_writer::link($importurl, get_string('doitnow', 'enrol_imsenterprise'));
     $settings->add(new admin_setting_heading('enrol_imsenterprise_doitnowmessage', '', $importnowstring));

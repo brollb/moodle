@@ -43,8 +43,8 @@ $logs = array(
     array('module'=>'course', 'action'=>'hide', 'mtable'=>'course', 'field'=>'fullname'),
     array('module'=>'course', 'action'=>'show', 'mtable'=>'course', 'field'=>'fullname'),
     array('module'=>'course', 'action'=>'move', 'mtable'=>'course', 'field'=>'fullname'),
-    array('module'=>'course', 'action'=>'enrol', 'mtable'=>'course', 'field'=>'fullname'), // there should be some way to store user id of the enrolled user!
-    array('module'=>'course', 'action'=>'unenrol', 'mtable'=>'course', 'field'=>'fullname'), // there should be some way to store user id of the enrolled user!
+    array('module'=>'course', 'action'=>'enroll', 'mtable'=>'course', 'field'=>'fullname'), // there should be some way to store user id of the enrolled user!
+    array('module'=>'course', 'action'=>'unenroll', 'mtable'=>'course', 'field'=>'fullname'), // there should be some way to store user id of the enrolled user!
     array('module'=>'course', 'action'=>'report log', 'mtable'=>'course', 'field'=>'fullname'),
     array('module'=>'course', 'action'=>'report live', 'mtable'=>'course', 'field'=>'fullname'),
     array('module'=>'course', 'action'=>'report outline', 'mtable'=>'course', 'field'=>'fullname'),

@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Page to enrol our users into remote courses
+ * Page to enroll our users into remote courses
  *
  * @package    plugintype
  * @subpackage pluginname
@@ -26,7 +26,7 @@
 
 require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
-require_once($CFG->dirroot.'/mnet/service/enrol/locallib.php');
+require_once($CFG->dirroot.'/mnet/service/enroll/locallib.php');
 
 require_sesskey();
 
@@ -34,10 +34,10 @@ $hostid   = required_param('host', PARAM_INT); // remote host id in our mnet_hos
 $courseid = required_param('course', PARAM_INT); // id of the course in our cache table
 $usecache = optional_param('usecache', true, PARAM_BOOL); // use cached list of enrolments
 
-admin_externalpage_setup('mnetenrol', '', array('host'=>$hostid, 'course'=>$courseid, 'usecache'=>1, 'sesskey'=>sesskey()),
-                         new moodle_url('/mnet/service/enrol/course.php'));
+admin_externalpage_setup('mnetenroll', '', array('host'=>$hostid, 'course'=>$courseid, 'usecache'=>1, 'sesskey'=>sesskey()),
+                         new moodle_url('/mnet/service/enroll/course.php'));
 
-$service = mnetservice_enrol::get_instance();
+$service = mnetservice_enroll::get_instance();
 
 if (!$service->is_available()) {
     echo $OUTPUT->box(get_string('mnetdisabled','mnet'), 'noticebox');
@@ -45,11 +45,11 @@ if (!$service->is_available()) {
     die();
 }
 
-// remote hosts that may publish remote enrolment service and we are subscribed to it
+// remote hosts that may publish remote enrollment service and we are subscribed to it
 $hosts = $service->get_remote_publishers();
 
 if (empty($hosts[$hostid])) {
-    throw new \moodle_exception('wearenotsubscribedtothishost', 'mnetservice_enrol');
+    throw new \moodle_exception('wearenotsubscribedtothishost', 'mnetservice_enroll');
 }
 $host   = $hosts[$hostid];
 $course = $DB->get_record('mnetservice_enrol_courses', array('id'=>$courseid, 'hostid'=>$host->id), '*', MUST_EXIST);
@@ -75,7 +75,7 @@ if (!empty($course->summary)) {
 
 $error = '';
 
-$lastfetchenrolments = get_config('mnetservice_enrol', 'lastfetchenrolments');
+$lastfetchenrolments = get_config('mnetservice_enroll', 'lastfetchenrolments');
 if (!$usecache or empty($lastfetchenrolments) or (time()-$lastfetchenrolments > 600)) {
     // fetch fresh data from remote if we just came from the course selection screen
     // or every 10 minutes
@@ -90,7 +90,7 @@ if (!$usecache or empty($lastfetchenrolments) or (time()-$lastfetchenrolments > 
 $currentuserselector = new mnetservice_enrol_existing_users_selector('removeselect', array('hostid'=>$host->id, 'remotecourseid'=>$course->remoteid));
 $potentialuserselector = new mnetservice_enrol_potential_users_selector('addselect', array('hostid'=>$host->id, 'remotecourseid'=>$course->remoteid));
 
-// process incoming enrol request
+// process incoming enroll request
 if (optional_param('add', false, PARAM_BOOL) && confirm_sesskey()) {
     $userstoassign = $potentialuserselector->get_selected_users();
     if (!empty($userstoassign)) {
@@ -107,7 +107,7 @@ if (optional_param('add', false, PARAM_BOOL) && confirm_sesskey()) {
     }
 }
 
-// process incoming unenrol request
+// process incoming unenroll request
 if (optional_param('remove', false, PARAM_BOOL) && confirm_sesskey()) {
     $userstounassign = $currentuserselector->get_selected_users();
     if (!empty($userstounassign)) {
@@ -128,7 +128,7 @@ if (!empty($error)) {
     echo $OUTPUT->box($error, 'generalbox error');
 }
 
-// print form to enrol our students
+// print form to enroll our students
 ?>
 <form id="assignform" method="post" action="<?php echo $PAGE->url ?>">
 <div>
@@ -139,7 +139,7 @@ if (!empty($error)) {
   <table summary="" class="roleassigntable generaltable generalbox boxaligncenter" cellspacing="0">
     <tr>
       <td id="existingcell">
-          <p><label for="removeselect"><?php print_string('enrolledusers', 'enrol'); ?></label></p>
+          <p><label for="removeselect"><?php print_string('enrolledusers', 'enroll'); ?></label></p>
           <?php $currentuserselector->display() ?>
       </td>
       <td id="buttonscell">
@@ -157,7 +157,7 @@ if (!empty($error)) {
           </div>
       </td>
       <td id="potentialcell">
-          <p><label for="addselect"><?php print_string('enrolcandidates', 'enrol'); ?></label></p>
+          <p><label for="addselect"><?php print_string('enrolcandidates', 'enroll'); ?></label></p>
           <?php $potentialuserselector->display() ?>
       </td>
     </tr>
@@ -178,7 +178,7 @@ $params['hostid'] = $host->id;
 $params['remotecourseid'] = $course->remoteid;
 
 if ($enrolments = $DB->get_records_sql($sql, $params)) {
-    echo $OUTPUT->heading(get_string('otherenrolledusers', 'mnetservice_enrol'), 3);
+    echo $OUTPUT->heading(get_string('otherenrolledusers', 'mnetservice_enroll'), 3);
 
     $table = new html_table();
     $table->attributes['class'] = 'generaltable otherenrolledusers';
@@ -191,10 +191,10 @@ if ($enrolments = $DB->get_records_sql($sql, $params)) {
 
 if ($usecache) {
     echo $OUTPUT->single_button(new moodle_url($PAGE->url, array('usecache'=>0, 'sesskey'=>sesskey())),
-                                get_string('refetch', 'mnetservice_enrol'), 'get');
+                                get_string('refetch', 'mnetservice_enroll'), 'get');
 }
 
-echo $OUTPUT->single_button(new moodle_url('/mnet/service/enrol/host.php', array('id'=>$host->id)),
-                            get_string('availablecourseson', 'mnetservice_enrol', s($host->hostname)), 'get');
+echo $OUTPUT->single_button(new moodle_url('/mnet/service/enroll/host.php', array('id'=>$host->id)),
+                            get_string('availablecourseson', 'mnetservice_enroll', s($host->hostname)), 'get');
 
 echo $OUTPUT->footer();

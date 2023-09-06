@@ -51,7 +51,7 @@ abstract class grade_export {
      */
     public $displaytype;
     public $decimalpoints; // number of decimal points for exports
-    public $onlyactive; // only include users with an active enrolment
+    public $onlyactive; // only include users with an active enrollment
     public $usercustomfields; // include users custom fields
 
     /**
@@ -344,7 +344,7 @@ abstract class grade_export {
         /// Print all the lines of data.
         $i = 0;
         $gui = new graded_users_iterator($this->course, $this->columns, $this->groupid);
-        $gui->require_active_enrolment($this->onlyactive);
+        $gui->require_active_enrollment($this->onlyactive);
         $gui->allow_user_custom_fields($this->usercustomfields);
         $gui->init();
         while ($userdata = $gui->next_user()) {
@@ -392,7 +392,7 @@ abstract class grade_export {
                 echo '<td>' . format_text($fieldvalue, FORMAT_MOODLE, $formatoptions) . '</td>';
             }
             if (!$this->onlyactive) {
-                $issuspended = ($user->suspendedenrolment) ? get_string('yes') : '';
+                $issuspended = ($user->suspendedenrollment) ? get_string('yes') : '';
                 echo "<td>$issuspended</td>";
             }
             echo $rowstr;

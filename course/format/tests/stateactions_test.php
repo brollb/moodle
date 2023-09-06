@@ -216,7 +216,7 @@ class stateactions_test extends \advanced_testcase {
 
         $references = $this->course_references($course);
 
-        // Create and enrol user using given role.
+        // Create and enroll user using given role.
         $this->set_test_user_by_role($course, $role);
 
         // Add some activities to the course. One visible and one hidden in both sections 1 and 2.
@@ -905,7 +905,7 @@ class stateactions_test extends \advanced_testcase {
 
         $references = $this->course_references($course);
 
-        // Create and enrol user using given role.
+        // Create and enroll user using given role.
         $this->set_test_user_by_role($course, $role);
 
         // Add some activities to the course. One visible and one hidden in both sections 1 and 2.

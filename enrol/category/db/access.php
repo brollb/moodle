@@ -28,13 +28,13 @@ $capabilities = array(
     // Marks roles that have category role assignments synchronised to course enrolments
     // overrides below system context are ignored (for performance reasons).
     // By default his is not allowed in new installs, admins have to explicitly allow category enrolments.
-    'enrol/category:synchronised' => array(
+    'enroll/category:synchronised' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
         )
     ),
-    'enrol/category:config' => array(
+    'enroll/category:config' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(

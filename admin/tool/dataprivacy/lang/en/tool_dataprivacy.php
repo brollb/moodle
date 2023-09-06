@@ -290,7 +290,7 @@ $string['requireallenddatesforuserdeletion_desc'] = 'When calculating user expir
 * the user\'s last login time is compared against the retention period for users; and
 * whether the user is actively enrolled in any courses.
 
-When checking the active enrolment in a course, if the course has no end date then this setting is used to determine whether that course is considered active or not.
+When checking the active enrollment in a course, if the course has no end date then this setting is used to determine whether that course is considered active or not.
 
 If the course has no end date, and this setting is enabled, then the user cannot be deleted.';
 $string['requiresattention'] = 'Requires attention.';

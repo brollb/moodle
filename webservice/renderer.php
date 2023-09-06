@@ -378,7 +378,7 @@ class core_webservice_renderer extends plugin_renderer_base {
      *         courseid int //id of course
      *         name string //multilang compatible name, course unique
      *         description string //group description text
-     *         enrolmentkey string //group enrol secret phrase
+     *         enrolmentkey string //group enroll secret phrase
      *     }
      * )
      *

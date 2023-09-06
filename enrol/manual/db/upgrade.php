@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file keeps track of upgrades to the manual enrolment plugin
+ * This file keeps track of upgrades to the manual enrollment plugin
  *
  * @package    enrol_manual
  * @copyright  2012 Petr Skoda {@link http://skodak.org}

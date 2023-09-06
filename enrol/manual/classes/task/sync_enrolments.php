@@ -50,8 +50,8 @@ class sync_enrolments extends \core\task\scheduled_task {
      * Run task for syncing enrolments.
      */
     public function execute() {
-        $enrol = enrol_get_plugin('manual');
+        $enroll = enrol_get_plugin('manual');
         $trace = new \text_progress_trace();
-        $enrol->sync($trace);
+        $enroll->sync($trace);
     }
 }

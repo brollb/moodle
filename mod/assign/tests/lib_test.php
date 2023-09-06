@@ -52,8 +52,8 @@ class lib_test extends \advanced_testcase {
     public function test_print_recent_activity() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course);
         $this->submit_for_grading($student, $assign);
 
@@ -68,8 +68,8 @@ class lib_test extends \advanced_testcase {
     public function test_print_recent_activity_fullname() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course);
         $this->submit_for_grading($student, $assign);
 
@@ -85,8 +85,8 @@ class lib_test extends \advanced_testcase {
     public function test_print_recent_activity_fullname_blind_marking() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $assign = $this->create_instance($course, [
                 'blindmarking' => 1,
@@ -107,8 +107,8 @@ class lib_test extends \advanced_testcase {
     public function test_assign_get_recent_mod_activity() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course);
         $this->add_submission($student, $assign);
         $this->submit_for_grading($student, $assign);
@@ -137,8 +137,8 @@ class lib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, ['submissiondrafts' => 1]);
         $this->add_submission($student, $assign);
 
@@ -158,8 +158,8 @@ class lib_test extends \advanced_testcase {
     public function test_assign_user_outline() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course);
 
         $this->add_submission($student, $assign);
@@ -190,8 +190,8 @@ class lib_test extends \advanced_testcase {
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, [
                 'duedate' => $duedate,
             ]);
@@ -267,7 +267,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_is_event_visible_duedate_event_as_teacher() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $assign = $this->create_instance($course);
 
         $this->setAdminUser();
@@ -283,7 +283,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_is_event_visible_duedate_event_for_teacher() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $assign = $this->create_instance($course);
 
         $this->setAdminUser();
@@ -301,8 +301,8 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_is_event_visible_duedate_event_as_student() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, ['assignsubmission_onlinetext_enabled' => 1]);
 
         $this->setAdminUser();
@@ -318,8 +318,8 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_is_event_visible_duedate_event_for_student() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, ['assignsubmission_onlinetext_enabled' => 1]);
 
         $this->setAdminUser();
@@ -337,7 +337,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_is_event_visible_gradingduedate_event_as_teacher() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $assign = $this->create_instance($course);
 
         // Create a calendar event.
@@ -353,7 +353,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_is_event_visible_gradingduedate_event_for_teacher() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $assign = $this->create_instance($course);
 
         // Create a calendar event.
@@ -370,7 +370,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_is_event_visible_gradingduedate_event_as_student() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course);
 
         // Create a calendar event.
@@ -386,7 +386,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_is_event_visible_gradingduedate_event_for_student() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course);
 
         // Create a calendar event.
@@ -403,7 +403,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_provide_event_action_duedate_as_teacher() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $assign = $this->create_instance($course);
 
         // Create a calendar event.
@@ -422,7 +422,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_provide_event_action_duedate_for_teacher() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $assign = $this->create_instance($course);
 
         // Create a calendar event.
@@ -443,7 +443,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_provide_event_action_duedate_as_student() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, ['assignsubmission_onlinetext_enabled' => 1]);
 
         // Create a calendar event.
@@ -466,7 +466,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_provide_event_action_duedate_for_student() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, ['assignsubmission_onlinetext_enabled' => 1]);
 
         // Create a calendar event.
@@ -491,7 +491,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_provide_event_action_gradingduedate_as_teacher() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $assign = $this->create_instance($course);
 
         // Create a calendar event.
@@ -513,7 +513,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_provide_event_action_gradingduedate_for_teacher() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $assign = $this->create_instance($course);
 
         // Create a calendar event.
@@ -538,7 +538,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_provide_event_action_gradingduedate_as_student() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course);
 
         // Create a calendar event.
@@ -560,7 +560,7 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_provide_event_action_gradingduedate_for_student() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course);
 
         // Create a calendar event.
@@ -585,8 +585,8 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_provide_event_action_duedate_as_student_submitted() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, ['assignsubmission_onlinetext_enabled' => 1]);
 
         $this->setAdminUser();
@@ -610,8 +610,8 @@ class lib_test extends \advanced_testcase {
     public function test_assign_core_calendar_provide_event_action_duedate_for_student_submitted() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
         $assign = $this->create_instance($course, ['assignsubmission_onlinetext_enabled' => 1]);
 
         $this->setAdminUser();
@@ -677,7 +677,7 @@ class lib_test extends \advanced_testcase {
          ['completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS]);
 
         // Enrol a student in the course.
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('assign', $assign->get_instance()->id);
@@ -761,9 +761,9 @@ class lib_test extends \advanced_testcase {
     public function test_assign_rescale_activity_grades_some_unset() {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
-        $otherstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
+        $otherstudent = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         // As a teacher.
         $this->setUser($teacher);
@@ -797,7 +797,7 @@ class lib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setAdminUser();
 
@@ -823,7 +823,7 @@ class lib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setAdminUser();
 
@@ -849,7 +849,7 @@ class lib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setAdminUser();
 
@@ -883,7 +883,7 @@ class lib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setAdminUser();
 
@@ -974,7 +974,7 @@ class lib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setAdminUser();
 
@@ -1141,7 +1141,7 @@ class lib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setAdminUser();
 
@@ -1178,7 +1178,7 @@ class lib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setAdminUser();
 
@@ -1224,7 +1224,7 @@ class lib_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
-        $student = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $student = $this->getDataGenerator()->create_and_enroll($course, 'student');
 
         $this->setAdminUser();
 
@@ -1268,7 +1268,7 @@ class lib_test extends \advanced_testcase {
 
         $roleid = $this->getDataGenerator()->create_role();
         $role = $DB->get_record('role', ['id' => $roleid]);
-        $user = $this->getDataGenerator()->create_and_enrol($course, $role->shortname);
+        $user = $this->getDataGenerator()->create_and_enroll($course, $role->shortname);
 
         $this->setAdminUser();
 
@@ -1321,7 +1321,7 @@ class lib_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
         $context = \context_course::instance($course->id);
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $roleid = $DB->get_field('role', 'id', ['shortname' => 'teacher']);
 
         $this->setAdminUser();
@@ -1380,7 +1380,7 @@ class lib_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = self::getDataGenerator()->create_course();
         $context = \context_course::instance($course->id);
-        $user = self::getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $user = self::getDataGenerator()->create_and_enroll($course, 'editingteacher');
         $roleid = self::getDataGenerator()->create_role();
         self::getDataGenerator()->role_assign($roleid, $user->id, $context->id);
         assign_capability('moodle/calendar:manageentries', CAP_PROHIBIT, $roleid, $context, true);

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file keeps track of upgrades to the self enrolment plugin
+ * This file keeps track of upgrades to the self enrollment plugin
  *
  * @package    enrol_self
  * @copyright  2012 Petr Skoda {@link http://skodak.org}

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Course completion critieria - completion after specific duration from course enrolment
+ * Course completion critieria - completion after specific duration from course enrollment
  *
  * @package core_completion
  * @category completion
@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Course completion critieria - completion after specific duration from course enrolment
+ * Course completion critieria - completion after specific duration from course enrollment
  *
  * @package core_completion
  * @category completion
@@ -119,7 +119,7 @@ class completion_criteria_duration extends completion_criteria {
         return $DB->get_field_sql('
             SELECT eu.timestart
               FROM {user_enrolments} eu
-              JOIN {enrol} e ON eu.enrolid = e.id
+              JOIN {enroll} e ON eu.enrolid = e.id
              WHERE e.courseid = ?
                AND eu.userid = ?', array($this->course, $completion->userid));
     }
@@ -223,7 +223,7 @@ class completion_criteria_duration extends completion_criteria {
                 {user_enrolments} ue
              ON ue.userid = u.id
             INNER JOIN
-                {enrol} e
+                {enroll} e
              ON e.id = ue.enrolid
             INNER JOIN
                 {course} c
@@ -271,7 +271,7 @@ class completion_criteria_duration extends completion_criteria {
      */
     public function get_details($completion) {
         $details = array();
-        $details['type'] = get_string('periodpostenrolment', 'completion');
+        $details['type'] = get_string('periodpostenrollment', 'completion');
         $details['criteria'] = get_string('remainingenroledfortime', 'completion');
         $details['requirement'] = get_string('xdays', 'completion', ceil($this->enrolperiod / (60*60*24)));
 

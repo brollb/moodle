@@ -41,7 +41,7 @@ Feature: Safe Exam Browser settings in quiz edit form
       | username     | teacher |
       | firstname    | Teacher |
       | lastname     | One     |
-    And the following "course enrolment" exists:
+    And the following "course enrollment" exists:
       | user         | teacher        |
       | course       | C1             |
       | role         | editingteacher |

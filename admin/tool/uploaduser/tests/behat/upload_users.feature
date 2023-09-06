@@ -156,7 +156,7 @@ Feature: Upload users
     And I log out
 
   @javascript
-  Scenario: Upload users setting their enrol date and period
+  Scenario: Upload users setting their enroll date and period
     Given the following "courses" exist:
       | fullname | shortname | category |
       | Maths    | math102   | 0        |
@@ -168,7 +168,7 @@ Feature: Upload users
     And I press "Upload users"
     Then I should see "Upload users preview"
     And I press "Upload users"
-    # Check user enrolment start date and period
+    # Check user enrollment start date and period
     And I am on "Maths" course homepage
     Then I navigate to course participants
     And I click on "Manual enrolments" "link" in the "Student One" "table_row"

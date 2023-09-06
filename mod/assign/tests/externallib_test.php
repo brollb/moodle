@@ -60,11 +60,11 @@ class externallib_test extends \mod_assign\externallib_advanced_testcase {
 
         $assign = self::getDataGenerator()->create_module('assign', $assigndata);
 
-        // Create a manual enrolment record.
-        $manualenroldata['enrol'] = 'manual';
+        // Create a manual enrollment record.
+        $manualenroldata['enroll'] = 'manual';
         $manualenroldata['status'] = 0;
         $manualenroldata['courseid'] = $course->id;
-        $enrolid = $DB->insert_record('enrol', $manualenroldata);
+        $enrolid = $DB->insert_record('enroll', $manualenroldata);
 
         // Create a teacher and give them capabilities.
         $context = \context_course::instance($course->id);
@@ -72,7 +72,7 @@ class externallib_test extends \mod_assign\externallib_advanced_testcase {
         $context = \context_module::instance($assign->cmid);
         $this->assignUserCapability('mod/assign:viewgrades', $context->id, $roleid);
 
-        // Create the teacher's enrolment record.
+        // Create the teacher's enrollment record.
         $userenrolmentdata['status'] = 0;
         $userenrolmentdata['enrolid'] = $enrolid;
         $userenrolmentdata['userid'] = $USER->id;
@@ -200,9 +200,9 @@ class externallib_test extends \mod_assign\externallib_advanced_testcase {
         $fs = get_file_storage();
         $fs->create_file_from_string($filerecord, 'Test intro file');
 
-        // Create manual enrolment record.
-        $enrolid = $DB->insert_record('enrol', (object)array(
-            'enrol' => 'manual',
+        // Create manual enrollment record.
+        $enrolid = $DB->insert_record('enroll', (object)array(
+            'enroll' => 'manual',
             'status' => 0,
             'courseid' => $course1->id
         ));
@@ -213,7 +213,7 @@ class externallib_test extends \mod_assign\externallib_advanced_testcase {
         $context = \context_module::instance($assign1->cmid);
         $this->assignUserCapability('mod/assign:view', $context->id, $roleid);
 
-        // Create the user enrolment record.
+        // Create the user enrollment record.
         $DB->insert_record('user_enrolments', (object)array(
             'status' => 0,
             'enrolid' => $enrolid,
@@ -696,11 +696,11 @@ class externallib_test extends \mod_assign\externallib_advanced_testcase {
 
         $assign = self::getDataGenerator()->create_module('assign', $assigndata);
 
-        // Create a manual enrolment record.
-        $manualenroldata['enrol'] = 'manual';
+        // Create a manual enrollment record.
+        $manualenroldata['enroll'] = 'manual';
         $manualenroldata['status'] = 0;
         $manualenroldata['courseid'] = $course->id;
-        $enrolid = $DB->insert_record('enrol', $manualenroldata);
+        $enrolid = $DB->insert_record('enroll', $manualenroldata);
 
         // Create a teacher and give them capabilities.
         $context = \context_course::instance($course->id);
@@ -708,7 +708,7 @@ class externallib_test extends \mod_assign\externallib_advanced_testcase {
         $context = \context_module::instance($assign->cmid);
         $this->assignUserCapability('mod/assign:grade', $context->id, $roleid);
 
-        // Create the teacher's enrolment record.
+        // Create the teacher's enrollment record.
         $userenrolmentdata['status'] = 0;
         $userenrolmentdata['enrolid'] = $enrolid;
         $userenrolmentdata['userid'] = $USER->id;
@@ -767,11 +767,11 @@ class externallib_test extends \mod_assign\externallib_advanced_testcase {
 
         $assign = self::getDataGenerator()->create_module('assign', $assigndata);
 
-        // Create a manual enrolment record.
-        $manualenroldata['enrol'] = 'manual';
+        // Create a manual enrollment record.
+        $manualenroldata['enroll'] = 'manual';
         $manualenroldata['status'] = 0;
         $manualenroldata['courseid'] = $course->id;
-        $enrolid = $DB->insert_record('enrol', $manualenroldata);
+        $enrolid = $DB->insert_record('enroll', $manualenroldata);
 
         // Create a teacher and give them capabilities.
         $context = \context_course::instance($course->id);
@@ -779,7 +779,7 @@ class externallib_test extends \mod_assign\externallib_advanced_testcase {
         $context = \context_module::instance($assign->cmid);
         $this->assignUserCapability('mod/assign:revealidentities', $context->id, $roleid);
 
-        // Create the teacher's enrolment record.
+        // Create the teacher's enrollment record.
         $userenrolmentdata['status'] = 0;
         $userenrolmentdata['enrolid'] = $enrolid;
         $userenrolmentdata['userid'] = $USER->id;
@@ -1705,11 +1705,11 @@ class externallib_test extends \mod_assign\externallib_advanced_testcase {
 
         $assign = self::getDataGenerator()->create_module('assign', $assigndata);
 
-        // Create a manual enrolment record.
-        $manualenroldata['enrol'] = 'manual';
+        // Create a manual enrollment record.
+        $manualenroldata['enroll'] = 'manual';
         $manualenroldata['status'] = 0;
         $manualenroldata['courseid'] = $course->id;
-        $enrolid = $DB->insert_record('enrol', $manualenroldata);
+        $enrolid = $DB->insert_record('enroll', $manualenroldata);
 
         // Create a teacher and give them capabilities.
         $context = \context_course::instance($course->id);
@@ -1717,7 +1717,7 @@ class externallib_test extends \mod_assign\externallib_advanced_testcase {
         $context = \context_module::instance($assign->cmid);
         $this->assignUserCapability('mod/assign:grade', $context->id, $roleid);
 
-        // Create the teacher's enrolment record.
+        // Create the teacher's enrollment record.
         $userenrolmentdata['status'] = 0;
         $userenrolmentdata['enrolid'] = $enrolid;
         $userenrolmentdata['userid'] = $USER->id;
@@ -2746,9 +2746,9 @@ class externallib_test extends \mod_assign\externallib_advanced_testcase {
         $context = \context_module::instance($cm->id);
         $assign = new \assign($context, $cm, $course);
 
-        $user = $this->getDataGenerator()->create_and_enrol($course, ...array_values($enrolconfig));
+        $user = $this->getDataGenerator()->create_and_enroll($course, ...array_values($enrolconfig));
 
-        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher', null, 'manual', time() - 50 * DAYSECS);
+        $teacher = $this->getDataGenerator()->create_and_enroll($course, 'teacher', null, 'manual', time() - 50 * DAYSECS);
 
         $this->setUser($teacher);
         $result = mod_assign_external::get_participant($assign->get_instance()->id, $user->id, false);
@@ -2766,14 +2766,14 @@ class externallib_test extends \mod_assign\externallib_advanced_testcase {
         $timenow = time();
 
         return [
-            'Student whose enrolment starts after the course start date, relative dates mode enabled' => [
+            'Student whose enrollment starts after the course start date, relative dates mode enabled' => [
                 'courseconfig' => ['relativedatesmode' => true, 'startdate' => $timenow - 10 * DAYSECS],
                 'assignconfig' => ['duedate' => $timenow + 4 * DAYSECS],
                 'enrolconfig' => ['shortname' => 'student', 'userparams' => null, 'method' => 'manual',
                     'startdate' => $timenow - 8 * DAYSECS],
                 'expectedproperties' => ['duedate' => $timenow + 6 * DAYSECS]
             ],
-            'Student whose enrolment starts before the course start date, relative dates mode enabled' => [
+            'Student whose enrollment starts before the course start date, relative dates mode enabled' => [
                 'courseconfig' => ['relativedatesmode' => true, 'startdate' => $timenow - 10 * DAYSECS],
                 'assignconfig' => ['duedate' => $timenow + 4 * DAYSECS],
                 'enrolconfig' => ['shortname' => 'student', 'userparams' => null, 'method' => 'manual',

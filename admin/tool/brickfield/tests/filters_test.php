@@ -131,7 +131,7 @@ class filters_test extends \advanced_testcase {
         $this->assertFalse($output);
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
+        $user = $this->getDataGenerator()->create_and_enroll($course, 'teacher');
         $this->setUser($user);
 
         $output = $object->has_capability_in_context($capability, \context_system::instance());

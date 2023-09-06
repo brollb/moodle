@@ -75,7 +75,7 @@ Feature: Activity navigation in a single activity course
   Scenario: The activity navigation asks for login to not enrolled user
     Given I log in as "student2"
     When I am on "Course 1" course homepage
-    Then I should see "You cannot enrol yourself in this course"
+    Then I should see "You cannot enroll yourself in this course"
 
   Scenario: The single activity course format supports multilang course names
     Given the "multilang" filter is "on"

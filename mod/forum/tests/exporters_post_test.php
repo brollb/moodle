@@ -117,7 +117,7 @@ class exporters_post_test extends \advanced_testcase {
         $canexport = true;
         $cancontrolreadstatus = true;
         $canreplyprivately = true;
-        $canenrol = true;
+        $canenroll = true;
         $capabilitymanager = new test_capability_manager(
             $canview,
             $canedit,
@@ -127,7 +127,7 @@ class exporters_post_test extends \advanced_testcase {
             $canexport,
             $cancontrolreadstatus,
             $canreplyprivately,
-            $canenrol
+            $canenroll
         );
         $managerfactory = \mod_forum\local\container::get_manager_factory();
         $entityfactory = \mod_forum\local\container::get_entity_factory();
@@ -176,7 +176,7 @@ class exporters_post_test extends \advanced_testcase {
         $this->assertEquals($cansplit, $exportedpost->capabilities['split']);
         $this->assertEquals($canreply, $exportedpost->capabilities['reply']);
         $this->assertEquals($canexport, $exportedpost->capabilities['export']);
-        $this->assertEquals($canenrol, $exportedpost->capabilities['selfenrol']);
+        $this->assertEquals($canenroll, $exportedpost->capabilities['selfenroll']);
         $this->assertEquals($cancontrolreadstatus, $exportedpost->capabilities['controlreadstatus']);
         $this->assertNotEmpty($exportedpost->urls['view']);
         $this->assertNotEmpty($exportedpost->urls['viewisolated']);
@@ -456,8 +456,8 @@ class test_capability_manager extends capability_manager {
     private $controlreadstatus;
     /** @var bool $controlreadstatus Value for can_reply_privately_to_post */
     private $canreplyprivatelytopost;
-    /** @var bool $canenrol Value for can_self_enrol */
-    private $canenrol;
+    /** @var bool $canenroll Value for can_self_enroll */
+    private $canenroll;
 
     /**
      * Constructor.
@@ -479,7 +479,7 @@ class test_capability_manager extends capability_manager {
         bool $export = true,
         bool $controlreadstatus = true,
         bool $canreplyprivatelytopost = true,
-        bool $canenrol = true
+        bool $canenroll = true
     ) {
         $this->view = $view;
         $this->edit = $edit;
@@ -489,7 +489,7 @@ class test_capability_manager extends capability_manager {
         $this->export = $export;
         $this->controlreadstatus = $controlreadstatus;
         $this->canreplyprivatelytopost = $canreplyprivatelytopost;
-        $this->canenrol = $canenrol;
+        $this->canenroll = $canenroll;
     }
 
     /**
@@ -586,11 +586,11 @@ class test_capability_manager extends capability_manager {
     }
 
     /**
-     * Override can_self_enrol
+     * Override can_self_enroll
      * @param \stdClass $user
      * @return bool
      */
-    public function can_self_enrol(\stdClass $user) : bool {
-        return $this->canenrol;
+    public function can_self_enroll(\stdClass $user) : bool {
+        return $this->canenroll;
     }
 }

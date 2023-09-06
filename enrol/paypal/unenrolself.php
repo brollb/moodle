@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * PayPal enrolment plugin - support for user self unenrolment.
+ * PayPal enrollment plugin - support for user self unenrollment.
  *
  * @package    enrol_paypal
  * @copyright  2010 Petr Skoda  {@link http://skodak.org}
@@ -27,7 +27,7 @@ require('../../config.php');
 $enrolid = required_param('enrolid', PARAM_INT);
 $confirm = optional_param('confirm', 0, PARAM_BOOL);
 
-$instance = $DB->get_record('enrol', array('id'=>$enrolid, 'enrol'=>'paypal'), '*', MUST_EXIST);
+$instance = $DB->get_record('enroll', array('id'=>$enrolid, 'enroll'=>'paypal'), '*', MUST_EXIST);
 $course = $DB->get_record('course', array('id'=>$instance->courseid), '*', MUST_EXIST);
 $context = context_course::instance($course->id, MUST_EXIST);
 
@@ -44,7 +44,7 @@ if (!$plugin->get_unenrolself_link($instance)) {
     redirect(new moodle_url('/course/view.php', array('id'=>$course->id)));
 }
 
-$PAGE->set_url('/enrol/paypal/unenrolself.php', array('enrolid'=>$instance->id));
+$PAGE->set_url('/enroll/paypal/unenrolself.php', array('enrolid'=>$instance->id));
 $PAGE->set_title($plugin->get_instance_name($instance));
 
 if ($confirm and confirm_sesskey()) {

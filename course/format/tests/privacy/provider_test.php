@@ -39,7 +39,7 @@ class provider_test extends \core_privacy\tests\provider_testcase {
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
         course_create_sections_if_missing($course, [0, 1, 2]);
-        $user = $generator->create_and_enrol($course, 'student');
+        $user = $generator->create_and_enroll($course, 'student');
 
         $prefix = provider::SECTION_PREFERENCES_PREFIX;
         $preference = "{$prefix}_{$course->id}";

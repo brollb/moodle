@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * LTI enrolment plugin version information
+ * LTI enrollment plugin version information
  *
  * @package enrol_lti
  * @copyright 2016 Mark Nelson <markn@moodle.com>

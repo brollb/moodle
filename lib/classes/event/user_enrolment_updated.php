@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * User enrolment updated event.
+ * User enrollment updated event.
  *
  * @package    core
  * @copyright  2013 Rajesh Taneja <rajesh@moodle.com>
@@ -26,12 +26,12 @@ namespace core\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Event class for when user enrolment is updated.
+ * Event class for when user enrollment is updated.
  *
  * @property-read array $other {
  *      Extra information about event.
  *
- *      - string enrol: name of enrolment instance.
+ *      - string enroll: name of enrollment instance.
  * }
  *
  * @package    core
@@ -56,7 +56,7 @@ class user_enrolment_updated extends base {
      * @return string
      */
     public static function get_name() {
-        return get_string('eventuserenrolmentupdated', 'core_enrol');
+        return get_string('eventuserenrolmentupdated', 'core_enroll');
     }
 
     /**
@@ -65,8 +65,8 @@ class user_enrolment_updated extends base {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' updated the enrolment for the user with id '$this->relateduserid' using the " .
-            "enrolment method '{$this->other['enrol']}' in the course with id '$this->courseid'.";
+        return "The user with id '$this->userid' updated the enrollment for the user with id '$this->relateduserid' using the " .
+            "enrollment method '{$this->other['enroll']}' in the course with id '$this->courseid'.";
     }
 
     /**
@@ -75,7 +75,7 @@ class user_enrolment_updated extends base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/enrol/editenrolment.php', array('ue' => $this->objectid));
+        return new \moodle_url('/enroll/editenrollment.php', array('ue' => $this->objectid));
     }
 
     /**
@@ -86,8 +86,8 @@ class user_enrolment_updated extends base {
      */
     protected function validate_data() {
         parent::validate_data();
-        if (!isset($this->other['enrol'])) {
-            throw new \coding_exception('The \'enrol\' value must be set in other.');
+        if (!isset($this->other['enroll'])) {
+            throw new \coding_exception('The \'enroll\' value must be set in other.');
         }
         if (!isset($this->relateduserid)) {
             throw new \coding_exception('The \'relateduserid\' must be set.');
